@@ -1408,22 +1408,6 @@
     "fullText": "When a showdown begins here, you may pay 1 Energy. If you do, [Predict], then reveal the top card of your Main Deck. If it's a spell, draw it. (To Predict, look at the top card of your Main Deck. You may recycle it.)"
   },
   {
-    "id": "ven-183",
-    "name": "Diana, No Longer Human",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play a spell, give me +2 Might this turn.",
-    "fullText": "[Ambush]\nWhen you play a spell, give me +2 Might this turn."
-  },
-  {
-    "id": "unl-149",
-    "name": "Diana, No Longer Human",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When you play a spell, give me +2 Might this turn.",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play a spell, give me +2 Might this turn."
-  },
-  {
     "id": "sfd-94",
     "name": "Direwing",
     "set": "SFD",
@@ -2294,14 +2278,6 @@
     "type": "gear",
     "residualText": "Disempower this, Exhaust: Choose a player. They gain control of this and recall it. (Send it to their base.)\nAt the end of your turn, kill this and deal 5 to all units you control.",
     "fullText": "[Empower] RuneRune (RuneRune: Empower me. Use only if not Empowered.)\nDisempower this, Exhaust: Choose a player. They gain control of this and recall it. (Send it to their base.)\nAt the end of your turn, kill this and deal 5 to all units you control."
-  },
-  {
-    "id": "unl-5",
-    "name": "Revna the Lorekeeper",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play a spell, if you spent 4 Energy or more, ready me.",
-    "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nWhen you play a spell, if you spent 4 Energy or more, ready me."
   },
   {
     "id": "sfd-205",
@@ -3384,14 +3360,6 @@
     "fullText": "Exhaust: [Reaction] \u2014 [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "ogs-6",
-    "name": "Lux, Illuminated",
-    "set": "OGS",
-    "type": "champion",
-    "residualText": "When you play a spell that costs 5 Energy or more, give me +3 Might this turn.",
-    "fullText": "When you play a spell that costs 5 Energy or more, give me +3 Might this turn."
-  },
-  {
     "id": "ogn-239",
     "name": "Machine Evangel",
     "set": "OGN",
@@ -4096,14 +4064,6 @@
     "fullText": "When you ready a friendly unit, give it +1 Might this turn."
   },
   {
-    "id": "ogn-91",
-    "name": "Pit Crew",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play a gear, ready me.",
-    "fullText": "When you play a gear, ready me."
-  },
-  {
     "id": "ogn-136",
     "name": "Pit Rookie",
     "set": "OGN",
@@ -4398,14 +4358,6 @@
     "type": "unit",
     "residualText": "When an opponent plays a gear, you may banish me to banish it.",
     "fullText": "When an opponent plays a gear, you may banish me to banish it."
-  },
-  {
-    "id": "ogn-103",
-    "name": "Ravenbloom Student",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play a spell, give me +1 Might this turn.",
-    "fullText": "When you play a spell, give me +1 Might this turn."
   },
   {
     "id": "ogn-32",

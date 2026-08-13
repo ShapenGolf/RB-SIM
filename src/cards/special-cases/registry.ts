@@ -20,6 +20,11 @@ import { ragingSoul } from "./raging-soul";
 import { dariusTrifarian } from "./darius-trifarian";
 import { caitlynPatrolling } from "./caitlyn-patrolling";
 import { wizenedElder } from "./wizened-elder";
+import { ravenbloomStudent } from "./ravenbloom-student";
+import { pitCrew } from "./pit-crew";
+import { luxIlluminated } from "./lux-illuminated";
+import { dianaNoLongerHuman } from "./diana-no-longer-human";
+import { revnaTheLorekeeper } from "./revna-the-lorekeeper";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -41,6 +46,11 @@ const handlers: SpecialCaseHandler[] = [
   dariusTrifarian,
   caitlynPatrolling,
   wizenedElder,
+  ravenbloomStudent,
+  pitCrew,
+  luxIlluminated,
+  dianaNoLongerHuman,
+  revnaTheLorekeeper,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
