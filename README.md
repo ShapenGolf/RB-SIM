@@ -21,10 +21,10 @@ pro Karte:
 - **17 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
   Exhaust: Effekt", inkl. Domain-Rune-Kosten) und spielbar
   (`src/cards/data/activated-abilities.json`).
-- **57 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
+- **64 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
   zuerst, der Reihe nach — siehe `src/cards/data/special-case-assignments.json`.
-- Macht **217 von 1019 Karten (~21%) vollständig spielbar.**
-- **802 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
+- Macht **224 von 1019 Karten (~22%) vollständig spielbar.**
+- **795 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
   Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
   Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
 
