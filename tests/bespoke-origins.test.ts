@@ -4,9 +4,10 @@ import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
 import { playCard, activateAbility, attackBattlefield, resolveOptionalCost, endTurn } from "../src/game/moves";
-import { destroyInstance, resolveHoldTriggers } from "../src/game/combat";
+import { destroyInstance, resolveHoldTriggers, resolveCombat } from "../src/game/combat";
 import { runBeginning, runTurnStart } from "../src/game/turnFlow";
 import { discardCardToTrash } from "../src/game/discardEngine";
+import { dealSpellDamage } from "../src/game/spellDamage";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -3191,5 +3192,211 @@ describe("Stormbringer (ogn-250): deal Might-damage to enemies at a battlefield,
     expect(game.instances[enemy.instanceId]).toBeUndefined();
     expect(mover.zone).toBe("battlefield");
     expect(mover.battlefieldIndex).toBe(0);
+  });
+});
+
+describe("Altar to Unity (ogn-275): hold plays a Recruit token in base", () => {
+  it("plays a token when held during Beginning", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-275", units: { "0": [], "1": [] }, controller: "0" };
+    runBeginning(game, "0");
+    const tokenIds = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenIds).toHaveLength(1);
+  });
+});
+
+describe("Aspirant's Climb (ogn-276): raises the win score by 1", () => {
+  it("requires 9 points to win instead of 8 while in play", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-276", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].points = 8;
+    runBeginning(game, "0");
+    expect(game.winner).toBeNull();
+
+    game.players["0"].points = 9;
+    runBeginning(game, "0");
+    expect(game.winner).toBe("0");
+  });
+});
+
+describe("Navori Fighting Pit (ogn-283): hold buffs a friendly unit here", () => {
+  it("buffs the first friendly unit at this battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-283", units: { "0": [], "1": [] }, controller: "0" };
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, unit.instanceId, 0);
+
+    runBeginning(game, "0");
+
+    expect(unit.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Obelisk of Power (ogn-284): channels 1 rune on each player's first Beginning Phase", () => {
+  it("channels a rune on the player's first turn", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-284", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury" as const, exhausted: false }];
+
+    expect(game.players["0"].hasTakenFirstTurn).toBe(false);
+    runBeginning(game, "0");
+
+    expect(game.players["0"].runePool).toContainEqual({ instanceId: "r1", domain: "Fury", exhausted: false });
+  });
+
+  it("does not trigger again after the player's first turn", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-284", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].hasTakenFirstTurn = true;
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury" as const, exhausted: false }];
+
+    runBeginning(game, "0");
+
+    expect(game.players["0"].runePool).toEqual([]);
+  });
+});
+
+describe("Reckoner's Arena (ogn-286): hold re-activates the conquer effects of units here", () => {
+  it("fires onConquer for a unit with a conquer trigger", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-286", units: { "0": [], "1": [] }, controller: "0" };
+    const vayne = putOnBase(game, "ogn-35", "0");
+    moveToBattlefield(game, vayne.instanceId, 0);
+
+    runBeginning(game, "0");
+
+    expect(game.pendingOptionalCost).not.toBeNull();
+    expect(game.pendingOptionalCost!.specialCaseId).toBe("vayne-hunter");
+  });
+});
+
+describe("Sigil of the Storm (ogn-287): conquering here recycles a rune", () => {
+  it("moves a rune from the pool to the bottom of the rune deck", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-287", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury" as const, exhausted: true }];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.players["0"].runePool).toEqual([]);
+    expect(game.players["0"].runeDeck.some((r) => r.instanceId === "r1")).toBe(true);
+  });
+});
+
+describe("The Arena's Greatest (ogn-290): each player's first Beginning Phase grants 1 point", () => {
+  it("adds a point on the player's first turn only", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-290", units: { "0": [], "1": [] }, controller: null };
+
+    runBeginning(game, "0");
+    expect(game.players["0"].points).toBe(1);
+
+    game.players["0"].hasTakenFirstTurn = true;
+    runBeginning(game, "0");
+    expect(game.players["0"].points).toBe(1);
+  });
+});
+
+describe("The Grand Plaza (ogn-293): win with 7+ units here", () => {
+  it("wins when 7 units are present while held", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-293", units: { "0": [], "1": [] }, controller: "0" };
+    for (let i = 0; i < 7; i += 1) {
+      const unit = putOnBase(game, "unit-plain-footman", "0");
+      moveToBattlefield(game, unit.instanceId, 0);
+    }
+
+    runBeginning(game, "0");
+
+    expect(game.winner).toBe("0");
+  });
+
+  it("does not win with fewer than 7", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-293", units: { "0": [], "1": [] }, controller: "0" };
+    for (let i = 0; i < 6; i += 1) {
+      const unit = putOnBase(game, "unit-plain-footman", "0");
+      moveToBattlefield(game, unit.instanceId, 0);
+    }
+
+    runBeginning(game, "0");
+
+    expect(game.winner).toBeNull();
+  });
+});
+
+describe("Trifarian War Camp (ogn-294): units here have +1 Might", () => {
+  it("buffs both allies and enemies at this battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-294", units: { "0": [], "1": [] }, controller: null };
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    expect(computeMight(game, getCard, ally, "none")).toBe(getCard(ally.cardId).might! + 1);
+    expect(computeMight(game, getCard, enemy, "none")).toBe(getCard(enemy.cardId).might! + 1);
+  });
+});
+
+describe("Void Gate (ogn-296): spells deal 1 bonus damage to units here", () => {
+  it("adds 1 damage when the target is at this battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-296", units: { "0": [], "1": [] }, controller: null };
+    const target = putOnBase(game, "unit-plain-footman", "1"); // Might 2
+    moveToBattlefield(game, target.instanceId, 0);
+
+    dealSpellDamage(game, getCard, target.instanceId, 1, "0"); // 1 + 1 bonus = 2, lethal
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Windswept Hillock (ogn-297): units here have Ganking", () => {
+  it("allows a unit without printed Ganking to move to another battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-297", units: { "0": [], "1": [] }, controller: null };
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, unit.instanceId, 0);
+
+    const result = attackBattlefield(ctx(game, "0"), { battlefieldIndex: 1, unitInstanceIds: [unit.instanceId] });
+
+    expect(result).not.toBe(INVALID_MOVE);
+    expect(unit.battlefieldIndex).toBe(1);
+  });
+});
+
+describe("Zaun Warrens (ogn-298): conquering here discards 1, then draws 1", () => {
+  it("discards the front of hand and draws a replacement", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-298", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].hand = ["ogn-4"];
+    game.players["0"].mainDeck = ["ogn-5"];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.players["0"].trash).toContain("ogn-4");
+    expect(game.players["0"].hand).toEqual(["ogn-5"]);
+  });
+});
+
+describe("Monastery of Hirana (ogn-282): conquering here may spend a buff to draw 1", () => {
+  it("spends the first buffed friendly unit's buff and draws 1", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-282", units: { "0": [], "1": [] }, controller: null };
+    const buffed = putOnBase(game, "unit-plain-guard", "0");
+    buffed.statuses.buffed = true;
+    game.players["0"].mainDeck = ["ogn-5"];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(buffed.statuses.buffed).toBe(false);
+    expect(game.players["0"].hand).toContain("ogn-5");
   });
 });

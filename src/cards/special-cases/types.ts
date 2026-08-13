@@ -205,4 +205,50 @@ export interface SpecialCaseHandler {
    * game/combat.ts `destroyInstance` right after the normal trash push, which it then undoes.
    */
   recycleSelfOnDestroy?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * Battlefield-only: called on the controller who just conquered this Battlefield, right after
+   * control/points/per-unit onConquer effects resolve (e.g. Sigil of the Storm: "When you
+   * conquer here, recycle one of your runes."). `ctx.instance` is a pseudo-instance (see
+   * game/pseudoInstance.ts) since Battlefields have no CardInstance of their own.
+   */
+  onConquerHere?(ctx: SpecialCaseContext): void;
+
+  /**
+   * Battlefield-only: called once per Battlefield in play, for a player's very first Beginning
+   * Phase only, regardless of who controls that Battlefield (e.g. Obelisk of Power: "At the
+   * start of each player's first Beginning Phase, that player channels 1 rune."). `ctx.instance`
+   * is a pseudo-instance and `ctx.instance.controller` is the player whose first Beginning Phase
+   * this is (not necessarily this Battlefield's controller).
+   */
+  onFirstBeginningPhase?(ctx: SpecialCaseContext): void;
+
+  /**
+   * Battlefield-only: how many extra points this Battlefield's mere presence in play adds to
+   * the score needed to win (e.g. Aspirant's Climb: "Increase the points needed to win the game
+   * by 1."), regardless of who controls it. Summed across every Battlefield in play.
+   */
+  winScoreIncrease?(ctx: SpecialCaseContext): number;
+
+  /**
+   * Battlefield-only: continuous Might modifier this Battlefield grants to EVERY unit sitting at
+   * it, regardless of controller (e.g. Trifarian War Camp: "Units here have +1 Might."). Checked
+   * in game/might.ts `computeMight` for any instance whose zone is this Battlefield.
+   */
+  staticMightModifierForUnitsHere?(ctx: SpecialCaseContext, targetInstance: CardInstance): number;
+
+  /**
+   * Battlefield-only: true if this Battlefield grants Ganking to every unit sitting at it,
+   * regardless of controller (e.g. Windswept Hillock: "Units here have Ganking."). Only
+   * consulted when the printed/conditional Ganking checks are both absent — same override
+   * precedence as `hasConditionalGanking`.
+   */
+  grantsGankingToUnitsHere?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * Battlefield-only: extra spell damage applied to a unit sitting at this Battlefield (e.g.
+   * Void Gate: "Spells and abilities affecting units here each deal 1 Bonus Damage."). Checked
+   * in game/spellDamage.ts `dealSpellDamage` for the target's current Battlefield.
+   */
+  spellDamageBonusForUnitsHere?(ctx: SpecialCaseContext, targetInstance: CardInstance): number;
 }

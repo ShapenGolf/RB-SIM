@@ -1,7 +1,8 @@
 import { getCard } from "../cards/db";
 import { resolveHoldTriggers, destroyInstance } from "./combat";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
-import type { CardInstance, GameState, PlayerId } from "./state";
+import { battlefieldPseudoInstance } from "./pseudoInstance";
+import type { GameState, PlayerId } from "./state";
 
 const CHANNEL_AMOUNT = 2;
 const SECOND_PLAYER_FIRST_TURN_CHANNEL_AMOUNT = 3;
@@ -13,23 +14,6 @@ export function runAwaken(game: GameState, player: PlayerId): void {
     if (instance.controller === player) instance.exhausted = false;
   }
   for (const rune of game.players[player].runePool) rune.exhausted = false;
-}
-
-/** A Battlefield card has no CardInstance of its own; this fabricates a throwaway one so `onBeginningWhileHeld` can reuse the standard SpecialCaseContext shape. It is never stored in `game.instances`. */
-function battlefieldPseudoInstance(cardId: string, controller: PlayerId): CardInstance {
-  return {
-    instanceId: `battlefield-pseudo-${cardId}`,
-    cardId,
-    controller,
-    zone: "battlefield",
-    battlefieldIndex: null,
-    damage: 0,
-    exhausted: false,
-    statuses: {},
-    xp: 0,
-    tempMightBonus: 0,
-    grantedThisTurn: [],
-  };
 }
 
 /** Kills every instance `player` controls with the Temporary status, before scoring (see Last Stand, Fading Memories, and various Temporary tokens). */
@@ -52,14 +36,23 @@ export function runBeginning(game: GameState, player: PlayerId): void {
   game.players[player].points += controlledCount;
   resolveHoldTriggers(game, getCard, player);
 
-  for (const slot of game.battlefields) {
-    if (slot.controller !== player) continue;
+  game.battlefields.forEach((slot, index) => {
+    if (slot.controller !== player) return;
     const card = getCard(slot.cardId);
-    if (!card.specialCaseId) continue;
-    SpecialCaseEngine.onBeginningWhileHeld(game, card, battlefieldPseudoInstance(slot.cardId, player));
+    if (!card.specialCaseId) return;
+    SpecialCaseEngine.onBeginningWhileHeld(game, card, battlefieldPseudoInstance(slot.cardId, player, index));
+  });
+
+  if (!game.players[player].hasTakenFirstTurn) {
+    game.battlefields.forEach((slot, index) => {
+      const card = getCard(slot.cardId);
+      if (!card.specialCaseId) return;
+      SpecialCaseEngine.onFirstBeginningPhase(game, card, battlefieldPseudoInstance(slot.cardId, player, index));
+    });
   }
 
-  if (game.players[player].points >= WIN_SCORE) game.winner = player;
+  const winScore = WIN_SCORE + SpecialCaseEngine.winScoreBonus(game, getCard);
+  if (game.players[player].points >= winScore) game.winner = player;
 }
 
 /** Channel: draw Runes from the Rune Deck into the Rune Pool (2, or 3 for player "1"'s very first turn). */

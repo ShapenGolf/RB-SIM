@@ -3,6 +3,7 @@ import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { computeMight } from "./might";
 import { fireTemplatedEffect } from "./templatedEffectEngine";
+import { battlefieldPseudoInstance } from "./pseudoInstance";
 import type { GameState, PlayerId } from "./state";
 
 /**
@@ -137,6 +138,15 @@ function conquerBattlefield(
     if (xp > 0) game.players[newController].xp += xp;
     fireTemplatedEffect(game, getCard, card, instance, "onConquer");
     SpecialCaseEngine.onConquer(game, card, instance, excessDamage);
+  }
+
+  const battlefieldCard = getCard(slot.cardId);
+  if (battlefieldCard.specialCaseId) {
+    SpecialCaseEngine.onConquerHere(
+      game,
+      battlefieldCard,
+      battlefieldPseudoInstance(slot.cardId, newController, battlefieldIndex),
+    );
   }
 }
 

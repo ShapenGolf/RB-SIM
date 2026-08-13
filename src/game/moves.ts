@@ -210,7 +210,10 @@ export const attackBattlefield: MoveFn<GameState> = (
       instance.zone === "battlefield" && instance.battlefieldIndex !== args.battlefieldIndex;
     const conditionalGanking = SpecialCaseEngine.hasConditionalGanking(G, card, instance);
     const hasGanking =
-      conditionalGanking !== undefined ? conditionalGanking : KeywordEngine.hasKeyword(card, "ganking");
+      conditionalGanking !== undefined
+        ? conditionalGanking
+        : KeywordEngine.hasKeyword(card, "ganking") ||
+          SpecialCaseEngine.grantsGankingFromBattlefield(G, getCard, instance);
     if (instance.zone !== "base" && !(movingFromAnotherBattlefield && hasGanking)) {
       return INVALID_MOVE;
     }

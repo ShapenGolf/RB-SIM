@@ -21,6 +21,7 @@ export function computeMight(
   total += SpecialCaseEngine.staticMightModifier(game, card, instance);
   total += SpecialCaseEngine.staticMightModifierFromEnemies(game, getCard, instance);
   total += SpecialCaseEngine.staticMightModifierFromAllies(game, getCard, instance);
+  total += SpecialCaseEngine.staticMightModifierFromBattlefield(game, getCard, instance);
 
   if (role === "attacking") {
     total += KeywordEngine.attackingMightModifier(game, card, instance);

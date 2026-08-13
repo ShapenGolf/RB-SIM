@@ -112,14 +112,6 @@
     "fullText": "When a friendly unit dies, you may exhaust me to draw 1, then put a card from your hand on the top or bottom of your Main Deck."
   },
   {
-    "id": "ogn-275",
-    "name": "Altar to Unity",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you hold here, play a 1 Might Recruit unit token in your base.",
-    "fullText": "When you hold here, play a 1 Might Recruit unit token in your base."
-  },
-  {
     "id": "unl-207",
     "name": "Amateur Recital",
     "set": "UNL",
@@ -278,14 +270,6 @@
     "type": "champion",
     "residualText": "When you play me, choose an opponent. They reveal their hand. Choose a card revealed this way and banish it. When they hold, return it to their hand (even if I'm no longer on the board).",
     "fullText": "When you play me, choose an opponent. They reveal their hand. Choose a card revealed this way and banish it. When they hold, return it to their hand (even if I'm no longer on the board)."
-  },
-  {
-    "id": "ogn-276",
-    "name": "Aspirant's Climb",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "Increase the points needed to win the game by 1.",
-    "fullText": "Increase the points needed to win the game by 1."
   },
   {
     "id": "sfd-61",
@@ -3176,14 +3160,6 @@
     "fullText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it."
   },
   {
-    "id": "ogn-282",
-    "name": "Monastery of Hirana",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you conquer here, you may spend a buff to draw 1.",
-    "fullText": "When you conquer here, you may spend a buff to draw 1."
-  },
-  {
     "id": "unl-35",
     "name": "Monch",
     "set": "UNL",
@@ -3288,14 +3264,6 @@
     "fullText": "Once each turn, when an enemy unit here dies, channel 1 rune exhausted."
   },
   {
-    "id": "ogn-283",
-    "name": "Navori Fighting Pit",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you hold here, buff a unit here. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "When you hold here, buff a unit here. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
     "id": "sfd-55",
     "name": "Needlessly Large Yordle",
     "set": "SFD",
@@ -3374,14 +3342,6 @@
     "type": "unit",
     "residualText": "Your opponents'  cards can't be revealed here.",
     "fullText": "Your opponents' [Hidden] cards can't be revealed here."
-  },
-  {
-    "id": "ogn-284",
-    "name": "Obelisk of Power",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "At the start of each player's first Beginning Phase, that player channels 1 rune.",
-    "fullText": "At the start of each player's first Beginning Phase, that player channels 1 rune."
   },
   {
     "id": "ven-115",
@@ -3822,14 +3782,6 @@
     "type": "spell",
     "residualText": "Choose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it."
-  },
-  {
-    "id": "ogn-286",
-    "name": "Reckoner's Arena",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you hold here, activate the conquer effects of units here.",
-    "fullText": "When you hold here, activate the conquer effects of units here."
   },
   {
     "id": "ogs-15",
@@ -4448,14 +4400,6 @@
     "fullText": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.\n[Flow] 3 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
-    "id": "ogn-287",
-    "name": "Sigil of the Storm",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you conquer here, recycle one of your runes.",
-    "fullText": "When you conquer here, recycle one of your runes."
-  },
-  {
     "id": "sfd-47",
     "name": "Simian Ancestor",
     "set": "SFD",
@@ -4912,14 +4856,6 @@
     "fullText": "When you hold here, give your next spell this turn [Repeat] equal to its base cost. (You may pay the additional cost to repeat the spell's effect.)"
   },
   {
-    "id": "ogn-290",
-    "name": "The Arena's Greatest",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "At the start of each player's first Beginning Phase, that player gains 1 point.",
-    "fullText": "At the start of each player's first Beginning Phase, that player gains 1 point."
-  },
-  {
     "id": "ogn-269",
     "name": "The Boss",
     "set": "OGN",
@@ -4950,14 +4886,6 @@
     "type": "battlefield",
     "residualText": "When a player chooses a friendly unit here with a spell for the first time each turn, they draw 1.",
     "fullText": "When a player chooses a friendly unit here with a spell for the first time each turn, they draw 1."
-  },
-  {
-    "id": "ogn-293",
-    "name": "The Grand Plaza",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you hold here, if you have 7+ units here, you win the game.",
-    "fullText": "When you hold here, if you have 7+ units here, you win the game."
   },
   {
     "id": "unl-138",
@@ -5110,14 +5038,6 @@
     "type": "spell",
     "residualText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location.",
     "fullText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location."
-  },
-  {
-    "id": "ogn-294",
-    "name": "Trifarian War Camp",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "Units here have +1 Might. (This includes attackers.)",
-    "fullText": "Units here have +1 Might. (This includes attackers.)"
   },
   {
     "id": "sfd-174",
@@ -5448,14 +5368,6 @@
     "fullText": "I cost 2 Energy less to play from anywhere other than your hand."
   },
   {
-    "id": "ogn-296",
-    "name": "Void Gate",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "Spells and abilities affecting units here each deal 1 Bonus Damage. (Each instance of damage the spell deals is increased by 1.)",
-    "fullText": "Spells and abilities affecting units here each deal 1 Bonus Damage. (Each instance of damage the spell deals is increased by 1.)"
-  },
-  {
     "id": "sfd-18",
     "name": "Void Hatchling",
     "set": "SFD",
@@ -5576,14 +5488,6 @@
     "fullText": "Hidden (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, you may return another unit at a battlefield with 3 Might or less to its owner's hand."
   },
   {
-    "id": "ogn-297",
-    "name": "Windswept Hillock",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "Units here have . (They can move from battlefield to battlefield.)",
-    "fullText": "Units here have [Ganking]. (They can move from battlefield to battlefield.)"
-  },
-  {
     "id": "ogs-19",
     "name": "Wuju Bladesman - Starter",
     "set": "OGS",
@@ -5702,14 +5606,6 @@
     "type": "unit",
     "residualText": "You may kill a friendly gear as an additional cost to play me.\nWhen you play me, if you paid the additional cost, kill a gear.",
     "fullText": "You may kill a friendly gear as an additional cost to play me.\nWhen you play me, if you paid the additional cost, kill a gear."
-  },
-  {
-    "id": "ogn-298",
-    "name": "Zaun Warrens",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you conquer here, discard 1, then draw 1.",
-    "fullText": "When you conquer here, discard 1, then draw 1."
   },
   {
     "id": "ven-23",

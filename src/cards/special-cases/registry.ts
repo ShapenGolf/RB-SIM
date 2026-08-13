@@ -1,6 +1,7 @@
 import type { Card, Domain } from "../types";
 import type { CardInstance, GameState, PlayerId } from "../../game/state";
 import type { SpecialCaseContext, SpecialCaseHandler } from "./types";
+import { battlefieldPseudoInstance } from "../../game/pseudoInstance";
 import { dangerousDuo } from "./dangerous-duo";
 import { doomedRecruit } from "./doomed-recruit";
 import { stunningBlow } from "./stunning-blow";
@@ -143,6 +144,19 @@ import { dariusExecutioner } from "./darius-executioner";
 import { viktorLeader } from "./viktor-leader";
 import { icathianRain } from "./icathian-rain";
 import { stormbringer } from "./stormbringer";
+import { altarToUnity } from "./altar-to-unity";
+import { aspirantsClimb } from "./aspirants-climb";
+import { navoriFightingPit } from "./navori-fighting-pit";
+import { obeliskOfPower } from "./obelisk-of-power";
+import { reckonersArena } from "./reckoners-arena";
+import { sigilOfTheStorm } from "./sigil-of-the-storm";
+import { theArenasGreatest } from "./the-arenas-greatest";
+import { theGrandPlaza } from "./the-grand-plaza";
+import { trifarianWarCamp } from "./trifarian-war-camp";
+import { voidGate } from "./void-gate";
+import { windsweptHillock } from "./windswept-hillock";
+import { zaunWarrens } from "./zaun-warrens";
+import { monasteryOfHirana } from "./monastery-of-hirana";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -287,6 +301,19 @@ const handlers: SpecialCaseHandler[] = [
   viktorLeader,
   icathianRain,
   stormbringer,
+  altarToUnity,
+  aspirantsClimb,
+  navoriFightingPit,
+  obeliskOfPower,
+  reckonersArena,
+  sigilOfTheStorm,
+  theArenasGreatest,
+  theGrandPlaza,
+  trifarianWarCamp,
+  voidGate,
+  windsweptHillock,
+  zaunWarrens,
+  monasteryOfHirana,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -485,6 +512,76 @@ export const SpecialCaseEngine = {
 
   onBeginning: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onBeginning?.(ctxFor(game, card, instance));
+  },
+
+  onConquerHere: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onConquerHere?.(ctxFor(game, card, instance));
+  },
+
+  onFirstBeginningPhase: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onFirstBeginningPhase?.(ctxFor(game, card, instance));
+  },
+
+  /** Sums every in-play Battlefield's `winScoreIncrease`, regardless of controller. */
+  winScoreBonus: (game: GameState, getCard: (id: string) => Card): number => {
+    let total = 0;
+    for (const slot of game.battlefields) {
+      const card = getCard(slot.cardId);
+      const handler = getSpecialCaseHandler(card);
+      if (!handler?.winScoreIncrease) continue;
+      total += handler.winScoreIncrease(ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, "0")));
+    }
+    return total;
+  },
+
+  /** Location-wide Might modifier from the Battlefield `targetInstance` is currently sitting at, regardless of controller. */
+  staticMightModifierFromBattlefield: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    targetInstance: CardInstance,
+  ): number => {
+    if (targetInstance.zone !== "battlefield" || targetInstance.battlefieldIndex === null) return 0;
+    const slot = game.battlefields[targetInstance.battlefieldIndex];
+    const card = getCard(slot.cardId);
+    const fn = getSpecialCaseHandler(card)?.staticMightModifierForUnitsHere;
+    if (!fn) return 0;
+    return fn(
+      ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, targetInstance.controller, targetInstance.battlefieldIndex)),
+      targetInstance,
+    );
+  },
+
+  /** True if the Battlefield `instance` is currently sitting at grants Ganking to every unit there. */
+  grantsGankingFromBattlefield: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    instance: CardInstance,
+  ): boolean => {
+    if (instance.zone !== "battlefield" || instance.battlefieldIndex === null) return false;
+    const slot = game.battlefields[instance.battlefieldIndex];
+    const card = getCard(slot.cardId);
+    return (
+      getSpecialCaseHandler(card)?.grantsGankingToUnitsHere?.(
+        ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, instance.controller, instance.battlefieldIndex)),
+      ) ?? false
+    );
+  },
+
+  /** Extra spell damage from the Battlefield `targetInstance` is currently sitting at. */
+  spellDamageBonusFromBattlefield: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    targetInstance: CardInstance,
+  ): number => {
+    if (targetInstance.zone !== "battlefield" || targetInstance.battlefieldIndex === null) return 0;
+    const slot = game.battlefields[targetInstance.battlefieldIndex];
+    const card = getCard(slot.cardId);
+    const fn = getSpecialCaseHandler(card)?.spellDamageBonusForUnitsHere;
+    if (!fn) return 0;
+    return fn(
+      ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, targetInstance.controller, targetInstance.battlefieldIndex)),
+      targetInstance,
+    );
   },
 
   /** Broadcasts a just-died unit to every OTHER board instance its own controller owns with an `onAllyUnitDied` hook. */
