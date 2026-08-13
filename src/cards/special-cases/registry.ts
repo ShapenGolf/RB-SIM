@@ -128,6 +128,21 @@ import { vanguardHelm } from "./vanguard-helm";
 import { fioraVictorious } from "./fiora-victorious";
 import { grandStrategem } from "./grand-strategem";
 import { backToBack } from "./back-to-back";
+import { flameChompers } from "./flame-chompers";
+import { vayneHunter } from "./vayne-hunter";
+import { reinforce } from "./reinforce";
+import { ekkoRecurrent } from "./ekko-recurrent";
+import { soulgorger } from "./soulgorger";
+import { theHarrowing } from "./the-harrowing";
+import { cruelPatron } from "./cruel-patron";
+import { spectralMatron } from "./spectral-matron";
+import { leonaDetermined } from "./leona-determined";
+import { machineEvangel } from "./machine-evangel";
+import { settKingpin } from "./sett-kingpin";
+import { dariusExecutioner } from "./darius-executioner";
+import { viktorLeader } from "./viktor-leader";
+import { icathianRain } from "./icathian-rain";
+import { stormbringer } from "./stormbringer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -257,6 +272,21 @@ const handlers: SpecialCaseHandler[] = [
   fioraVictorious,
   grandStrategem,
   backToBack,
+  flameChompers,
+  vayneHunter,
+  reinforce,
+  ekkoRecurrent,
+  soulgorger,
+  theHarrowing,
+  cruelPatron,
+  spectralMatron,
+  leonaDetermined,
+  machineEvangel,
+  settKingpin,
+  dariusExecutioner,
+  viktorLeader,
+  icathianRain,
+  stormbringer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -313,6 +343,9 @@ export const SpecialCaseEngine = {
 
   banishSelfOnResolve: (game: GameState, card: Card, instance: CardInstance): boolean =>
     getSpecialCaseHandler(card)?.banishSelfOnResolve?.(ctxFor(game, card, instance)) ?? false,
+
+  recycleSelfOnDestroy: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.recycleSelfOnDestroy?.(ctxFor(game, card, instance)) ?? false,
 
   /**
    * `undefined` means the card has no conditional-Ganking handler at all (fall back to the

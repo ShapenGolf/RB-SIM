@@ -106,7 +106,11 @@ export function destroyInstance(game: GameState, getCard: (id: string) => Card, 
   }
   const player = game.players[instance.controller];
   player.base = player.base.filter((id) => id !== instanceId);
-  player.trash.push(instance.cardId);
+  if (SpecialCaseEngine.recycleSelfOnDestroy(game, card, instance)) {
+    player.mainDeck.push(instance.cardId);
+  } else {
+    player.trash.push(instance.cardId);
+  }
   delete game.instances[instanceId];
 
   if (card.type === "unit" || card.type === "champion") {

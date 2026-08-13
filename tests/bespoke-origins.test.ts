@@ -2920,3 +2920,276 @@ describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
     expect(card.might).toBe(baseline);
   });
 });
+
+describe("Flame Chompers (ogn-6): when discarded, may pay Fury Rune to play it", () => {
+  it("offers the decision on discard, and paying it plays the card from trash", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-6"];
+
+    discardCardToTrash(game, getCard, "0", "ogn-6");
+
+    expect(game.players["0"].trash).toEqual(["ogn-6"]);
+    expect(game.pendingOptionalCost).not.toBeNull();
+    expect(game.pendingOptionalCost!.specialCaseId).toBe("flame-chompers");
+    expect(game.pendingOptionalCost!.cost).toEqual({ energy: 0, runeDomain: "Fury" });
+
+    game.players["0"].runePool = [{ instanceId: "power", domain: "Fury" as const, exhausted: false }];
+    resolveOptionalCost(ctx(game, "0"), { pay: true, energyRuneIds: [], powerRuneId: "power" });
+
+    expect(game.players["0"].trash).toEqual([]);
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "ogn-6");
+    expect(newInstanceId).toBeDefined();
+  });
+});
+
+describe("Vayne, Hunter (ogn-35): enters ready vs. an opponent battlefield; may pay to bounce self on conquer", () => {
+  it("enters ready when an opponent controls a battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0].controller = "1";
+    const vayne = putOnBase(game, "ogn-35", "0", { exhausted: true });
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(vayne.cardId), vayne)).toBe(true);
+  });
+
+  it("does not enter ready when no opponent controls a battlefield", () => {
+    const game = makeGame();
+    const vayne = putOnBase(game, "ogn-35", "0", { exhausted: true });
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(vayne.cardId), vayne)).toBe(false);
+  });
+
+  it("offers the return-to-hand decision on conquer, and paying it bounces Vayne", () => {
+    const game = makeGame();
+    const vayne = putOnBase(game, "ogn-35", "0");
+    moveToBattlefield(game, vayne.instanceId, 0);
+
+    SpecialCaseEngine.onConquer(game, getCard(vayne.cardId), vayne, 0);
+
+    expect(game.pendingOptionalCost).not.toBeNull();
+    expect(game.pendingOptionalCost!.cost).toEqual({ energy: 1 });
+
+    game.players["0"].runePool = [{ instanceId: "e1", domain: "Fury" as const, exhausted: false }];
+    resolveOptionalCost(ctx(game, "0"), { pay: true, energyRuneIds: ["e1"] });
+
+    expect(game.instances[vayne.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("ogn-35");
+  });
+});
+
+describe("Reinforce (ogn-62): banish a unit from top 5, play it, recycle the rest", () => {
+  it("banishes the first unit found and plays it, recycling the remaining cards", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-62", "0");
+    game.players["0"].mainDeck = ["ogn-5", "ogn-4", "unit-plain-footman", "ogn-8", "ogn-11"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].banishment).toEqual(["unit-plain-footman"]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-5", "ogn-4", "ogn-8", "ogn-11"]);
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-footman");
+    expect(newInstanceId).toBeDefined();
+  });
+});
+
+describe("Ekko, Recurrent (ogn-110): Deathknell recycles self and readies runes", () => {
+  it("recycles itself to the deck instead of trash, and readies exhausted runes", () => {
+    const game = makeGame();
+    const ekko = putOnBase(game, "ogn-110", "0");
+    game.players["0"].mainDeck = [];
+    game.players["0"].runePool = [
+      { instanceId: "r1", domain: "Mind" as const, exhausted: true },
+      { instanceId: "r2", domain: "Fury" as const, exhausted: true },
+    ];
+
+    destroyInstance(game, getCard, ekko.instanceId);
+
+    expect(game.players["0"].trash).toEqual([]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-110"]);
+    expect(game.players["0"].runePool.every((r) => !r.exhausted)).toBe(true);
+  });
+});
+
+describe("Soulgorger (ogn-196): on play, play a unit from trash ignoring cost", () => {
+  it("plays the first unit found in trash", () => {
+    const game = makeGame();
+    const soulgorger = putOnBase(game, "ogn-196", "0");
+    game.players["0"].trash = ["ogn-5", "unit-plain-guard"];
+
+    SpecialCaseEngine.onPlay(game, getCard(soulgorger.cardId), soulgorger);
+
+    expect(game.players["0"].trash).toEqual(["ogn-5"]);
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-guard");
+    expect(newInstanceId).toBeDefined();
+  });
+});
+
+describe("The Harrowing (ogn-198): play a unit from trash ignoring cost", () => {
+  it("plays the first unit found in trash", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-198", "0");
+    game.players["0"].trash = ["ogn-5", "unit-plain-guard"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].trash).toEqual(["ogn-5"]);
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-guard");
+    expect(newInstanceId).toBeDefined();
+  });
+});
+
+describe("Cruel Patron (ogn-208): kill a friendly unit as an additional cost", () => {
+  it("kills the chosen friendly unit", () => {
+    const game = makeGame();
+    const patron = putOnBase(game, "ogn-208", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(patron.cardId), patron, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["0"].trash).toContain("unit-plain-footman");
+  });
+});
+
+describe("Spectral Matron (ogn-226): play a cheap unit from trash ignoring cost", () => {
+  it("only considers units costing 3 Energy or less", () => {
+    const game = makeGame();
+    const matron = putOnBase(game, "ogn-226", "0");
+    game.players["0"].trash = ["unit-shadow-infiltrator", "unit-plain-guard"]; // 4 Energy, then 1 Energy
+
+    SpecialCaseEngine.onPlay(game, getCard(matron.cardId), matron);
+
+    expect(game.players["0"].trash).toEqual(["unit-shadow-infiltrator"]);
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-guard");
+    expect(newInstanceId).toBeDefined();
+  });
+});
+
+describe("Leona, Determined (ogn-238): stuns an enemy unit here on attack", () => {
+  it("stuns the enemy unit at the attacked battlefield", () => {
+    const game = makeGame();
+    const leona = putOnBase(game, "ogn-238", "0");
+    moveToBattlefield(game, leona.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(leona.cardId), leona);
+
+    expect(enemy.statuses.stunned).toBe(true);
+  });
+});
+
+describe("Machine Evangel (ogn-239): Deathknell plays three Recruit tokens into base", () => {
+  it("plays three 1-Might Recruit tokens", () => {
+    const game = makeGame();
+    const evangel = putOnBase(game, "ogn-239", "0");
+
+    destroyInstance(game, getCard, evangel.instanceId);
+
+    const tokenIds = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenIds).toHaveLength(3);
+  });
+});
+
+describe("Sett, Kingpin (ogn-240): +1 Might for each buffed friendly unit at my battlefield", () => {
+  it("counts buffed allies at the same battlefield only", () => {
+    const game = makeGame();
+    const sett = putOnBase(game, "ogn-240", "0");
+    moveToBattlefield(game, sett.instanceId, 0);
+    const baseline = computeMight(game, getCard, sett, "none");
+
+    const buffedHere = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, buffedHere.instanceId, 0);
+    buffedHere.statuses.buffed = true;
+
+    const buffedElsewhere = putOnBase(game, "unit-plain-guard", "0");
+    moveToBattlefield(game, buffedElsewhere.instanceId, 1);
+    buffedElsewhere.statuses.buffed = true;
+
+    expect(computeMight(game, getCard, sett, "none")).toBe(baseline + 1);
+  });
+});
+
+describe("Darius, Executioner (ogn-243): Legion readies self; allies here get +1 Might", () => {
+  it("enters ready when Legion is active", () => {
+    const game = makeGame();
+    const darius = putOnBase(game, "ogn-243", "0", { exhausted: true });
+    game.players["0"].playedMainDeckCardThisTurn = true;
+
+    SpecialCaseEngine.onPlay(game, getCard(darius.cardId), darius);
+
+    expect(darius.exhausted).toBe(false);
+  });
+
+  it("stays exhausted without Legion", () => {
+    const game = makeGame();
+    const darius = putOnBase(game, "ogn-243", "0", { exhausted: true });
+
+    SpecialCaseEngine.onPlay(game, getCard(darius.cardId), darius);
+
+    expect(darius.exhausted).toBe(true);
+  });
+
+  it("buffs other friendly units at the same battlefield by +1 Might", () => {
+    const game = makeGame();
+    const darius = putOnBase(game, "ogn-243", "0");
+    moveToBattlefield(game, darius.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+    const baseline = getCard(ally.cardId).might!;
+
+    expect(computeMight(game, getCard, ally, "none")).toBe(baseline + 1);
+  });
+});
+
+describe("Viktor, Leader (ogn-246): non-Recruit ally deaths play a Recruit token", () => {
+  it("plays a token when another non-Recruit unit dies", () => {
+    const game = makeGame();
+    const viktor = putOnBase(game, "ogn-246", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+
+    destroyInstance(game, getCard, ally.instanceId);
+
+    const tokenIds = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenIds).toHaveLength(1);
+    void viktor;
+  });
+
+  it("does not trigger off a Recruit token's own death", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-246", "0");
+    const token = putOnBase(game, "token-recruit", "0");
+
+    destroyInstance(game, getCard, token.instanceId);
+
+    const tokenIds = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenIds).toHaveLength(0);
+  });
+});
+
+describe("Icathian Rain (ogn-248): deal 2 to a unit, six times", () => {
+  it("applies all six hits to the single chosen target", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-248", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    target.tempMightBonus = 4; // Might 2 -> 6, so it takes exactly 3 of the 6 hits to die
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["1"].trash).toContain("unit-plain-footman");
+  });
+});
+
+describe("Stormbringer (ogn-250): deal Might-damage to enemies at a battlefield, then move there", () => {
+  it("deals damage equal to the chosen unit's Might and moves it to the battlefield", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-250", "0");
+    const mover = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    const enemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, mover.instanceId);
+
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+    expect(mover.zone).toBe("battlefield");
+    expect(mover.battlefieldIndex).toBe(0);
+  });
+});

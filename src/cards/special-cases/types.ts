@@ -198,4 +198,11 @@ export interface SpecialCaseHandler {
    * has no live CardInstance (it was in hand, not in play).
    */
   onSelfDiscarded?(game: GameState, playerId: PlayerId): void;
+
+  /**
+   * True if this card should recycle itself (go to the bottom of its owner's Main Deck) instead
+   * of the trash when it dies (e.g. Ekko, Recurrent: "[Deathknell] — Recycle me..."). Checked in
+   * game/combat.ts `destroyInstance` right after the normal trash push, which it then undoes.
+   */
+  recycleSelfOnDestroy?(ctx: SpecialCaseContext): boolean;
 }

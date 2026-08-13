@@ -984,14 +984,6 @@
     "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nSpend 2 XP: [Buff] me. (Give me a +1 Might buff if I don't have one.)"
   },
   {
-    "id": "ogn-208",
-    "name": "Cruel Patron",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "As an additional cost to play me, kill a friendly unit.",
-    "fullText": "As an additional cost to play me, kill a friendly unit."
-  },
-  {
     "id": "ven-39",
     "name": "Crumbling Sands",
     "set": "VEN",
@@ -1059,14 +1051,6 @@
     "id": "sfd-236",
     "name": "Darius, Executioner",
     "set": "SFD",
-    "type": "champion",
-    "residualText": "\u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
-    "fullText": "[Legion] \u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here."
-  },
-  {
-    "id": "ogn-243",
-    "name": "Darius, Executioner",
-    "set": "OGN",
     "type": "champion",
     "residualText": "\u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
     "fullText": "[Legion] \u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here."
@@ -1464,14 +1448,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play this from face down, attach it to a unit you control here.\n[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)"
   },
   {
-    "id": "ogn-110",
-    "name": "Ekko, Recurrent",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "\u2014 Recycle me to ready your runes. (When I die, get the effect.)",
-    "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\n[Deathknell] \u2014 Recycle me to ready your runes. (When I die, get the effect.)"
-  },
-  {
     "id": "unl-118",
     "name": "Elder Dragon",
     "set": "UNL",
@@ -1726,14 +1702,6 @@
     "type": "champion",
     "residualText": "When you play me, you may play a spell from your trash with Energy cost no more than 3 Energy, ignoring its Energy cost. Recycle that spell after you play it. (You must still pay its Power cost.)",
     "fullText": "When you play me, you may play a spell from your trash with Energy cost no more than 3 Energy, ignoring its Energy cost. Recycle that spell after you play it. (You must still pay its Power cost.)"
-  },
-  {
-    "id": "ogn-6",
-    "name": "Flame Chompers",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you discard me, you may pay Fury Rune to play me.",
-    "fullText": "When you discard me, you may pay Fury Rune to play me."
   },
   {
     "id": "ogs-11",
@@ -2352,14 +2320,6 @@
     "fullText": "When I hold, at the start of your next Main Phase, you may move an enemy unit to this battlefield."
   },
   {
-    "id": "ogn-248",
-    "name": "Icathian Rain",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit.",
-    "fullText": "Deal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit.\nDeal 2 to a unit."
-  },
-  {
     "id": "unl-65",
     "name": "Icevale Archer",
     "set": "UNL",
@@ -2856,14 +2816,6 @@
     "fullText": "[Shield]\nWhen I attack, stun an enemy unit here."
   },
   {
-    "id": "ogn-238",
-    "name": "Leona, Determined",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I attack, stun an enemy unit here. (It doesn't deal combat damage this turn.)",
-    "fullText": "[Shield] (+1 Might while I'm a defender.)\nWhen I attack, stun an enemy unit here. (It doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "ven-156",
     "name": "Lightning Rush",
     "set": "VEN",
@@ -2990,14 +2942,6 @@
     "type": "champion",
     "residualText": "Exhaust:  \u2014  2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] \u2014 [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "ogn-239",
-    "name": "Machine Evangel",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 Play three 1 Might Recruit unit tokens into your base. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 Play three 1 Might Recruit unit tokens into your base. (When I die, get the effect.)"
   },
   {
     "id": "unl-144",
@@ -3904,14 +3848,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\nYour conquer effects for conquering here trigger an additional time.\nWhen I conquer, [Buff] a friendly unit. (Give it a +1 Might buff if it doesn't have one.)"
   },
   {
-    "id": "ogn-62",
-    "name": "Reinforce",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Look at the top 5 cards of your Main Deck. You may banish a unit from among them, then play it, reducing its cost by 5 Energy. Recycle the remaining cards.",
-    "fullText": "Look at the top 5 cards of your Main Deck. You may banish a unit from among them, then play it, reducing its cost by 5 Energy. Recycle the remaining cards."
-  },
-  {
     "id": "sfd-29",
     "name": "Rek'Sai, Breacher",
     "set": "SFD",
@@ -4344,14 +4280,6 @@
     "fullText": "When I'm played and when I conquer, buff me. (If I don't have a buff, I get a +1 Might buff.)\nSpend my buff: Give me +4 Might this turn."
   },
   {
-    "id": "ogn-240",
-    "name": "Sett, Kingpin",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "I get +1 Might for each buffed friendly unit at my battlefield.",
-    "fullText": "[Tank] (I must be assigned combat damage first.)\nI get +1 Might for each buffed friendly unit at my battlefield."
-  },
-  {
     "id": "unl-194",
     "name": "Shadow",
     "set": "UNL",
@@ -4664,28 +4592,12 @@
     "fullText": "When you empower something else, empower me. (I become Empowered if I'm not already.)\nDisempower me, Exhaust: Give a unit at a battlefield -2 Might this turn."
   },
   {
-    "id": "ogn-196",
-    "name": "Soulgorger",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, you may play a unit from your trash, ignoring its Energy cost. (You must still pay its Power cost.)",
-    "fullText": "When you play me, you may play a unit from your trash, ignoring its Energy cost. (You must still pay its Power cost.)"
-  },
-  {
     "id": "unl-68",
     "name": "Spectral Centaur",
     "set": "UNL",
     "type": "unit",
     "residualText": "When another friendly unit dies, give me +2 Might this turn.",
     "fullText": "When another friendly unit dies, give me +2 Might this turn."
-  },
-  {
-    "id": "ogn-226",
-    "name": "Spectral Matron",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, you may play a unit costing no more than 3 Energy and no more than Rune from your trash, ignoring its cost.",
-    "fullText": "When you play me, you may play a unit costing no more than 3 Energy and no more than Rune from your trash, ignoring its cost."
   },
   {
     "id": "ven-97",
@@ -4814,14 +4726,6 @@
     "type": "unit",
     "residualText": "I have +7 Might.",
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Empower] 7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +7 Might."
-  },
-  {
-    "id": "ogn-250",
-    "name": "Stormbringer",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Choose a friendly unit in your base. Deal damage equal to its Might to all enemy units at a battlefield, then move your unit there.",
-    "fullText": "Choose a friendly unit in your base. Deal damage equal to its Might to all enemy units at a battlefield, then move your unit there."
   },
   {
     "id": "sfd-107",
@@ -5054,14 +4958,6 @@
     "type": "battlefield",
     "residualText": "When you hold here, if you have 7+ units here, you win the game.",
     "fullText": "When you hold here, if you have 7+ units here, you win the game."
-  },
-  {
-    "id": "ogn-198",
-    "name": "The Harrowing",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Play a unit from your trash, ignoring its Energy cost. (You must still pay its Power cost.)",
-    "fullText": "Play a unit from your trash, ignoring its Energy cost. (You must still pay its Power cost.)"
   },
   {
     "id": "unl-138",
@@ -5416,14 +5312,6 @@
     "fullText": "[Assault 3] (+3 Might while I'm an attacker.)\nIf an opponent controls a battlefield, I enter ready.\nWhen I conquer, you may pay 1 Energy to return me to my owner's hand."
   },
   {
-    "id": "ogn-35",
-    "name": "Vayne, Hunter",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "If an opponent controls a battlefield, I enter ready.\nWhen I conquer, you may pay 1 Energy to return me to my owner's hand.",
-    "fullText": "[Assault 3] (+3 Might while I'm an attacker.)\nIf an opponent controls a battlefield, I enter ready.\nWhen I conquer, you may pay 1 Energy to return me to my owner's hand."
-  },
-  {
     "id": "sfd-221",
     "name": "Veiled Temple",
     "set": "SFD",
@@ -5494,14 +5382,6 @@
     "type": "champion",
     "residualText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base.",
     "fullText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base."
-  },
-  {
-    "id": "ogn-246",
-    "name": "Viktor, Leader",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When another non-Recruit unit you control dies, play a 1 Might Recruit unit token into your base.",
-    "fullText": "When another non-Recruit unit you control dies, play a 1 Might Recruit unit token into your base."
   },
   {
     "id": "unl-60",
