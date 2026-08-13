@@ -213,6 +213,7 @@ export const attackBattlefield: MoveFn<GameState> = (
       conditionalGanking !== undefined
         ? conditionalGanking
         : KeywordEngine.hasKeyword(card, "ganking") ||
+          instance.grantedThisTurn.some((k) => k.keyword === "ganking") ||
           SpecialCaseEngine.grantsGankingFromBattlefield(G, getCard, instance);
     if (instance.zone !== "base" && !(movingFromAnotherBattlefield && hasGanking)) {
       return INVALID_MOVE;
@@ -239,6 +240,7 @@ export const attackBattlefield: MoveFn<GameState> = (
     fireTemplatedEffect(G, getCard, card, instance, "onAttack");
     SpecialCaseEngine.onAttack(G, card, instance);
     fireTemplatedEffect(G, getCard, card, instance, "onMove");
+    SpecialCaseEngine.onMove(G, card, instance);
   }
 
   resolveCombat(G, getCard, args.battlefieldIndex, player.id);

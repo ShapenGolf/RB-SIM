@@ -173,6 +173,22 @@ import { tibbers } from "./tibbers";
 import { vanguardAttendant } from "./vanguard-attendant";
 import { yiHoned } from "./yi-honed";
 import { yiMeditative } from "./yi-meditative";
+import { detonate } from "./detonate";
+import { eagerDrakehound } from "./eager-drakehound";
+import { gemJammer } from "./gem-jammer";
+import { ferrousForerunner } from "./ferrous-forerunner";
+import { poroSnax } from "./poro-snax";
+import { aspiringEngineer } from "./aspiring-engineer";
+import { plunderingPoro } from "./plundering-poro";
+import { laurentBladekeeper } from "./laurent-bladekeeper";
+import { yordleExplorer } from "./yordle-explorer";
+import { treasureHunter } from "./treasure-hunter";
+import { factoryRecall } from "./factory-recall";
+import { eminentBenefactor } from "./eminent-benefactor";
+import { honestBroker } from "./honest-broker";
+import { sandshifter } from "./sandshifter";
+import { trustyRamhound } from "./trusty-ramhound";
+import { ribbonDancer } from "./ribbon-dancer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -346,6 +362,22 @@ const handlers: SpecialCaseHandler[] = [
   vanguardAttendant,
   yiHoned,
   yiMeditative,
+  detonate,
+  eagerDrakehound,
+  gemJammer,
+  ferrousForerunner,
+  poroSnax,
+  aspiringEngineer,
+  plunderingPoro,
+  laurentBladekeeper,
+  yordleExplorer,
+  treasureHunter,
+  factoryRecall,
+  eminentBenefactor,
+  honestBroker,
+  sandshifter,
+  trustyRamhound,
+  ribbonDancer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -382,6 +414,10 @@ export const SpecialCaseEngine = {
 
   onAttack: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onAttack?.(ctxFor(game, card, instance));
+  },
+
+  onMove: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onMove?.(ctxFor(game, card, instance));
   },
 
   onHold: (game: GameState, card: Card, instance: CardInstance) => {

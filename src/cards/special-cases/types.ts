@@ -38,6 +38,14 @@ export interface SpecialCaseHandler {
   /** Called when this instance attacks (moved onto a Battlefield as an attacker), before combat resolves — alongside the generic onAttack templated trigger. */
   onAttack?(ctx: SpecialCaseContext): void;
 
+  /**
+   * Called whenever this instance moves onto a Battlefield via `attackBattlefield` — the initial
+   * attack from base AND any subsequent Ganking move both count, matching the generic
+   * `onMove` templated trigger fired at the same call site (see game/moves.ts). Runs right after
+   * `onAttack`.
+   */
+  onMove?(ctx: SpecialCaseContext): void;
+
   /** Called for every unit a player holds a Battlefield with, at their Beginning step — alongside the generic onHold templated trigger. */
   onHold?(ctx: SpecialCaseContext): void;
 

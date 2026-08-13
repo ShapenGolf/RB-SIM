@@ -256,14 +256,6 @@
     "fullText": "When you play me, choose an opponent. They reveal their hand. Choose a card revealed this way and banish it. When they hold, return it to their hand (even if I'm no longer on the board)."
   },
   {
-    "id": "sfd-61",
-    "name": "Aspiring Engineer",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, return a gear from your trash to your hand.",
-    "fullText": "When you play me, return a gear from your trash to your hand."
-  },
-  {
     "id": "sfd-19",
     "name": "Assembly Rig",
     "set": "SFD",
@@ -1200,14 +1192,6 @@
     "fullText": "I can't move to base."
   },
   {
-    "id": "sfd-5",
-    "name": "Detonate",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Kill a gear. Its controller draws 2.",
-    "fullText": "Kill a gear. Its controller draws 2."
-  },
-  {
     "id": "unl-79",
     "name": "Diana, Lunari",
     "set": "UNL",
@@ -1376,14 +1360,6 @@
     "fullText": "At the start of your Beginning Phase, you may kill a unit you control here to draw 1. (This happens before scoring.)"
   },
   {
-    "id": "sfd-6",
-    "name": "Eager Drakehound",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "I enter ready.",
-    "fullText": "I enter ready."
-  },
-  {
     "id": "unl-63",
     "name": "Eclipse",
     "set": "UNL",
@@ -1422,14 +1398,6 @@
     "type": "unit",
     "residualText": "When you play a card from , give me +2 Might this turn.",
     "fullText": "When you play a card from [Hidden], give me +2 Might this turn."
-  },
-  {
-    "id": "sfd-152",
-    "name": "Eminent Benefactor",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I hold, play two Gold gear tokens exhausted.",
-    "fullText": "When I hold, play two Gold gear tokens exhausted."
   },
   {
     "id": "sfd-197",
@@ -1568,14 +1536,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nStun a friendly unit and an enemy unit at the same battlefield. (They don't deal combat damage this turn.)"
   },
   {
-    "id": "sfd-135",
-    "name": "Factory Recall",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Return a gear to its owner's hand.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nReturn a gear to its owner's hand."
-  },
-  {
     "id": "sfd-101",
     "name": "Fae Dragon",
     "set": "SFD",
@@ -1606,14 +1566,6 @@
     "type": "unit",
     "residualText": "When you play me, look at the top 4 cards of your Main Deck. You may reveal a spell with Energy cost 4 Energy or more from among them and draw it. Recycle the rest.",
     "fullText": "When you play me, look at the top 4 cards of your Main Deck. You may reveal a spell with Energy cost 4 Energy or more from among them and draw it. Recycle the rest."
-  },
-  {
-    "id": "sfd-21",
-    "name": "Ferrous Forerunner",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "\u2014 Play two 3 Might Mech unit tokens to your base. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 Play two 3 Might Mech unit tokens to your base. (When I die, get the effect.)"
   },
   {
     "id": "ogn-168",
@@ -1838,14 +1790,6 @@
     "type": "unit",
     "residualText": "Each Equipment attached to me gives double its base Might bonus.",
     "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nEach Equipment attached to me gives double its base Might bonus."
-  },
-  {
-    "id": "sfd-7",
-    "name": "Gem Jammer",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, give a unit  this turn. (It can move from battlefield to battlefield.)",
-    "fullText": "When you play me, give a unit [Ganking] this turn. (It can move from battlefield to battlefield.)"
   },
   {
     "id": "unl-94",
@@ -2206,14 +2150,6 @@
     "type": "spell",
     "residualText": "Choose a friendly unit. The next time it dies this turn, recall it exhausted instead. (Send it to base. This isn't a move.)",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. The next time it dies this turn, recall it exhausted instead. (Send it to base. This isn't a move.)"
-  },
-  {
-    "id": "sfd-155",
-    "name": "Honest Broker",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "\u2014 Play a Gold gear token exhausted. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 Play a Gold gear token exhausted. (When I die, get the effect.)"
   },
   {
     "id": "unl-49",
@@ -2694,14 +2630,6 @@
     "type": "legend",
     "residualText": "When you play a spell that costs 5 Energy or more, draw 1.",
     "fullText": "When you play a spell that costs 5 Energy or more, draw 1."
-  },
-  {
-    "id": "sfd-96",
-    "name": "Laurent Bladekeeper",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "Ganking (I can move from battlefield to battlefield.)",
-    "fullText": "Ganking (I can move from battlefield to battlefield.)"
   },
   {
     "id": "unl-90",
@@ -3480,14 +3408,6 @@
     "fullText": "I cost 1 Energy less for each gear you control.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)"
   },
   {
-    "id": "sfd-69",
-    "name": "Plundering Poro",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I conquer, play a Gold gear token exhausted.",
-    "fullText": "When I conquer, play a Gold gear token exhausted."
-  },
-  {
     "id": "unl-222",
     "name": "Plundering Poro",
     "set": "UNL",
@@ -3510,14 +3430,6 @@
     "type": "champion",
     "residualText": "When you play me, if an opponent's score is within 3 points of the Victory Score, ready me and gain 3 XP.",
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen you play me, if an opponent's score is within 3 points of the Victory Score, ready me and gain 3 XP."
-  },
-  {
-    "id": "sfd-46",
-    "name": "Poro Snax",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "When you play this, draw 1.\n1 EnergyCalm Rune, Exhaust, Kill this: Draw 1.",
-    "fullText": "When you play this, draw 1.\n1 EnergyCalm Rune, Exhaust, Kill this: Draw 1."
   },
   {
     "id": "sfd-214",
@@ -3880,14 +3792,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play on your turn or in showdowns.)\nChoose a battlefield you control and a unit you control at a different location. Move that unit to that battlefield and give it +2 Might this turn."
   },
   {
-    "id": "sfd-38",
-    "name": "Ribbon Dancer",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, give another friendly unit +1 Might this turn.",
-    "fullText": "When I move to a battlefield, give another friendly unit +1 Might this turn."
-  },
-  {
     "id": "unl-179",
     "name": "Rift Herald",
     "set": "UNL",
@@ -4062,14 +3966,6 @@
     "type": "spell",
     "residualText": "Choose one \u2014Empower a unit. Disempower it at end of turn.Disempower a unit that's . Empower it at end of turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one \u2014Empower a unit. Disempower it at end of turn.Disempower a unit that's [Empowered]. Empower it at end of turn."
-  },
-  {
-    "id": "sfd-158",
-    "name": "Sandshifter",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, kill an enemy unit with 3 Might or less.",
-    "fullText": "When you play me, kill an enemy unit with 3 Might or less."
   },
   {
     "id": "ven-36",
@@ -4928,14 +4824,6 @@
     "fullText": "When you conquer here, you may pay 1 Energy to play a Gold gear token exhausted."
   },
   {
-    "id": "sfd-130",
-    "name": "Treasure Hunter",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move, play a Gold gear token exhausted.",
-    "fullText": "When I move, play a Gold gear token exhausted."
-  },
-  {
     "id": "unl-48",
     "name": "Trevor Snoozebottom",
     "set": "UNL",
@@ -4958,14 +4846,6 @@
     "type": "unit",
     "residualText": "When you play me, play four Gold gear tokens exhausted.",
     "fullText": "When you play me, play four Gold gear tokens exhausted."
-  },
-  {
-    "id": "sfd-159",
-    "name": "Trusty Ramhound",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "While you have another unit here, I have +1 Might.",
-    "fullText": "While you have another unit here, I have +1 Might."
   },
   {
     "id": "unl-70",
@@ -5462,14 +5342,6 @@
     "type": "champion",
     "residualText": "When I conquer an open battlefield, deal damage equal to my Might to an enemy unit in a base.",
     "fullText": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nWhen I conquer an open battlefield, deal damage equal to my Might to an enemy unit in a base."
-  },
-  {
-    "id": "sfd-100",
-    "name": "Yordle Explorer",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play a card with Power cost RuneRune or more, draw 1.",
-    "fullText": "When you play a card with Power cost RuneRune or more, draw 1."
   },
   {
     "id": "unl-56",
