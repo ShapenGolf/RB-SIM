@@ -118,19 +118,22 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **168 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **184 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
   überschreibt). Vollständige Liste dort; nicht mehr einzeln aufgezählt,
-  da die Liste inzwischen zu lang für Prosa ist. Origins' restliche
-  offene Karten sind inzwischen fast vollständig auf bereits
-  zurückgestellte Kategorien konzentriert (Hidden, Dual-Target,
-  Move-Zähler, X-Kosten-Sprüche, Gegner-Entscheidungen,
-  Tod-Ersatzeffekte, fehlende Champion Zone) — als Nächstes kommt daher
-  Proving Grounds (OGS) dran, ebenfalls der Reihe nach.
-- Macht **328 von 1019 Karten (~32%) vollständig spielbar.**
-- **691 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+  da die Liste inzwischen zu lang für Prosa ist. Origins und Proving
+  Grounds sind inzwischen fast vollständig auf bereits zurückgestellte
+  Kategorien konzentriert (Hidden, Dual-Target, Move-Zähler,
+  X-Kosten-Sprüche, Gegner-Entscheidungen, Tod-Ersatzeffekte, fehlende
+  Champion Zone) — Spiritforged (SFD) läuft jetzt, ebenfalls der Reihe
+  nach. SFD führt zusätzlich das **[Repeat]-Keyword** (24 Karten, noch
+  nicht generisch implementiert) und ein **Equipment/[Weaponmaster]**-
+  System ein, die beide noch als eigene Bausteine fehlen — größere
+  neue Einzelmechaniken, ähnlich wie Hidden bei Origins.
+- Macht **344 von 1019 Karten (~34%) vollständig spielbar.**
+- **675 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - Einige Karten sind bewusst zurückgestellt statt implementiert, weil sie
   fehlende Engine-Mechaniken brauchen würden (dokumentiert statt stillschweigend
   übersprungen): Gegner-Entscheidungen ("unless"), Tod-Ersatzeffekte, ein
