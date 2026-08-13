@@ -1128,14 +1128,6 @@
     "fullText": "At the end of your turn, reveal cards from the top of your Main Deck until you reveal a unit. Play it, ignoring its cost, and recycle the rest."
   },
   {
-    "id": "ogn-161",
-    "name": "Deadbloom Predator",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "You may play me to an occupied enemy battlefield.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nYou may play me to an occupied enemy battlefield."
-  },
-  {
     "id": "unl-73",
     "name": "Deadly Flourish",
     "set": "UNL",
@@ -2856,14 +2848,6 @@
     "fullText": "Units here with [Tank] have +1 Might."
   },
   {
-    "id": "ogn-190",
-    "name": "Kog'Maw, Caustic",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "\u2014 Deal 4 to all units at my battlefield. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 Deal 4 to all units at my battlefield. (When I die, get the effect.)"
-  },
-  {
     "id": "ogn-150",
     "name": "Kraken Hunter",
     "set": "OGN",
@@ -3088,14 +3072,6 @@
     "fullText": "[Deathknell] \u2014 Play three 1 Might Recruit unit tokens into your base. (When I die, get the effect.)"
   },
   {
-    "id": "ogn-191",
-    "name": "Maddened Marauder",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, move a unit from a battlefield to its base.",
-    "fullText": "[Tank] (I must be assigned combat damage first.)\nWhen you play me, move a unit from a battlefield to its base."
-  },
-  {
     "id": "unl-144",
     "name": "Maduli the Gatekeeper",
     "set": "UNL",
@@ -3288,14 +3264,6 @@
     "fullText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1."
   },
   {
-    "id": "ogn-192",
-    "name": "Mindsplitter",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, choose an opponent. They reveal their hand. Choose a card from it, and they discard that card.",
-    "fullText": "When you play me, choose an opponent. They reveal their hand. Choose a card from it, and they discard that card."
-  },
-  {
     "id": "sfd-212",
     "name": "Minefield",
     "set": "SFD",
@@ -3318,14 +3286,6 @@
     "type": "spell",
     "residualText": "Choose a unit. Play a ready Reflection unit token to your base. It becomes a copy of that unit. Give it . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
     "fullText": "Choose a unit. Play a ready Reflection unit token to your base. It becomes a copy of that unit. Give it [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
-    "id": "ogn-193",
-    "name": "Miss Fortune, Buccaneer",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "You may play me to an open battlefield.\nFriendly units may be played to open battlefields.",
-    "fullText": "You may play me to an open battlefield.\nFriendly units may be played to open battlefields."
   },
   {
     "id": "ogn-162",
@@ -4200,28 +4160,12 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play on your turn or in showdowns.)\nChoose a battlefield you control and a unit you control at a different location. Move that unit to that battlefield and give it +2 Might this turn."
   },
   {
-    "id": "ogn-195",
-    "name": "Rhasa the Sunderer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "I cost 1 Energy less for each card in your trash.",
-    "fullText": "I cost 1 Energy less for each card in your trash."
-  },
-  {
     "id": "sfd-38",
     "name": "Ribbon Dancer",
     "set": "SFD",
     "type": "unit",
     "residualText": "When I move to a battlefield, give another friendly unit +1 Might this turn.",
     "fullText": "When I move to a battlefield, give another friendly unit +1 Might this turn."
-  },
-  {
-    "id": "ogn-173",
-    "name": "Ride the Wind",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Move a friendly unit and ready it.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nMove a friendly unit and ready it."
   },
   {
     "id": "unl-179",
@@ -4390,14 +4334,6 @@
     "type": "unit",
     "residualText": "You may spend 3 XP as an additional cost to play me.\nWhen you play me, each player must kill one of their units. If you paid my additional cost, you don't kill a unit this way.",
     "fullText": "You may spend 3 XP as an additional cost to play me.\nWhen you play me, each player must kill one of their units. If you paid my additional cost, you don't kill a unit this way."
-  },
-  {
-    "id": "ogn-174",
-    "name": "Sai Scout",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "You may play me to an open battlefield.",
-    "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nYou may play me to an open battlefield."
   },
   {
     "id": "ven-35",
@@ -4784,14 +4720,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nChoose a unit you control and another unit you control at a different location. If at least one of them has [Temporary], move each to the other's location. Draw 1."
   },
   {
-    "id": "ogn-176",
-    "name": "Sneaky Deckhand",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "You may play me to an open battlefield.",
-    "fullText": "You may play me to an open battlefield."
-  },
-  {
     "id": "ogn-216",
     "name": "Soaring Scout",
     "set": "OGN",
@@ -4942,14 +4870,6 @@
     "type": "spell",
     "residualText": "Give a unit  this turn. (+4 Might while it's an attacker.)",
     "fullText": "[Repeat] \u2014 Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn. (+4 Might while it's an attacker.)"
-  },
-  {
-    "id": "ogn-183",
-    "name": "Stacked Deck",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Look at the top 3 cards of your Main Deck. Put 1 into your hand and recycle the rest.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nLook at the top 3 cards of your Main Deck. Put 1 into your hand and recycle the rest."
   },
   {
     "id": "unl-166",
@@ -5296,14 +5216,6 @@
     "fullText": "Kill all units."
   },
   {
-    "id": "ogn-184",
-    "name": "The Syren",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "1 Energy, Exhaust: Move a friendly unit at a battlefield to your base.",
-    "fullText": "1 Energy, Exhaust: Move a friendly unit at a battlefield to your base."
-  },
-  {
     "id": "sfd-90",
     "name": "The Zero Drive",
     "set": "SFD",
@@ -5414,14 +5326,6 @@
     "type": "unit",
     "residualText": "When I move, play a Gold gear token exhausted.",
     "fullText": "When I move, play a Gold gear token exhausted."
-  },
-  {
-    "id": "ogn-186",
-    "name": "Treasure Trove",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "When this leaves the board, draw 1 and channel 1 rune exhausted.\nChaos Rune, Exhaust: Kill this.",
-    "fullText": "When this leaves the board, draw 1 and channel 1 rune exhausted.\nChaos Rune, Exhaust: Kill this."
   },
   {
     "id": "unl-48",
@@ -6078,14 +5982,6 @@
     "type": "battlefield",
     "residualText": "When you conquer here, discard 1, then draw 1.",
     "fullText": "When you conquer here, discard 1, then draw 1."
-  },
-  {
-    "id": "ogn-188",
-    "name": "Zaunite Bouncer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, return another unit at a battlefield to its owner's hand.",
-    "fullText": "When you play me, return another unit at a battlefield to its owner's hand."
   },
   {
     "id": "ven-23",

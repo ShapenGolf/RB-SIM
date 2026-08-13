@@ -96,6 +96,19 @@ import { gust } from "./gust";
 import { acceptableLosses } from "./acceptable-losses";
 import { fadingMemories } from "./fading-memories";
 import { undercoverAgent } from "./undercover-agent";
+import { deadbloomPredator } from "./deadbloom-predator";
+import { saiScout } from "./sai-scout";
+import { sneakyDeckhand } from "./sneaky-deckhand";
+import { missFortuneBuccaneer } from "./miss-fortune-buccaneer";
+import { rideTheWind } from "./ride-the-wind";
+import { stackedDeck } from "./stacked-deck";
+import { theSyren } from "./the-syren";
+import { treasureTrove } from "./treasure-trove";
+import { zauniteBouncer } from "./zaunite-bouncer";
+import { kogmawCaustic } from "./kogmaw-caustic";
+import { maddenedMarauder } from "./maddened-marauder";
+import { mindsplitter } from "./mindsplitter";
+import { rhasaTheSunderer } from "./rhasa-the-sunderer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -193,6 +206,19 @@ const handlers: SpecialCaseHandler[] = [
   acceptableLosses,
   fadingMemories,
   undercoverAgent,
+  deadbloomPredator,
+  saiScout,
+  sneakyDeckhand,
+  missFortuneBuccaneer,
+  rideTheWind,
+  stackedDeck,
+  theSyren,
+  treasureTrove,
+  zauniteBouncer,
+  kogmawCaustic,
+  maddenedMarauder,
+  mindsplitter,
+  rhasaTheSunderer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -260,6 +286,12 @@ export const SpecialCaseEngine = {
    */
   hasConditionalGanking: (game: GameState, card: Card, instance: CardInstance): boolean | undefined =>
     getSpecialCaseHandler(card)?.hasConditionalGanking?.(ctxFor(game, card, instance)),
+
+  allowsPlayToEnemyOccupiedBattlefield: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.allowsPlayToEnemyOccupiedBattlefield?.(ctxFor(game, card, instance)) ?? false,
+
+  allowsPlayToOpenBattlefield: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.allowsPlayToOpenBattlefield?.(ctxFor(game, card, instance)) ?? false,
 
   /** Sum of Energy cost reductions every other special-case card the controller owns grants to the card about to be played. */
   costReductionFromAllies: (
@@ -483,6 +515,22 @@ export const SpecialCaseEngine = {
       const sourceCard = getCard(sourceInstance.cardId);
       const handler = getSpecialCaseHandler(sourceCard);
       if (handler?.othersEnterReady?.(ctxFor(game, sourceCard, sourceInstance))) return true;
+    }
+    return false;
+  },
+
+  /** True if any other friendly special-case card grants `newInstance` (a unit/champion) permission to play to an open Battlefield. */
+  othersCanPlayToOpenBattlefield: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    newInstance: CardInstance,
+  ): boolean => {
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.instanceId === newInstance.instanceId) continue;
+      if (sourceInstance.controller !== newInstance.controller) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      if (handler?.grantsOthersPlayToOpenBattlefield?.(ctxFor(game, sourceCard, sourceInstance))) return true;
     }
     return false;
   },

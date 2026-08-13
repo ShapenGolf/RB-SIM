@@ -2252,6 +2252,264 @@ describe("Undercover Agent (ogn-178): Deathknell — discard 2, then draw 2", ()
   });
 });
 
+describe("Play-destination grants: enemy-occupied and open battlefields", () => {
+  it("Deadbloom Predator (ogn-161) may play directly to an enemy-occupied battlefield", () => {
+    const game = makeGame();
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+    game.players["0"].hand = ["ogn-161"];
+    const card = getCard("ogn-161");
+    game.players["0"].runePool = [
+      { instanceId: "p1", domain: "Body" as const, exhausted: false },
+      { instanceId: "p2", domain: "Body" as const, exhausted: false },
+      ...Array.from({ length: card.energyCost! }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Body" as const,
+        exhausted: false,
+      })),
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: Array.from({ length: card.energyCost! }, (_, i) => `r${i}`),
+      powerRuneIds: ["p1", "p2"],
+      ambushBattlefieldIndex: 0,
+    });
+
+    expect(result).toBeUndefined();
+    const newInstanceId = game.battlefields[0].units["0"].find((id) => game.instances[id].cardId === "ogn-161");
+    expect(newInstanceId).toBeDefined();
+  });
+
+  it("Sneaky Deckhand (ogn-176) may play to an open battlefield but not an occupied one", () => {
+    const game = makeGame();
+    const deckhandCost = getCard("ogn-176").energyCost!;
+    game.players["0"].hand = ["ogn-176"];
+    game.players["0"].runePool = Array.from({ length: deckhandCost }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const openResult = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      ambushBattlefieldIndex: 0,
+    });
+    expect(openResult).toBeUndefined();
+
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 1);
+    game.players["0"].hand = ["ogn-176"];
+    game.players["0"].runePool = Array.from({ length: deckhandCost }, (_, i) => ({
+      instanceId: `s${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const occupiedResult = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      ambushBattlefieldIndex: 1,
+    });
+    expect(occupiedResult).toBe(INVALID_MOVE);
+  });
+
+  it("Miss Fortune, Buccaneer (ogn-193) grants OTHER friendly units the same open-battlefield permission", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-193", "0");
+    game.players["0"].hand = ["unit-plain-footman"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury" as const, exhausted: false }];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["r1"],
+      powerRuneIds: [],
+      ambushBattlefieldIndex: 0,
+    });
+
+    expect(result).toBeUndefined();
+    const newInstanceId = game.battlefields[0].units["0"].find(
+      (id) => game.instances[id].cardId === "unit-plain-footman",
+    );
+    expect(newInstanceId).toBeDefined();
+  });
+});
+
+describe("Ride the Wind (ogn-173): move a friendly unit (to base) and ready it", () => {
+  it("sends a battlefield unit back to base, readied", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-173", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0", { exhausted: true });
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.zone).toBe("base");
+    expect(target.exhausted).toBe(false);
+  });
+
+  it("just readies a unit already on base", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-173", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0", { exhausted: true });
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.exhausted).toBe(false);
+  });
+});
+
+describe("Stacked Deck (ogn-183): look at top 3, take 1, recycle the rest", () => {
+  it("puts the top card in hand and recycles the other two", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-183", "0");
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5", "ogn-8"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].hand).toEqual(["ogn-4"]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-5", "ogn-8"]);
+  });
+});
+
+describe("The Syren (ogn-184): 1 Energy, Exhaust: move a friendly unit at a battlefield to base", () => {
+  it("moves the target back to base", () => {
+    const game = makeGame();
+    const syren = putOnBase(game, "ogn-184", "0", { exhausted: false });
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, target.instanceId, 0);
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+
+    const result = activateAbility(ctx(game, "0"), {
+      instanceId: syren.instanceId,
+      energyRuneIds: ["r1"],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBeUndefined();
+    expect(target.zone).toBe("base");
+    expect(game.battlefields[0].units["0"]).not.toContain(target.instanceId);
+  });
+});
+
+describe("Treasure Trove (ogn-186): draw+channel on leaving board, Chaos Rune Exhaust: Kill this", () => {
+  it("draws and channels when destroyed", () => {
+    const game = makeGame();
+    const trove = putOnBase(game, "ogn-186", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+
+    destroyInstance(game, getCard, trove.instanceId);
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+    expect(game.players["0"].runePool).toEqual([{ instanceId: "r1", domain: "Fury", exhausted: true }]);
+  });
+
+  it("kills itself via the Chaos Rune ability, also triggering the leave-board effect", () => {
+    const game = makeGame();
+    const trove = putOnBase(game, "ogn-186", "0", { exhausted: false });
+    game.players["0"].mainDeck = ["ogn-4"];
+    game.players["0"].runePool = [{ instanceId: "chaos", domain: "Chaos" as const, exhausted: false }];
+
+    const result = activateAbility(ctx(game, "0"), {
+      instanceId: trove.instanceId,
+      energyRuneIds: [],
+      powerRuneId: "chaos",
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.instances[trove.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Zaunite Bouncer (ogn-188): return another unit at a battlefield to owner's hand", () => {
+  it("returns the target and removes it from the battlefield", () => {
+    const game = makeGame();
+    const bouncer = putOnBase(game, "ogn-188", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(bouncer.cardId), bouncer, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["1"].hand).toContain("unit-plain-footman");
+  });
+});
+
+describe("Kog'Maw, Caustic (ogn-190): Deathknell — deal 4 to all units at my battlefield", () => {
+  it("kills other units at the same battlefield, both sides", () => {
+    const game = makeGame();
+    const kogmaw = putOnBase(game, "ogn-190", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, kogmaw.instanceId, 0);
+    moveToBattlefield(game, ally.instanceId, 0);
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    destroyInstance(game, getCard, kogmaw.instanceId);
+
+    expect(game.instances[ally.instanceId]).toBeUndefined();
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Maddened Marauder (ogn-191): when you play me, move a unit from a battlefield to its base", () => {
+  it("moves an enemy unit from a battlefield to its owner's base", () => {
+    const game = makeGame();
+    const marauder = putOnBase(game, "ogn-191", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(marauder.cardId), marauder, target.instanceId);
+
+    expect(target.zone).toBe("base");
+    expect(game.players["1"].base).toContain(target.instanceId);
+  });
+});
+
+describe("Mindsplitter (ogn-192): opponent reveals hand, discards a chosen card", () => {
+  it("discards the first card in the opponent's hand", () => {
+    const game = makeGame();
+    const splitter = putOnBase(game, "ogn-192", "0");
+    game.players["1"].hand = ["ogn-4", "ogn-5"];
+
+    SpecialCaseEngine.onPlay(game, getCard(splitter.cardId), splitter);
+
+    expect(game.players["1"].hand).toEqual(["ogn-5"]);
+    expect(game.players["1"].trash).toContain("ogn-4");
+    expect(game.players["1"].discardedCardThisTurn).toBe(true);
+  });
+});
+
+describe("Rhasa the Sunderer (ogn-195): costs 1 less per card in trash", () => {
+  it("reduces cost by trash size", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-195"];
+    const card = getCard("ogn-195");
+    game.players["0"].trash = ["ogn-4", "ogn-5", "ogn-8"];
+    game.players["0"].runePool = [
+      { instanceId: "power", domain: "Chaos" as const, exhausted: false },
+      ...Array.from({ length: card.energyCost! - 3 }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Chaos" as const,
+        exhausted: false,
+      })),
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.filter((r) => r.instanceId !== "power").map((r) => r.instanceId),
+      powerRuneIds: ["power"],
+    });
+
+    expect(result).toBeUndefined();
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

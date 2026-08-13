@@ -126,6 +126,15 @@ export interface SpecialCaseHandler {
   /** True if this instance conditionally has Ganking (move battlefield to battlefield) right now, beyond its printed keywords (e.g. Bilgewater Bully: "While I'm buffed, I have Ganking"). */
   hasConditionalGanking?(ctx: SpecialCaseContext): boolean;
 
+  /** True if this unit/champion may be played directly to a Battlefield where the OPPONENT has units (e.g. Deadbloom Predator: "You may play me to an occupied enemy battlefield"). Distinct from Ambush, which requires the controller's OWN units there. */
+  allowsPlayToEnemyOccupiedBattlefield?(ctx: SpecialCaseContext): boolean;
+
+  /** True if this unit/champion may be played directly to a Battlefield where NEITHER side has units (e.g. Sai Scout: "You may play me to an open battlefield"). */
+  allowsPlayToOpenBattlefield?(ctx: SpecialCaseContext): boolean;
+
+  /** True if, while this is in play, OTHER friendly units may be played to open Battlefields (e.g. Miss Fortune, Buccaneer: "Friendly units may be played to open battlefields"). */
+  grantsOthersPlayToOpenBattlefield?(ctx: SpecialCaseContext): boolean;
+
   /**
    * Energy cost reduction this card's static presence grants to ANOTHER card of the controller's
    * that's about to be played (e.g. Eager Apprentice: "spells you play cost 1 Energy less while

@@ -265,12 +265,39 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
           const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
           const isChampion = card.type === "champion";
-          const hasAmbush = KeywordEngine.hasKeyword(card, "ambush");
-          const ambushBattlefields =
-            (card.type === "unit" && hasAmbush) || isChampion
+          const enemyId: PlayerId = me === "0" ? "1" : "0";
+          const ambushDummyInstance: CardInstance = {
+            instanceId: "preview",
+            cardId,
+            controller: me!,
+            zone: "base",
+            battlefieldIndex: null,
+            damage: 0,
+            exhausted: false,
+            statuses: {},
+            xp: 0,
+            tempMightBonus: 0,
+            grantedThisTurn: [],
+          };
+          const ambushBattlefields = isChampion
+            ? G.battlefields.map((_slot, i) => ({ index: i }))
+            : card.type === "unit"
               ? G.battlefields
-                  .map((slot, i) => ({ index: i, hasOwnUnits: slot.units[me].length > 0 }))
-                  .filter((b) => isChampion || b.hasOwnUnits)
+                  .map((slot, i) => ({
+                    index: i,
+                    ownOccupied: slot.units[me].length > 0,
+                    enemyOccupied: slot.units[enemyId].length > 0,
+                  }))
+                  .filter(
+                    (b) =>
+                      (b.ownOccupied && KeywordEngine.hasKeyword(card, "ambush")) ||
+                      (b.enemyOccupied &&
+                        SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, ambushDummyInstance)) ||
+                      (!b.ownOccupied &&
+                        !b.enemyOccupied &&
+                        (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, ambushDummyInstance) ||
+                          SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, ambushDummyInstance))),
+                  )
               : [];
           return (
             <div key={idx} style={{ border: "1px solid #444", borderRadius: 6, padding: 6, margin: "4px 0" }}>

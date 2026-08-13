@@ -89,10 +89,21 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     if (!slot) return INVALID_MOVE;
     // Champions may always choose a Battlefield destination, approximating the real Champion
     // Zone rules (see docs/rules-reference.md) this engine doesn't otherwise model. Units need
-    // Ambush and an existing friendly unit there.
+    // one of three specific permissions matching where they'd land: Ambush (own units already
+    // there), an enemy-occupied grant (Deadbloom Predator), or an open-battlefield grant (Sai
+    // Scout and friends) — see cards/special-cases/types.ts.
     if (card.type === "unit") {
-      if (!KeywordEngine.allowsPlayToOccupiedBattlefield(G, card, instance)) return INVALID_MOVE;
-      if (slot.units[player.id].length === 0) return INVALID_MOVE;
+      const enemyId = player.id === "0" ? "1" : "0";
+      const ownOccupied = slot.units[player.id].length > 0;
+      const enemyOccupied = slot.units[enemyId].length > 0;
+      const isOpen = !ownOccupied && !enemyOccupied;
+      const eligible =
+        (ownOccupied && KeywordEngine.allowsPlayToOccupiedBattlefield(G, card, instance)) ||
+        (enemyOccupied && SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, instance)) ||
+        (isOpen &&
+          (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, instance) ||
+            SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, instance)));
+      if (!eligible) return INVALID_MOVE;
     }
   }
 
