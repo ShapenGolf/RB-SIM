@@ -146,7 +146,19 @@ export function parseSingleAction(text) {
   return null;
 }
 
-/** Parses one action, or a safe "X, then Y." chain of two independently-recognized actions. */
+/**
+ * A chained pair is only safe to auto-combine if at most one action needs a
+ * player-chosen target — otherwise both would be forced onto the same
+ * instance (via the single explicit target the engine passes through),
+ * silently removing the real choice to split them across two targets
+ * (e.g. "Deal 3 to a unit. Deal 3 to a unit." lets you split 3+3 or stack 6).
+ */
+function safeToChain(first, second) {
+  const needsTarget = (actions) => actions.some((a) => "target" in a && a.target.kind.startsWith("choose"));
+  return !(needsTarget(first) && needsTarget(second));
+}
+
+/** Parses one action, or a safe two-action chain ("X, then Y." or "X. Y.") of independently-recognized actions. */
 export function parseAction(remainder) {
   const text = remainder.trim().replace(/^you may\s+/i, "");
 
@@ -154,7 +166,14 @@ export function parseAction(remainder) {
   if (thenMatch) {
     const first = parseSingleAction(thenMatch[1].trim() + ".");
     const second = parseSingleAction(thenMatch[2].trim());
-    if (first && second) return [...first, ...second];
+    if (first && second && safeToChain(first, second)) return [...first, ...second];
+  }
+
+  const periodMatch = text.match(/^([^.]+\.)\s+([^.]+\.?)$/);
+  if (periodMatch) {
+    const first = parseSingleAction(periodMatch[1].trim());
+    const second = parseSingleAction(periodMatch[2].trim());
+    if (first && second && safeToChain(first, second)) return [...first, ...second];
   }
 
   return parseSingleAction(text);

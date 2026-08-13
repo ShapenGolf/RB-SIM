@@ -39,7 +39,9 @@ function contextsFor(
   instance: CardInstance,
 ): { handler: KeywordHandler; ctx: KeywordContext }[] {
   const result: { handler: KeywordHandler; ctx: KeywordContext }[] = [];
-  for (const keyword of card.keywords) {
+  // Printed keywords + anything granted "this turn" by another card's effect (see
+  // CardInstance.grantedThisTurn) are treated identically by every hook below.
+  for (const keyword of [...card.keywords, ...instance.grantedThisTurn]) {
     const handler = getKeywordHandler(keyword.keyword);
     if (!handler) continue;
     result.push({ handler, ctx: { game, card, instance, keyword } });

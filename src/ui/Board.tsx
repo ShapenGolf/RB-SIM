@@ -5,8 +5,7 @@ import { getCard } from "../cards/db";
 import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
-
-const SPECIAL_CASES_NEEDING_TARGET = new Set(["stunning-blow", "dangerous-duo"]);
+import { specialCaseNeedsPlayTarget } from "../cards/special-cases/registry";
 
 function keywordSummary(cardId: string): string {
   const card = getCard(cardId);
@@ -82,16 +81,14 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       statuses: {},
       xp: 0,
       tempMightBonus: 0,
+      grantedThisTurn: [],
     };
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, payAdditionalCost);
     if (!payment) {
       window.alert("Nicht genug Runen, um diese Karte zu bezahlen.");
       return;
     }
-    if (
-      (card.specialCaseId && SPECIAL_CASES_NEEDING_TARGET.has(card.specialCaseId)) ||
-      templatedEffectNeedsPlayTarget(card.templatedEffect)
-    ) {
+    if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
       setPendingTarget({ handIndex, payAdditionalCost });
       return;
     }
@@ -118,6 +115,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       statuses: {},
       xp: 0,
       tempMightBonus: 0,
+      grantedThisTurn: [],
     };
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, pendingTarget.payAdditionalCost);
     if (!payment) return;

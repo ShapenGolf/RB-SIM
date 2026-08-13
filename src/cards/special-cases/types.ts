@@ -15,6 +15,13 @@ export interface SpecialCaseContext {
 export interface SpecialCaseHandler {
   readonly cardId: string;
 
+  /**
+   * Set when `onPlay` needs a player-chosen target instance (drives the
+   * target-picker UI in Board.tsx). Omit/false for untargeted or non-onPlay
+   * handlers — don't forget this, or the card silently plays with no target.
+   */
+  readonly needsPlayTarget?: boolean;
+
   /** Called when the card is played, after generic keyword `onPlay` hooks. */
   onPlay?(ctx: SpecialCaseContext, targetInstanceId?: string): void;
 
@@ -33,4 +40,7 @@ export interface SpecialCaseHandler {
 
   /** Continuous self Might modifier independent of attacking/defending (e.g. an active Empowered bonus). */
   staticMightModifier?(ctx: SpecialCaseContext): number;
+
+  /** True if, while this is in play, other friendly units entering play should enter ready instead of exhausted. */
+  othersEnterReady?(ctx: SpecialCaseContext): boolean;
 }

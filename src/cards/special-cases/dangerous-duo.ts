@@ -5,6 +5,7 @@ import { getCard } from "../db";
 /** Legion — if you've played another card this turn, give another Unit +2 Might for the rest of the turn. */
 export const dangerousDuo: SpecialCaseHandler = {
   cardId: "dangerous-duo",
+  needsPlayTarget: true,
   onPlay: (ctx, targetInstanceId) => {
     if (!KeywordEngine.conditionalTriggerActive(ctx.game, ctx.card, ctx.instance)) return;
     if (!targetInstanceId) return;

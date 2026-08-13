@@ -7,6 +7,11 @@ import { stunningBlow } from "./stunning-blow";
 import { empoweredChampionBonus } from "./empowered-champion";
 import { tacticalBanner } from "./tactical-banner";
 import { ancientRuins } from "./ancient-ruins";
+import { cleave } from "./cleave";
+import { disintegrate } from "./disintegrate";
+import { captainFarron } from "./captain-farron";
+import { thermoBeam } from "./thermo-beam";
+import { magmaWurm } from "./magma-wurm";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -15,6 +20,11 @@ const handlers: SpecialCaseHandler[] = [
   empoweredChampionBonus,
   tacticalBanner,
   ancientRuins,
+  cleave,
+  disintegrate,
+  captainFarron,
+  thermoBeam,
+  magmaWurm,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -22,6 +32,10 @@ const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.card
 export function getSpecialCaseHandler(card: Card): SpecialCaseHandler | undefined {
   if (!card.specialCaseId) return undefined;
   return registry.get(card.specialCaseId);
+}
+
+export function specialCaseNeedsPlayTarget(card: Card): boolean {
+  return getSpecialCaseHandler(card)?.needsPlayTarget ?? false;
 }
 
 function ctxFor(game: GameState, card: Card, instance: CardInstance): SpecialCaseContext {
@@ -60,5 +74,21 @@ export const SpecialCaseEngine = {
       total += fn(ctxFor(game, sourceCard, sourceInstance), allyInstance);
     }
     return total;
+  },
+
+  /** True if any other friendly special-case card tells `newInstance` to enter play ready instead of exhausted. */
+  othersEnterReadyFor: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    newInstance: CardInstance,
+  ): boolean => {
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.instanceId === newInstance.instanceId) continue;
+      if (sourceInstance.controller !== newInstance.controller) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      if (handler?.othersEnterReady?.(ctxFor(game, sourceCard, sourceInstance))) return true;
+    }
+    return false;
   },
 };

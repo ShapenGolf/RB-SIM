@@ -856,14 +856,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
   },
   {
-    "id": "ogn-15",
-    "name": "Captain Farron",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "Other friendly units here have . (+1 Might while they're attackers.)",
-    "fullText": "Other friendly units here have [Assault]. (+1 Might while they're attackers.)"
-  },
-  {
     "id": "sfd-81",
     "name": "Card Sharp",
     "set": "SFD",
@@ -990,14 +982,6 @@
     "type": "spell",
     "residualText": "Choose two units. They deal damage equal to their Mights to each other.",
     "fullText": "Choose two units. They deal damage equal to their Mights to each other."
-  },
-  {
-    "id": "ogn-4",
-    "name": "Cleave",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a unit  this turn. (+3 Might while it's an attacker.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a unit [Assault 3] this turn. (+3 Might while it's an attacker.)"
   },
   {
     "id": "ogn-44",
@@ -1478,22 +1462,6 @@
     "type": "unit",
     "residualText": "I have  while I'm at a battlefield with exactly one other unit you control. (+3 Might while I'm a defender.)",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nI have [Shield 3] while I'm at a battlefield with exactly one other unit you control. (+3 Might while I'm a defender.)"
-  },
-  {
-    "id": "ogn-58",
-    "name": "Discipline",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a unit +2 Might this turn. Draw 1.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a unit +2 Might this turn. Draw 1."
-  },
-  {
-    "id": "ogn-5",
-    "name": "Disintegrate",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 3 to a unit at a battlefield. If this kills it, draw 1.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 3 to a unit at a battlefield. If this kills it, draw 1."
   },
   {
     "id": "unl-103",
@@ -2832,14 +2800,6 @@
     "fullText": "Your spells that choose me cost 1 Energy or Rune less."
   },
   {
-    "id": "ogn-17",
-    "name": "Iron Ballista",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "This enters exhausted.\nExhaust: Deal 2 to a unit at a battlefield.",
-    "fullText": "This enters exhausted.\nExhaust: Deal 2 to a unit at a battlefield."
-  },
-  {
     "id": "unl-112",
     "name": "Irresistible Faefolk",
     "set": "UNL",
@@ -3502,14 +3462,6 @@
     "type": "unit",
     "residualText": "While I'm at a battlefield, opponents can only play units to their base.\nWhile I'm at a battlefield, spells and abilities can't ready enemy units and gear.",
     "fullText": "While I'm at a battlefield, opponents can only play units to their base.\nWhile I'm at a battlefield, spells and abilities can't ready enemy units and gear."
-  },
-  {
-    "id": "ogn-11",
-    "name": "Magma Wurm",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "Other friendly units enter ready.",
-    "fullText": "Other friendly units enter ready."
   },
   {
     "id": "ogn-113",
@@ -4920,14 +4872,6 @@
     "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nYou may play me to an open battlefield."
   },
   {
-    "id": "ogn-224",
-    "name": "Salvage",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "You may kill a gear. Draw 1.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nYou may kill a gear. Draw 1."
-  },
-  {
     "id": "ven-35",
     "name": "Sanction",
     "set": "VEN",
@@ -5648,14 +5592,6 @@
     "fullText": "Choose an equipped friendly unit. It deals damage equal to its Might to an enemy unit. Then detach an Equipment from it."
   },
   {
-    "id": "ogn-95",
-    "name": "Stupefy",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a unit -1 Might this turn, to a minimum of 1 Might. Draw 1.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a unit -1 Might this turn, to a minimum of 1 Might. Draw 1."
-  },
-  {
     "id": "sfd-17",
     "name": "Sudden Storm",
     "set": "SFD",
@@ -5950,14 +5886,6 @@
     "type": "gear",
     "residualText": "3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)",
     "fullText": "[Equip] 1 EnergyMind Rune (1 EnergyMind Rune: Attach this to a unit you control.)\n3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)"
-  },
-  {
-    "id": "ogn-22",
-    "name": "Thermo Beam",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Kill all gear.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nKill all gear."
   },
   {
     "id": "ogn-116",
@@ -6542,14 +6470,6 @@
     "type": "spell",
     "residualText": "Reveal the top 2 cards of your Main Deck. You may play one of them, reducing its cost by 2 Energy. Draw any you did not play this way.",
     "fullText": "Reveal the top 2 cards of your Main Deck. You may play one of them, reducing its cost by 2 Energy. Draw any you did not play this way."
-  },
-  {
-    "id": "ogn-24",
-    "name": "Void Seeker",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 4 to a unit at a battlefield. Draw 1.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 4 to a unit at a battlefield. Draw 1."
   },
   {
     "id": "unl-201",

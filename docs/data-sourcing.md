@@ -108,23 +108,38 @@ Schritte:
    Unique-Effekt: die Karte landet in `special-cases-todo.json` statt
    automatisch (falsch) als "generisch abgedeckt" markiert zu werden.
 
-## Ergebnis (Stand 2026-08-13, nach drei Ausbaustufen)
+## Ergebnis (Stand 2026-08-13, nach drei Ausbaustufen + erste Bespoke-Runde)
 
 - **1019 Karten** importiert, alle 5 Sets, in `src/cards/data/official-catalog.json`.
-- **81 Karten** vollständig generisch spielbar (nur printed Keywords, kein
+- **80 Karten** vollständig generisch spielbar (nur printed Keywords, kein
   Unique-Text).
-- **59 Karten** automatisch als "Templated Effect" erkannt
+- **63 Karten** automatisch als "Templated Effect" erkannt
   (`src/cards/data/templated-effects.json`, `scripts/match-templated-effects.mjs`).
-- **16 Karten** automatisch als "Activated Ability" erkannt, inkl.
+- **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- Macht **156 von 1019 Karten (~15%) vollständig spielbar ohne eine Zeile
-  kartenspezifischen Code.**
-- **863 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
-- 1 Karte (`ogn-16`, "Dangerous Duo") wurde manuell mit dem bereits
-  existierenden `dangerous-duo`-Special-Case verknüpft — siehe
-  `IMPLEMENTED_SPECIAL_CASES` im Import-Script als Muster für weitere
-  Verknüpfungen.
+- **6 Karten** von Hand implementiert, der Reihe nach ab Origins
+  Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
+  `src/cards/data/special-case-assignments.json` — bewusst getrennt von
+  `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
+  überschreibt): Cleave, Disintegrate, Captain Farron, Thermo Beam,
+  Magma Wurm, Dangerous Duo.
+- Macht **166 von 1019 Karten (~16%) vollständig spielbar.**
+- **853 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+
+### Neue generische Bausteine aus dieser Runde (wiederverwendbar für zukünftige Karten)
+
+- **`grantedThisTurn`** auf `CardInstance`: Keywords, die einer Karte temporär
+  von einer anderen verliehen werden (z.B. Cleave verleiht "Assault 3 this
+  turn"), laufen automatisch durch dieselben Keyword-Hooks wie printed
+  Keywords (`registry.ts` `contextsFor` berücksichtigt jetzt beides).
+- **`othersEnterReady`**: statischer Hook für Karten wie Magma Wurm ("Other
+  friendly units enter ready"), die das Standard-Verhalten "tritt exhausted
+  ein" für andere eigene Karten außer Kraft setzen.
+- **`needsPlayTarget`** als deklaratives Flag auf `SpecialCaseHandler` statt
+  einer von Hand gepflegten Liste in der UI — verhindert, dass eine neue
+  Karte mit Ziel-Bedarf vergessen und dadurch beim Spielen still ohne Ziel
+  ausgeführt wird.
 
 ### Wichtigster Fund dieser Runde: ein zweiter, größerer Daten-Bug
 

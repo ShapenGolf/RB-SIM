@@ -13,17 +13,18 @@ Online-Multiplayer noch nicht aktiviert.
 siehe [`docs/data-sourcing.md`](docs/data-sourcing.md). Spielbarkeits-Stand
 pro Karte:
 
-- **81 Karten** vollständig generisch (nur printed Keywords).
-- **59 Karten** automatisch als "Templated Effect" erkannt (Trigger + Aktion,
+- **80 Karten** vollständig generisch (nur printed Keywords).
+- **63 Karten** automatisch als "Templated Effect" erkannt (Trigger + Aktion,
   z.B. "When you play me, draw 1.") und spielbar
   (`src/cards/data/templated-effects.json` + `src/game/templatedEffectEngine.ts`)
   — kein Code pro Karte nötig.
-- **16 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
+- **17 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
   Exhaust: Effekt", inkl. Domain-Rune-Kosten) und spielbar
   (`src/cards/data/activated-abilities.json`).
-- Macht **156 von 1019 Karten (~15%) vollständig spielbar ohne
-  kartenspezifischen Code.**
-- **863 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
+- **6 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
+  zuerst, der Reihe nach — siehe `src/cards/data/special-case-assignments.json`.
+- Macht **166 von 1019 Karten (~16%) vollständig spielbar.**
+- **853 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
   Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
   Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
 
@@ -88,9 +89,8 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 Wir arbeiten systematisch auf **volle Abdeckung aller Karten** hin (siehe
 `docs/data-sourcing.md` für den aktuellen Stand und die Historie). Reihenfolge:
 
-1. Verbleibende `special-cases-todo.json`-Einträge (863) priorisiert bespoke
-   implementieren — nach Set, Deck-Archetyp, oder was du mit Freunden
-   tatsächlich spielen willst.
+1. Verbleibende `special-cases-todo.json`-Einträge (853, Stand nach den
+   ersten 6 Origins-Karten) der Reihe nach implementieren, Set für Set.
 2. Mehrfach-Ziel-Auswahl und einfache Bedingungen als Erweiterung der
    Templated-Effect-Sprache (mehr Karten automatisch abdecken, bevor sie
    bespoke werden müssen).

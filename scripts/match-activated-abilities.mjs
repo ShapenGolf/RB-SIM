@@ -27,8 +27,10 @@ const ABILITY_PATTERN = new RegExp(
 );
 
 function matchActivatedAbility(text) {
+  // "This enters exhausted." is redundant with our actual default (createInstance always enters
+  // exhausted unless Accelerate paid) — safe to drop before checking for a single-ability shape.
+  const trimmed = text.trim().replace(/^This enters exhausted\.\s*\n?/i, "").trim();
   // Only accept a single-ability card: no second ability line, no other leftover sentences.
-  const trimmed = text.trim();
   if (trimmed.includes("\n")) return null;
   const m = trimmed.match(ABILITY_PATTERN);
   if (!m) return null;

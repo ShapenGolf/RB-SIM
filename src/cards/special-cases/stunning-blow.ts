@@ -3,6 +3,7 @@ import type { SpecialCaseHandler } from "./types";
 /** Stun an enemy Unit. */
 export const stunningBlow: SpecialCaseHandler = {
   cardId: "stunning-blow",
+  needsPlayTarget: true,
   onPlay: (ctx, targetInstanceId) => {
     if (!targetInstanceId) return;
     const target = ctx.game.instances[targetInstanceId];

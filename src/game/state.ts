@@ -1,4 +1,4 @@
-import type { Domain } from "../cards/types";
+import type { Domain, KeywordInstance } from "../cards/types";
 
 export type PlayerId = "0" | "1";
 
@@ -25,6 +25,12 @@ export interface CardInstance {
   xp: number;
   /** Temporary Might bonus granted by other cards' effects "for the rest of the turn". Reset at Awaken. */
   tempMightBonus: number;
+  /**
+   * Keywords granted to this instance "this turn" by another card's effect (e.g. "Give a unit
+   * Assault 3 this turn."), on top of whatever's printed on the card itself. Consumed by
+   * KeywordEngine exactly like printed keywords (see registry.ts `contextsFor`). Reset at Awaken.
+   */
+  grantedThisTurn: KeywordInstance[];
 }
 
 export interface RuneInstance {

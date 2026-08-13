@@ -28,6 +28,7 @@ function battlefieldPseudoInstance(cardId: string, controller: PlayerId): CardIn
     statuses: {},
     xp: 0,
     tempMightBonus: 0,
+    grantedThisTurn: [],
   };
 }
 
@@ -75,7 +76,10 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   runDraw(game, player);
   game.players[player].playedMainDeckCardThisTurn = false;
   for (const instance of Object.values(game.instances)) {
-    if (instance.controller === player) instance.tempMightBonus = 0;
+    if (instance.controller === player) {
+      instance.tempMightBonus = 0;
+      instance.grantedThisTurn = [];
+    }
   }
   game.activePlayer = player;
 }

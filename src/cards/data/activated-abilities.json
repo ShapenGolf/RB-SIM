@@ -232,5 +232,21 @@
         "amount": 1
       }
     ]
+  },
+  "ogn-17": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": 2
+      }
+    ]
   }
 }

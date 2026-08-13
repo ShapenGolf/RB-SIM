@@ -76,7 +76,10 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     delete G.instances[instance.instanceId];
     player.trash.push(cardId);
   } else {
-    instance.exhausted = !(args.payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance));
+    const entersReady =
+      (args.payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
+      SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance);
+    instance.exhausted = !entersReady;
     player.base.push(instance.instanceId);
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, args.targetInstanceId);
