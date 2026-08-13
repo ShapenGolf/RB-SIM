@@ -4,7 +4,7 @@ import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
 import { playCard, activateAbility, attackBattlefield, resolveOptionalCost } from "../src/game/moves";
-import { destroyInstance } from "../src/game/combat";
+import { destroyInstance, resolveHoldTriggers } from "../src/game/combat";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -1003,6 +1003,134 @@ describe("Ravenborn Tome (ogn-32): next spell deals +1 Bonus Damage", () => {
     expect(result).toBeUndefined();
     expect(game.instances[target.instanceId]).toBeUndefined(); // proves the +1 bonus landed
     expect(game.players["0"].nextSpellBonusDamage).toBe(0);
+  });
+});
+
+describe("Ambush: play a unit directly to a Battlefield where you already have units", () => {
+  it("lets an Ambush unit enter play already committed to that Battlefield", () => {
+    const game = makeGame();
+    const anchor = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, anchor.instanceId, 0);
+    game.players["0"].hand = ["unl-2"]; // Inferna, Ambush, Energy 2
+    game.players["0"].runePool = [
+      { instanceId: "r1", domain: "Fury" as const, exhausted: false },
+      { instanceId: "r2", domain: "Fury" as const, exhausted: false },
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["r1", "r2"],
+      powerRuneIds: [],
+      ambushBattlefieldIndex: 0,
+    });
+
+    expect(result).toBeUndefined();
+    const newInstanceId = game.battlefields[0].units["0"].find((id) => game.instances[id].cardId === "unl-2");
+    expect(newInstanceId).toBeDefined();
+    expect(game.instances[newInstanceId!].zone).toBe("battlefield");
+    expect(game.players["0"].base).not.toContain(newInstanceId);
+  });
+
+  it("rejects Ambush onto a Battlefield with no friendly units yet", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["unl-2"];
+    game.players["0"].runePool = [
+      { instanceId: "r1", domain: "Fury" as const, exhausted: false },
+      { instanceId: "r2", domain: "Fury" as const, exhausted: false },
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["r1", "r2"],
+      powerRuneIds: [],
+      ambushBattlefieldIndex: 0,
+    });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+
+  it("rejects a non-Ambush unit from playing directly to a Battlefield", () => {
+    const game = makeGame();
+    const anchor = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, anchor.instanceId, 0);
+    game.players["0"].hand = ["unit-plain-guard"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury" as const, exhausted: false }];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["r1"],
+      powerRuneIds: [],
+      ambushBattlefieldIndex: 0,
+    });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+});
+
+describe("Blitzcrank, Impassive (ogn-67): played to a battlefield, may move an enemy unit here", () => {
+  it("champions may play directly to an empty battlefield without Ambush", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-67"];
+    const card = getCard("ogn-67");
+    game.players["0"].runePool = [{ instanceId: "power", domain: "Calm" as const, exhausted: false }].concat(
+      Array.from({ length: card.energyCost! }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Calm" as const,
+        exhausted: false,
+      })),
+    );
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.filter((r) => r.instanceId !== "power").map((r) => r.instanceId),
+      powerRuneIds: ["power"],
+      ambushBattlefieldIndex: 0,
+    });
+
+    expect(result).toBeUndefined();
+    const newInstanceId = game.battlefields[0].units["0"].find((id) => game.instances[id].cardId === "ogn-67");
+    expect(newInstanceId).toBeDefined();
+  });
+
+  it("pulls a targeted enemy unit onto Blitzcrank's battlefield when played there", () => {
+    const game = makeGame();
+    const blitzcrank = putOnBase(game, "ogn-67", "0");
+    blitzcrank.zone = "battlefield";
+    blitzcrank.battlefieldIndex = 0;
+    game.battlefields[0].units["0"].push(blitzcrank.instanceId);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(blitzcrank.cardId), blitzcrank, enemy.instanceId);
+
+    expect(enemy.zone).toBe("battlefield");
+    expect(enemy.battlefieldIndex).toBe(0);
+    expect(game.battlefields[0].units["1"]).toContain(enemy.instanceId);
+    expect(game.players["1"].base).not.toContain(enemy.instanceId);
+  });
+
+  it("is a no-op when played to base instead of a battlefield", () => {
+    const game = makeGame();
+    const blitzcrank = putOnBase(game, "ogn-67", "0"); // zone stays "base"
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(blitzcrank.cardId), blitzcrank, enemy.instanceId);
+
+    expect(enemy.zone).toBe("base");
+  });
+
+  it("returns to owner's hand when it holds a battlefield", () => {
+    const game = makeGame();
+    const blitzcrank = putOnBase(game, "ogn-67", "0");
+    blitzcrank.zone = "battlefield";
+    blitzcrank.battlefieldIndex = 0;
+    game.battlefields[0].units["0"].push(blitzcrank.instanceId);
+    game.battlefields[0].controller = "0";
+
+    resolveHoldTriggers(game, getCard, "0");
+
+    expect(game.instances[blitzcrank.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("ogn-67");
+    expect(game.battlefields[0].units["0"]).not.toContain(blitzcrank.instanceId);
   });
 });
 

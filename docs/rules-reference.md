@@ -116,7 +116,7 @@ Häufigkeit = Anzahl Vorkommen im Kartentext über alle 5 Sets.
 | **Deathknell** | 27 | ✅ (Event-Hook) | Triggert beim Zerstören, nach Heilung, vor Zonenwechsel. Payload immer Special Case. |
 | **Repeat [Kosten]** | 24 | ⬜ noch kein Handler | Effekt darf gegen Zusatzkosten wiederholt werden. |
 | **Assault [+X]** | 23 | ✅ | +X Might solange ich Attacker bin. |
-| **Ambush** | 23 | ✅ | Darf auf ein von Gegner-Units besetztes Battlefield gespielt werden; erhält dabei Reaction. |
+| **Ambush** | 23 | ✅ (Zieleinstellung + Move-Regel) | Darf als Reaction direkt auf ein Battlefield gespielt werden, wo man **bereits eigene** Units hat (nicht Gegner-Units — frühere Version dieser Zeile hatte das vertauscht). `ambushBattlefieldIndex` in `playCard` (moves.ts), UI-Button in Board.tsx. Reaction-Timing bleibt wie bei allen Reaction-Karten vereinfacht (kein echtes Chain-System). |
 | **Shield [X]** | 21 | ✅ | +X Might solange ich verteidige. |
 | **Weaponmaster** | 20 | ⬜ noch kein Handler | Zusatzkosten-Muster ähnlich Equip, kartenspezifisch. |
 | **Stun** | 18 | ✅ (Status-Check) | Verursacht diesen Zug keinen Kampfschaden. Wird i.d.R. von einer anderen Karte verhängt, nicht selbst getragen. |

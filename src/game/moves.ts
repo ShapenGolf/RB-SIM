@@ -23,6 +23,7 @@ export function resolvePlayedCard(
   instance: CardInstance,
   targetInstanceId: string | undefined,
   payAdditionalCost: boolean,
+  ambushBattlefieldIndex?: number,
 ): void {
   if (card.type === "spell") {
     if (player.nextSpellCostReduction > 0) player.nextSpellCostReduction = 0;
@@ -40,7 +41,13 @@ export function resolvePlayedCard(
       (isUnit && player.nextUnitEntersReady);
     if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
     instance.exhausted = !entersReady;
-    player.base.push(instance.instanceId);
+    if (ambushBattlefieldIndex !== undefined) {
+      instance.zone = "battlefield";
+      instance.battlefieldIndex = ambushBattlefieldIndex;
+      G.battlefields[ambushBattlefieldIndex].units[player.id].push(instance.instanceId);
+    } else {
+      player.base.push(instance.instanceId);
+    }
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
     fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
@@ -57,6 +64,8 @@ export interface PlayCardArgs {
   powerRuneIds: string[];
   payAdditionalCost?: boolean;
   targetInstanceId?: string;
+  /** Play a unit/champion directly to this Battlefield instead of base — only legal with Ambush (see keywords/handlers/ambush.ts), and only onto a Battlefield where the controller already has a unit. */
+  ambushBattlefieldIndex?: number;
 }
 
 export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs) => {
@@ -68,6 +77,19 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   if (card.type === "rune" || card.type === "legend" || card.type === "battlefield") return INVALID_MOVE;
 
   const instance = createInstance(G, cardId, player.id);
+
+  if (args.ambushBattlefieldIndex !== undefined) {
+    if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
+    const slot = G.battlefields[args.ambushBattlefieldIndex];
+    if (!slot) return INVALID_MOVE;
+    // Champions may always choose a Battlefield destination, approximating the real Champion
+    // Zone rules (see docs/rules-reference.md) this engine doesn't otherwise model. Units need
+    // Ambush and an existing friendly unit there.
+    if (card.type === "unit") {
+      if (!KeywordEngine.allowsPlayToOccupiedBattlefield(G, card, instance)) return INVALID_MOVE;
+      if (slot.units[player.id].length === 0) return INVALID_MOVE;
+    }
+  }
 
   const additionalEnergy = args.payAdditionalCost
     ? KeywordEngine.additionalPlayCostEnergy(G, card, instance)
@@ -134,7 +156,15 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     }
   }
 
-  resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
+  resolvePlayedCard(
+    G,
+    player,
+    card,
+    instance,
+    args.targetInstanceId,
+    Boolean(args.payAdditionalCost),
+    args.ambushBattlefieldIndex,
+  );
   return undefined;
 };
 

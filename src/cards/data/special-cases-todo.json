@@ -608,14 +608,6 @@
     "fullText": "You may pay 1 EnergyFury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit at a battlefield."
   },
   {
-    "id": "ogn-67",
-    "name": "Blitzcrank, Impassive",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When you play me to a battlefield, you may move an enemy unit to here.\nWhen I hold, return me to my owner's hand.",
-    "fullText": "[Tank] (I must be assigned combat damage first.)\nWhen you play me to a battlefield, you may move an enemy unit to here.\nWhen I hold, return me to my owner's hand."
-  },
-  {
     "id": "ogn-57",
     "name": "Block",
     "set": "OGN",

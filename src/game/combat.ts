@@ -187,13 +187,14 @@ export function resolveCombat(
 export function resolveHoldTriggers(game: GameState, getCard: (id: string) => Card, player: PlayerId): void {
   game.battlefields.forEach((slot) => {
     if (slot.controller !== player) return;
-    for (const instanceId of slot.units[player]) {
+    for (const instanceId of [...slot.units[player]]) {
       const instance = game.instances[instanceId];
       if (!instance) continue;
       const card = getCard(instance.cardId);
       const xp = KeywordEngine.xpOnConquerOrHold(game, card, instance);
       if (xp > 0) game.players[player].xp += xp;
       fireTemplatedEffect(game, getCard, card, instance, "onHold");
+      SpecialCaseEngine.onHold(game, card, instance);
     }
   });
 }

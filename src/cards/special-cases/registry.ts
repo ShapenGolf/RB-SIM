@@ -48,6 +48,7 @@ import { maskOfForesight } from "./mask-of-foresight";
 import { poroHerder } from "./poro-herder";
 import { spiritsRefuge } from "./spirits-refuge";
 import { ravenbornTome } from "./ravenborn-tome";
+import { blitzcrank } from "./blitzcrank";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -97,6 +98,7 @@ const handlers: SpecialCaseHandler[] = [
   poroHerder,
   spiritsRefuge,
   ravenbornTome,
+  blitzcrank,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -133,6 +135,10 @@ export const SpecialCaseEngine = {
 
   onAttack: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onAttack?.(ctxFor(game, card, instance));
+  },
+
+  onHold: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onHold?.(ctxFor(game, card, instance));
   },
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,

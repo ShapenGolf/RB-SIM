@@ -53,6 +53,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   const [pendingTarget, setPendingTarget] = useState<{
     handIndex: number;
     payAdditionalCost: boolean;
+    ambushBattlefieldIndex?: number;
   } | null>(null);
   const [pendingAbility, setPendingAbility] = useState<{ instanceId: string } | null>(null);
 
@@ -67,7 +68,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   const player = G.players[me];
   const opponentId: PlayerId = me === "0" ? "1" : "0";
 
-  function playCardAuto(handIndex: number, payAdditionalCost: boolean) {
+  function playCardAuto(handIndex: number, payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
     const cardId = player.hand[handIndex];
     const card = getCard(cardId);
     const dummyInstance: CardInstance = {
@@ -89,7 +90,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       return;
     }
     if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
-      setPendingTarget({ handIndex, payAdditionalCost });
+      setPendingTarget({ handIndex, payAdditionalCost, ambushBattlefieldIndex });
       return;
     }
     moves.playCard({
@@ -97,6 +98,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       energyRuneIds: payment.energyRuneIds,
       powerRuneIds: payment.powerRuneIds,
       payAdditionalCost,
+      ambushBattlefieldIndex,
     });
   }
 
@@ -125,6 +127,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       powerRuneIds: payment.powerRuneIds,
       payAdditionalCost: pendingTarget.payAdditionalCost,
       targetInstanceId,
+      ambushBattlefieldIndex: pendingTarget.ambushBattlefieldIndex,
     });
     setPendingTarget(null);
   }
@@ -261,6 +264,14 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const card = getCard(cardId);
           const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
           const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
+          const isChampion = card.type === "champion";
+          const hasAmbush = KeywordEngine.hasKeyword(card, "ambush");
+          const ambushBattlefields =
+            (card.type === "unit" && hasAmbush) || isChampion
+              ? G.battlefields
+                  .map((slot, i) => ({ index: i, hasOwnUnits: slot.units[me].length > 0 }))
+                  .filter((b) => isChampion || b.hasOwnUnits)
+              : [];
           return (
             <div key={idx} style={{ border: "1px solid #444", borderRadius: 6, padding: 6, margin: "4px 0" }}>
               <strong>{card.name}</strong>{" "}
@@ -282,6 +293,15 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                       Spielen (discard {discardCostConfig.discardCount}, -{discardCostConfig.energyReduction}E)
                     </button>
                   )}
+                  {ambushBattlefields.map((b) => (
+                    <button
+                      key={b.index}
+                      style={{ marginLeft: 6 }}
+                      onClick={() => playCardAuto(idx, false, b.index)}
+                    >
+                      Spielen ({isChampion ? "zu" : "Ambush →"} Battlefield {b.index + 1})
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
