@@ -1,4 +1,4 @@
-import type { Card } from "../types";
+import type { Card, Domain } from "../types";
 import type { CardInstance, GameState } from "../../game/state";
 
 export interface SpecialCaseContext {
@@ -52,4 +52,26 @@ export interface SpecialCaseHandler {
 
   /** True if, while this is in play, other friendly units entering play should enter ready instead of exhausted. */
   othersEnterReady?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * Broadcast to every board instance the controller owns whenever THAT PLAYER plays any card
+   * (this instance included) — for "when you play a/your Nth card..." effects that react to
+   * something other than their own being played. `playedCard` is the card that was just played;
+   * `playCountThisTurn` is 1 for the first card that player played this turn, 2 for the second, etc.
+   */
+  onAllyCardPlayed?(ctx: SpecialCaseContext, playedCard: Card, playCountThisTurn: number): void;
+
+  /**
+   * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be
+   * expressed as fixed-amount TemplatedActions (e.g. "deal damage equal to my Might") — the
+   * data-driven `Card.activatedAbility` (see cards/templatedEffects.ts) covers the fixed-amount
+   * case; this covers the rest. `activateAbility` in moves.ts checks both.
+   */
+  readonly activatedAbilityCost?: { energy: number; runeDomain?: Domain; exhaustSelf: boolean };
+
+  /** Set when the bespoke activated ability needs a player-chosen target. */
+  readonly activateNeedsTarget?: boolean;
+
+  /** Executes a bespoke activated ability's effect. */
+  onActivate?(ctx: SpecialCaseContext, targetInstanceId?: string): void;
 }

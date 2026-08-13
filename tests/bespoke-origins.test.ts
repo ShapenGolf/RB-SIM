@@ -197,3 +197,95 @@ describe("Rune Prison / Solari Shieldbearer (shared stun-any-unit): can stun eit
     expect(enemy.statuses.stunned).toBe(true);
   });
 });
+
+describe("Raging Soul (ogn-19): conditional Assault, data-bug workaround", () => {
+  it("has no net Assault bonus when no card was discarded this turn", () => {
+    const game = makeGame();
+    const soul = putOnBase(game, "ogn-19", "0");
+    const card = getCard(soul.cardId);
+    const withAssaultKeywordOnly = card.might! + 1; // printed (mis-imported unconditional) Assault 1
+    const attacking = computeMight(game, getCard, soul, "attacking");
+
+    expect(attacking).toBe(card.might); // neutralized back down to base
+    expect(attacking).not.toBe(withAssaultKeywordOnly);
+  });
+
+  it("keeps the +1 Assault once a card has been discarded this turn", () => {
+    const game = makeGame();
+    const soul = putOnBase(game, "ogn-19", "0");
+    const card = getCard(soul.cardId);
+    game.players["0"].discardedCardThisTurn = true;
+
+    expect(computeMight(game, getCard, soul, "attacking")).toBe(card.might! + 1);
+  });
+});
+
+describe("Darius, Trifarian (ogn-27): buffed on the controller's second card of the turn", () => {
+  it("does nothing on the first card, triggers on the second, not the third", () => {
+    const game = makeGame();
+    const darius = putOnBase(game, "ogn-27", "0", { exhausted: true });
+    const card = getCard(darius.cardId);
+
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", card, 1);
+    expect(darius.tempMightBonus).toBe(0);
+    expect(darius.exhausted).toBe(true);
+
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", card, 2);
+    expect(darius.tempMightBonus).toBe(2);
+    expect(darius.exhausted).toBe(false);
+
+    darius.exhausted = true; // simulate it having acted again since
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", card, 3);
+    expect(darius.tempMightBonus).toBe(2); // unchanged, still just the one grant
+    expect(darius.exhausted).toBe(true);
+  });
+
+  it("does not react to the opponent playing their second card", () => {
+    const game = makeGame();
+    const darius = putOnBase(game, "ogn-27", "0", { exhausted: true });
+
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "1", getCard(darius.cardId), 2);
+
+    expect(darius.tempMightBonus).toBe(0);
+    expect(darius.exhausted).toBe(true);
+  });
+});
+
+describe("Caitlyn, Patrolling (ogn-68): Exhaust, deal damage equal to my Might", () => {
+  it("deals damage equal to its own current Might, only while at a battlefield", () => {
+    const game = makeGame();
+    const caitlyn = putOnBase(game, "ogn-68", "0", { exhausted: false });
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+    moveToBattlefield(game, caitlyn.instanceId, 0);
+    moveToBattlefield(game, target.instanceId, 0);
+    const expectedDamage = computeMight(game, getCard, caitlyn, "none");
+
+    SpecialCaseEngine.onActivate(game, getCard(caitlyn.cardId), caitlyn, target.instanceId);
+
+    expect(target.damage).toBe(expectedDamage);
+  });
+
+  it("does nothing while not at a battlefield", () => {
+    const game = makeGame();
+    const caitlyn = putOnBase(game, "ogn-68", "0", { exhausted: false }); // still on base, not a battlefield
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+
+    SpecialCaseEngine.onActivate(game, getCard(caitlyn.cardId), caitlyn, target.instanceId);
+
+    expect(target.damage).toBe(0);
+  });
+});
+
+describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
+  it("stacks its own bonus on top of the standard Buff +1", () => {
+    const game = makeGame();
+    const elder = putOnBase(game, "ogn-65", "0");
+    const card = getCard(elder.cardId);
+    const baseline = computeMight(game, getCard, elder, "none");
+
+    elder.statuses.buffed = true;
+
+    expect(computeMight(game, getCard, elder, "none")).toBe(baseline + 2); // +1 standard Buff, +1 Wizened Elder's own
+    expect(card.might).toBe(baseline);
+  });
+});

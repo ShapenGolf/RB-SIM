@@ -87,6 +87,8 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   }
 
   player.playedMainDeckCardThisTurn = true;
+  player.cardsPlayedThisTurn += 1;
+  SpecialCaseEngine.onAllyCardPlayed(G, getCard, player.id, card, player.cardsPlayedThisTurn);
   return undefined;
 };
 
@@ -159,11 +161,13 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (!instance || instance.controller !== player.id) return INVALID_MOVE;
 
   const card = getCard(instance.cardId);
-  const ability = card.activatedAbility;
-  if (!ability) return INVALID_MOVE;
-  if (ability.cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
-  if (args.energyRuneIds.length !== ability.cost.energy) return INVALID_MOVE;
-  if (Boolean(ability.cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
+  // Data-driven (fixed-amount TemplatedActions) or bespoke (dynamic effect, e.g. "equal to my
+  // Might") activated ability — see SpecialCaseHandler.activatedAbilityCost for the latter.
+  const cost = card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(card);
+  if (!cost) return INVALID_MOVE;
+  if (cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
+  if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
+  if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
 
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
@@ -174,7 +178,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (args.powerRuneId) {
     if (seen.has(args.powerRuneId)) return INVALID_MOVE;
     const rune = player.runePool.find((r) => r.instanceId === args.powerRuneId);
-    if (!rune || rune.domain !== ability.cost.runeDomain) return INVALID_MOVE;
+    if (!rune || rune.domain !== cost.runeDomain) return INVALID_MOVE;
   }
 
   for (const runeId of args.energyRuneIds) {
@@ -185,9 +189,13 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
     const [rune] = player.runePool.splice(idx, 1);
     player.runeDeck.push(rune);
   }
-  if (ability.cost.exhaustSelf) instance.exhausted = true;
+  if (cost.exhaustSelf) instance.exhausted = true;
 
-  runTemplatedActions(G, getCard, instance, ability.actions, args.targetInstanceId);
+  if (card.activatedAbility) {
+    runTemplatedActions(G, getCard, instance, card.activatedAbility.actions, args.targetInstanceId);
+  } else {
+    SpecialCaseEngine.onActivate(G, card, instance, args.targetInstanceId);
+  }
   return undefined;
 };
 

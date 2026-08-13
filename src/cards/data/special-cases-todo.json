@@ -816,14 +816,6 @@
     "fullText": "[Reaction][>] RuneRune, Exhaust: [Add] 2 Energy. Spend this Energy only to play units or activated abilities of units."
   },
   {
-    "id": "ogn-68",
-    "name": "Caitlyn, Patrolling",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "I must be assigned combat damage last.\nExhaust: Deal damage equal to my Might to a unit at a battlefield. Use this ability only while I'm at a battlefield.",
-    "fullText": "I must be assigned combat damage last.\nExhaust: Deal damage equal to my Might to a unit at a battlefield. Use this ability only while I'm at a battlefield."
-  },
-  {
     "id": "unl-101",
     "name": "Call to Battle",
     "set": "UNL",
@@ -1198,14 +1190,6 @@
     "type": "champion",
     "residualText": "\u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
     "fullText": "[Legion] \u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here."
-  },
-  {
-    "id": "ogn-27",
-    "name": "Darius, Trifarian",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When you play your second card in a turn, give me +2 Might this turn and ready me.",
-    "fullText": "When you play your second card in a turn, give me +2 Might this turn and ready me."
   },
   {
     "id": "ogs-17",
@@ -4384,14 +4368,6 @@
     "fullText": "When you play me, the next spell you play this turn costs 5 Energy less."
   },
   {
-    "id": "ogn-19",
-    "name": "Raging Soul",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "If you've discarded a card this turn, I have  and . (+1 Might while I'm an attacker. I can move from battlefield to battlefield.)",
-    "fullText": "If you've discarded a card this turn, I have [Assault] and [Ganking]. (+1 Might while I'm an attacker. I can move from battlefield to battlefield.)"
-  },
-  {
     "id": "sfd-166",
     "name": "Rally the Troops",
     "set": "SFD",
@@ -6574,14 +6550,6 @@
     "type": "battlefield",
     "residualText": "Units here have . (They can move from battlefield to battlefield.)",
     "fullText": "Units here have [Ganking]. (They can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ogn-65",
-    "name": "Wizened Elder",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "While I'm buffed, I have an additional +1 Might.",
-    "fullText": "While I'm buffed, I have an additional +1 Might."
   },
   {
     "id": "ogn-118",

@@ -60,6 +60,8 @@ export interface PlayerState {
   hasTakenFirstTurn: boolean;
   /** Set true once this player has discarded a card this turn (e.g. "If you've discarded a card this turn, ..."). Reset at Awaken. */
   discardedCardThisTurn: boolean;
+  /** Count of cards this player has played this turn, for "when you play your second card..." effects. Reset at Awaken. */
+  cardsPlayedThisTurn: number;
 }
 
 export interface BattlefieldSlot {

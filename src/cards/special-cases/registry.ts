@@ -1,5 +1,5 @@
 import type { Card } from "../types";
-import type { CardInstance, GameState } from "../../game/state";
+import type { CardInstance, GameState, PlayerId } from "../../game/state";
 import type { SpecialCaseContext, SpecialCaseHandler } from "./types";
 import { dangerousDuo } from "./dangerous-duo";
 import { doomedRecruit } from "./doomed-recruit";
@@ -16,6 +16,10 @@ import { adaptatron } from "./adaptatron";
 import { dravenShowboat } from "./draven-showboat";
 import { wielderOfWater } from "./wielder-of-water";
 import { stunAnyUnit } from "./stun-any-unit";
+import { ragingSoul } from "./raging-soul";
+import { dariusTrifarian } from "./darius-trifarian";
+import { caitlynPatrolling } from "./caitlyn-patrolling";
+import { wizenedElder } from "./wizened-elder";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -33,6 +37,10 @@ const handlers: SpecialCaseHandler[] = [
   dravenShowboat,
   wielderOfWater,
   stunAnyUnit,
+  ragingSoul,
+  dariusTrifarian,
+  caitlynPatrolling,
+  wizenedElder,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -61,6 +69,30 @@ export const SpecialCaseEngine = {
 
   onConquer: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onConquer?.(ctxFor(game, card, instance));
+  },
+
+  activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,
+
+  activateNeedsTarget: (card: Card) => getSpecialCaseHandler(card)?.activateNeedsTarget ?? false,
+
+  onActivate: (game: GameState, card: Card, instance: CardInstance, targetInstanceId?: string) => {
+    getSpecialCaseHandler(card)?.onActivate?.(ctxFor(game, card, instance), targetInstanceId);
+  },
+
+  /** Broadcasts a just-played card to every board instance `player` controls with an `onAllyCardPlayed` hook. */
+  onAllyCardPlayed: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    player: PlayerId,
+    playedCard: Card,
+    playCountThisTurn: number,
+  ) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== player) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyCardPlayed?.(ctxFor(game, card, instance), playedCard, playCountThisTurn);
+    }
   },
 
   onBeginningWhileHeld: (game: GameState, card: Card, instance: CardInstance) => {

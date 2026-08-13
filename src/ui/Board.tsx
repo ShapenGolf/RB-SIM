@@ -5,7 +5,7 @@ import { getCard } from "../cards/db";
 import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
-import { specialCaseNeedsPlayTarget } from "../cards/special-cases/registry";
+import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
 
 function keywordSummary(cardId: string): string {
   const card = getCard(cardId);
@@ -129,15 +129,23 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setPendingTarget(null);
   }
 
-  function computeAbilityPayment(ability: NonNullable<ReturnType<typeof getCard>["activatedAbility"]>) {
-    const powerRune = ability.cost.runeDomain
-      ? player.runePool.find((r) => r.domain === ability.cost.runeDomain)
-      : undefined;
-    if (ability.cost.runeDomain && !powerRune) return null;
+  function abilityCostFor(card: ReturnType<typeof getCard>) {
+    return card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(card);
+  }
+
+  function abilityNeedsTargetFor(card: ReturnType<typeof getCard>) {
+    return card.activatedAbility
+      ? activatedAbilityNeedsTarget(card.activatedAbility)
+      : SpecialCaseEngine.activateNeedsTarget(card);
+  }
+
+  function computeAbilityPayment(cost: NonNullable<ReturnType<typeof abilityCostFor>>) {
+    const powerRune = cost.runeDomain ? player.runePool.find((r) => r.domain === cost.runeDomain) : undefined;
+    if (cost.runeDomain && !powerRune) return null;
     const readyRunes = player.runePool.filter((r) => !r.exhausted && r.instanceId !== powerRune?.instanceId);
-    if (readyRunes.length < ability.cost.energy) return null;
+    if (readyRunes.length < cost.energy) return null;
     return {
-      energyRuneIds: readyRunes.slice(0, ability.cost.energy).map((r) => r.instanceId),
+      energyRuneIds: readyRunes.slice(0, cost.energy).map((r) => r.instanceId),
       powerRuneId: powerRune?.instanceId,
     };
   }
@@ -145,14 +153,14 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   function activateAbilityAuto(instanceId: string) {
     const instance = G.instances[instanceId];
     const card = getCard(instance.cardId);
-    const ability = card.activatedAbility;
-    if (!ability) return;
-    const payment = computeAbilityPayment(ability);
+    const cost = abilityCostFor(card);
+    if (!cost) return;
+    const payment = computeAbilityPayment(cost);
     if (!payment) {
       window.alert("Nicht genug Runen, um diese Fähigkeit zu aktivieren.");
       return;
     }
-    if (activatedAbilityNeedsTarget(ability)) {
+    if (abilityNeedsTargetFor(card)) {
       setPendingAbility({ instanceId });
       return;
     }
@@ -163,9 +171,9 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     if (!pendingAbility) return;
     const instance = G.instances[pendingAbility.instanceId];
     const card = getCard(instance.cardId);
-    const ability = card.activatedAbility;
-    if (!ability) return;
-    const payment = computeAbilityPayment(ability);
+    const cost = abilityCostFor(card);
+    if (!cost) return;
+    const payment = computeAbilityPayment(cost);
     if (!payment) return;
     moves.activateAbility({
       instanceId: pendingAbility.instanceId,
@@ -290,11 +298,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                 selected={isUnit ? attackMode?.selected.has(id) : undefined}
                 onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
               />
-              {canAct && card.activatedAbility && (!card.activatedAbility.cost.exhaustSelf || !instance.exhausted) && (
-                <button style={{ fontSize: 11 }} onClick={() => activateAbilityAuto(id)}>
-                  Aktivieren (E{card.activatedAbility.cost.energy})
-                </button>
-              )}
+              {canAct &&
+                abilityCostFor(card) &&
+                (!abilityCostFor(card)!.exhaustSelf || !instance.exhausted) && (
+                  <button style={{ fontSize: 11 }} onClick={() => activateAbilityAuto(id)}>
+                    Aktivieren (E{abilityCostFor(card)!.energy})
+                  </button>
+                )}
             </div>
           );
         })}
