@@ -1170,6 +1170,51 @@ describe("Last Stand (ogn-69): double Might this turn, give it Temporary", () =>
   });
 });
 
+describe("Solari Shrine (ogn-72): when you kill a stunned enemy unit, may exhaust to draw 1", () => {
+  it("exhausts and draws when a stunned enemy unit dies to spell damage", () => {
+    const game = makeGame();
+    const shrine = putOnBase(game, "ogn-72", "0", { exhausted: false });
+    const spell = putOnBase(game, "ogn-5", "0"); // Disintegrate, deals 3
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    target.statuses.stunned = true;
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(shrine.exhausted).toBe(true);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+
+  it("does not react to a non-stunned kill", () => {
+    const game = makeGame();
+    const shrine = putOnBase(game, "ogn-72", "0", { exhausted: false });
+    const spell = putOnBase(game, "ogn-5", "0");
+    const target = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    // Disintegrate's own "if this kills it, draw 1" still fires independently of Solari
+    // Shrine — only the exhaust state distinguishes whether Solari Shrine itself reacted.
+    expect(shrine.exhausted).toBe(false);
+  });
+
+  it("also reacts to a stunned unit killed in combat", () => {
+    const game = makeGame();
+    const shrine = putOnBase(game, "ogn-72", "0", { exhausted: false });
+    const attacker = putOnBase(game, "unit-vanguard-striker", "0", { exhausted: false });
+    const defender = putOnBase(game, "unit-plain-guard", "1");
+    defender.statuses.stunned = true;
+    moveToBattlefield(game, defender.instanceId, 0);
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    const result = attackBattlefield(ctx(game, "0"), { battlefieldIndex: 0, unitInstanceIds: [attacker.instanceId] });
+
+    expect(result).toBeUndefined();
+    expect(shrine.exhausted).toBe(true);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

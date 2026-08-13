@@ -24,5 +24,6 @@ export function dealSpellDamage(
   if (target.damage >= toughness) {
     destroyInstance(game, getCard, targetInstanceId);
     SpecialCaseEngine.onAllyKillWithSpell(game, getCard, controller, target);
+    SpecialCaseEngine.onAllyKillUnit(game, getCard, controller, target);
   }
 }

@@ -168,8 +168,12 @@ export function resolveCombat(
   const destroyedAttackers = attackerIds.filter(
     (id) => game.instances[id] && game.instances[id].damage >= toughness(game, getCard, id, "attacking"),
   );
+  const killedByAttacker = destroyedDefenders.map((id) => game.instances[id]);
+  const killedByDefender = destroyedAttackers.map((id) => game.instances[id]);
   for (const id of destroyedDefenders) destroyInstance(game, getCard, id);
   for (const id of destroyedAttackers) destroyInstance(game, getCard, id);
+  for (const killed of killedByAttacker) SpecialCaseEngine.onAllyKillUnit(game, getCard, attacker, killed);
+  for (const killed of killedByDefender) SpecialCaseEngine.onAllyKillUnit(game, getCard, defender, killed);
 
   for (const id of [...slot.units[attacker], ...slot.units[defender]]) {
     const instance = game.instances[id];

@@ -77,6 +77,9 @@ export interface SpecialCaseHandler {
   /** Broadcast to every board instance the controller owns whenever THAT PLAYER stuns an enemy unit (see cards/special-cases/stun.ts `applyStun`). */
   onAllyStun?(ctx: SpecialCaseContext, stunnedInstance: CardInstance): void;
 
+  /** Broadcast to every board instance the controller owns whenever THAT PLAYER kills an enemy unit, from any source (combat or spell damage) — see game/combat.ts destroyInstance call sites. `killedInstance` reflects its statuses at the moment of death. */
+  onAllyKillUnit?(ctx: SpecialCaseContext, killedInstance: CardInstance): void;
+
   /**
    * Optional "discard N as an additional cost" cost reduction, paid via the existing
    * `payAdditionalCost` play flag (see keywords/handlers/accelerate.ts for the "pay more"

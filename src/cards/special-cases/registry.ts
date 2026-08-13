@@ -50,6 +50,7 @@ import { spiritsRefuge } from "./spirits-refuge";
 import { ravenbornTome } from "./ravenborn-tome";
 import { blitzcrank } from "./blitzcrank";
 import { lastStand } from "./last-stand";
+import { solariShrine } from "./solari-shrine";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -101,6 +102,7 @@ const handlers: SpecialCaseHandler[] = [
   ravenbornTome,
   blitzcrank,
   lastStand,
+  solariShrine,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -215,6 +217,21 @@ export const SpecialCaseEngine = {
 
   onOptionalCostPaid: (game: GameState, specialCaseId: string, playerId: PlayerId, payload?: string) => {
     getSpecialCaseHandlerById(specialCaseId)?.onOptionalCostPaid?.(game, playerId, payload);
+  },
+
+  /** Broadcasts a just-killed enemy unit to every board instance `killingController` controls with an `onAllyKillUnit` hook. */
+  onAllyKillUnit: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    killingController: PlayerId,
+    killedInstance: CardInstance,
+  ) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== killingController) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyKillUnit?.(ctxFor(game, card, instance), killedInstance);
+    }
   },
 
   onBeginningWhileHeld: (game: GameState, card: Card, instance: CardInstance) => {
