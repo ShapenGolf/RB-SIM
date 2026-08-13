@@ -3072,14 +3072,6 @@
     "fullText": "[Assault] (+1 Might while I'm an attacker.)\n[Deathknell][>] Draw 1. If it's your Beginning Phase, draw 2 instead. (When I die, get the effect.)"
   },
   {
-    "id": "ogn-78",
-    "name": "Lee Sin, Ascetic",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "Exhaust: Buff me. (I get a +1 Might buff.)\nI can have any number of buffs.",
-    "fullText": "[Shield] (+1 Might while I'm a defender.)\nExhaust: Buff me. (I get a +1 Might buff.)\nI can have any number of buffs."
-  },
-  {
     "id": "ogn-151",
     "name": "Lee Sin, Centered",
     "set": "OGN",
@@ -5064,14 +5056,6 @@
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might and [Deflect 2]. (Opponents must pay RuneRune to choose me with a spell or ability.)"
   },
   {
-    "id": "ogn-73",
-    "name": "Sona, Harmonious",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "While I'm at a battlefield, ready 4 friendly runes at the end of your turn.",
-    "fullText": "While I'm at a battlefield, ready 4 friendly runes at the end of your turn."
-  },
-  {
     "id": "sfd-239",
     "name": "Soraka, Wanderer",
     "set": "SFD",
@@ -5438,22 +5422,6 @@
     "type": "unit",
     "residualText": "I have +4 Might. (While you have 11+ XP, get the effect.)",
     "fullText": "[Level 11][>] I have +4 Might. (While you have 11+ XP, get the effect.)"
-  },
-  {
-    "id": "ogn-74",
-    "name": "Taric, Protector",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "Other friendly units here have .",
-    "fullText": "[Shield] (+1 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nOther friendly units here have [Shield]."
-  },
-  {
-    "id": "ogn-75",
-    "name": "Tasty Faefolk",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 Channel 2 runes exhausted and draw 1. (When I die, get the effect.)",
-    "fullText": "[Accelerate] (You may pay 1 EnergyCalm Rune as an additional cost to have me enter ready.)\n[Deathknell] \u2014 Channel 2 runes exhausted and draw 1. (When I die, get the effect.)"
   },
   {
     "id": "sfd-230",
@@ -6224,14 +6192,6 @@
     "fullText": "I enter ready.\nWhen I attack, kill all damaged enemy units here."
   },
   {
-    "id": "ogn-96",
-    "name": "Watchful Sentry",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 Draw 1. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 Draw 1. (When I die, get the effect.)"
-  },
-  {
     "id": "ogn-187",
     "name": "Whirlwind",
     "set": "OGN",
@@ -6342,14 +6302,6 @@
     "type": "champion",
     "residualText": "I enter ready if you have two or more other units in your base.",
     "fullText": "[Tank] (I must be assigned combat damage first.)\nI enter ready if you have two or more other units in your base."
-  },
-  {
-    "id": "ogn-76",
-    "name": "Yasuo, Remorseful",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I attack, deal damage equal to my Might to an enemy unit here.",
-    "fullText": "When I attack, deal damage equal to my Might to an enemy unit here."
   },
   {
     "id": "sfd-235",

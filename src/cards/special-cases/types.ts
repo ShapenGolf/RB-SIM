@@ -41,6 +41,9 @@ export interface SpecialCaseHandler {
   /** Called for every unit a player holds a Battlefield with, at their Beginning step — alongside the generic onHold templated trigger. */
   onHold?(ctx: SpecialCaseContext): void;
 
+  /** Called for every instance a player controls at the end of their own turn, just before it passes to the opponent. */
+  onEndOfTurn?(ctx: SpecialCaseContext): void;
+
   /**
    * Might bonus this Gear/static-effect card grants to a given ally unit
    * instance while it attacks. Only relevant for Gear/Battlefield cards

@@ -337,6 +337,11 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
   return undefined;
 };
 
-export const endTurn: MoveFn<GameState> = ({ events }) => {
+export const endTurn: MoveFn<GameState> = ({ G, playerID, events }) => {
+  const player = playerID as "0" | "1";
+  for (const instance of Object.values(G.instances)) {
+    if (instance.controller !== player) continue;
+    SpecialCaseEngine.onEndOfTurn(G, getCard(instance.cardId), instance);
+  }
   events.endTurn();
 };

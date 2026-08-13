@@ -51,6 +51,12 @@ import { ravenbornTome } from "./ravenborn-tome";
 import { blitzcrank } from "./blitzcrank";
 import { lastStand } from "./last-stand";
 import { solariShrine } from "./solari-shrine";
+import { sona } from "./sona";
+import { taric } from "./taric";
+import { tastyFaefolk } from "./tasty-faefolk";
+import { watchfulSentry } from "./watchful-sentry";
+import { leeSin } from "./lee-sin";
+import { yasuo } from "./yasuo";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -103,6 +109,12 @@ const handlers: SpecialCaseHandler[] = [
   blitzcrank,
   lastStand,
   solariShrine,
+  sona,
+  taric,
+  tastyFaefolk,
+  watchfulSentry,
+  leeSin,
+  yasuo,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -143,6 +155,10 @@ export const SpecialCaseEngine = {
 
   onHold: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onHold?.(ctxFor(game, card, instance));
+  },
+
+  onEndOfTurn: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onEndOfTurn?.(ctxFor(game, card, instance));
   },
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,

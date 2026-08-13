@@ -3,7 +3,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
-import { playCard, activateAbility, attackBattlefield, resolveOptionalCost } from "../src/game/moves";
+import { playCard, activateAbility, attackBattlefield, resolveOptionalCost, endTurn } from "../src/game/moves";
 import { destroyInstance, resolveHoldTriggers } from "../src/game/combat";
 import { runBeginning } from "../src/game/turnFlow";
 import { makeGame, putOnBase } from "./helpers";
@@ -11,6 +11,10 @@ import type { GameState } from "../src/game/state";
 
 function ctx(G: GameState, playerID: "0" | "1") {
   return { G, playerID } as unknown as Parameters<typeof playCard>[0];
+}
+
+function endTurnFor(G: GameState, playerID: "0" | "1") {
+  endTurn({ G, playerID, events: { endTurn: () => {} } } as unknown as Parameters<typeof endTurn>[0], undefined as never);
 }
 
 function moveToBattlefield(game: ReturnType<typeof makeGame>, instanceId: string, battlefieldIndex: number) {
@@ -1212,6 +1216,116 @@ describe("Solari Shrine (ogn-72): when you kill a stunned enemy unit, may exhaus
     expect(result).toBeUndefined();
     expect(shrine.exhausted).toBe(true);
     expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Sona, Harmonious (ogn-73): ready 4 friendly runes at end of turn while at a battlefield", () => {
+  it("readies up to 4 exhausted runes", () => {
+    const game = makeGame();
+    const sona = putOnBase(game, "ogn-73", "0");
+    moveToBattlefield(game, sona.instanceId, 0);
+    game.players["0"].runePool = Array.from({ length: 5 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Calm" as const,
+      exhausted: true,
+    }));
+
+    endTurnFor(game, "0");
+
+    const readyCount = game.players["0"].runePool.filter((r) => !r.exhausted).length;
+    expect(readyCount).toBe(4);
+  });
+
+  it("does nothing while not at a battlefield", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-73", "0");
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Calm" as const, exhausted: true }];
+
+    endTurnFor(game, "0");
+
+    expect(game.players["0"].runePool[0].exhausted).toBe(true);
+  });
+});
+
+describe("Taric, Protector (ogn-74): other friendly units here have Shield", () => {
+  it("gives a defending ally at the same battlefield +1 Might", () => {
+    const game = makeGame();
+    const taric = putOnBase(game, "ogn-74", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, taric.instanceId, 0);
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    const bonus = SpecialCaseEngine.defendingMightBonusFromAllies(game, getCard, ally);
+
+    expect(bonus).toBe(1);
+  });
+});
+
+describe("Tasty Faefolk (ogn-75): Deathknell — channel 2 exhausted, draw 1", () => {
+  it("channels 2 exhausted runes and draws on destroy", () => {
+    const game = makeGame();
+    const faefolk = putOnBase(game, "ogn-75", "0");
+    game.players["0"].runeDeck = [
+      { instanceId: "r1", domain: "Calm", exhausted: false },
+      { instanceId: "r2", domain: "Calm", exhausted: false },
+    ];
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    destroyInstance(game, getCard, faefolk.instanceId);
+
+    expect(game.players["0"].runePool.every((r) => r.exhausted)).toBe(true);
+    expect(game.players["0"].runePool.length).toBe(2);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Watchful Sentry (ogn-96): Deathknell — draw 1", () => {
+  it("draws a card on destroy", () => {
+    const game = makeGame();
+    const sentry = putOnBase(game, "ogn-96", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    destroyInstance(game, getCard, sentry.instanceId);
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Lee Sin, Ascetic (ogn-78): Exhaust: Buff me, any number of buffs", () => {
+  it("stacks Might with repeated activations", () => {
+    const game = makeGame();
+    const leeSin = putOnBase(game, "ogn-78", "0", { exhausted: false });
+    const baseline = computeMight(game, getCard, leeSin, "none");
+
+    activateAbility(ctx(game, "0"), { instanceId: leeSin.instanceId, energyRuneIds: [] });
+    leeSin.exhausted = false; // simulate readying between activations
+    activateAbility(ctx(game, "0"), { instanceId: leeSin.instanceId, energyRuneIds: [] });
+    leeSin.exhausted = false;
+    activateAbility(ctx(game, "0"), { instanceId: leeSin.instanceId, energyRuneIds: [] });
+
+    expect(computeMight(game, getCard, leeSin, "none")).toBe(baseline + 3);
+  });
+});
+
+describe("Yasuo, Remorseful (ogn-76): on attack, deal damage equal to my Might to an enemy unit here", () => {
+  it("kills a weaker enemy unit at the same battlefield", () => {
+    const game = makeGame();
+    const yasuo = putOnBase(game, "ogn-76", "0", { exhausted: false });
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, yasuo.instanceId, 0);
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(yasuo.cardId), yasuo);
+
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+  });
+
+  it("does nothing without an enemy unit here", () => {
+    const game = makeGame();
+    const yasuo = putOnBase(game, "ogn-76", "0", { exhausted: false });
+    moveToBattlefield(game, yasuo.instanceId, 0);
+
+    expect(() => SpecialCaseEngine.onAttack(game, getCard(yasuo.cardId), yasuo)).not.toThrow();
   });
 });
 
