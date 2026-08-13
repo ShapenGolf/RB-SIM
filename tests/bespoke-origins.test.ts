@@ -371,6 +371,43 @@ describe("Brazen Buccaneer (ogn-2): discard 1 as additional cost to reduce cost 
   });
 });
 
+describe("Get Excited! (ogn-8): discard 1, deal its Energy cost as damage", () => {
+  it("deals damage equal to the discarded card's Energy cost", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-8", "0");
+    game.players["0"].hand = ["ogn-4"]; // Cleave, Energy 2
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.damage).toBe(getCard("ogn-4").energyCost);
+    expect(game.players["0"].trash).toContain("ogn-4");
+    expect(game.players["0"].discardedCardThisTurn).toBe(true);
+  });
+
+  it("destroys the target if the damage is lethal", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-8", "0");
+    game.players["0"].hand = ["ogn-2"]; // Brazen Buccaneer, Energy 6
+    const target = putOnBase(game, "unit-plain-guard", "1"); // low Might
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+  });
+
+  it("does nothing if hand is empty", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-8", "0");
+    game.players["0"].hand = [];
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.damage).toBe(0);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

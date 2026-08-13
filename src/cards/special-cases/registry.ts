@@ -27,6 +27,7 @@ import { dianaNoLongerHuman } from "./diana-no-longer-human";
 import { revnaTheLorekeeper } from "./revna-the-lorekeeper";
 import { eclipseHerald } from "./eclipse-herald";
 import { brazenBuccaneer } from "./brazen-buccaneer";
+import { getExcited } from "./get-excited";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -55,6 +56,7 @@ const handlers: SpecialCaseHandler[] = [
   revnaTheLorekeeper,
   eclipseHerald,
   brazenBuccaneer,
+  getExcited,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

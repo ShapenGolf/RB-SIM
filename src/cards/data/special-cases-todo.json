@@ -2208,14 +2208,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a friendly unit +3 Might this turn. Then choose an enemy unit. They deal damage equal to their Mights to each other."
   },
   {
-    "id": "ogn-8",
-    "name": "Get Excited!",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Discard 1. Deal its Energy cost as damage to a unit at a battlefield. (Ignore its Power cost.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDiscard 1. Deal its Energy cost as damage to a unit at a battlefield. (Ignore its Power cost.)"
-  },
-  {
     "id": "sfd-165",
     "name": "Glasc Mixologist",
     "set": "SFD",
