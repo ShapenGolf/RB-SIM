@@ -3352,14 +3352,6 @@
     "fullText": "When you discard me, you may pay 1 Energy to give a friendly unit +2 Might this turn."
   },
   {
-    "id": "ogn-60",
-    "name": "Mask of Foresight",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "When a friendly unit attacks or defends alone, give it +1 Might this turn.",
-    "fullText": "When a friendly unit attacks or defends alone, give it +1 Might this turn."
-  },
-  {
     "id": "unl-113",
     "name": "Master Yi, Tempered",
     "set": "UNL",
@@ -4022,14 +4014,6 @@
     "type": "champion",
     "residualText": "When you play me, if an opponent's score is within 3 points of the Victory Score, ready me and gain 3 XP.",
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen you play me, if an opponent's score is within 3 points of the Victory Score, ready me and gain 3 XP."
-  },
-  {
-    "id": "ogn-61",
-    "name": "Poro Herder",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, if you control a Poro, buff me and draw 1. (If I don't have a buff, I get a +1 Might buff.)",
-    "fullText": "When you play me, if you control a Poro, buff me and draw 1. (If I don't have a buff, I get a +1 Might buff.)"
   },
   {
     "id": "sfd-46",
@@ -5206,14 +5190,6 @@
     "type": "gear",
     "residualText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1.",
     "fullText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1."
-  },
-  {
-    "id": "ogn-63",
-    "name": "Spirit's Refuge",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "When you play this, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)\nFriendly buffed units have  if they didn't already. (Opponents must pay Rune to choose those units with a spell or ability.)",
-    "fullText": "When you play this, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)\nFriendly buffed units have [Deflect] if they didn't already. (Opponents must pay Rune to choose those units with a spell or ability.)"
   },
   {
     "id": "ogn-144",

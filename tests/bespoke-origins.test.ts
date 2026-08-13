@@ -897,6 +897,84 @@ describe("Find Your Center (ogn-47): cost reduced near opponent victory, draw 1 
   });
 });
 
+describe("Mask of Foresight (ogn-60): friendly units attacking/defending alone get +1 Might", () => {
+  it("buffs a lone attacker at Mask's controller's battlefield", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-60", "0");
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    expect(computeMight(game, getCard, attacker, "attacking")).toBe(getCard("unit-plain-footman").might! + 1);
+  });
+
+  it("does not buff when accompanied by another friendly unit", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-60", "0");
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    const ally = putOnBase(game, "unit-plain-guard", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    expect(computeMight(game, getCard, attacker, "attacking")).toBe(getCard("unit-plain-footman").might);
+  });
+
+  it("buffs a lone defender too", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-60", "0");
+    const defender = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, defender.instanceId, 0);
+
+    expect(computeMight(game, getCard, defender, "defending")).toBe(getCard("unit-plain-footman").might! + 1);
+  });
+});
+
+describe("Poro Herder (ogn-61): buff + draw if you control a Poro", () => {
+  it("buffs itself and draws when a Poro is in play", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-210", "0"); // Daring Poro
+    const herder = putOnBase(game, "ogn-61", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(herder.cardId), herder);
+
+    expect(herder.statuses.buffed).toBe(true);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+
+  it("does nothing without a Poro in play", () => {
+    const game = makeGame();
+    const herder = putOnBase(game, "ogn-61", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(herder.cardId), herder);
+
+    expect(herder.statuses.buffed).toBeUndefined();
+    expect(game.players["0"].hand).toEqual([]);
+  });
+});
+
+describe("Spirit's Refuge (ogn-63): buff a friendly unit on play", () => {
+  it("buffs the chosen friendly unit", () => {
+    const game = makeGame();
+    const refuge = putOnBase(game, "ogn-63", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(refuge.cardId), refuge, target.instanceId);
+
+    expect(target.statuses.buffed).toBe(true);
+  });
+
+  it("does not buff an enemy unit", () => {
+    const game = makeGame();
+    const refuge = putOnBase(game, "ogn-63", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(refuge.cardId), refuge, enemy.instanceId);
+
+    expect(enemy.statuses.buffed).toBeUndefined();
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

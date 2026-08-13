@@ -45,6 +45,9 @@ export interface SpecialCaseHandler {
    */
   attackingMightBonusForAlly?(ctx: SpecialCaseContext, allyInstance: CardInstance): number;
 
+  /** Same as `attackingMightBonusForAlly`, but while the ally defends. */
+  defendingMightBonusForAlly?(ctx: SpecialCaseContext, allyInstance: CardInstance): number;
+
   /** Called at the controller's Beginning step while this Battlefield is held by them. */
   onBeginningWhileHeld?(ctx: SpecialCaseContext): void;
 

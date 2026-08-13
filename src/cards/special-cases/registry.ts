@@ -44,6 +44,9 @@ import { volibear } from "./volibear";
 import { charm } from "./charm";
 import { enGarde } from "./en-garde";
 import { findYourCenter } from "./find-your-center";
+import { maskOfForesight } from "./mask-of-foresight";
+import { poroHerder } from "./poro-herder";
+import { spiritsRefuge } from "./spirits-refuge";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -89,6 +92,9 @@ const handlers: SpecialCaseHandler[] = [
   charm,
   enGarde,
   findYourCenter,
+  maskOfForesight,
+  poroHerder,
+  spiritsRefuge,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -226,6 +232,24 @@ export const SpecialCaseEngine = {
       const sourceCard = getCard(sourceInstance.cardId);
       const handler = getSpecialCaseHandler(sourceCard);
       const fn = handler?.attackingMightBonusForAlly;
+      if (!fn) continue;
+      total += fn(ctxFor(game, sourceCard, sourceInstance), allyInstance);
+    }
+    return total;
+  },
+
+  /** Same as `attackingMightBonusFromAllies`, but while the ally defends. */
+  defendingMightBonusFromAllies: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    allyInstance: CardInstance,
+  ): number => {
+    let total = 0;
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.instanceId === allyInstance.instanceId) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      const fn = handler?.defendingMightBonusForAlly;
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), allyInstance);
     }

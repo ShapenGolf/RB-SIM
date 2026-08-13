@@ -27,6 +27,7 @@ export function computeMight(
   } else if (role === "defending") {
     total += KeywordEngine.defendingMightModifier(game, card, instance);
     total += SpecialCaseEngine.defendingMightModifier(game, card, instance);
+    total += SpecialCaseEngine.defendingMightBonusFromAllies(game, getCard, instance);
   }
 
   return Math.max(0, total);
