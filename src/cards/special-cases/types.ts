@@ -260,4 +260,12 @@ export interface SpecialCaseHandler {
    * `ctx.instance.controller` is the defending player.
    */
   onDefendHere?(ctx: SpecialCaseContext, defenderIds: string[]): void;
+
+  /**
+   * Continuous bonus this card's mere presence adds to EVERY instance of spell/ability damage
+   * its controller deals, anywhere (e.g. Annie, Fiery: "Your spells and abilities deal 1 Bonus
+   * Damage."). Summed across the controller's whole board in game/spellDamage.ts
+   * `dealSpellDamage` — distinct from the one-shot `nextSpellBonusDamage` PlayerState flag.
+   */
+  staticSpellDamageBonus?(ctx: SpecialCaseContext): number;
 }

@@ -176,22 +176,6 @@
     "fullText": "When you play me, return all units with 2 Might or less to their owners' hands."
   },
   {
-    "id": "ogs-1",
-    "name": "Annie, Fiery",
-    "set": "OGS",
-    "type": "champion",
-    "residualText": "Your spells and abilities deal 1 Bonus Damage. (Each instance of damage the spell deals is increased by 1.)",
-    "fullText": "Your spells and abilities deal 1 Bonus Damage. (Each instance of damage the spell deals is increased by 1.)"
-  },
-  {
-    "id": "ogs-10",
-    "name": "Annie, Stubborn",
-    "set": "OGS",
-    "type": "champion",
-    "residualText": "When you play me, return a spell from your trash to your hand.",
-    "fullText": "When you play me, return a spell from your trash to your hand."
-  },
-  {
     "id": "sfd-224",
     "name": "Aphelios, Exalted",
     "set": "SFD",
@@ -1120,14 +1104,6 @@
     "fullText": "When you conquer or hold, you may discard 1 and exhaust me to play a ready Reflection unit token there. It becomes a copy of another unit there. Give it [Temporary]."
   },
   {
-    "id": "ogs-24",
-    "name": "Decisive Strike",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Give friendly units +2 Might this turn.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive friendly units +2 Might this turn."
-  },
-  {
     "id": "ven-107",
     "name": "Decree of Discord",
     "set": "VEN",
@@ -1688,14 +1664,6 @@
     "fullText": "When you play me, you may play a spell from your trash with Energy cost no more than 3 Energy, ignoring its Energy cost. Recycle that spell after you play it. (You must still pay its Power cost.)"
   },
   {
-    "id": "ogs-11",
-    "name": "Flash",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Move up to 2 friendly units to base.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nMove up to 2 friendly units to base."
-  },
-  {
     "id": "unl-44",
     "name": "Flurry of Feathers",
     "set": "UNL",
@@ -1862,14 +1830,6 @@
     "type": "battlefield",
     "residualText": "Units here have \"Exhaust: Gain 1 XP.\"",
     "fullText": "Units here have \"Exhaust: Gain 1 XP.\""
-  },
-  {
-    "id": "ogs-13",
-    "name": "Garen, Commander",
-    "set": "OGS",
-    "type": "champion",
-    "residualText": "Other friendly units have +1 Might here.",
-    "fullText": "Other friendly units have +1 Might here."
   },
   {
     "id": "sfd-68",
@@ -3768,14 +3728,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it."
   },
   {
-    "id": "ogs-15",
-    "name": "Recruit the Vanguard",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Play four 1 Might Recruit unit tokens. (They can be played to your base or to battlefields you control.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nPlay four 1 Might Recruit unit tokens. (They can be played to your base or to battlefields you control.)"
-  },
-  {
     "id": "unl-29",
     "name": "Red Brambleback",
     "set": "UNL",
@@ -4920,14 +4872,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhile I'm at a battlefield, opponents can't score points."
   },
   {
-    "id": "ogs-18",
-    "name": "Tibbers",
-    "set": "OGS",
-    "type": "unit",
-    "residualText": "When you play me, deal 3 to all units at battlefields.",
-    "fullText": "When you play me, deal 3 to all units at battlefields."
-  },
-  {
     "id": "ogn-199",
     "name": "Tideturner",
     "set": "OGN",
@@ -5158,14 +5102,6 @@
     "type": "gear",
     "residualText": "Exhaust: Play three 1 Might Recruit unit tokens. (You may play them to different locations.)",
     "fullText": "Exhaust: Play three 1 Might Recruit unit tokens. (You may play them to different locations.)"
-  },
-  {
-    "id": "ogs-16",
-    "name": "Vanguard Attendant",
-    "set": "OGS",
-    "type": "unit",
-    "residualText": "I enter ready.",
-    "fullText": "I enter ready."
   },
   {
     "id": "unl-10",
@@ -5510,22 +5446,6 @@
     "type": "unit",
     "residualText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \" Kill this, Exhaust:  Rune.\")",
     "fullText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
-  },
-  {
-    "id": "ogs-9",
-    "name": "Yi, Honed",
-    "set": "OGS",
-    "type": "champion",
-    "residualText": "I enter ready.",
-    "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nI enter ready."
-  },
-  {
-    "id": "ogs-4",
-    "name": "Yi, Meditative",
-    "set": "OGS",
-    "type": "champion",
-    "residualText": "While you have 8+ runes, I have +4 Might.",
-    "fullText": "While you have 8+ runes, I have +4 Might."
   },
   {
     "id": "sfd-116",

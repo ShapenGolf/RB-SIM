@@ -3527,3 +3527,130 @@ describe("Twisted Fate, Gambler (ogn-200): reveal top rune on attack, branch by 
     expect(enemy.statuses.stunned).toBe(true);
   });
 });
+
+describe("Annie, Fiery (ogs-1): spells and abilities deal 1 Bonus Damage", () => {
+  it("adds 1 to every dealSpellDamage call by the controller", () => {
+    const game = makeGame();
+    putOnBase(game, "ogs-1", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1"); // Might 2
+
+    dealSpellDamage(game, getCard, target.instanceId, 1, "0"); // 1 + 1 bonus = 2, lethal
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Annie, Stubborn (ogs-10): on play, return a spell from trash to hand", () => {
+  it("returns the first spell found in trash", () => {
+    const game = makeGame();
+    const annie = putOnBase(game, "ogs-10", "0");
+    game.players["0"].trash = ["unit-plain-guard", "ogn-5"];
+
+    SpecialCaseEngine.onPlay(game, getCard(annie.cardId), annie);
+
+    expect(game.players["0"].trash).toEqual(["unit-plain-guard"]);
+    expect(game.players["0"].hand).toContain("ogn-5");
+  });
+});
+
+describe("Decisive Strike (ogs-24): give friendly units +2 Might this turn", () => {
+  it("buffs all friendly units, not enemies", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogs-24", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(ally.tempMightBonus).toBe(2);
+    expect(enemy.tempMightBonus).toBe(0);
+  });
+});
+
+describe("Flash (ogs-11): move up to 2 friendly units to base (simplified to one)", () => {
+  it("moves the chosen unit back to base", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogs-11", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.zone).toBe("base");
+    expect(game.players["0"].base).toContain(target.instanceId);
+  });
+});
+
+describe("Garen, Commander (ogs-13): other friendly units have +1 Might here", () => {
+  it("buffs allies at the same battlefield only", () => {
+    const game = makeGame();
+    const garen = putOnBase(game, "ogs-13", "0");
+    moveToBattlefield(game, garen.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+    const baseline = getCard(ally.cardId).might!;
+
+    expect(computeMight(game, getCard, ally, "none")).toBe(baseline + 1);
+  });
+});
+
+describe("Recruit the Vanguard (ogs-15): play four Recruit tokens", () => {
+  it("plays four 1-Might Recruit tokens into base", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogs-15", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    const tokenIds = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenIds).toHaveLength(4);
+  });
+});
+
+describe("Tibbers (ogs-18): on play, deal 3 to all units at battlefields", () => {
+  it("hits units at battlefields on both sides, ignores units in base", () => {
+    const game = makeGame();
+    const tibbers = putOnBase(game, "ogs-18", "0");
+    const atBattlefield = putOnBase(game, "unit-plain-footman", "1"); // Might 2
+    moveToBattlefield(game, atBattlefield.instanceId, 0);
+    const inBase = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(tibbers.cardId), tibbers);
+
+    expect(game.instances[atBattlefield.instanceId]).toBeUndefined();
+    expect(game.instances[inBase.instanceId]).toBeDefined();
+  });
+});
+
+describe("Vanguard Attendant (ogs-16): enters ready", () => {
+  it("reports selfEntersReady true", () => {
+    const game = makeGame();
+    const attendant = putOnBase(game, "ogs-16", "0", { exhausted: true });
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(attendant.cardId), attendant)).toBe(true);
+  });
+});
+
+describe("Yi, Honed (ogs-9): Ganking, enters ready", () => {
+  it("reports selfEntersReady true", () => {
+    const game = makeGame();
+    const yi = putOnBase(game, "ogs-9", "0", { exhausted: true });
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(yi.cardId), yi)).toBe(true);
+  });
+});
+
+describe("Yi, Meditative (ogs-4): +4 Might while you have 8+ runes", () => {
+  it("grants the bonus only at 8+ combined runes", () => {
+    const game = makeGame();
+    const yi = putOnBase(game, "ogs-4", "0");
+    const baseline = getCard(yi.cardId).might!;
+    game.players["0"].runeDeck = Array.from({ length: 7 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    expect(computeMight(game, getCard, yi, "none")).toBe(baseline);
+
+    game.players["0"].runePool = [{ instanceId: "r8", domain: "Fury" as const, exhausted: false }];
+    expect(computeMight(game, getCard, yi, "none")).toBe(baseline + 4);
+  });
+});

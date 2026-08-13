@@ -163,6 +163,16 @@ import { lastBreath } from "./last-breath";
 import { zenithBlade } from "./zenith-blade";
 import { showstopper } from "./showstopper";
 import { twistedFateGambler } from "./twisted-fate-gambler";
+import { annieFiery } from "./annie-fiery";
+import { annieStubborn } from "./annie-stubborn";
+import { decisiveStrike } from "./decisive-strike";
+import { flash } from "./flash";
+import { garenCommander } from "./garen-commander";
+import { recruitTheVanguard } from "./recruit-the-vanguard";
+import { tibbers } from "./tibbers";
+import { vanguardAttendant } from "./vanguard-attendant";
+import { yiHoned } from "./yi-honed";
+import { yiMeditative } from "./yi-meditative";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -326,6 +336,16 @@ const handlers: SpecialCaseHandler[] = [
   zenithBlade,
   showstopper,
   twistedFateGambler,
+  annieFiery,
+  annieStubborn,
+  decisiveStrike,
+  flash,
+  garenCommander,
+  recruitTheVanguard,
+  tibbers,
+  vanguardAttendant,
+  yiHoned,
+  yiMeditative,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -532,6 +552,19 @@ export const SpecialCaseEngine = {
 
   onDefendHere: (game: GameState, card: Card, instance: CardInstance, defenderIds: string[]) => {
     getSpecialCaseHandler(card)?.onDefendHere?.(ctxFor(game, card, instance), defenderIds);
+  },
+
+  /** Sums every board instance the controller owns with a `staticSpellDamageBonus` hook. */
+  spellDamageBonusFromAllies: (game: GameState, getCard: (id: string) => Card, controller: PlayerId): number => {
+    let total = 0;
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== controller) continue;
+      const card = getCard(instance.cardId);
+      const fn = getSpecialCaseHandler(card)?.staticSpellDamageBonus;
+      if (!fn) continue;
+      total += fn(ctxFor(game, card, instance));
+    }
+    return total;
   },
 
   onFirstBeginningPhase: (game: GameState, card: Card, instance: CardInstance) => {

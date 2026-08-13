@@ -20,7 +20,8 @@ export function dealSpellDamage(
   const target = game.instances[targetInstanceId];
   if (!target) return;
   const battlefieldBonus = SpecialCaseEngine.spellDamageBonusFromBattlefield(game, getCard, target);
-  target.damage += amount + game.players[controller].nextSpellBonusDamage + battlefieldBonus;
+  const allyBonus = SpecialCaseEngine.spellDamageBonusFromAllies(game, getCard, controller);
+  target.damage += amount + game.players[controller].nextSpellBonusDamage + battlefieldBonus + allyBonus;
   const toughness = computeMight(game, getCard, target, "none");
   if (target.damage >= toughness) {
     destroyInstance(game, getCard, targetInstanceId);
