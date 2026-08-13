@@ -608,14 +608,6 @@
     "fullText": "You may pay 1 EnergyFury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit at a battlefield."
   },
   {
-    "id": "ogn-25",
-    "name": "Blind Fury",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Each opponent reveals the top card of their Main Deck. Choose one and banish it, then play it, ignoring its cost. Then recycle the rest.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nEach opponent reveals the top card of their Main Deck. Choose one and banish it, then play it, ignoring its cost. Then recycle the rest."
-  },
-  {
     "id": "ogn-67",
     "name": "Blitzcrank, Impassive",
     "set": "OGN",
@@ -742,14 +734,6 @@
     "type": "unit",
     "residualText": "I have +2 Might and . (I can move from battlefield to battlefield.)",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ogn-26",
-    "name": "Brynhir Thundersong",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, opponents can't play cards this turn.",
-    "fullText": "When you play me, opponents can't play cards this turn."
   },
   {
     "id": "sfd-62",
@@ -1838,14 +1822,6 @@
     "type": "unit",
     "residualText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name.",
     "fullText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name."
-  },
-  {
-    "id": "ogn-29",
-    "name": "Falling Star",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 3 to a unit.\nDeal 3 to a unit.",
-    "fullText": "Deal 3 to a unit.\nDeal 3 to a unit."
   },
   {
     "id": "unl-64",

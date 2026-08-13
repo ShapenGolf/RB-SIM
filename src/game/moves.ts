@@ -6,7 +6,49 @@ import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat } from "./combat";
 import { createInstance } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
-import type { GameState } from "./state";
+import type { Card } from "../cards/types";
+import type { CardInstance, GameState, PlayerState } from "./state";
+
+/**
+ * Shared post-payment resolution for a just-instantiated card: spells resolve immediately
+ * to trash, units/champions/gear enter play (exhausted unless a hook says otherwise), then
+ * both fire the same onPlay/broadcast hooks. Used by the normal hand-paid `playCard` move
+ * and by "play it, ignoring its cost" effects (see game/playFree.ts) alike — callers are
+ * responsible for removing/paying for the card beforehand.
+ */
+export function resolvePlayedCard(
+  G: GameState,
+  player: PlayerState,
+  card: Card,
+  instance: CardInstance,
+  targetInstanceId: string | undefined,
+  payAdditionalCost: boolean,
+): void {
+  if (card.type === "spell") {
+    if (player.nextSpellCostReduction > 0) player.nextSpellCostReduction = 0;
+    KeywordEngine.fireOnPlay(G, card, instance);
+    SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
+    fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
+    delete G.instances[instance.instanceId];
+    player.trash.push(instance.cardId);
+  } else {
+    const isUnit = card.type === "unit" || card.type === "champion";
+    const entersReady =
+      (payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
+      SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance) ||
+      (isUnit && player.nextUnitEntersReady);
+    if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
+    instance.exhausted = !entersReady;
+    player.base.push(instance.instanceId);
+    KeywordEngine.fireOnPlay(G, card, instance);
+    SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
+    fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
+  }
+
+  player.playedMainDeckCardThisTurn = true;
+  player.cardsPlayedThisTurn += 1;
+  SpecialCaseEngine.onAllyCardPlayed(G, getCard, player.id, card, player.cardsPlayedThisTurn);
+}
 
 export interface PlayCardArgs {
   handIndex: number;
@@ -91,30 +133,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     }
   }
 
-  if (card.type === "spell") {
-    if (nextSpellReduction > 0) player.nextSpellCostReduction = 0;
-    KeywordEngine.fireOnPlay(G, card, instance);
-    SpecialCaseEngine.onPlay(G, card, instance, args.targetInstanceId);
-    fireTemplatedEffect(G, getCard, card, instance, "onPlay", args.targetInstanceId);
-    delete G.instances[instance.instanceId];
-    player.trash.push(cardId);
-  } else {
-    const isUnit = card.type === "unit" || card.type === "champion";
-    const entersReady =
-      (args.payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
-      SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance) ||
-      (isUnit && player.nextUnitEntersReady);
-    if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
-    instance.exhausted = !entersReady;
-    player.base.push(instance.instanceId);
-    KeywordEngine.fireOnPlay(G, card, instance);
-    SpecialCaseEngine.onPlay(G, card, instance, args.targetInstanceId);
-    fireTemplatedEffect(G, getCard, card, instance, "onPlay", args.targetInstanceId);
-  }
-
-  player.playedMainDeckCardThisTurn = true;
-  player.cardsPlayedThisTurn += 1;
-  SpecialCaseEngine.onAllyCardPlayed(G, getCard, player.id, card, player.cardsPlayedThisTurn);
+  resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
   return undefined;
 };
 

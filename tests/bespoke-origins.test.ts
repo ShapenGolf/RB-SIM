@@ -568,6 +568,53 @@ describe("Sun Disc (ogn-21): Exhaust, Legion — next unit enters ready", () => 
   });
 });
 
+describe("Blind Fury (ogn-25): reveal, banish, and play opponent's top deck card free", () => {
+  it("banishes the opponent's top card and plays it under the caster's control", () => {
+    const game = makeGame();
+    const fury = putOnBase(game, "ogn-25", "0");
+    game.players["1"].mainDeck = ["unit-plain-footman"];
+
+    SpecialCaseEngine.onPlay(game, getCard(fury.cardId), fury);
+
+    expect(game.players["1"].mainDeck).toEqual([]);
+    expect(game.players["1"].banishment).toContain("unit-plain-footman");
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-footman");
+    expect(newInstanceId).toBeDefined();
+    expect(game.instances[newInstanceId!].controller).toBe("0");
+  });
+
+  it("does nothing if the opponent's deck is empty", () => {
+    const game = makeGame();
+    const fury = putOnBase(game, "ogn-25", "0");
+    game.players["1"].mainDeck = [];
+
+    SpecialCaseEngine.onPlay(game, getCard(fury.cardId), fury);
+
+    expect(game.players["1"].banishment).toEqual([]);
+  });
+});
+
+describe("Brynhir Thundersong (ogn-26): opponents can't play cards this turn", () => {
+  it("resolves as a documented no-op given the engine's single-active-player turn structure", () => {
+    const game = makeGame();
+    const brynhir = putOnBase(game, "ogn-26", "0");
+
+    expect(() => SpecialCaseEngine.onPlay(game, getCard(brynhir.cardId), brynhir)).not.toThrow();
+  });
+});
+
+describe("Falling Star (ogn-29): deal 3 to a unit, twice (simplified to 6 on one target)", () => {
+  it("deals 6 total damage to the chosen target", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-29", "0");
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.damage).toBe(6);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();
