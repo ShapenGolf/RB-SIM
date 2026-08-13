@@ -118,20 +118,26 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **124 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **139 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
   überschreibt). Vollständige Liste dort; nicht mehr einzeln aufgezählt,
   da die Liste inzwischen zu lang für Prosa ist.
-- Macht **284 von 1019 Karten (~28%) vollständig spielbar.**
-- **735 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **299 von 1019 Karten (~29%) vollständig spielbar.**
+- **720 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - Einige Karten sind bewusst zurückgestellt statt implementiert, weil sie
   fehlende Engine-Mechaniken brauchen würden (dokumentiert statt stillschweigend
   übersprungen): Gegner-Entscheidungen ("unless"), Tod-Ersatzeffekte, ein
   Spell-Counter/Reaktionsfenster-System, nicht-Energy-Zusatzkosten (Domain-Rune,
   Unit exhausten), und das Hidden-Keyword (~50 Karten, verdeckt spielen +
   später aufdecken — größte offene Einzelmechanik).
+- **Neu entdeckte Lücke:** Der Kartentyp `legend` (93 Karten, ~9% des Pools)
+  ist bisher überhaupt nicht ins Spielgeschehen verdrahtet — kein Legend-Slot
+  in `GameState`/`PlayerState`, keine Vorspiel-Auswahl, `buildMainDeck` schließt
+  sie sogar explizit aus dem Deckbau aus. Das ist keine Special-Case-Lücke,
+  sondern eine fehlende Subsystem (eigene Zone + Exhaust-Fähigkeiten-Engine),
+  bewusst zurückgestellt statt einzeln als Sonderfall behandelt.
 - Nebenbei einen weiteren Datenqualitäts-Fix gefunden: ein nackter
   Bracket-Tag ohne Zahl (`[Assault]`, `[Shield]`, `[Deflect]`) bedeutet
   laut Erinnerungstext auf vielen Karten konsistent "1", wurde aber bisher
