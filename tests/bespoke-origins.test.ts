@@ -2040,6 +2040,218 @@ describe("Qiyana, Victorious (ogn-155): on conquer, draw 1 or channel 1 (simplif
   });
 });
 
+describe("Herald of Scales (ogn-140): Dragons you play cost 2 less", () => {
+  it("reduces the cost of a Dragon-tagged card", () => {
+    const game = makeGame();
+    const herald = putOnBase(game, "ogn-140", "0");
+    game.players["0"].hand = ["ogn-38"]; // Kadregrin the Infernal, Dragon tag, Energy 9
+    const card = getCard("ogn-38");
+    game.players["0"].runePool = [
+      { instanceId: "p1", domain: "Fury" as const, exhausted: false },
+      { instanceId: "p2", domain: "Fury" as const, exhausted: false },
+      ...Array.from({ length: card.energyCost! - 2 }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Fury" as const,
+        exhausted: false,
+      })),
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: Array.from({ length: card.energyCost! - 2 }, (_, i) => `r${i}`),
+      powerRuneIds: ["p1", "p2"],
+    });
+
+    expect(result).toBeUndefined();
+    void herald;
+  });
+});
+
+describe("Warwick, Hunter (ogn-159): enters ready, kills damaged enemies on attack", () => {
+  it("enters ready when played", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-159"];
+    const card = getCard("ogn-159");
+    game.players["0"].runePool = [
+      { instanceId: "power", domain: "Body" as const, exhausted: false },
+      ...Array.from({ length: card.energyCost! }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Body" as const,
+        exhausted: false,
+      })),
+    ];
+
+    playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.filter((r) => r.instanceId !== "power").map((r) => r.instanceId),
+      powerRuneIds: ["power"],
+    });
+
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "ogn-159");
+    expect(newInstanceId).toBeDefined();
+    expect(game.instances[newInstanceId!].exhausted).toBe(false);
+  });
+
+  it("kills damaged enemy units at the battlefield on attack, leaves undamaged ones", () => {
+    const game = makeGame();
+    const warwick = putOnBase(game, "ogn-159", "0", { exhausted: false });
+    const damagedEnemy = putOnBase(game, "unit-vanguard-striker", "1");
+    const healthyEnemy = putOnBase(game, "unit-vanguard-striker", "1");
+    damagedEnemy.damage = 1;
+    moveToBattlefield(game, warwick.instanceId, 0);
+    moveToBattlefield(game, damagedEnemy.instanceId, 0);
+    moveToBattlefield(game, healthyEnemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(warwick.cardId), warwick);
+
+    expect(game.instances[damagedEnemy.instanceId]).toBeUndefined();
+    expect(game.instances[healthyEnemy.instanceId]).toBeDefined();
+  });
+});
+
+describe("Sett, Brawler (ogn-164): buff on play/conquer, spend buff for +4 Might this turn", () => {
+  it("buffs on play and on conquer", () => {
+    const game = makeGame();
+    const sett = putOnBase(game, "ogn-164", "0");
+    SpecialCaseEngine.onPlay(game, getCard(sett.cardId), sett);
+    expect(sett.statuses.buffed).toBe(true);
+
+    sett.statuses.buffed = false;
+    SpecialCaseEngine.onConquer(game, getCard(sett.cardId), sett, 0);
+    expect(sett.statuses.buffed).toBe(true);
+  });
+
+  it("spends the buff to gain +4 Might this turn", () => {
+    const game = makeGame();
+    const sett = putOnBase(game, "ogn-164", "0", { exhausted: false });
+    sett.statuses.buffed = true;
+
+    const result = activateAbility(ctx(game, "0"), { instanceId: sett.instanceId, energyRuneIds: [] });
+
+    expect(result).toBeUndefined();
+    expect(sett.statuses.buffed).toBe(false);
+    expect(sett.tempMightBonus).toBe(4);
+  });
+
+  it("fails to activate without a buff", () => {
+    const game = makeGame();
+    const sett = putOnBase(game, "ogn-164", "0", { exhausted: false });
+
+    const result = activateAbility(ctx(game, "0"), { instanceId: sett.instanceId, energyRuneIds: [] });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+});
+
+describe("Cemetery Attendant (ogn-165) / Morbid Return (ogn-170): return a unit from trash to hand", () => {
+  it("Cemetery Attendant returns the first unit found in trash", () => {
+    const game = makeGame();
+    const attendant = putOnBase(game, "ogn-165", "0");
+    game.players["0"].trash = ["ogn-8", "unit-plain-footman", "unit-plain-guard"]; // ogn-8 is a spell
+
+    SpecialCaseEngine.onPlay(game, getCard(attendant.cardId), attendant);
+
+    expect(game.players["0"].hand).toEqual(["unit-plain-footman"]);
+    expect(game.players["0"].trash).toEqual(["ogn-8", "unit-plain-guard"]);
+  });
+
+  it("Morbid Return does the same as a spell", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-170", "0");
+    game.players["0"].trash = ["unit-plain-guard"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].hand).toContain("unit-plain-guard");
+  });
+});
+
+describe("Gust (ogn-169): return a unit at a battlefield with 3 Might or less to hand", () => {
+  it("returns a weak unit at a battlefield", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-169", "0");
+    const target = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["1"].hand).toContain("unit-plain-guard");
+  });
+
+  it("does not affect a unit on base (not at a battlefield)", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-169", "0");
+    const target = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeDefined();
+  });
+});
+
+describe("Acceptable Losses (ogn-179): each player kills one of their gear", () => {
+  it("kills a gear for each player that has one", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-179", "0");
+    const myGear = putOnBase(game, "gear-tactical-banner", "0");
+    const theirGear = putOnBase(game, "gear-tactical-banner", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.instances[myGear.instanceId]).toBeUndefined();
+    expect(game.instances[theirGear.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Fading Memories (ogn-180): give a unit at a battlefield or a gear Temporary", () => {
+  it("gives Temporary to a unit at a battlefield", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-180", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.statuses.temporary).toBe(true);
+  });
+
+  it("gives Temporary to a gear regardless of zone", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-180", "0");
+    const gear = putOnBase(game, "gear-tactical-banner", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, gear.instanceId);
+
+    expect(gear.statuses.temporary).toBe(true);
+  });
+
+  it("ignores a unit on base", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-180", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.statuses.temporary).toBeUndefined();
+  });
+});
+
+describe("Undercover Agent (ogn-178): Deathknell — discard 2, then draw 2", () => {
+  it("discards 2 and draws 2 on destroy", () => {
+    const game = makeGame();
+    const agent = putOnBase(game, "ogn-178", "0");
+    game.players["0"].hand = ["ogn-4", "ogn-5"];
+    game.players["0"].mainDeck = ["ogn-8", "ogn-11"];
+
+    destroyInstance(game, getCard, agent.instanceId);
+
+    expect(game.players["0"].hand).toEqual(["ogn-8", "ogn-11"]);
+    expect(game.players["0"].trash).toContain("ogn-4");
+    expect(game.players["0"].trash).toContain("ogn-5");
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

@@ -145,6 +145,8 @@ export interface SpecialCaseHandler {
     exhaustSelf: boolean;
     /** Recycle N cards from the front of your trash (no choice of which — see docs/data-sourcing.md discard-choice simplification) as part of this ability's cost. */
     recycleFromTrash?: number;
+    /** "Spend my buff" as part of this ability's cost — requires the instance to already be buffed, consumed by clearing statuses.buffed. */
+    spendBuff?: boolean;
   };
 
   /** Set when the bespoke activated ability needs a player-chosen target. */

@@ -269,6 +269,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
   if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
   if (player.trash.length < (cost.recycleFromTrash ?? 0)) return INVALID_MOVE;
+  if (cost.spendBuff && !instance.statuses.buffed) return INVALID_MOVE;
 
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
@@ -291,6 +292,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
     player.runeDeck.push(rune);
   }
   if (cost.exhaustSelf) instance.exhausted = true;
+  if (cost.spendBuff) instance.statuses.buffed = false;
   for (let i = 0; i < (cost.recycleFromTrash ?? 0); i += 1) {
     const recycled = player.trash.shift();
     if (recycled) player.mainDeck.push(recycled);

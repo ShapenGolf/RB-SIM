@@ -87,6 +87,15 @@ import { carnivorousSnapvine } from "./carnivorous-snapvine";
 import { leeSinCentered } from "./lee-sin-centered";
 import { sabotage } from "./sabotage";
 import { qiyana } from "./qiyana";
+import { heraldOfScales } from "./herald-of-scales";
+import { warwickHunter } from "./warwick-hunter";
+import { settBrawler } from "./sett-brawler";
+import { cemeteryAttendant } from "./cemetery-attendant";
+import { morbidReturn } from "./morbid-return";
+import { gust } from "./gust";
+import { acceptableLosses } from "./acceptable-losses";
+import { fadingMemories } from "./fading-memories";
+import { undercoverAgent } from "./undercover-agent";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -175,6 +184,15 @@ const handlers: SpecialCaseHandler[] = [
   leeSinCentered,
   sabotage,
   qiyana,
+  heraldOfScales,
+  warwickHunter,
+  settBrawler,
+  cemeteryAttendant,
+  morbidReturn,
+  gust,
+  acceptableLosses,
+  fadingMemories,
+  undercoverAgent,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

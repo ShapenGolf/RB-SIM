@@ -24,14 +24,6 @@
     "fullText": "Ready up to 4 units, gear, and/or runes."
   },
   {
-    "id": "ogn-179",
-    "name": "Acceptable Losses",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Each player kills one of their gear.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nEach player kills one of their gear."
-  },
-  {
     "id": "ven-24",
     "name": "Affectionate Poro",
     "set": "VEN",
@@ -814,14 +806,6 @@
     "type": "spell",
     "residualText": "Each player chooses a unit they control. Kill the rest.",
     "fullText": "Each player chooses a unit they control. Kill the rest."
-  },
-  {
-    "id": "ogn-165",
-    "name": "Cemetery Attendant",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, return a unit from your trash to your hand.",
-    "fullText": "When you play me, return a unit from your trash to your hand."
   },
   {
     "id": "unl-71",
@@ -1688,14 +1672,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nReturn a gear to its owner's hand."
   },
   {
-    "id": "ogn-180",
-    "name": "Fading Memories",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a unit at a battlefield or a gear . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "Give a unit at a battlefield or a gear [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
     "id": "sfd-101",
     "name": "Fae Dragon",
     "set": "SFD",
@@ -2192,14 +2168,6 @@
     "fullText": "Return up to two cards with [Hidden] from your trash to your hand. You can hide cards ignoring costs this turn."
   },
   {
-    "id": "ogn-169",
-    "name": "Gust",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Return a unit at a battlefield with 3 Might or less to its owner's hand.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nReturn a unit at a battlefield with 3 Might or less to its owner's hand."
-  },
-  {
     "id": "ven-101",
     "name": "Gust Monk",
     "set": "VEN",
@@ -2326,14 +2294,6 @@
     "type": "gear",
     "residualText": "Opponents' spells cost 1 Energy more. If this is , they cost 1 EnergyRune more instead.",
     "fullText": "[Empower] 4 EnergyCalm Rune (4 EnergyCalm Rune: Empower this. Use only if not Empowered.)\nOpponents' spells cost 1 Energy more. If this is [Empowered], they cost 1 EnergyRune more instead."
-  },
-  {
-    "id": "ogn-140",
-    "name": "Herald of Scales",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "Your Dragons' Energy costs are reduced by 2 Energy, to a minimum of 1 Energy.",
-    "fullText": "Your Dragons' Energy costs are reduced by 2 Energy, to a minimum of 1 Energy."
   },
   {
     "id": "ogn-308",
@@ -3414,14 +3374,6 @@
     "type": "spell",
     "residualText": "Choose a battlefield where you have units. You may move up to one enemy unit to that battlefield. Then give enemy units there -2 Might this turn.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a battlefield where you have units. You may move up to one enemy unit to that battlefield. Then give enemy units there -2 Might this turn."
-  },
-  {
-    "id": "ogn-170",
-    "name": "Morbid Return",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Return a unit from your trash to your hand.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nReturn a unit from your trash to your hand."
   },
   {
     "id": "ven-17",
@@ -4568,14 +4520,6 @@
     "fullText": "When I'm played and when I conquer, buff me. (If I don't have a buff, I get a +1 Might buff.)\nSpend my buff: Give me +4 Might this turn."
   },
   {
-    "id": "ogn-164",
-    "name": "Sett, Brawler",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I'm played and when I conquer, buff me. (If I don't have a buff, I get a +1 Might buff.)\nSpend my buff: Give me +4 Might this turn.",
-    "fullText": "When I'm played and when I conquer, buff me. (If I don't have a buff, I get a +1 Might buff.)\nSpend my buff: Give me +4 Might this turn."
-  },
-  {
     "id": "ogn-240",
     "name": "Sett, Kingpin",
     "set": "OGN",
@@ -5584,14 +5528,6 @@
     "fullText": "Exhaust: Play two 1 Energy Might Bird unit tokens with [Deflect]. Use this ability only while I'm at a battlefield. (Opponents must pay Rune to choose a [Deflect] unit with a spell or ability.)"
   },
   {
-    "id": "ogn-178",
-    "name": "Undercover Agent",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 Discard 2, then draw 2. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 Discard 2, then draw 2. (When I die, get the effect.)"
-  },
-  {
     "id": "sfd-175",
     "name": "Undertitan",
     "set": "SFD",
@@ -5950,14 +5886,6 @@
     "type": "spell",
     "residualText": "As you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nReady a unit.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nAs you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nReady a unit."
-  },
-  {
-    "id": "ogn-159",
-    "name": "Warwick, Hunter",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "I enter ready.\nWhen I attack, kill all damaged enemy units here.",
-    "fullText": "I enter ready.\nWhen I attack, kill all damaged enemy units here."
   },
   {
     "id": "ogn-187",
