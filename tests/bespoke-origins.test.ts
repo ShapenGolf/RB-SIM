@@ -3400,3 +3400,88 @@ describe("Monastery of Hirana (ogn-282): conquering here may spend a buff to dra
     expect(game.players["0"].hand).toContain("ogn-5");
   });
 });
+
+describe("Fortified Position (ogn-279): defending here grants Shield 2 this combat", () => {
+  it("grants the first defender Shield 2 before damage resolves", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-279", units: { "0": [], "1": [] }, controller: null };
+    const attacker = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    moveToBattlefield(game, attacker.instanceId, 0);
+    const defenderUnit = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, defenderUnit.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    // Shield 2 raised the defender's toughness to 3, so the attacker's 2 Might wasn't lethal.
+    expect(game.instances[defenderUnit.instanceId]).toBeDefined();
+    expect(defenderUnit.grantedThisTurn).toContainEqual({ keyword: "shield", value: 2 });
+  });
+});
+
+describe("Targon's Peak (ogn-289): conquering here readies 2 runes at the end of the turn", () => {
+  it("readies up to 2 exhausted runes when the turn ends", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "ogn-289", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].runePool = [
+      { instanceId: "r1", domain: "Fury" as const, exhausted: true },
+      { instanceId: "r2", domain: "Fury" as const, exhausted: true },
+      { instanceId: "r3", domain: "Fury" as const, exhausted: true },
+    ];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+    expect(game.players["0"].readyRunesAtEndOfTurn).toBe(2);
+
+    endTurnFor(game, "0");
+
+    const readyCount = game.players["0"].runePool.filter((r) => !r.exhausted).length;
+    expect(readyCount).toBe(2);
+    expect(game.players["0"].readyRunesAtEndOfTurn).toBe(0);
+  });
+});
+
+describe("Last Breath (ogn-260): ready a friendly unit, it deals its Might to an enemy", () => {
+  it("readies the target and deals damage equal to its Might", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-260", "0");
+    const readied = putOnBase(game, "unit-plain-footman", "0", { exhausted: true }); // Might 2
+    const enemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, readied.instanceId);
+
+    expect(readied.exhausted).toBe(false);
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Zenith Blade (ogn-262): stun an enemy unit, may move a friendly unit there", () => {
+  it("stuns the target and moves the first friendly base unit to its battlefield", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-262", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+    const mover = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, enemy.instanceId);
+
+    expect(enemy.statuses.stunned).toBe(true);
+    expect(mover.zone).toBe("battlefield");
+    expect(mover.battlefieldIndex).toBe(0);
+  });
+});
+
+describe("Showstopper (ogn-270): buff a friendly base unit, then move it to a battlefield", () => {
+  it("buffs and moves the chosen unit to battlefield 0", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-270", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.statuses.buffed).toBe(true);
+    expect(target.zone).toBe("battlefield");
+    expect(target.battlefieldIndex).toBe(0);
+  });
+});

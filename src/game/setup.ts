@@ -86,6 +86,7 @@ function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
     nextSpellBonusDamage: 0,
     unitsEnterReadyThisTurn: false,
     enemyUnitDiedThisTurn: false,
+    readyRunesAtEndOfTurn: 0,
   };
 }
 

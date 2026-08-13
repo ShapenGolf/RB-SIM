@@ -77,6 +77,8 @@ export interface PlayerState {
   unitsEnterReadyThisTurn: boolean;
   /** Set true whenever an ENEMY unit/champion (from this player's perspective) dies, e.g. for "if an enemy unit has died this turn, ..." effects. Reset at Awaken. */
   enemyUnitDiedThisTurn: boolean;
+  /** Delayed effect: this many exhausted runes in the pool are readied at the end of THIS turn (see moves.ts endTurn), e.g. Targon's Peak: "ready 2 runes at the end of this turn." Consumed by endTurn, not by Awaken. */
+  readyRunesAtEndOfTurn: number;
 }
 
 export interface BattlefieldSlot {

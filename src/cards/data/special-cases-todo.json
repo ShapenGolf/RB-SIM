@@ -1760,14 +1760,6 @@
     "fullText": "[Action][>] Exhaust a unit you control, Exhaust: Move a different unit you control to the location of the unit you exhausted to pay for this ability."
   },
   {
-    "id": "ogn-279",
-    "name": "Fortified Position",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you defend here, choose a unit. It gains  this combat. (+2 Might while it's a defender.)",
-    "fullText": "When you defend here, choose a unit. It gains [Shield 2] this combat. (+2 Might while it's a defender.)"
-  },
-  {
     "id": "ogn-256",
     "name": "Fox-Fire",
     "set": "OGN",
@@ -2742,14 +2734,6 @@
     "type": "legend",
     "residualText": "When you play a spell that costs 5 Energy or more, draw 1.",
     "fullText": "When you play a spell that costs 5 Energy or more, draw 1."
-  },
-  {
-    "id": "ogn-260",
-    "name": "Last Breath",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Ready a friendly unit. It deals damage equal to its Might to an enemy unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nReady a friendly unit. It deals damage equal to its Might to an enemy unit at a battlefield."
   },
   {
     "id": "sfd-96",
@@ -4376,14 +4360,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nDraw 1 for each of your [Mighty] units. (A unit is Mighty while it has 5+ Might.)"
   },
   {
-    "id": "ogn-270",
-    "name": "Showstopper",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Buff a friendly unit in your base, then move it to a battlefield. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "Buff a friendly unit in your base, then move it to a battlefield. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
     "id": "sfd-192",
     "name": "Shurelya's Requiem",
     "set": "SFD",
@@ -4790,14 +4766,6 @@
     "type": "unit",
     "residualText": "When I become , you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost.",
     "fullText": "[Empower] 2 EnergyChaos Rune (2 EnergyChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost."
-  },
-  {
-    "id": "ogn-289",
-    "name": "Targon's Peak",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you conquer here, ready 2 runes at the end of this turn.",
-    "fullText": "When you conquer here, ready 2 runes at the end of this turn."
   },
   {
     "id": "unl-98",
@@ -5630,14 +5598,6 @@
     "type": "champion",
     "residualText": "When I conquer, play a 0 Might Shadow Clone unit token to your base. (It has \"When I attack, you may banish a unit from your trash. If you do, give me  this turn.\")\n 1 EnergyChaos Rune: Move me and a Shadow Clone you control to each other's locations.",
     "fullText": "When I conquer, play a 0 Might Shadow Clone unit token to your base. (It has \"When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.\")\n[Action][>] 1 EnergyChaos Rune: Move me and a Shadow Clone you control to each other's locations."
-  },
-  {
-    "id": "ogn-262",
-    "name": "Zenith Blade",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Stun an enemy unit at a battlefield. You may move a friendly unit to that enemy unit's battlefield. (A stunned unit doesn't deal combat damage this turn.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nStun an enemy unit at a battlefield. You may move a friendly unit to that enemy unit's battlefield. (A stunned unit doesn't deal combat damage this turn.)"
   },
   {
     "id": "ogn-77",

@@ -157,6 +157,11 @@ import { voidGate } from "./void-gate";
 import { windsweptHillock } from "./windswept-hillock";
 import { zaunWarrens } from "./zaun-warrens";
 import { monasteryOfHirana } from "./monastery-of-hirana";
+import { fortifiedPosition } from "./fortified-position";
+import { targonsPeak } from "./targons-peak";
+import { lastBreath } from "./last-breath";
+import { zenithBlade } from "./zenith-blade";
+import { showstopper } from "./showstopper";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -314,6 +319,11 @@ const handlers: SpecialCaseHandler[] = [
   windsweptHillock,
   zaunWarrens,
   monasteryOfHirana,
+  fortifiedPosition,
+  targonsPeak,
+  lastBreath,
+  zenithBlade,
+  showstopper,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -516,6 +526,10 @@ export const SpecialCaseEngine = {
 
   onConquerHere: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onConquerHere?.(ctxFor(game, card, instance));
+  },
+
+  onDefendHere: (game: GameState, card: Card, instance: CardInstance, defenderIds: string[]) => {
+    getSpecialCaseHandler(card)?.onDefendHere?.(ctxFor(game, card, instance), defenderIds);
   },
 
   onFirstBeginningPhase: (game: GameState, card: Card, instance: CardInstance) => {

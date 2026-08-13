@@ -372,5 +372,9 @@ export const endTurn: MoveFn<GameState> = ({ G, playerID, events }) => {
     if (instance.controller !== player) continue;
     SpecialCaseEngine.onEndOfTurn(G, getCard(instance.cardId), instance);
   }
+  const playerState = G.players[player];
+  const toReady = playerState.runePool.filter((r) => r.exhausted).slice(0, playerState.readyRunesAtEndOfTurn);
+  for (const rune of toReady) rune.exhausted = false;
+  playerState.readyRunesAtEndOfTurn = 0;
   events.endTurn();
 };

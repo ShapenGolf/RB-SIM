@@ -173,6 +173,16 @@ export function resolveCombat(
     fireTemplatedEffect(game, getCard, getCard(instance.cardId), instance, "onDefend");
   }
 
+  const battlefieldCard = getCard(slot.cardId);
+  if (battlefieldCard.specialCaseId) {
+    SpecialCaseEngine.onDefendHere(
+      game,
+      battlefieldCard,
+      battlefieldPseudoInstance(slot.cardId, defender, battlefieldIndex),
+      defenderIds,
+    );
+  }
+
   const attackerDealers = livingDamageDealers(game, getCard, attackerIds, "attacking");
   const defenderDealers = livingDamageDealers(game, getCard, defenderIds, "defending");
   const attackerTotalDamage = attackerDealers.reduce((sum, d) => sum + d.might, 0);

@@ -251,4 +251,13 @@ export interface SpecialCaseHandler {
    * in game/spellDamage.ts `dealSpellDamage` for the target's current Battlefield.
    */
   spellDamageBonusForUnitsHere?(ctx: SpecialCaseContext, targetInstance: CardInstance): number;
+
+  /**
+   * Battlefield-only: called once per Showdown where this Battlefield's controller-to-be
+   * defends here, right after per-unit onDefend triggers but before combat damage is assigned
+   * (e.g. Fortified Position: "When you defend here, choose a unit. It gains [Shield 2] this
+   * combat."). `defenderIds` are the defending side's committed unit instance IDs.
+   * `ctx.instance.controller` is the defending player.
+   */
+  onDefendHere?(ctx: SpecialCaseContext, defenderIds: string[]): void;
 }
