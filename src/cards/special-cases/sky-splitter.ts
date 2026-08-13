@@ -1,7 +1,7 @@
 import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
-import { destroyInstance } from "../../game/combat";
 import { computeMight } from "../../game/might";
+import { dealSpellDamage } from "../../game/spellDamage";
 
 /**
  * This spell's Energy cost is reduced by the highest Might among units you control.
@@ -22,12 +22,7 @@ export const skySplitter: SpecialCaseHandler = {
   },
   onPlay: (ctx, targetInstanceId) => {
     if (!targetInstanceId) return;
-    const target = ctx.game.instances[targetInstanceId];
-    if (!target) return;
-    target.damage += 5;
-    const toughness = computeMight(ctx.game, getCard, target, "none");
-    if (target.damage >= toughness) {
-      destroyInstance(ctx.game, getCard, targetInstanceId);
-    }
+    if (!ctx.game.instances[targetInstanceId]) return;
+    dealSpellDamage(ctx.game, getCard, targetInstanceId, 5, ctx.instance.controller);
   },
 };

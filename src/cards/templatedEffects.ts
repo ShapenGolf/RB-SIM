@@ -63,7 +63,7 @@ export function templatedEffectNeedsPlayTarget(effect: TemplatedEffect | undefin
  * exhausting the card itself. No sacrifice costs (e.g. "Kill this:").
  */
 export interface ActivatedAbility {
-  cost: { energy: number; exhaustSelf: boolean; runeDomain?: Domain };
+  cost: { energy: number; exhaustSelf: boolean; runeDomain?: Domain; recycleFromTrash?: number };
   actions: TemplatedAction[];
 }
 

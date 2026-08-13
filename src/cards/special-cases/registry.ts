@@ -1,4 +1,4 @@
-import type { Card } from "../types";
+import type { Card, Domain } from "../types";
 import type { CardInstance, GameState, PlayerId } from "../../game/state";
 import type { SpecialCaseContext, SpecialCaseHandler } from "./types";
 import { dangerousDuo } from "./dangerous-duo";
@@ -35,6 +35,10 @@ import { sunDisc } from "./sun-disc";
 import { blindFury } from "./blind-fury";
 import { brynhirThundersong } from "./brynhir-thundersong";
 import { fallingStar } from "./falling-star";
+import { ragingFirebrand } from "./raging-firebrand";
+import { tryndamere } from "./tryndamere";
+import { viDestructive } from "./vi-destructive";
+import { immortalPhoenix } from "./immortal-phoenix";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -71,6 +75,10 @@ const handlers: SpecialCaseHandler[] = [
   blindFury,
   brynhirThundersong,
   fallingStar,
+  ragingFirebrand,
+  tryndamere,
+  viDestructive,
+  immortalPhoenix,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -78,6 +86,10 @@ const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.card
 export function getSpecialCaseHandler(card: Card): SpecialCaseHandler | undefined {
   if (!card.specialCaseId) return undefined;
   return registry.get(card.specialCaseId);
+}
+
+export function getSpecialCaseHandlerById(specialCaseId: string): SpecialCaseHandler | undefined {
+  return registry.get(specialCaseId);
 }
 
 export function specialCaseNeedsPlayTarget(card: Card): boolean {
@@ -97,8 +109,8 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onDestroy?.(ctxFor(game, card, instance));
   },
 
-  onConquer: (game: GameState, card: Card, instance: CardInstance) => {
-    getSpecialCaseHandler(card)?.onConquer?.(ctxFor(game, card, instance));
+  onConquer: (game: GameState, card: Card, instance: CardInstance, excessDamage: number) => {
+    getSpecialCaseHandler(card)?.onConquer?.(ctxFor(game, card, instance), excessDamage);
   },
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,
@@ -144,6 +156,35 @@ export const SpecialCaseEngine = {
       const handler = getSpecialCaseHandler(card);
       handler?.onAllyStun?.(ctxFor(game, card, instance), stunnedInstance);
     }
+  },
+
+  /** Broadcasts a just-killed-by-spell enemy unit to every card in `controller`'s trash with an `onTrashKillWithSpell` hook. */
+  onAllyKillWithSpell: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    controller: PlayerId,
+    killedInstance: CardInstance,
+  ) => {
+    for (const cardId of game.players[controller].trash) {
+      const card = getCard(cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onTrashKillWithSpell?.(game, controller, cardId, killedInstance);
+    }
+  },
+
+  /** Offers a "you may pay X to Y" reactive decision to `playerId`, resolved by the `resolveOptionalCost` move. */
+  offerOptionalCost: (
+    game: GameState,
+    playerId: PlayerId,
+    specialCaseId: string,
+    cost: { energy: number; runeDomain?: Domain },
+    payload?: string,
+  ) => {
+    game.pendingOptionalCost = { playerId, specialCaseId, cost, payload };
+  },
+
+  onOptionalCostPaid: (game: GameState, specialCaseId: string, playerId: PlayerId, payload?: string) => {
+    getSpecialCaseHandlerById(specialCaseId)?.onOptionalCostPaid?.(game, playerId, payload);
   },
 
   onBeginningWhileHeld: (game: GameState, card: Card, instance: CardInstance) => {

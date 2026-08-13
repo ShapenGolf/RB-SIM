@@ -1,5 +1,5 @@
 import type { Card, Domain } from "../types";
-import type { CardInstance, GameState } from "../../game/state";
+import type { CardInstance, GameState, PlayerId } from "../../game/state";
 
 export interface SpecialCaseContext {
   game: GameState;
@@ -28,8 +28,12 @@ export interface SpecialCaseHandler {
   /** Called when the card instance is destroyed, after generic Deathknell handling. */
   onDestroy?(ctx: SpecialCaseContext): void;
 
-  /** Called when this instance Conquers a Battlefield (after control/points are already updated). */
-  onConquer?(ctx: SpecialCaseContext): void;
+  /**
+   * Called when this instance Conquers a Battlefield (after control/points are already updated).
+   * `excessDamage` is the attacking side's unassignable leftover combat damage this Showdown
+   * (0 if the Battlefield was conquered with no defenders present) — see combat.ts `assignDamage`.
+   */
+  onConquer?(ctx: SpecialCaseContext, excessDamage: number): void;
 
   /**
    * Might bonus this Gear/static-effect card grants to a given ally unit
@@ -86,11 +90,40 @@ export interface SpecialCaseHandler {
    * data-driven `Card.activatedAbility` (see cards/templatedEffects.ts) covers the fixed-amount
    * case; this covers the rest. `activateAbility` in moves.ts checks both.
    */
-  readonly activatedAbilityCost?: { energy: number; runeDomain?: Domain; exhaustSelf: boolean };
+  readonly activatedAbilityCost?: {
+    energy: number;
+    runeDomain?: Domain;
+    exhaustSelf: boolean;
+    /** Recycle N cards from the front of your trash (no choice of which — see docs/data-sourcing.md discard-choice simplification) as part of this ability's cost. */
+    recycleFromTrash?: number;
+  };
 
   /** Set when the bespoke activated ability needs a player-chosen target. */
   readonly activateNeedsTarget?: boolean;
 
   /** Executes a bespoke activated ability's effect. */
   onActivate?(ctx: SpecialCaseContext, targetInstanceId?: string): void;
+
+  /**
+   * Broadcast to every card in the controller's trash whenever THAT PLAYER kills an enemy unit
+   * with a spell (see game/spellDamage.ts `dealSpellDamage`, the one place spell damage should
+   * be applied from). No SpecialCaseContext — a trashed card has no live CardInstance — so this
+   * gets the raw game/player/cardId instead. Typically used with `offerOptionalCost` below (e.g.
+   * Immortal Phoenix: "you may pay 1 Energy+Fury Rune to play me from your trash").
+   */
+  onTrashKillWithSpell?(
+    game: GameState,
+    playerId: PlayerId,
+    cardId: string,
+    killedInstance: CardInstance,
+  ): void;
+
+  /**
+   * Resolves a "you may pay X to Y" reactive decision this handler offered via
+   * SpecialCaseEngine.offerOptionalCost (see game/moves.ts `resolveOptionalCost`). Runs after the
+   * cost has already been paid. `payload` is whatever string the offering call attached (e.g. a
+   * trash cardId to play). No SpecialCaseContext — by resolution time the offering source may no
+   * longer have a live instance (e.g. it was in the trash to begin with).
+   */
+  onOptionalCostPaid?(game: GameState, playerId: PlayerId, payload?: string): void;
 }

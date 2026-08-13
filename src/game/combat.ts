@@ -43,13 +43,14 @@ function toughness(
   return computeMight(game, getCard, instance, role);
 }
 
+/** Assigns damage to each target up to its toughness, in order. Returns the leftover damage that couldn't be assigned to anyone (the "excess damage" referenced by conquer-time triggers like Tryndamere). */
 function assignDamage(
   game: GameState,
   getCard: (id: string) => Card,
   totalDamage: number,
   targets: string[],
   role: "attacking" | "defending",
-): void {
+): number {
   let remaining = totalDamage;
   for (const instanceId of targets) {
     if (remaining <= 0) break;
@@ -60,6 +61,7 @@ function assignDamage(
     instance.damage += hit;
     remaining -= hit;
   }
+  return Math.max(0, remaining);
 }
 
 export function destroyInstance(game: GameState, getCard: (id: string) => Card, instanceId: string): void {
@@ -86,6 +88,7 @@ function conquerBattlefield(
   getCard: (id: string) => Card,
   battlefieldIndex: number,
   newController: PlayerId,
+  excessDamage: number,
 ): void {
   const slot = game.battlefields[battlefieldIndex];
   slot.controller = newController;
@@ -97,7 +100,7 @@ function conquerBattlefield(
     const xp = KeywordEngine.xpOnConquerOrHold(game, card, instance);
     if (xp > 0) game.players[newController].xp += xp;
     fireTemplatedEffect(game, getCard, card, instance, "onConquer");
-    SpecialCaseEngine.onConquer(game, card, instance);
+    SpecialCaseEngine.onConquer(game, card, instance, excessDamage);
   }
 }
 
@@ -114,7 +117,7 @@ export function resolveCombat(
   const defenderIds = slot.units[defender];
 
   if (defenderIds.length === 0) {
-    if (attackerIds.length > 0) conquerBattlefield(game, getCard, battlefieldIndex, attacker);
+    if (attackerIds.length > 0) conquerBattlefield(game, getCard, battlefieldIndex, attacker, 0);
     return;
   }
 
@@ -129,7 +132,7 @@ export function resolveCombat(
   const attackerTotalDamage = attackerDealers.reduce((sum, d) => sum + d.might, 0);
   const defenderTotalDamage = defenderDealers.reduce((sum, d) => sum + d.might, 0);
 
-  assignDamage(game, getCard, attackerTotalDamage, defenderIds, "defending");
+  const attackerExcessDamage = assignDamage(game, getCard, attackerTotalDamage, defenderIds, "defending");
   assignDamage(game, getCard, defenderTotalDamage, attackerIds, "attacking");
 
   const destroyedDefenders = defenderIds.filter(
@@ -149,7 +152,7 @@ export function resolveCombat(
   const attackerSurvivors = slot.units[attacker].length;
   const defenderSurvivors = slot.units[defender].length;
   if (defenderSurvivors === 0 && attackerSurvivors > 0) {
-    conquerBattlefield(game, getCard, battlefieldIndex, attacker);
+    conquerBattlefield(game, getCard, battlefieldIndex, attacker, attackerExcessDamage);
   }
 }
 

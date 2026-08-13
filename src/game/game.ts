@@ -1,7 +1,14 @@
 import type { Game } from "boardgame.io";
 import { setupGame, type SetupOptions, defaultSetupOptions } from "./setup";
 import { runTurnStart, markFirstTurnTaken } from "./turnFlow";
-import { playCard, attackBattlefield, resolvePredict, activateAbility, endTurn } from "./moves";
+import {
+  playCard,
+  attackBattlefield,
+  resolvePredict,
+  activateAbility,
+  resolveOptionalCost,
+  endTurn,
+} from "./moves";
 import type { GameState, PlayerId } from "./state";
 
 export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions> = {
@@ -25,6 +32,7 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
     attackBattlefield,
     resolvePredict,
     activateAbility,
+    resolveOptionalCost,
     endTurn,
   },
 

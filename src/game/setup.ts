@@ -121,6 +121,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     activePlayer: "0",
     winner: null,
     nextInstanceSeq: 0,
+    pendingOptionalCost: null,
   };
 }
 

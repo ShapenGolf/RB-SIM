@@ -77,6 +77,22 @@ export interface BattlefieldSlot {
 
 export type Phase = "awaken" | "beginning" | "channel" | "draw" | "main";
 
+/**
+ * A live "you may pay X to Y" reactive decision offered to a player (e.g. Immortal Phoenix:
+ * "When you kill a unit with a spell, you may pay 1 Energy+Fury Rune to play me from your
+ * trash."). Set via SpecialCaseEngine.offerOptionalCost, resolved by the `resolveOptionalCost`
+ * move, which pays the cost (if accepted) and calls the offering handler's `onOptionalCostPaid`.
+ * Only one can be pending at a time — the engine has no trigger stack/priority system.
+ */
+export interface PendingOptionalCost {
+  playerId: PlayerId;
+  /** specialCaseId of the handler to resolve against (see cards/special-cases/registry.ts getSpecialCaseHandlerById). */
+  specialCaseId: string;
+  cost: { energy: number; runeDomain?: Domain };
+  /** Arbitrary bookkeeping the offering handler needs at resolution time (e.g. a trash cardId). */
+  payload?: string;
+}
+
 export interface GameState {
   players: Record<PlayerId, PlayerState>;
   battlefields: BattlefieldSlot[];
@@ -86,4 +102,5 @@ export interface GameState {
   activePlayer: PlayerId;
   winner: PlayerId | null;
   nextInstanceSeq: number;
+  pendingOptionalCost: PendingOptionalCost | null;
 }

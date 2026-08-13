@@ -152,18 +152,27 @@ export const attackBattlefield: MoveFn<GameState> = (
 
   for (const instanceId of args.unitInstanceIds) {
     const instance = G.instances[instanceId];
-    if (!instance || instance.controller !== player.id) return INVALID_MOVE;
-    if (instance.zone !== "base" || instance.exhausted) return INVALID_MOVE;
+    if (!instance || instance.controller !== player.id || instance.exhausted) return INVALID_MOVE;
     const card = getCard(instance.cardId);
     if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
+    const movingFromAnotherBattlefield =
+      instance.zone === "battlefield" && instance.battlefieldIndex !== args.battlefieldIndex;
+    if (instance.zone !== "base" && !(movingFromAnotherBattlefield && KeywordEngine.hasKeyword(card, "ganking"))) {
+      return INVALID_MOVE;
+    }
   }
 
   for (const instanceId of args.unitInstanceIds) {
     const instance = G.instances[instanceId];
+    if (instance.zone === "base") {
+      player.base = player.base.filter((id) => id !== instanceId);
+    } else if (instance.battlefieldIndex !== null) {
+      const previousSlot = G.battlefields[instance.battlefieldIndex];
+      previousSlot.units[player.id] = previousSlot.units[player.id].filter((id) => id !== instanceId);
+    }
     instance.exhausted = true;
     instance.zone = "battlefield";
     instance.battlefieldIndex = args.battlefieldIndex;
-    player.base = player.base.filter((id) => id !== instanceId);
     slot.units[player.id].push(instanceId);
   }
 
@@ -213,6 +222,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
   if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
+  if (player.trash.length < (cost.recycleFromTrash ?? 0)) return INVALID_MOVE;
 
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
@@ -235,12 +245,63 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
     player.runeDeck.push(rune);
   }
   if (cost.exhaustSelf) instance.exhausted = true;
+  for (let i = 0; i < (cost.recycleFromTrash ?? 0); i += 1) {
+    const recycled = player.trash.shift();
+    if (recycled) player.mainDeck.push(recycled);
+  }
 
   if (card.activatedAbility) {
     runTemplatedActions(G, getCard, instance, card.activatedAbility.actions, args.targetInstanceId);
   } else {
     SpecialCaseEngine.onActivate(G, card, instance, args.targetInstanceId);
   }
+  return undefined;
+};
+
+export interface ResolveOptionalCostArgs {
+  pay: boolean;
+  energyRuneIds: string[];
+  powerRuneId?: string;
+}
+
+/** Resolves a pending "you may pay X to Y" reactive decision (see state.ts PendingOptionalCost). */
+export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: ResolveOptionalCostArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  const pending = G.pendingOptionalCost;
+  if (!pending || pending.playerId !== player.id) return INVALID_MOVE;
+
+  if (!args.pay) {
+    G.pendingOptionalCost = null;
+    return undefined;
+  }
+
+  const cost = pending.cost;
+  if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
+  if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
+
+  const seen = new Set<string>();
+  for (const runeId of args.energyRuneIds) {
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune || rune.exhausted || seen.has(runeId)) return INVALID_MOVE;
+    seen.add(runeId);
+  }
+  if (args.powerRuneId) {
+    if (seen.has(args.powerRuneId)) return INVALID_MOVE;
+    const rune = player.runePool.find((r) => r.instanceId === args.powerRuneId);
+    if (!rune || rune.domain !== cost.runeDomain) return INVALID_MOVE;
+  }
+
+  for (const runeId of args.energyRuneIds) {
+    player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  if (args.powerRuneId) {
+    const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
+    const [rune] = player.runePool.splice(idx, 1);
+    player.runeDeck.push(rune);
+  }
+
+  G.pendingOptionalCost = null;
+  SpecialCaseEngine.onOptionalCostPaid(G, pending.specialCaseId, player.id, pending.payload);
   return undefined;
 };
 

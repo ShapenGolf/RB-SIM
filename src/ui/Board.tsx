@@ -183,6 +183,32 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setPendingAbility(null);
   }
 
+  function payOptionalCost() {
+    const pending = G.pendingOptionalCost;
+    if (!pending) return;
+    const powerRune = pending.cost.runeDomain
+      ? player.runePool.find((r) => r.domain === pending.cost.runeDomain)
+      : undefined;
+    if (pending.cost.runeDomain && !powerRune) {
+      window.alert("Nicht genug Runen, um diese Entscheidung zu bezahlen.");
+      return;
+    }
+    const readyRunes = player.runePool.filter((r) => !r.exhausted && r.instanceId !== powerRune?.instanceId);
+    if (readyRunes.length < pending.cost.energy) {
+      window.alert("Nicht genug Runen, um diese Entscheidung zu bezahlen.");
+      return;
+    }
+    moves.resolveOptionalCost({
+      pay: true,
+      energyRuneIds: readyRunes.slice(0, pending.cost.energy).map((r) => r.instanceId),
+      powerRuneId: powerRune?.instanceId,
+    });
+  }
+
+  function declineOptionalCost() {
+    moves.resolveOptionalCost({ pay: false, energyRuneIds: [] });
+  }
+
   function toggleAttacker(instanceId: string) {
     setAttackMode((prev) => {
       const selected = new Set(prev?.selected ?? []);
@@ -274,6 +300,22 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               ))}
           </div>
           <button onClick={() => setPendingTarget(null)}>Abbrechen</button>
+        </section>
+      )}
+
+      {G.pendingOptionalCost && G.pendingOptionalCost.playerId === me && (
+        <section style={{ border: "2px solid #a78bfa", padding: 8, margin: "8px 0" }}>
+          <strong>Optionale Kosten zahlen?</strong>{" "}
+          <span style={{ fontSize: 12, opacity: 0.8 }}>
+            ({G.pendingOptionalCost.cost.energy} Energy
+            {G.pendingOptionalCost.cost.runeDomain ? ` + ${G.pendingOptionalCost.cost.runeDomain} Rune` : ""})
+          </span>
+          <div style={{ marginTop: 4 }}>
+            <button onClick={payOptionalCost}>Bezahlen</button>
+            <button style={{ marginLeft: 6 }} onClick={declineOptionalCost}>
+              Ablehnen
+            </button>
+          </div>
         </section>
       )}
 

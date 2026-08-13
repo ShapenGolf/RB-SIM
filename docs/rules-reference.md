@@ -108,7 +108,7 @@ Häufigkeit = Anzahl Vorkommen im Kartentext über alle 5 Sets.
 | **Deflect [X]** | 59 | ✅ | Gegner muss X zusätzliche Rune(n) zahlen/recyceln, um mich als Ziel zu wählen. |
 | **Equip** | 53 | ⬜ noch kein Handler | Gear/Ausrüstung wird an eine Unit angehängt. |
 | **Empower [Kosten]** | 53 | ⬜ noch kein Handler | Aktivierte Fähigkeit: Kosten zahlen → Empowered-Status erhalten (nur falls noch nicht empowered). |
-| **Ganking** | 52 | ⬜ noch kein Handler | Kann von Battlefield zu Battlefield ziehen (Bewegungs-Keyword). |
+| **Ganking** | 52 | ✅ (Move-Regel) | Kann von Battlefield zu Battlefield ziehen (Bewegungs-Keyword) — direkt in `attackBattlefield` (moves.ts) umgesetzt, kein separater Handler nötig. |
 | **Add** | 50 | ⬜ noch kein Handler | Im Kontext von Ressourcen-Effekten ("[Add] that much Rune"). |
 | **Accelerate [X]** | 41 | ✅ | Beim Spielen darf zusätzlich X Energy (+ oft eine Domain-Rune) bezahlt werden; falls ja, tritt die Karte ready statt exhausted ein. |
 | **Temporary** | 35 | ⬜ noch kein Handler | Tokens/Effekte, die zeitlich begrenzt bestehen. |

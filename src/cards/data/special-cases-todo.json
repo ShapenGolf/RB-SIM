@@ -2624,14 +2624,6 @@
     "fullText": "When you play me or when I score, play a 1 Energy Might Tentacle unit token from Bilgewater.\nI have +1 Might for each token unit you control."
   },
   {
-    "id": "ogn-37",
-    "name": "Immortal Phoenix",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you kill a unit with a spell, you may pay 1 EnergyFury Rune to play me from your trash.",
-    "fullText": "[Assault 2] (+2 Might while I'm an attacker.)\nWhen you kill a unit with a spell, you may pay 1 EnergyFury Rune to play me from your trash."
-  },
-  {
     "id": "ogn-221",
     "name": "Imperial Decree",
     "set": "OGN",
@@ -4264,14 +4256,6 @@
     "fullText": "[Empower] 6 EnergyFury Rune (6 EnergyFury Rune: Empower this. Use only if not Empowered.)\nYour units have +1 Might. If I'm [Empowered], they have +2 Might instead."
   },
   {
-    "id": "ogn-31",
-    "name": "Raging Firebrand",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, the next spell you play this turn costs 5 Energy less.",
-    "fullText": "When you play me, the next spell you play this turn costs 5 Energy less."
-  },
-  {
     "id": "sfd-166",
     "name": "Rally the Troops",
     "set": "SFD",
@@ -5880,14 +5864,6 @@
     "fullText": "While you have another unit here, I have +1 Might."
   },
   {
-    "id": "ogn-34",
-    "name": "Tryndamere, Barbarian",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I conquer after an attack, if you assigned 5 or more excess damage to enemy units, you score 1 point.",
-    "fullText": "When I conquer after an attack, if you assigned 5 or more excess damage to enemy units, you score 1 point."
-  },
-  {
     "id": "unl-70",
     "name": "Turn to Dust",
     "set": "UNL",
@@ -6142,14 +6118,6 @@
     "type": "champion",
     "residualText": "Recycle 1 from your trash: Give me +1 Might this turn.",
     "fullText": "[Ganking]\nRecycle 1 from your trash: Give me +1 Might this turn."
-  },
-  {
-    "id": "ogn-36",
-    "name": "Vi, Destructive",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "Recycle 1 from your trash: Give me +1 Might this turn.",
-    "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nRecycle 1 from your trash: Give me +1 Might this turn."
   },
   {
     "id": "unl-30",

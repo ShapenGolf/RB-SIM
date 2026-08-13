@@ -3,7 +3,8 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
-import { playCard } from "../src/game/moves";
+import { playCard, activateAbility, attackBattlefield, resolveOptionalCost } from "../src/game/moves";
+import { destroyInstance } from "../src/game/combat";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -133,7 +134,7 @@ describe("Adaptatron (ogn-56): on conquer, may sacrifice a gear to buff self", (
     const gear = putOnBase(game, "gear-tactical-banner", "0");
     moveToBattlefield(game, adaptatron.instanceId, 0);
 
-    SpecialCaseEngine.onConquer(game, getCard(adaptatron.cardId), adaptatron);
+    SpecialCaseEngine.onConquer(game, getCard(adaptatron.cardId), adaptatron, 0);
 
     expect(game.instances[gear.instanceId]).toBeUndefined();
     expect(adaptatron.statuses.buffed).toBe(true);
@@ -144,7 +145,7 @@ describe("Adaptatron (ogn-56): on conquer, may sacrifice a gear to buff self", (
     const adaptatron = putOnBase(game, "ogn-56", "0");
     moveToBattlefield(game, adaptatron.instanceId, 0);
 
-    SpecialCaseEngine.onConquer(game, getCard(adaptatron.cardId), adaptatron);
+    SpecialCaseEngine.onConquer(game, getCard(adaptatron.cardId), adaptatron, 0);
 
     expect(adaptatron.statuses.buffed).toBeUndefined();
   });
@@ -612,6 +613,161 @@ describe("Falling Star (ogn-29): deal 3 to a unit, twice (simplified to 6 on one
     SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
 
     expect(target.damage).toBe(6);
+  });
+});
+
+describe("Raging Firebrand (ogn-31): next spell you play this turn costs 5 Energy less", () => {
+  it("reduces the next spell's cost by 5, then clears itself", () => {
+    const game = makeGame();
+    const firebrand = putOnBase(game, "ogn-31", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(firebrand.cardId), firebrand);
+    expect(game.players["0"].nextSpellCostReduction).toBe(5);
+
+    game.players["0"].hand = ["ogn-8"]; // Get Excited!, Energy 2, Power 1 Fury
+    game.players["0"].runePool = [{ instanceId: "power", domain: "Fury", exhausted: false }];
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: [],
+      powerRuneIds: ["power"],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.players["0"].nextSpellCostReduction).toBe(0);
+  });
+});
+
+describe("Tryndamere, Barbarian (ogn-34): score a point on 5+ excess damage conquer", () => {
+  it("scores a point when excess damage is 5 or more", () => {
+    const game = makeGame();
+    const tryndamere = putOnBase(game, "ogn-34", "0");
+    game.players["0"].points = 0;
+
+    SpecialCaseEngine.onConquer(game, getCard(tryndamere.cardId), tryndamere, 5);
+
+    expect(game.players["0"].points).toBe(1);
+  });
+
+  it("does not score with less than 5 excess damage", () => {
+    const game = makeGame();
+    const tryndamere = putOnBase(game, "ogn-34", "0");
+    game.players["0"].points = 0;
+
+    SpecialCaseEngine.onConquer(game, getCard(tryndamere.cardId), tryndamere, 4);
+
+    expect(game.players["0"].points).toBe(0);
+  });
+});
+
+describe("Vi, Destructive (ogn-36): Recycle 1 from trash to give +1 Might this turn", () => {
+  it("recycles the front of trash into the deck and buffs itself", () => {
+    const game = makeGame();
+    const vi = putOnBase(game, "ogn-36", "0", { exhausted: false });
+    game.players["0"].trash = ["ogn-4", "ogn-5"];
+    game.players["0"].mainDeck = [];
+
+    const result = activateAbility(ctx(game, "0"), { instanceId: vi.instanceId, energyRuneIds: [] });
+
+    expect(result).toBeUndefined();
+    expect(game.players["0"].trash).toEqual(["ogn-5"]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-4"]);
+    expect(vi.tempMightBonus).toBe(1);
+  });
+
+  it("fails if the trash is empty", () => {
+    const game = makeGame();
+    const vi = putOnBase(game, "ogn-36", "0", { exhausted: false });
+    game.players["0"].trash = [];
+
+    const result = activateAbility(ctx(game, "0"), { instanceId: vi.instanceId, energyRuneIds: [] });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+});
+
+describe("Ganking (ogn-36 Vi, Destructive): can attack from battlefield to battlefield", () => {
+  it("lets a Ganking unit move directly between battlefields", () => {
+    const game = makeGame();
+    const vi = putOnBase(game, "ogn-36", "0", { exhausted: false });
+    moveToBattlefield(game, vi.instanceId, 0);
+
+    const result = attackBattlefield(ctx(game, "0"), { battlefieldIndex: 1, unitInstanceIds: [vi.instanceId] });
+
+    expect(result).toBeUndefined();
+    expect(game.instances[vi.instanceId].battlefieldIndex).toBe(1);
+    expect(game.battlefields[0].units["0"]).not.toContain(vi.instanceId);
+    expect(game.battlefields[1].units["0"]).toContain(vi.instanceId);
+  });
+
+  it("blocks a non-Ganking unit from moving battlefield to battlefield", () => {
+    const game = makeGame();
+    const footman = putOnBase(game, "unit-plain-footman", "0", { exhausted: false });
+    moveToBattlefield(game, footman.instanceId, 0);
+
+    const result = attackBattlefield(ctx(game, "0"), {
+      battlefieldIndex: 1,
+      unitInstanceIds: [footman.instanceId],
+    });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+});
+
+describe("Immortal Phoenix (ogn-37): may pay to play from trash when you kill a unit with a spell", () => {
+  it("offers the decision on a spell kill, and paying it moves the Phoenix from trash to base", () => {
+    const game = makeGame();
+    game.players["0"].trash = ["ogn-37"];
+    const spell = putOnBase(game, "ogn-5", "0"); // Disintegrate, deals 3
+    const target = putOnBase(game, "unit-plain-guard", "1"); // Might 1, dies
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.pendingOptionalCost).not.toBeNull();
+    expect(game.pendingOptionalCost!.specialCaseId).toBe("immortal-phoenix");
+    expect(game.pendingOptionalCost!.payload).toBe("ogn-37");
+    expect(game.pendingOptionalCost!.cost).toEqual({ energy: 1, runeDomain: "Fury" });
+
+    game.players["0"].runePool = [
+      { instanceId: "e1", domain: "Fury" as const, exhausted: false },
+      { instanceId: "power", domain: "Fury" as const, exhausted: false },
+    ];
+    const result = resolveOptionalCost(ctx(game, "0"), {
+      pay: true,
+      energyRuneIds: ["e1"],
+      powerRuneId: "power",
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.pendingOptionalCost).toBeNull();
+    expect(game.players["0"].trash).toEqual([]);
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "ogn-37");
+    expect(newInstanceId).toBeDefined();
+  });
+
+  it("declining leaves the Phoenix in trash and clears the pending decision", () => {
+    const game = makeGame();
+    game.players["0"].trash = ["ogn-37"];
+    const spell = putOnBase(game, "ogn-5", "0");
+    const target = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    const result = resolveOptionalCost(ctx(game, "0"), { pay: false, energyRuneIds: [] });
+
+    expect(result).toBeUndefined();
+    expect(game.pendingOptionalCost).toBeNull();
+    expect(game.players["0"].trash).toEqual(["ogn-37"]);
+  });
+
+  it("does not offer anything when the kill isn't from a spell", () => {
+    const game = makeGame();
+    game.players["0"].trash = ["ogn-37"];
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    destroyInstance(game, getCard, target.instanceId);
+
+    expect(game.pendingOptionalCost).toBeNull();
   });
 });
 
