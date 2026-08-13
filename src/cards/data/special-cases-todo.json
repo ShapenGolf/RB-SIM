@@ -728,14 +728,6 @@
     "fullText": "Exhaust: Give a unit [Ganking] this turn. (It can move from battlefield to battlefield.)"
   },
   {
-    "id": "ogn-2",
-    "name": "Brazen Buccaneer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "As you play me, you may discard 1 as an additional cost. If you do, reduce my cost by 2 Energy.",
-    "fullText": "As you play me, you may discard 1 as an additional cost. If you do, reduce my cost by 2 Energy."
-  },
-  {
     "id": "sfd-71",
     "name": "Breakneck Mech",
     "set": "SFD",

@@ -26,6 +26,7 @@ import { luxIlluminated } from "./lux-illuminated";
 import { dianaNoLongerHuman } from "./diana-no-longer-human";
 import { revnaTheLorekeeper } from "./revna-the-lorekeeper";
 import { eclipseHerald } from "./eclipse-herald";
+import { brazenBuccaneer } from "./brazen-buccaneer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -53,6 +54,7 @@ const handlers: SpecialCaseHandler[] = [
   dianaNoLongerHuman,
   revnaTheLorekeeper,
   eclipseHerald,
+  brazenBuccaneer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -84,6 +86,9 @@ export const SpecialCaseEngine = {
   },
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,
+
+  additionalCostDiscardForReduction: (card: Card) =>
+    getSpecialCaseHandler(card)?.additionalCostDiscardForReduction,
 
   activateNeedsTarget: (card: Card) => getSpecialCaseHandler(card)?.activateNeedsTarget ?? false,
 

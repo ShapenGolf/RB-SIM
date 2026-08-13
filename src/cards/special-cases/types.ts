@@ -65,6 +65,15 @@ export interface SpecialCaseHandler {
   onAllyStun?(ctx: SpecialCaseContext, stunnedInstance: CardInstance): void;
 
   /**
+   * Optional "discard N as an additional cost" cost reduction, paid via the existing
+   * `payAdditionalCost` play flag (see keywords/handlers/accelerate.ts for the "pay more"
+   * counterpart). Choosing to pay it discards `discardCount` cards from the front of hand
+   * (see docs/data-sourcing.md discard-choice simplification — no player choice of which
+   * card yet) and reduces this card's Energy cost by `energyReduction`, floored at 0.
+   */
+  readonly additionalCostDiscardForReduction?: { discardCount: number; energyReduction: number };
+
+  /**
    * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be
    * expressed as fixed-amount TemplatedActions (e.g. "deal damage equal to my Might") — the
    * data-driven `Card.activatedAbility` (see cards/templatedEffects.ts) covers the fixed-amount

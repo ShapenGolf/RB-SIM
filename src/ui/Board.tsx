@@ -234,6 +234,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         {player.hand.map((cardId, idx) => {
           const card = getCard(cardId);
           const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
+          const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
           return (
             <div key={idx} style={{ border: "1px solid #444", borderRadius: 6, padding: 6, margin: "4px 0" }}>
               <strong>{card.name}</strong>{" "}
@@ -248,6 +249,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                   {hasAccelerate && (
                     <button style={{ marginLeft: 6 }} onClick={() => playCardAuto(idx, true)}>
                       Spielen (+Accelerate)
+                    </button>
+                  )}
+                  {discardCostConfig && (
+                    <button style={{ marginLeft: 6 }} onClick={() => playCardAuto(idx, true)}>
+                      Spielen (discard {discardCostConfig.discardCount}, -{discardCostConfig.energyReduction}E)
                     </button>
                   )}
                 </div>

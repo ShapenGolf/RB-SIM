@@ -29,7 +29,14 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   const additionalEnergy = args.payAdditionalCost
     ? KeywordEngine.additionalPlayCostEnergy(G, card, instance)
     : 0;
-  const energyNeeded = (card.energyCost ?? 0) + additionalEnergy;
+  const discardCostConfig = args.payAdditionalCost
+    ? SpecialCaseEngine.additionalCostDiscardForReduction(card)
+    : undefined;
+  const canPayDiscardCost = Boolean(
+    discardCostConfig && player.hand.length > discardCostConfig.discardCount,
+  );
+  const costReduction = canPayDiscardCost ? discardCostConfig!.energyReduction : 0;
+  const energyNeeded = Math.max(0, (card.energyCost ?? 0) + additionalEnergy - costReduction);
   if (args.energyRuneIds.length !== energyNeeded) return INVALID_MOVE;
 
   const usedRuneIds = new Set<string>();
@@ -68,6 +75,16 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   }
 
   player.hand.splice(args.handIndex, 1);
+
+  if (canPayDiscardCost) {
+    for (let i = 0; i < discardCostConfig!.discardCount; i += 1) {
+      const discarded = player.hand.shift();
+      if (discarded) {
+        player.trash.push(discarded);
+        player.discardedCardThisTurn = true;
+      }
+    }
+  }
 
   if (card.type === "spell") {
     KeywordEngine.fireOnPlay(G, card, instance);

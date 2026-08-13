@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { INVALID_MOVE } from "boardgame.io/core";
 import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
@@ -300,6 +301,73 @@ describe("Eclipse Herald (ogn-59): ready + buff when I stun an enemy unit", () =
 
     expect(herald.exhausted).toBe(true);
     expect(herald.tempMightBonus).toBe(0);
+  });
+});
+
+describe("Brazen Buccaneer (ogn-2): discard 1 as additional cost to reduce cost by 2", () => {
+  it("costs 2 Energy less and discards a card when the additional cost is paid", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-2", "unit-plain-footman"];
+    const card = getCard("ogn-2");
+    game.players["0"].runePool = Array.from({ length: card.energyCost! - 2 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      payAdditionalCost: true,
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.players["0"].hand).toEqual([]);
+    expect(game.players["0"].trash).toContain("unit-plain-footman");
+    expect(game.players["0"].discardedCardThisTurn).toBe(true);
+  });
+
+  it("costs full price and discards nothing when the additional cost isn't paid", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-2", "unit-plain-footman"];
+    const card = getCard("ogn-2");
+    game.players["0"].runePool = Array.from({ length: card.energyCost! }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      payAdditionalCost: false,
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.players["0"].hand).toEqual(["unit-plain-footman"]);
+    expect(game.players["0"].discardedCardThisTurn).toBe(false);
+  });
+
+  it("cannot pay the additional cost with nothing else in hand to discard", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-2"];
+    const card = getCard("ogn-2");
+    game.players["0"].runePool = Array.from({ length: card.energyCost! - 2 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      payAdditionalCost: true,
+    });
+
+    expect(result).toBe(INVALID_MOVE);
   });
 });
 

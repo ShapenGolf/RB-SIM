@@ -1,6 +1,7 @@
 import type { Card } from "../cards/types";
 import type { RuneInstance } from "../game/state";
 import { KeywordEngine } from "../keywords/registry";
+import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { getCard } from "../cards/db";
 import type { CardInstance, GameState } from "../game/state";
 
@@ -39,7 +40,15 @@ export function computeAutoPayment(
   const additionalEnergy = payAdditionalCost
     ? KeywordEngine.additionalPlayCostEnergy(game, card, instance)
     : 0;
-  const energyNeeded = (card.energyCost ?? 0) + additionalEnergy;
+  const discardCostConfig = payAdditionalCost
+    ? SpecialCaseEngine.additionalCostDiscardForReduction(card)
+    : undefined;
+  const hand = game.players[instance.controller]?.hand ?? [];
+  const costReduction =
+    discardCostConfig && hand.length > discardCostConfig.discardCount
+      ? discardCostConfig.energyReduction
+      : 0;
+  const energyNeeded = Math.max(0, (card.energyCost ?? 0) + additionalEnergy - costReduction);
   const readyCandidates = runePool.filter((r) => !r.exhausted && !used.has(r.instanceId));
   if (readyCandidates.length < energyNeeded) return null;
   const energyRuneIds = readyCandidates.slice(0, energyNeeded).map((r) => r.instanceId);
