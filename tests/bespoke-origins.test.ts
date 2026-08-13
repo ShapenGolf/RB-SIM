@@ -455,6 +455,62 @@ describe("Noxus Hopeful (ogn-12): Legion — costs 2 Energy less", () => {
   });
 });
 
+describe("Sky Splitter (ogn-14): cost reduced by highest Might unit you control", () => {
+  it("reduces its Energy cost by the controller's highest-Might unit, deals 5 to the target", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-14"];
+    const card = getCard("ogn-14");
+    putOnBase(game, "unit-vanguard-striker", "0"); // higher Might than footman
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    const highest = Math.max(
+      ...game.players["0"].base.map((id) => computeMight(game, getCard, game.instances[id], "none")),
+    );
+    const runeCount = Math.max(0, card.energyCost! - highest);
+    game.players["0"].runePool = [
+      { instanceId: "power", domain: "Fury" as const, exhausted: false },
+      ...Array.from({ length: runeCount }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Fury" as const,
+        exhausted: false,
+      })),
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.filter((r) => r.instanceId !== "power").map((r) => r.instanceId),
+      powerRuneIds: ["power"],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBeUndefined();
+    expect(target.damage).toBe(5);
+  });
+
+  it("costs full price with no units controlled", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-14"];
+    const card = getCard("ogn-14");
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    game.players["0"].runePool = [
+      { instanceId: "power", domain: "Fury" as const, exhausted: false },
+      ...Array.from({ length: card.energyCost! - 1 }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Fury" as const,
+        exhausted: false,
+      })),
+    ];
+
+    const tooFew = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.filter((r) => r.instanceId !== "power").map((r) => r.instanceId),
+      powerRuneIds: ["power"],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(tooFew).toBe(INVALID_MOVE);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

@@ -29,6 +29,7 @@ import { eclipseHerald } from "./eclipse-herald";
 import { brazenBuccaneer } from "./brazen-buccaneer";
 import { getExcited } from "./get-excited";
 import { noxusHopeful } from "./noxus-hopeful";
+import { skySplitter } from "./sky-splitter";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -59,6 +60,7 @@ const handlers: SpecialCaseHandler[] = [
   brazenBuccaneer,
   getExcited,
   noxusHopeful,
+  skySplitter,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

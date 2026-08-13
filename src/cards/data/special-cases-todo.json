@@ -5128,14 +5128,6 @@
     "fullText": "Discard a gear, 1 Energy, Exhaust: Deal 4 to a unit at a battlefield."
   },
   {
-    "id": "ogn-14",
-    "name": "Sky Splitter",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "This spell's Energy cost is reduced by the highest Might among units you control.\nDeal 5 to a unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nThis spell's Energy cost is reduced by the highest Might among units you control.\nDeal 5 to a unit at a battlefield."
-  },
-  {
     "id": "unl-38",
     "name": "Skyward Strike",
     "set": "UNL",
