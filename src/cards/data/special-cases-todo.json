@@ -888,14 +888,6 @@
     "fullText": "If you control fewer runes than an opponent at the start of your Beginning Phase, give me +1 Might this turn."
   },
   {
-    "id": "ogn-43",
-    "name": "Charm",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Move an enemy unit.",
-    "fullText": "Move an enemy unit."
-  },
-  {
     "id": "sfd-249",
     "name": "Chem-Baroness",
     "set": "SFD",
@@ -1664,14 +1656,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nMove any number of friendly units at a battlefield to their base."
   },
   {
-    "id": "ogn-46",
-    "name": "En Garde",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a friendly unit +1 Might this turn, then an additional +1 Might this turn if it is the only unit you control there.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a friendly unit +1 Might this turn, then an additional +1 Might this turn if it is the only unit you control there."
-  },
-  {
     "id": "ven-22",
     "name": "Endless Riches",
     "set": "VEN",
@@ -1846,14 +1830,6 @@
     "type": "spell",
     "residualText": "Move a unit from a battlefield to its base.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nMove a unit from a battlefield to its base."
-  },
-  {
-    "id": "ogn-47",
-    "name": "Find Your Center",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "If an opponent's score is within 3 points of the Victory Score, this costs 2 Energy less.\nDraw 1 and channel 1 rune exhausted.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nIf an opponent's score is within 3 points of the Victory Score, this costs 2 Energy less.\nDraw 1 and channel 1 rune exhausted."
   },
   {
     "id": "sfd-110",

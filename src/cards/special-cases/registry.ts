@@ -41,6 +41,9 @@ import { viDestructive } from "./vi-destructive";
 import { immortalPhoenix } from "./immortal-phoenix";
 import { kadregrin } from "./kadregrin";
 import { volibear } from "./volibear";
+import { charm } from "./charm";
+import { enGarde } from "./en-garde";
+import { findYourCenter } from "./find-your-center";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -83,6 +86,9 @@ const handlers: SpecialCaseHandler[] = [
   immortalPhoenix,
   kadregrin,
   volibear,
+  charm,
+  enGarde,
+  findYourCenter,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

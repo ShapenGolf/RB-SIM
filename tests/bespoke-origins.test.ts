@@ -813,6 +813,90 @@ describe("Volibear, Furious (ogn-41): on attack, deal 5 split among enemy units 
   });
 });
 
+describe("Charm (ogn-43): move an enemy unit (assumed: back to base)", () => {
+  it("sends a battlefield enemy unit back to their base", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-43", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, enemy.instanceId);
+
+    expect(enemy.zone).toBe("base");
+    expect(enemy.battlefieldIndex).toBeNull();
+    expect(game.players["1"].base).toContain(enemy.instanceId);
+    expect(game.battlefields[0].units["1"]).not.toContain(enemy.instanceId);
+  });
+
+  it("does nothing to a friendly unit", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-43", "0");
+    const ally = putOnBase(game, "unit-plain-guard", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, ally.instanceId);
+
+    expect(ally.zone).toBe("battlefield");
+  });
+});
+
+describe("En Garde (ogn-46): +1 Might, +1 more if the only unit there", () => {
+  it("grants only +1 when accompanied", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-46", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    putOnBase(game, "unit-plain-guard", "0"); // another unit on the same base
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.tempMightBonus).toBe(1);
+  });
+
+  it("grants +2 when it's the only unit there", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-46", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.tempMightBonus).toBe(2);
+  });
+});
+
+describe("Find Your Center (ogn-47): cost reduced near opponent victory, draw 1 + channel 1 exhausted", () => {
+  it("draws a card and channels an exhausted rune", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-47", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+    expect(game.players["0"].runePool).toEqual([{ instanceId: "r1", domain: "Fury", exhausted: true }]);
+  });
+
+  it("costs 2 Energy less once the opponent is within 3 of the Victory Score", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-47"];
+    const card = getCard("ogn-47");
+    game.players["1"].points = 5; // Victory Score 8 - 3
+    game.players["0"].runePool = Array.from({ length: card.energyCost! - 2 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+    });
+
+    expect(result).toBeUndefined();
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

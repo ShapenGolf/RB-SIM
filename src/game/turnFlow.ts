@@ -5,7 +5,7 @@ import type { CardInstance, GameState, PlayerId } from "./state";
 
 const CHANNEL_AMOUNT = 2;
 const SECOND_PLAYER_FIRST_TURN_CHANNEL_AMOUNT = 3;
-const WIN_SCORE = 8;
+export const WIN_SCORE = 8;
 
 /** Awaken: all exhausted instances/runes controlled by `player` become ready. */
 export function runAwaken(game: GameState, player: PlayerId): void {
