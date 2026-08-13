@@ -74,6 +74,13 @@ export interface SpecialCaseHandler {
   readonly additionalCostDiscardForReduction?: { discardCount: number; energyReduction: number };
 
   /**
+   * Always-evaluated Energy cost reduction for playing this card itself (e.g. Legion:
+   * "I cost 2 Energy less" once another card has already been played this turn). Unlike
+   * `additionalCostDiscardForReduction`, this isn't gated behind an opt-in additional cost.
+   */
+  costReduction?(ctx: SpecialCaseContext): number;
+
+  /**
    * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be
    * expressed as fixed-amount TemplatedActions (e.g. "deal damage equal to my Might") — the
    * data-driven `Card.activatedAbility` (see cards/templatedEffects.ts) covers the fixed-amount

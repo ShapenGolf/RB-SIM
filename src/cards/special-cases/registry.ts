@@ -28,6 +28,7 @@ import { revnaTheLorekeeper } from "./revna-the-lorekeeper";
 import { eclipseHerald } from "./eclipse-herald";
 import { brazenBuccaneer } from "./brazen-buccaneer";
 import { getExcited } from "./get-excited";
+import { noxusHopeful } from "./noxus-hopeful";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -57,6 +58,7 @@ const handlers: SpecialCaseHandler[] = [
   eclipseHerald,
   brazenBuccaneer,
   getExcited,
+  noxusHopeful,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -91,6 +93,9 @@ export const SpecialCaseEngine = {
 
   additionalCostDiscardForReduction: (card: Card) =>
     getSpecialCaseHandler(card)?.additionalCostDiscardForReduction,
+
+  costReduction: (game: GameState, card: Card, instance: CardInstance): number =>
+    getSpecialCaseHandler(card)?.costReduction?.(ctxFor(game, card, instance)) ?? 0,
 
   activateNeedsTarget: (card: Card) => getSpecialCaseHandler(card)?.activateNeedsTarget ?? false,
 

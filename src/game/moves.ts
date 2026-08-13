@@ -35,8 +35,12 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   const canPayDiscardCost = Boolean(
     discardCostConfig && player.hand.length > discardCostConfig.discardCount,
   );
-  const costReduction = canPayDiscardCost ? discardCostConfig!.energyReduction : 0;
-  const energyNeeded = Math.max(0, (card.energyCost ?? 0) + additionalEnergy - costReduction);
+  const discardReduction = canPayDiscardCost ? discardCostConfig!.energyReduction : 0;
+  const selfCostReduction = SpecialCaseEngine.costReduction(G, card, instance);
+  const energyNeeded = Math.max(
+    0,
+    (card.energyCost ?? 0) + additionalEnergy - discardReduction - selfCostReduction,
+  );
   if (args.energyRuneIds.length !== energyNeeded) return INVALID_MOVE;
 
   const usedRuneIds = new Set<string>();

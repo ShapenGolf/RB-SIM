@@ -44,11 +44,15 @@ export function computeAutoPayment(
     ? SpecialCaseEngine.additionalCostDiscardForReduction(card)
     : undefined;
   const hand = game.players[instance.controller]?.hand ?? [];
-  const costReduction =
+  const discardReduction =
     discardCostConfig && hand.length > discardCostConfig.discardCount
       ? discardCostConfig.energyReduction
       : 0;
-  const energyNeeded = Math.max(0, (card.energyCost ?? 0) + additionalEnergy - costReduction);
+  const selfCostReduction = SpecialCaseEngine.costReduction(game, card, instance);
+  const energyNeeded = Math.max(
+    0,
+    (card.energyCost ?? 0) + additionalEnergy - discardReduction - selfCostReduction,
+  );
   const readyCandidates = runePool.filter((r) => !r.exhausted && !used.has(r.instanceId));
   if (readyCandidates.length < energyNeeded) return null;
   const energyRuneIds = readyCandidates.slice(0, energyNeeded).map((r) => r.instanceId);

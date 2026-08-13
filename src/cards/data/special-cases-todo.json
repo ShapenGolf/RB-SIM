@@ -3824,14 +3824,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a unit. Kill it the next time it takes damage this turn.\n[Legion] \u2014 Kill it now instead. (Get the effect if you've played another card this turn.)"
   },
   {
-    "id": "ogn-12",
-    "name": "Noxus Hopeful",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 I cost 2 Energy less. (Get the effect if you've played another card this turn.)",
-    "fullText": "[Legion] \u2014 I cost 2 Energy less. (Get the effect if you've played another card this turn.)"
-  },
-  {
     "id": "ogn-18",
     "name": "Noxus Saboteur",
     "set": "OGN",

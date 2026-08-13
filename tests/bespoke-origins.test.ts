@@ -408,6 +408,53 @@ describe("Get Excited! (ogn-8): discard 1, deal its Energy cost as damage", () =
   });
 });
 
+describe("Noxus Hopeful (ogn-12): Legion — costs 2 Energy less", () => {
+  it("costs full price as the first card played this turn", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-12"];
+    const card = getCard("ogn-12");
+    game.players["0"].runePool = Array.from({ length: card.energyCost! }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const tooFew = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.slice(0, card.energyCost! - 2).map((r) => r.instanceId),
+      powerRuneIds: [],
+    });
+    expect(tooFew).toBe(INVALID_MOVE);
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+    });
+    expect(result).toBeUndefined();
+  });
+
+  it("costs 2 Energy less once another card was already played this turn", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-12"];
+    game.players["0"].playedMainDeckCardThisTurn = true;
+    const card = getCard("ogn-12");
+    game.players["0"].runePool = Array.from({ length: card.energyCost! - 2 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+    });
+
+    expect(result).toBeUndefined();
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();
