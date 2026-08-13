@@ -1,4 +1,5 @@
-export type Domain = "Fury" | "Calm" | "Mind" | "Body" | "Chaos" | "Order";
+/** "Colorless" covers domainless/neutral cards (e.g. some Battlefields), confirmed present in the official card data. */
+export type Domain = "Fury" | "Calm" | "Mind" | "Body" | "Chaos" | "Order" | "Colorless";
 
 export type CardType =
   | "legend"

@@ -6,8 +6,16 @@ Privates Projekt — kein offizielles Riot-Produkt.
 ## Status
 
 MVP-Architektur, lokal spielbar (Hotseat, ein Browser-Tab, zwei Panels).
-Online-Multiplayer noch nicht aktiviert. Set 1 (Origins) ist **nicht
-vollständig importiert** — siehe [`docs/data-sourcing.md`](docs/data-sourcing.md).
+Online-Multiplayer noch nicht aktiviert.
+
+**Kartendatenbank: vollständig importiert**, alle 5 bisher erschienenen Sets
+(1019 Karten: Origins, Proving Grounds, Spiritforged, Unleashed, Vendetta) —
+siehe [`docs/data-sourcing.md`](docs/data-sourcing.md). Davon sind 971 Karten
+als "Sonderfall" markiert (`src/cards/data/special-cases-todo.json`), weil ihr
+Text über die generische Keyword-Engine hinausgeht — das ist die tatsächliche
+Textur des Spiels, keine Import-Lücke. Nur 48 Karten sind aktuell vollständig
+generisch spielbar; alle anderen zeigen korrekte Werte/Kosten/Keywords, aber
+ihr Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
 
 ## Architektur
 
@@ -37,6 +45,13 @@ npm test         # Vitest-Suite (32 Tests: Keywords, Special Cases, Combat, Turn
 npm run build    # Produktions-Build
 ```
 
+Kartendatenbank neu importieren (z.B. nach einem neuen Set-Release, siehe
+`docs/data-sourcing.md` für die Beschaffung der Rohdaten):
+
+```bash
+node scripts/import-cards.mjs <raw-gallery.json> src/cards/data/official-catalog.json src/cards/data/special-cases-todo.json
+```
+
 ## Bekannte MVP-Vereinfachungen
 
 Diese Punkte sind bewusste Vereinfachungen für die erste Architektur-
@@ -56,9 +71,15 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 ## Nächste Schritte
 
-1. Volle Set-1-Kartendatenbank importieren (siehe `docs/data-sourcing.md`).
-2. Automatische Sonderfälle-Erkennung beim Import (Keyword-Extraktion +
-   Restfließtext-Erkennung).
-3. Online-Multiplayer: `Local()`-Transport in `src/ui/client.ts` durch
+1. Special Cases priorisiert abarbeiten (`src/cards/data/special-cases-todo.json`,
+   971 Einträge) — sinnvoll z.B. nach Set (erst Origins) oder nach Deck-
+   Archetyp sortiert, nicht alle auf einmal.
+2. Handler für die noch fehlenden generischen Keywords ergänzen (Hidden,
+   Equip, Empower, Ganking, Tank, Backline, Weaponmaster, Flow, Repeat,
+   Mighty, Buff, Predict als eigenständiger Hook — siehe Tabelle in
+   `docs/rules-reference.md`).
+3. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
+   (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
+4. Online-Multiplayer: `Local()`-Transport in `src/ui/client.ts` durch
    `SocketIO({ server })` ersetzen, Server aufsetzen, auf Vercel deployen.
-4. Chain/Priority-System für Reaction-Timing nachrüsten.
+5. Chain/Priority-System für Reaction-Timing nachrüsten.

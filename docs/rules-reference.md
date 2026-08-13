@@ -91,32 +91,56 @@ Danach freie Aktionsphase (Main Phase) mit Chain/Priority-System (siehe unten).
 
 Erster Spieler mit **8 Punkten** gewinnt.
 
-## Keyword-Glossar (recherchierter Stand)
+## Keyword-Glossar
 
-| Keyword | Typ | Regeltext (funktional) |
-|---|---|---|
-| **Stun** | Status | Unit verursacht in diesem Zug keinen Kampfschaden. |
-| **Empowered** | Dependent | "Solange ich den Empowered-Status habe, erhalte ich [Text]." Max. 1x pro Spiel je Karte. |
-| **Ambush** | Passive | "Ich darf auf ein Battlefield gespielt werden, das du kontrollierst (Units dort)" + erhalte Reaction, solange ich dorthin gespielt werde. |
-| **Level [N]** | System | Teil des XP/Level-Growth-Systems (Champions leveln über XP-Schwellen). Details noch zu verifizieren. |
-| **Hunt** | Triggered | "Wenn ich Conquer oder Hold, erhält mein Controller X XP." |
-| **Accelerate** | Cost-Modifier | "Beim Spielen darf zusätzlich [1][C] bezahlt werden. Falls ja: tritt ready ein." |
-| **Assault [+X M]** | Passive | "Solange ich Attacker bin, habe ich +X Might." |
-| **Deflect** | Passive | Wird die Karte von einem Spell/einer Ability angevisiert, muss der Zielende zusätzliche Rune(n) bezahlen/recyceln; sonst ungültiges Ziel. |
-| **Legion** | Conditional Trigger | Triggert, wenn in diesem Zug bereits eine andere Main-Deck-Karte gespielt wurde. |
-| **Shield [X]** | Passive | Unit hat +X Might, solange sie verteidigt (defending). |
-| **Deathknell** | Triggered | Triggert, wenn die Unit zerstört wird (nach Heilung, vor Zone-Wechsel). |
-| **Vision** | Triggered | "Wenn gespielt: predict" (Predict = oberste Deck-Karte ansehen/Karten filtern – Detailmechanik noch zu verifizieren). |
-| **Action** | Timing | Siehe oben. |
-| **Reaction** | Timing | Siehe oben. |
-| **Hidden** | Timing | Siehe oben. |
-| **Tough** | ? | Unklar – vermutlich Schadensreduktion (analog anderer TCGs), **zu verifizieren**. |
-| **Overwhelm** | ? | Unklar – vermutlich Trample-artig (überschüssiger Schaden geht durch), **zu verifizieren**. |
+Stand nach Import des kompletten offiziellen Kartenkatalogs (1019 Karten, alle
+5 Sets, siehe `docs/data-sourcing.md`). Der Katalog markiert Keywords
+durchgängig in eckigen Klammern im Kartentext (z.B. `[Shield 2]`), das macht
+die Liste unten deutlich verlässlicher als die ursprüngliche Web-Recherche.
+Häufigkeit = Anzahl Vorkommen im Kartentext über alle 5 Sets.
 
-**Offene Punkte für spätere Recherche-Iteration:** exakte Level/XP-Mechanik,
-Predict-Mechanik (Vision), Tough, Overwhelm, sowie das vollständige Keyword-Set
-laut offiziellem Glossar (es gibt vermutlich weitere, seltenere Keywords in
-späteren Sets, für Set 1 aber vermutlich mit den obigen weitgehend abgedeckt).
+| Keyword | Häufigkeit | Engine-Handler | Regeltext (funktional) |
+|---|---|---|---|
+| **Reaction** | 131 | ✅ (Timing, vereinfacht) | Spielbar jederzeit, auch bevor andere Spells/Abilities resolven. |
+| **Action** | 102 | ✅ (Timing, vereinfacht) | Spielbar im eigenen Zug oder in Showdowns. |
+| **Empowered** | 70 | ✅ (Status-Tracking) | "Solange ich Empowered bin, erhalte ich [Text]." Granted Text ist immer kartenspezifisch (Special Case). |
+| **Hidden** | 61 | ⬜ noch kein Handler | Verdeckt spielbar, später aufdeckbar. |
+| **Deflect [X]** | 59 | ✅ | Gegner muss X zusätzliche Rune(n) zahlen/recyceln, um mich als Ziel zu wählen. |
+| **Equip** | 53 | ⬜ noch kein Handler | Gear/Ausrüstung wird an eine Unit angehängt. |
+| **Empower [Kosten]** | 53 | ⬜ noch kein Handler | Aktivierte Fähigkeit: Kosten zahlen → Empowered-Status erhalten (nur falls noch nicht empowered). |
+| **Ganking** | 52 | ⬜ noch kein Handler | Kann von Battlefield zu Battlefield ziehen (Bewegungs-Keyword). |
+| **Add** | 50 | ⬜ noch kein Handler | Im Kontext von Ressourcen-Effekten ("[Add] that much Rune"). |
+| **Accelerate [X]** | 41 | ✅ | Beim Spielen darf zusätzlich X Energy (+ oft eine Domain-Rune) bezahlt werden; falls ja, tritt die Karte ready statt exhausted ein. |
+| **Temporary** | 35 | ⬜ noch kein Handler | Tokens/Effekte, die zeitlich begrenzt bestehen. |
+| **Tank** | 32 | ⬜ noch kein Handler | "Muss zuerst Kampfschaden zugewiesen bekommen." |
+| **Deathknell** | 27 | ✅ (Event-Hook) | Triggert beim Zerstören, nach Heilung, vor Zonenwechsel. Payload immer Special Case. |
+| **Repeat [Kosten]** | 24 | ⬜ noch kein Handler | Effekt darf gegen Zusatzkosten wiederholt werden. |
+| **Assault [+X]** | 23 | ✅ | +X Might solange ich Attacker bin. |
+| **Ambush** | 23 | ✅ | Darf auf ein von Gegner-Units besetztes Battlefield gespielt werden; erhält dabei Reaction. |
+| **Shield [X]** | 21 | ✅ | +X Might solange ich verteidige. |
+| **Weaponmaster** | 20 | ⬜ noch kein Handler | Zusatzkosten-Muster ähnlich Equip, kartenspezifisch. |
+| **Stun** | 18 | ✅ (Status-Check) | Verursacht diesen Zug keinen Kampfschaden. Wird i.d.R. von einer anderen Karte verhängt, nicht selbst getragen. |
+| **Flow [Kosten]** | 18 | ⬜ noch kein Handler | Darf gegen Kosten aus dem Trash gespielt werden, danach banished. |
+| **Legion** | 15 | ✅ (Conditional-Check) | Aktiv, wenn diesen Zug bereits eine andere Main-Deck-Karte gespielt wurde. Granted Text immer Special Case. |
+| **Vision** | 15 | ✅ | "Wenn gespielt: [Predict]." |
+| **Mighty** | 14 | ⬜ noch kein Handler | Statusabhängig (z.B. "Mighty solange 5+ Might"), kartenspezifisch. |
+| **Buff** | 12 | ⬜ noch kein Handler | Generischer permanenter Might-Bonus-Counter. |
+| **Hunt [X]** | 8 | ✅ | Wenn ich Conquer oder Hold, Controller erhält X XP. |
+| **Quick-Draw** | 6 | ⬜ noch kein Handler | Kartenspezifisches Attach-Verhalten (oft kombiniert mit Reaction). |
+| **Backline** | 6 | ⬜ noch kein Handler | "Muss zuletzt Kampfschaden zugewiesen bekommen" (Gegenstück zu Tank). |
+| **Predict** | 5 | ⬜ noch kein Handler (Teil von Vision) | Oberste Deck-Karte ansehen, optional recyceln (unten einordnen). |
+| **Unique** | 3 | ⬜ noch kein Handler | Deckbau-Regel: nur 1 Kopie mit diesem Namen pro Deck (kein Laufzeit-Verhalten). |
+| **Level [N]** | 1 | ✅ (Wert nur geparst) | Teil des XP/Level-Systems; Effekt bei Erreichen von N XP ist immer kartenspezifisch. |
+
+✅ = generischer Handler existiert in `src/keywords/handlers/`. ⬜ = im echten
+Kartentext gefunden und von der Import-Pipeline korrekt erkannt/geparst, aber
+noch kein Laufzeit-Verhalten implementiert (nächste Ausbaustufe der Engine).
+
+**Wichtiger Befund:** die meisten Karten haben zusätzlich zu ihren Keywords
+noch echten Unique-Text (971 von 1019 importierten Karten, siehe
+`src/cards/data/special-cases-todo.json`). Keywords sind eine Abkürzung für
+wiederkehrende Regelbausteine, ersetzen aber nicht die individuelle
+Kartenidentität — das war so nicht abzusehen, bevor der volle Datensatz vorlag.
 
 ## Architektur-Konsequenz
 

@@ -1,13 +1,42 @@
-# Kartendaten-Beschaffung für Set 1 (Origins)
+# Kartendaten-Beschaffung
 
-## Status
+## Status (aktualisiert 2026-08-13)
 
-Die vollständige Set-1-Kartendatenbank (~350 Karten laut Community-Quellen) ist
-**noch nicht importiert**. Diese Sandbox-Umgebung blockiert ausgehenden Netzwerk-
-zugriff auf praktisch alle Domains außer GitHub (git) und dem internen
-Such-Backend – bestätigt sowohl über den `WebFetch`-Tool als auch direkt per
-`curl`. Damit ist automatisiertes Scraping der offiziellen Card Gallery oder von
-Drittanbieter-Datenbanken aus dieser Session heraus nicht möglich.
+**Import abgeschlossen.** Der Nutzer hat die offizielle Card-Gallery-JSON
+(`https://riftbound.leagueoflegends.com/_next/data/<BUILD_ID>/en-us/card-gallery.json`)
+manuell über den Browser gespeichert und hochgeladen (diese Sandbox blockiert
+weiterhin ausgehenden Netzwerkzugriff auf fast alle Domains außer GitHub und
+dem internen Such-Backend — automatisiertes Scraping war also weiterhin nicht
+möglich, siehe unten). Die Datei enthielt **alle 5 bisher veröffentlichten
+Sets** (nicht nur Vendetta, wie ursprünglich angenommen):
+
+| Set | Code | Karten (dedupliziert) |
+|---|---|---|
+| Origins | OGN | 310 |
+| Proving Grounds | OGS | 24 |
+| Spiritforged | SFD | 251 |
+| Unleashed | UNL | 238 |
+| Vendetta | VEN | 196 |
+| **Gesamt** | | **1019** (aus 1189 Roheinträgen, 170 Alt-Art/Showcase-Varianten dedupliziert) |
+
+Import-Pipeline: `scripts/import-cards.mjs` → `src/cards/data/official-catalog.json`
+(alle 1019 Karten, vollständige Metadaten) + `src/cards/data/special-cases-todo.json`
+(Karten mit Text, der über die generische Keyword-Engine hinausgeht).
+
+**Wichtiger Fund:** Die Mehrheit der Karten hat trotz Keyword-Tags auch
+kartenspezifischen Fließtext (z.B. "When I hold, you score 1 point." — kein
+Keyword, reiner Unique-Text). Von 1019 Karten sind **971 als Sonderfall
+markiert**, nur 48 sind vollständig generisch abgedeckt. Das ist keine
+Heuristik-Schwäche, sondern die tatsächliche Textur des Spiels: die
+Zwei-Schichten-Architektur war genau für diesen Fall gedacht — Struktur zuerst
+(Metadaten + Keyword-Erkennung für alle 1019 Karten funktioniert vollständig),
+Sonderfälle priorisiert nachziehen statt alle 971 auf einmal zu implementieren.
+
+## Frühere Sackgasse (archiviert)
+
+Die folgenden Abschnitte beschreiben den ursprünglich geplanten automatisierten
+Weg, der an der Netzwerk-Restriktion scheiterte, bevor der manuelle
+Browser-Workaround (siehe Chat) erfolgreich war.
 
 ## Gefundene Quelle (für später / für den Nutzer)
 
@@ -45,29 +74,64 @@ Ein Referenz-Implementierung dieses Fetches liegt öffentlich unter
 }
 ```
 
-## Optionen, wie es weitergehen kann
+## Was tatsächlich funktioniert hat
 
-1. **Empfohlen:** Netzwerk-Policy dieser Environment (claude.ai/code Environment-
-   Einstellungen) so anpassen, dass `riftbound.leagueoflegends.com` (oder generell
-   mehr Domains) erreichbar ist – danach kann in dieser Session ein Import-Script
-   (`scripts/import-cards.mjs`, siehe unten) den offiziellen Endpoint direkt
-   abfragen und `src/cards/data/set1-origins.json` vollständig befüllen.
-2. Der Nutzer lädt eine bereits erzeugte `cards.json` (z.B. über obiges Python-
-   Script lokal ausgeführt, oder Export von Piltover Archive) in die Session hoch;
-   ein Mapping-Script transformiert sie in unser internes Kartenschema
-   (`src/cards/types.ts`).
-3. Bis dahin: ein kuratiertes **Starter-Set** (`src/cards/data/starter-set.json`,
-   ~25–40 Karten) validiert Engine/Architektur; echte Kartentexte wurden dafür
-   einzeln recherchiert (siehe Quellenangaben in der Datei).
+Weg 2 aus der ursprünglichen Liste: der Nutzer hat die rohe Card-Gallery-JSON
+manuell über den Browser gespeichert (Seitenquelltext → Build-ID suchen →
+`/_next/data/<BUILD_ID>/en-us/card-gallery.json` öffnen → Seite speichern) und
+sie hier hochgeladen. `scripts/import-cards.mjs` hat daraus den kompletten
+Katalog gebaut. Kein Environment-Netzwerkzugriff nötig.
 
-## Import-Pfad (sobald Rohdaten vorliegen)
+## Import-Pipeline (`scripts/import-cards.mjs`)
 
-`scripts/import-cards.mjs` nimmt eine Rohdaten-JSON (im obigen vereinfachten
-Schema) und transformiert sie nach `src/cards/types.ts` `Card`, inkl.:
+```
+node scripts/import-cards.mjs <raw-gallery.json> <output-catalog.json> <special-cases-todo.json>
+```
 
-- Keyword-Extraktion aus `ability_html` (Regex auf bekannte Keyword-Namen +
-  optionalen Zahlenwert, z.B. `Shield 2`).
-- Karten, bei denen nach Keyword-Extraktion noch signifikanter Fließtext übrig
-  bleibt (potenzieller Unique-Effekt), werden nach
-  `src/cards/data/special-cases.json` aussortiert statt automatisch as generisch
-  markiert zu werden.
+Schritte:
+
+1. Liest `pageProps.page.blades[2].cards.items` aus der Rohdaten-JSON.
+2. Dedupliziert Alt-Art/Showcase-Varianten (gleiche Set+Collector-Nummer, nur
+   Buchstaben-Suffix unterschiedlich, z.B. `OGN-121` vs. `OGN-121a`) — behält
+   die Haupt-Printing.
+3. Mappt Felder: `cardType.type[0].id` → unser `type` (Champions erkennbar an
+   `cardType.superType` mit `id: "champion"`, sonst `type: "unit"`);
+   `domain.values[].id` → `Domain`; `energy`/`might`/`power` → Zahlenwerte;
+   `text.richText.body` (HTML) → Klartext, inkl. Umwandlung der
+   Icon-Platzhalter (`:rb_might:`, `:rb_energy_2:`, `:rb_rune_fury:`, ...).
+4. **Keyword-Extraktion:** Kartentext im offiziellen Datensatz markiert
+   Keywords durchgängig in eckigen Klammern, z.B. `[Shield 2]`,
+   `[Hunt 2] (When I conquer or hold, gain 2 XP.)`. Ein Regex erkennt bekannte
+   Keyword-Namen (Liste in `KNOWN_KEYWORDS` im Script) + optionalen Zahlenwert
+   und entfernt Tag + direkt angehängten Reminder-Text `(...)` gemeinsam.
+5. Was danach an Fließtext übrig bleibt (> 3 Buchstaben), gilt als
+   Unique-Effekt: die Karte landet in `special-cases-todo.json` statt
+   automatisch (falsch) als "generisch abgedeckt" markiert zu werden.
+
+## Ergebnis (Stand 2026-08-13)
+
+- **1019 Karten** importiert, alle 5 Sets, in `src/cards/data/official-catalog.json`.
+- **971 Karten** als Sonderfall in `src/cards/data/special-cases-todo.json`
+  gesammelt (Feld `residualText` zeigt den nicht abgedeckten Teil, `fullText`
+  den kompletten Originaltext für die spätere Implementierung).
+- **48 Karten** sind bereits vollständig generisch spielbar.
+- 1 Karte (`ogn-16`, "Dangerous Duo") wurde manuell mit dem bereits
+  existierenden `dangerous-duo`-Special-Case verknüpft (Text stimmt fast
+  wörtlich überein) — siehe `IMPLEMENTED_SPECIAL_CASES` im Import-Script als
+  Muster für weitere Verknüpfungen.
+
+## Bekannte Einschränkungen des Imports
+
+- **Power-Domain bei mehrfarbigen Karten:** Das JSON gibt bei `power` nur eine
+  Zahl an, keine Domain-Zuordnung. Bei Karten mit >1 Domain wurde die erste
+  Domain geraten (41 betroffene Karten, alle mit Warnung beim Import-Lauf
+  geloggt) — vor Verwendung im echten Deckbau gegen das Kartenbild verifizieren.
+- **"Colorless"** ist als 7. Domain-Wert im Datensatz vorhanden (neutrale/
+  domänenlose Karten, v.a. manche Battlefields/Gear) und wurde zu `Domain`
+  in `src/cards/types.ts` hinzugefügt.
+- Keyword-Erkennung ist Text-Pattern-Matching, kein echtes Parsing — bei
+  ungewöhnlicher Formatierung können einzelne Keywords übersehen werden oder
+  im `residualText` der Sonderfälle-Liste hängen bleiben.
+- Die rohe 3,2-MB-Quelldatei wurde **nicht** ins Repo übernommen (nur das
+  verarbeitete Ergebnis) — bei Bedarf (neue Sets, Errata) muss sie erneut
+  besorgt und der Import erneut ausgeführt werden.
