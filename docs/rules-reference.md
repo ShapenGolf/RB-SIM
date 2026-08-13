@@ -111,7 +111,7 @@ Häufigkeit = Anzahl Vorkommen im Kartentext über alle 5 Sets.
 | **Ganking** | 52 | ✅ (Move-Regel) | Kann von Battlefield zu Battlefield ziehen (Bewegungs-Keyword) — direkt in `attackBattlefield` (moves.ts) umgesetzt, kein separater Handler nötig. |
 | **Add** | 50 | ⬜ noch kein Handler | Im Kontext von Ressourcen-Effekten ("[Add] that much Rune"). |
 | **Accelerate [X]** | 41 | ✅ | Beim Spielen darf zusätzlich X Energy (+ oft eine Domain-Rune) bezahlt werden; falls ja, tritt die Karte ready statt exhausted ein. |
-| **Temporary** | 35 | ⬜ noch kein Handler | Tokens/Effekte, die zeitlich begrenzt bestehen. |
+| **Temporary** | 35 | ✅ | Zerstört sich selbst zu Beginn der Beginning Phase des Controllers, vor dem Scoring — Status wird bei `createInstance` gesetzt (gedruckt) oder von Karten wie Last Stand vergeben (`instance.statuses.temporary`), Kill-Check in `turnFlow.ts runBeginning`. |
 | **Tank** | 32 | ⬜ noch kein Handler | "Muss zuerst Kampfschaden zugewiesen bekommen." |
 | **Deathknell** | 27 | ✅ (Event-Hook) | Triggert beim Zerstören, nach Heilung, vor Zonenwechsel. Payload immer Special Case. |
 | **Repeat [Kosten]** | 24 | ⬜ noch kein Handler | Effekt darf gegen Zusatzkosten wiederholt werden. |

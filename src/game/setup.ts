@@ -127,6 +127,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
 }
 
 export function createInstance(game: GameState, cardId: string, controller: PlayerId): CardInstance {
+  const card = getCard(cardId);
   const instance: CardInstance = {
     instanceId: nextInstanceId(),
     cardId,
@@ -135,7 +136,10 @@ export function createInstance(game: GameState, cardId: string, controller: Play
     battlefieldIndex: null,
     damage: 0,
     exhausted: true, // Default entering state; Accelerate is the documented exception. See docs/rules-reference.md.
-    statuses: {},
+    // Temporary: printed on many token cards (e.g. Sprite tokens) rather than granted by
+    // another card's effect — set eagerly here so both sources behave identically (see
+    // turnFlow.ts runBeginning, which kills anything with this status before scoring).
+    statuses: card.keywords.some((k) => k.keyword === "temporary") ? { temporary: true } : {},
     xp: 0,
     tempMightBonus: 0,
     grantedThisTurn: [],

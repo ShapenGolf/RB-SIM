@@ -5,6 +5,7 @@ import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
 import { playCard, activateAbility, attackBattlefield, resolveOptionalCost } from "../src/game/moves";
 import { destroyInstance, resolveHoldTriggers } from "../src/game/combat";
+import { runBeginning } from "../src/game/turnFlow";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -1131,6 +1132,41 @@ describe("Blitzcrank, Impassive (ogn-67): played to a battlefield, may move an e
     expect(game.instances[blitzcrank.instanceId]).toBeUndefined();
     expect(game.players["0"].hand).toContain("ogn-67");
     expect(game.battlefields[0].units["0"]).not.toContain(blitzcrank.instanceId);
+  });
+});
+
+describe("Temporary status: killed at the controller's next Beginning, before scoring", () => {
+  it("kills a Temporary instance during runBeginning", () => {
+    const game = makeGame();
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+    unit.statuses.temporary = true;
+
+    runBeginning(game, "0");
+
+    expect(game.instances[unit.instanceId]).toBeUndefined();
+  });
+
+  it("leaves non-Temporary units untouched", () => {
+    const game = makeGame();
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+
+    runBeginning(game, "0");
+
+    expect(game.instances[unit.instanceId]).toBeDefined();
+  });
+});
+
+describe("Last Stand (ogn-69): double Might this turn, give it Temporary", () => {
+  it("doubles the target's current effective Might and marks it Temporary", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-69", "0");
+    const target = putOnBase(game, "unit-vanguard-striker", "0");
+    const baseline = computeMight(game, getCard, target, "none");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(computeMight(game, getCard, target, "none")).toBe(baseline * 2);
+    expect(target.statuses.temporary).toBe(true);
   });
 });
 

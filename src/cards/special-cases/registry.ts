@@ -49,6 +49,7 @@ import { poroHerder } from "./poro-herder";
 import { spiritsRefuge } from "./spirits-refuge";
 import { ravenbornTome } from "./ravenborn-tome";
 import { blitzcrank } from "./blitzcrank";
+import { lastStand } from "./last-stand";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -99,6 +100,7 @@ const handlers: SpecialCaseHandler[] = [
   spiritsRefuge,
   ravenbornTome,
   blitzcrank,
+  lastStand,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

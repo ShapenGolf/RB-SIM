@@ -3048,14 +3048,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nReady a friendly unit. It deals damage equal to its Might to an enemy unit at a battlefield."
   },
   {
-    "id": "ogn-69",
-    "name": "Last Stand",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Double a friendly unit's Might this turn. Give it . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDouble a friendly unit's Might this turn. Give it [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
     "id": "sfd-96",
     "name": "Laurent Bladekeeper",
     "set": "SFD",

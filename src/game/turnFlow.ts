@@ -1,5 +1,5 @@
 import { getCard } from "../cards/db";
-import { resolveHoldTriggers } from "./combat";
+import { resolveHoldTriggers, destroyInstance } from "./combat";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import type { CardInstance, GameState, PlayerId } from "./state";
 
@@ -32,8 +32,17 @@ function battlefieldPseudoInstance(cardId: string, controller: PlayerId): CardIn
   };
 }
 
-/** Beginning: score 1 point per Battlefield controlled, then fire Hold triggers (Hunt + Battlefield hold effects). */
+/** Kills every instance `player` controls with the Temporary status, before scoring (see Last Stand, Fading Memories, and various Temporary tokens). */
+function killTemporaryInstances(game: GameState, player: PlayerId): void {
+  const toKill = Object.values(game.instances)
+    .filter((i) => i.controller === player && i.statuses.temporary)
+    .map((i) => i.instanceId);
+  for (const instanceId of toKill) destroyInstance(game, getCard, instanceId);
+}
+
+/** Beginning: kill Temporary units, score 1 point per Battlefield controlled, then fire Hold triggers (Hunt + Battlefield hold effects). */
 export function runBeginning(game: GameState, player: PlayerId): void {
+  killTemporaryInstances(game, player);
   const controlledCount = game.battlefields.filter((b) => b.controller === player).length;
   game.players[player].points += controlledCount;
   resolveHoldTriggers(game, getCard, player);
