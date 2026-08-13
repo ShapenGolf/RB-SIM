@@ -4808,14 +4808,6 @@
     "fullText": "When this is played, discarded, or killed, draw 1."
   },
   {
-    "id": "ogn-20",
-    "name": "Scrapyard Champion",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 When you play me, discard 2, then draw 2. (Get the effect if you've played another card this turn.)",
-    "fullText": "[Legion] \u2014 When you play me, discard 2, then draw 2. (Get the effect if you've played another card this turn.)"
-  },
-  {
     "id": "unl-157",
     "name": "Scrutinizing Sergeant",
     "set": "UNL",
@@ -5462,14 +5454,6 @@
     "type": "gear",
     "residualText": "When an opponent scores, draw 1.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nWhen an opponent scores, draw 1."
-  },
-  {
-    "id": "ogn-21",
-    "name": "Sun Disc",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Exhaust:  \u2014 The next unit you play this turn enters ready. (Get the effect if you've played another card this turn.)",
-    "fullText": "Exhaust: [Legion] \u2014 The next unit you play this turn enters ready. (Get the effect if you've played another card this turn.)"
   },
   {
     "id": "sfd-218",

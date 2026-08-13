@@ -30,6 +30,8 @@ import { brazenBuccaneer } from "./brazen-buccaneer";
 import { getExcited } from "./get-excited";
 import { noxusHopeful } from "./noxus-hopeful";
 import { skySplitter } from "./sky-splitter";
+import { scrapyardChampion } from "./scrapyard-champion";
+import { sunDisc } from "./sun-disc";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -61,6 +63,8 @@ const handlers: SpecialCaseHandler[] = [
   getExcited,
   noxusHopeful,
   skySplitter,
+  scrapyardChampion,
+  sunDisc,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

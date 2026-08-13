@@ -511,6 +511,63 @@ describe("Sky Splitter (ogn-14): cost reduced by highest Might unit you control"
   });
 });
 
+describe("Scrapyard Champion (ogn-20): Legion — discard 2, then draw 2", () => {
+  it("discards 2 and draws 2 when Legion is active", () => {
+    const game = makeGame();
+    const champ = putOnBase(game, "ogn-20", "0");
+    game.players["0"].playedMainDeckCardThisTurn = true;
+    game.players["0"].hand = ["unit-plain-footman", "unit-plain-guard"];
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5"];
+
+    SpecialCaseEngine.onPlay(game, getCard(champ.cardId), champ);
+
+    expect(game.players["0"].hand).toEqual(["ogn-4", "ogn-5"]);
+    expect(game.players["0"].trash).toEqual(["unit-plain-footman", "unit-plain-guard"]);
+    expect(game.players["0"].discardedCardThisTurn).toBe(true);
+  });
+
+  it("does nothing when Legion isn't active", () => {
+    const game = makeGame();
+    const champ = putOnBase(game, "ogn-20", "0");
+    game.players["0"].hand = ["unit-plain-footman"];
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(champ.cardId), champ);
+
+    expect(game.players["0"].hand).toEqual(["unit-plain-footman"]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-4"]);
+  });
+});
+
+describe("Sun Disc (ogn-21): Exhaust, Legion — next unit enters ready", () => {
+  it("makes the next unit played this turn enter ready, then clears itself", () => {
+    const game = makeGame();
+    const disc = putOnBase(game, "ogn-21", "0", { exhausted: false });
+    game.players["0"].playedMainDeckCardThisTurn = true;
+
+    SpecialCaseEngine.onActivate(game, getCard(disc.cardId), disc);
+    expect(disc.exhausted).toBe(false); // exhaustSelf is handled by activateAbility move, not onActivate
+    expect(game.players["0"].nextUnitEntersReady).toBe(true);
+
+    game.players["0"].hand = ["unit-plain-footman"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+    playCard(ctx(game, "0"), { handIndex: 0, energyRuneIds: ["r1"], powerRuneIds: [] });
+
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-footman");
+    expect(game.instances[newInstanceId!].exhausted).toBe(false);
+    expect(game.players["0"].nextUnitEntersReady).toBe(false);
+  });
+
+  it("does nothing when Legion isn't active", () => {
+    const game = makeGame();
+    const disc = putOnBase(game, "ogn-21", "0", { exhausted: false });
+
+    SpecialCaseEngine.onActivate(game, getCard(disc.cardId), disc);
+
+    expect(game.players["0"].nextUnitEntersReady).toBe(false);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

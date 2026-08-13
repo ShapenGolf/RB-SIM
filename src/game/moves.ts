@@ -37,9 +37,10 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   );
   const discardReduction = canPayDiscardCost ? discardCostConfig!.energyReduction : 0;
   const selfCostReduction = SpecialCaseEngine.costReduction(G, card, instance);
+  const nextSpellReduction = card.type === "spell" ? player.nextSpellCostReduction : 0;
   const energyNeeded = Math.max(
     0,
-    (card.energyCost ?? 0) + additionalEnergy - discardReduction - selfCostReduction,
+    (card.energyCost ?? 0) + additionalEnergy - discardReduction - selfCostReduction - nextSpellReduction,
   );
   if (args.energyRuneIds.length !== energyNeeded) return INVALID_MOVE;
 
@@ -91,15 +92,19 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   }
 
   if (card.type === "spell") {
+    if (nextSpellReduction > 0) player.nextSpellCostReduction = 0;
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, args.targetInstanceId);
     fireTemplatedEffect(G, getCard, card, instance, "onPlay", args.targetInstanceId);
     delete G.instances[instance.instanceId];
     player.trash.push(cardId);
   } else {
+    const isUnit = card.type === "unit" || card.type === "champion";
     const entersReady =
       (args.payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
-      SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance);
+      SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance) ||
+      (isUnit && player.nextUnitEntersReady);
+    if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
     instance.exhausted = !entersReady;
     player.base.push(instance.instanceId);
     KeywordEngine.fireOnPlay(G, card, instance);

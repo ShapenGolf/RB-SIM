@@ -81,6 +81,8 @@ function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
     hasTakenFirstTurn: false,
     discardedCardThisTurn: false,
     cardsPlayedThisTurn: 0,
+    nextUnitEntersReady: false,
+    nextSpellCostReduction: 0,
   };
 }
 

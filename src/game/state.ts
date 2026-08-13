@@ -62,6 +62,10 @@ export interface PlayerState {
   discardedCardThisTurn: boolean;
   /** Count of cards this player has played this turn, for "when you play your second card..." effects. Reset at Awaken. */
   cardsPlayedThisTurn: number;
+  /** One-shot: the next unit/champion this player plays this turn enters ready. Consumed on use, reset at Awaken. */
+  nextUnitEntersReady: boolean;
+  /** One-shot: Energy cost reduction applied to the next spell this player plays this turn. Consumed on use, reset at Awaken. */
+  nextSpellCostReduction: number;
 }
 
 export interface BattlefieldSlot {
