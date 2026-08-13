@@ -19,7 +19,12 @@ export interface CardInstance {
   battlefieldIndex: number | null;
   damage: number;
   exhausted: boolean;
-  /** Active status/keyword flags, e.g. "stunned", "empowered", "everEmpowered". Cleared per rules per keyword, not globally. */
+  /**
+   * Active status/keyword flags, e.g. "stunned", "empowered", "everEmpowered". Cleared per
+   * rules per keyword, not globally — EXCEPT any key ending in "ThisTurn" (convention for
+   * one-off per-instance-per-turn gates, e.g. "wraith of echoes already drew this turn"),
+   * which turnFlow.ts's runTurnStart auto-clears for the controller every Awaken.
+   */
   statuses: Record<string, boolean>;
   /** XP counters, used by Level/Hunt. */
   xp: number;

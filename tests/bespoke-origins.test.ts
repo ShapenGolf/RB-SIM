@@ -5,7 +5,7 @@ import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
 import { playCard, activateAbility, attackBattlefield, resolveOptionalCost, endTurn } from "../src/game/moves";
 import { destroyInstance, resolveHoldTriggers } from "../src/game/combat";
-import { runBeginning } from "../src/game/turnFlow";
+import { runBeginning, runTurnStart } from "../src/game/turnFlow";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -1484,6 +1484,151 @@ describe("Gemcraft Seer (ogn-100): other friendly units have Vision", () => {
     });
 
     expect(game.players["0"].pendingPredict).toBe(false);
+  });
+});
+
+describe("Portal Rescue (ogn-102): banish a friendly unit, play it to base ignoring cost", () => {
+  it("moves the unit from base through banishment and back to base as a new instance", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-102", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["0"].banishment).toContain("unit-plain-footman");
+    const newInstanceId = game.players["0"].base.find(
+      (id) => id !== spell.instanceId && game.instances[id].cardId === "unit-plain-footman",
+    );
+    expect(newInstanceId).toBeDefined();
+  });
+
+  it("ignores an enemy unit", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-102", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, enemy.instanceId);
+
+    expect(game.instances[enemy.instanceId]).toBeDefined();
+  });
+});
+
+describe("Retreat (ogn-104): return a friendly unit to hand, owner channels 1 exhausted", () => {
+  it("returns the unit to hand and channels a rune exhausted", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-104", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("unit-plain-footman");
+    expect(game.players["0"].runePool).toEqual([{ instanceId: "r1", domain: "Fury", exhausted: true }]);
+  });
+});
+
+describe("Singularity (ogn-105): deal 6 to each of up to two units (simplified to one)", () => {
+  it("deals 6 damage to the chosen target", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-105", "0");
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Sprite Mother (ogn-106): play a ready 3 Might Sprite token with Temporary here", () => {
+  it("creates a ready 3 Might Temporary token on base when played there", () => {
+    const game = makeGame();
+    const mother = putOnBase(game, "ogn-106", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(mother.cardId), mother);
+
+    const tokenId = game.players["0"].base.find(
+      (id) => id !== mother.instanceId && game.instances[id].cardId === "token-sprite-temporary",
+    );
+    expect(tokenId).toBeDefined();
+    const token = game.instances[tokenId!];
+    expect(token.exhausted).toBe(false);
+    expect(token.statuses.temporary).toBe(true);
+    expect(computeMight(game, getCard, token, "none")).toBe(3);
+  });
+
+  it("creates the token at the same battlefield when played there", () => {
+    const game = makeGame();
+    const mother = putOnBase(game, "ogn-106", "0");
+    moveToBattlefield(game, mother.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(mother.cardId), mother);
+
+    const tokenId = game.battlefields[0].units["0"].find((id) => game.instances[id].cardId === "token-sprite-temporary");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("Dr. Mundo, Expert (ogn-109): Might scales with trash size, recycle 3 at Beginning", () => {
+  it("adds trash count to Might", () => {
+    const game = makeGame();
+    const mundo = putOnBase(game, "ogn-109", "0");
+    const baseline = getCard("ogn-109").might!;
+    game.players["0"].trash = ["ogn-4", "ogn-5", "ogn-8"];
+
+    expect(computeMight(game, getCard, mundo, "none")).toBe(baseline + 3);
+  });
+
+  it("recycles 3 from trash at Beginning", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-109", "0");
+    game.players["0"].trash = ["ogn-4", "ogn-5", "ogn-8", "ogn-11"];
+    game.players["0"].mainDeck = [];
+
+    runBeginning(game, "0");
+
+    expect(game.players["0"].trash).toEqual(["ogn-11"]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-4", "ogn-5", "ogn-8"]);
+  });
+});
+
+describe("Wraith of Echoes (ogn-118): first friendly unit death each turn draws 1", () => {
+  it("draws once when a friendly unit dies, not again the same turn", () => {
+    const game = makeGame();
+    const wraith = putOnBase(game, "ogn-118", "0");
+    const unit1 = putOnBase(game, "unit-plain-footman", "0");
+    const unit2 = putOnBase(game, "unit-plain-guard", "0");
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5"];
+
+    destroyInstance(game, getCard, unit1.instanceId);
+    expect(game.players["0"].hand).toEqual(["ogn-4"]);
+
+    destroyInstance(game, getCard, unit2.instanceId);
+    expect(game.players["0"].hand).toEqual(["ogn-4"]); // no second draw this turn
+
+    void wraith;
+  });
+
+  it("resets its once-per-turn gate at Awaken", () => {
+    const game = makeGame();
+    const wraith = putOnBase(game, "ogn-118", "0");
+    const unit1 = putOnBase(game, "unit-plain-footman", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    destroyInstance(game, getCard, unit1.instanceId);
+    expect(wraith.statuses.wraithDrewThisTurn).toBe(true);
+
+    runTurnStart(game, "0");
+
+    expect(wraith.statuses.wraithDrewThisTurn).toBeUndefined();
+  });
+});
+
+describe("Viktor, Innovator (ogn-117): play a card on opponent's turn (no-op by construction)", () => {
+  it("has no handler behavior to invoke", () => {
+    const game = makeGame();
+    const viktor = putOnBase(game, "ogn-117", "0");
+    expect(() => SpecialCaseEngine.onPlay(game, getCard(viktor.cardId), viktor)).not.toThrow();
   });
 });
 

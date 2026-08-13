@@ -1432,14 +1432,6 @@
     "fullText": "Return all units and gear to their owners' hands."
   },
   {
-    "id": "ogn-109",
-    "name": "Dr. Mundo, Expert",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "My Might is increased by the number of cards in your trash.\nAt the start of your Beginning Phase, recycle 3 from your trash.",
-    "fullText": "My Might is increased by the number of cards in your trash.\nAt the start of your Beginning Phase, recycle 3 from your trash."
-  },
-  {
     "id": "sfd-164",
     "name": "Drag Under",
     "set": "SFD",
@@ -3968,14 +3960,6 @@
     "fullText": "When you play this, draw 1.\n1 EnergyCalm Rune, Exhaust, Kill this: Draw 1."
   },
   {
-    "id": "ogn-102",
-    "name": "Portal Rescue",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Banish a friendly unit, then play it to base, ignoring its cost.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nBanish a friendly unit, then play it to base, ignoring its cost."
-  },
-  {
     "id": "ogn-203",
     "name": "Possession",
     "set": "OGN",
@@ -4374,14 +4358,6 @@
     "type": "spell",
     "residualText": "Choose a battlefield you control and a unit you control at a different location. Move that unit to that battlefield and give it +2 Might this turn.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play on your turn or in showdowns.)\nChoose a battlefield you control and a unit you control at a different location. Move that unit to that battlefield and give it +2 Might this turn."
-  },
-  {
-    "id": "ogn-104",
-    "name": "Retreat",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Return a friendly unit to its owner's hand. Its owner channels 1 rune exhausted.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nReturn a friendly unit to its owner's hand. Its owner channels 1 rune exhausted."
   },
   {
     "id": "ogn-195",
@@ -4912,14 +4888,6 @@
     "fullText": "When you buff me, ready me."
   },
   {
-    "id": "ogn-105",
-    "name": "Singularity",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 6 to each of up to two units.",
-    "fullText": "Deal 6 to each of up to two units."
-  },
-  {
     "id": "unl-137",
     "name": "Sinister Poro",
     "set": "UNL",
@@ -5142,14 +5110,6 @@
     "type": "gear",
     "residualText": "When you play this, play a ready 3 Might Sprite unit token with  to your base.\n Repeat this gear's play effect. (When this dies, get the effect.)",
     "fullText": "[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nWhen you play this, play a ready 3 Might Sprite unit token with [Temporary] to your base.\n[Deathknell][>] Repeat this gear's play effect. (When this dies, get the effect.)"
-  },
-  {
-    "id": "ogn-106",
-    "name": "Sprite Mother",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, play a ready 3 Might Sprite unit token with  here. (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "When you play me, play a ready 3 Might Sprite unit token with [Temporary] here. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
   },
   {
     "id": "unl-84",
@@ -6000,14 +5960,6 @@
     "fullText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base."
   },
   {
-    "id": "ogn-117",
-    "name": "Viktor, Innovator",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token in your base.",
-    "fullText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token in your base."
-  },
-  {
     "id": "ogn-246",
     "name": "Viktor, Leader",
     "set": "OGN",
@@ -6222,14 +6174,6 @@
     "type": "battlefield",
     "residualText": "Units here have . (They can move from battlefield to battlefield.)",
     "fullText": "Units here have [Ganking]. (They can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ogn-118",
-    "name": "Wraith of Echoes",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "The first time a friendly unit dies each turn, draw 1.",
-    "fullText": "The first time a friendly unit dies each turn, draw 1."
   },
   {
     "id": "ogs-19",

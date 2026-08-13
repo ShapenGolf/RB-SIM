@@ -43,6 +43,11 @@ function killTemporaryInstances(game: GameState, player: PlayerId): void {
 /** Beginning: kill Temporary units, score 1 point per Battlefield controlled, then fire Hold triggers (Hunt + Battlefield hold effects). */
 export function runBeginning(game: GameState, player: PlayerId): void {
   killTemporaryInstances(game, player);
+  for (const instance of Object.values(game.instances)) {
+    if (instance.controller !== player) continue;
+    const card = getCard(instance.cardId);
+    if (card.specialCaseId) SpecialCaseEngine.onBeginning(game, card, instance);
+  }
   const controlledCount = game.battlefields.filter((b) => b.controller === player).length;
   game.players[player].points += controlledCount;
   resolveHoldTriggers(game, getCard, player);
@@ -93,6 +98,9 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
     if (instance.controller === player) {
       instance.tempMightBonus = 0;
       instance.grantedThisTurn = [];
+      for (const key of Object.keys(instance.statuses)) {
+        if (key.endsWith("ThisTurn")) delete instance.statuses[key];
+      }
     }
   }
   game.activePlayer = player;

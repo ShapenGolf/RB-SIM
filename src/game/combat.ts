@@ -108,6 +108,10 @@ export function destroyInstance(game: GameState, getCard: (id: string) => Card, 
   player.base = player.base.filter((id) => id !== instanceId);
   player.trash.push(instance.cardId);
   delete game.instances[instanceId];
+
+  if (card.type === "unit" || card.type === "champion") {
+    SpecialCaseEngine.onAllyUnitDied(game, getCard, instance.controller, instance);
+  }
 }
 
 function conquerBattlefield(

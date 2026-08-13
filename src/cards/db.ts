@@ -1,12 +1,17 @@
 import type { Card, CardDatabase } from "./types";
 import type { ActivatedAbility, TemplatedEffect } from "./templatedEffects";
 import starterSetData from "./data/starter-set.json";
+import tokensData from "./data/tokens.json";
 import officialCatalogData from "./data/official-catalog.json";
 import templatedEffectsData from "./data/templated-effects.json";
 import activatedAbilitiesData from "./data/activated-abilities.json";
 import specialCaseAssignmentsData from "./data/special-case-assignments.json";
 
 const starterSet = starterSetData as Card[];
+// Synthetic unit tokens created directly by card effects (e.g. "play a 3 Might Sprite unit
+// token") — not part of the official card gallery, since tokens don't have real print IDs.
+// See src/cards/data/tokens.json and game/setup.ts createInstance.
+const tokens = tokensData as Card[];
 // Imported from the official Riftbound card gallery, all 5 sets (Origins,
 // Proving Grounds, Spiritforged, Unleashed, Vendetta) — see docs/data-sourcing.md
 // and scripts/import-cards.mjs. Cards with unique text beyond the generic
@@ -25,7 +30,7 @@ const activatedAbilities = activatedAbilitiesData as Record<string, ActivatedAbi
 const specialCaseAssignments = specialCaseAssignmentsData as Record<string, string>;
 
 export const cardDatabase: CardDatabase = Object.fromEntries(
-  [...officialCatalog, ...starterSet].map((card) => {
+  [...officialCatalog, ...starterSet, ...tokens].map((card) => {
     const extras: Partial<Card> = {};
     if (templatedEffects[card.id]) extras.templatedEffect = templatedEffects[card.id];
     if (activatedAbilities[card.id]) extras.activatedAbility = activatedAbilities[card.id];

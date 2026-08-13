@@ -61,6 +61,13 @@ import { leona } from "./leona";
 import { eagerApprentice } from "./eager-apprentice";
 import { garbageGrabber } from "./garbage-grabber";
 import { gemcraftSeer } from "./gemcraft-seer";
+import { portalRescue } from "./portal-rescue";
+import { retreat } from "./retreat";
+import { singularity } from "./singularity";
+import { spriteMother } from "./sprite-mother";
+import { drMundo } from "./dr-mundo";
+import { wraithOfEchoes } from "./wraith-of-echoes";
+import { viktor } from "./viktor";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -123,6 +130,13 @@ const handlers: SpecialCaseHandler[] = [
   eagerApprentice,
   garbageGrabber,
   gemcraftSeer,
+  portalRescue,
+  retreat,
+  singularity,
+  spriteMother,
+  drMundo,
+  wraithOfEchoes,
+  viktor,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -280,6 +294,25 @@ export const SpecialCaseEngine = {
 
   onBeginningWhileHeld: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onBeginningWhileHeld?.(ctxFor(game, card, instance));
+  },
+
+  onBeginning: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onBeginning?.(ctxFor(game, card, instance));
+  },
+
+  /** Broadcasts a just-died unit to every OTHER board instance its own controller owns with an `onAllyUnitDied` hook. */
+  onAllyUnitDied: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    controller: PlayerId,
+    diedInstance: CardInstance,
+  ) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== controller) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyUnitDied?.(ctxFor(game, card, instance), diedInstance);
+    }
   },
 
   staticMightModifier: (game: GameState, card: Card, instance: CardInstance): number =>

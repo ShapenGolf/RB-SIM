@@ -57,6 +57,18 @@ export interface SpecialCaseHandler {
   /** Called at the controller's Beginning step while this Battlefield is held by them. */
   onBeginningWhileHeld?(ctx: SpecialCaseContext): void;
 
+  /** Called for every instance the controller owns at the start of their own Beginning step (before scoring), regardless of Battlefield control — unlike onBeginningWhileHeld, which is Battlefield-only. */
+  onBeginning?(ctx: SpecialCaseContext): void;
+
+  /**
+   * Broadcast to every OTHER board instance the controller owns whenever one of their own
+   * units/champions dies, from any source (see game/combat.ts destroyInstance, the sole
+   * destruction chokepoint). Note: if this instance is itself the one that died, it does NOT
+   * receive its own broadcast (it's already removed from game.instances by the time this
+   * fires) — a documented edge case, not a general limitation.
+   */
+  onAllyUnitDied?(ctx: SpecialCaseContext, diedInstance: CardInstance): void;
+
   /** Continuous self Might modifier independent of attacking/defending (e.g. an active Empowered bonus). */
   staticMightModifier?(ctx: SpecialCaseContext): number;
 
