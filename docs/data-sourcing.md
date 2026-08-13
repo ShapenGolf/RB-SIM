@@ -118,14 +118,14 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **92 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **105 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
   überschreibt). Vollständige Liste dort; nicht mehr einzeln aufgezählt,
   da die Liste inzwischen zu lang für Prosa ist.
-- Macht **252 von 1019 Karten (~25%) vollständig spielbar.**
-- **767 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **265 von 1019 Karten (~26%) vollständig spielbar.**
+- **754 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - Einige Karten sind bewusst zurückgestellt statt implementiert, weil sie
   fehlende Engine-Mechaniken brauchen würden (dokumentiert statt stillschweigend
   übersprungen): Gegner-Entscheidungen ("unless"), Tod-Ersatzeffekte, ein
