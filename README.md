@@ -10,12 +10,20 @@ Online-Multiplayer noch nicht aktiviert.
 
 **Kartendatenbank: vollständig importiert**, alle 5 bisher erschienenen Sets
 (1019 Karten: Origins, Proving Grounds, Spiritforged, Unleashed, Vendetta) —
-siehe [`docs/data-sourcing.md`](docs/data-sourcing.md). Davon sind 971 Karten
-als "Sonderfall" markiert (`src/cards/data/special-cases-todo.json`), weil ihr
-Text über die generische Keyword-Engine hinausgeht — das ist die tatsächliche
-Textur des Spiels, keine Import-Lücke. Nur 48 Karten sind aktuell vollständig
-generisch spielbar; alle anderen zeigen korrekte Werte/Kosten/Keywords, aber
-ihr Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
+siehe [`docs/data-sourcing.md`](docs/data-sourcing.md). Spielbarkeits-Stand
+pro Karte:
+
+- **48 Karten** vollständig generisch (nur printed Keywords).
+- **48 Karten** automatisch als "Templated Effect" erkannt und spielbar
+  (`src/cards/data/templated-effects.json` + `src/game/templatedEffectEngine.ts`)
+  — kein Code pro Karte nötig.
+- **923 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
+  Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
+  Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
+
+Ziel ist volle Abdeckung aller Karten und Interaktionen — das ist ein großer,
+aber mechanischer Rückstand, der systematisch abgearbeitet wird (siehe
+"Nächste Schritte" unten für die aktuelle Priorität).
 
 ## Architektur
 
@@ -71,15 +79,21 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 ## Nächste Schritte
 
-1. Special Cases priorisiert abarbeiten (`src/cards/data/special-cases-todo.json`,
-   971 Einträge) — sinnvoll z.B. nach Set (erst Origins) oder nach Deck-
-   Archetyp sortiert, nicht alle auf einmal.
-2. Handler für die noch fehlenden generischen Keywords ergänzen (Hidden,
+1. **Aktivierte Fähigkeiten** ("Kosten, Exhaust: Effekt") als generische
+   Mechanik ergänzen — größter Hebel für weitere automatische Abdeckung,
+   betrifft einen Großteil der 112 Gear-Karten (siehe
+   `docs/data-sourcing.md`, Abschnitt "Nächste Hebel").
+2. **Statische Modifikatoren** ("Einheiten, die du kontrollierst, haben...")
+   als eigener Matcher, analog zu Templated Effects.
+3. Verbleibende `special-cases-todo.json`-Einträge (923) priorisiert
+   bespoke implementieren — nach Set, Deck-Archetyp, oder was du mit
+   Freunden tatsächlich spielen willst.
+4. Handler für die noch fehlenden generischen Keywords ergänzen (Hidden,
    Equip, Empower, Ganking, Tank, Backline, Weaponmaster, Flow, Repeat,
    Mighty, Buff, Predict als eigenständiger Hook — siehe Tabelle in
    `docs/rules-reference.md`).
-3. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
+5. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
    (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
-4. Online-Multiplayer: `Local()`-Transport in `src/ui/client.ts` durch
+6. Online-Multiplayer: `Local()`-Transport in `src/ui/client.ts` durch
    `SocketIO({ server })` ersetzen, Server aufsetzen, auf Vercel deployen.
-5. Chain/Priority-System für Reaction-Timing nachrüsten.
+7. Chain/Priority-System für Reaction-Timing nachrüsten.

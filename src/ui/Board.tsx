@@ -4,6 +4,9 @@ import type { GameState, PlayerId, CardInstance } from "../game/state";
 import { getCard } from "../cards/db";
 import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
+import { templatedEffectNeedsPlayTarget } from "../cards/templatedEffects";
+
+const SPECIAL_CASES_NEEDING_TARGET = new Set(["stunning-blow", "dangerous-duo"]);
 
 function keywordSummary(cardId: string): string {
   const card = getCard(cardId);
@@ -84,7 +87,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       window.alert("Nicht genug Runen, um diese Karte zu bezahlen.");
       return;
     }
-    if (card.specialCaseId === "stunning-blow" || card.specialCaseId === "dangerous-duo") {
+    if (
+      (card.specialCaseId && SPECIAL_CASES_NEEDING_TARGET.has(card.specialCaseId)) ||
+      templatedEffectNeedsPlayTarget(card.templatedEffect)
+    ) {
       setPendingTarget({ handIndex, payAdditionalCost });
       return;
     }

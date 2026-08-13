@@ -2,6 +2,7 @@ import type { Card } from "../cards/types";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { computeMight } from "./might";
+import { fireTemplatedEffect } from "./templatedEffectEngine";
 import type { GameState, PlayerId } from "./state";
 
 /**
@@ -61,13 +62,14 @@ function assignDamage(
   }
 }
 
-function destroyInstance(game: GameState, getCard: (id: string) => Card, instanceId: string): void {
+export function destroyInstance(game: GameState, getCard: (id: string) => Card, instanceId: string): void {
   const instance = game.instances[instanceId];
   if (!instance) return;
   const card = getCard(instance.cardId);
 
   KeywordEngine.fireOnDestroy(game, card, instance);
   SpecialCaseEngine.onDestroy(game, card, instance);
+  fireTemplatedEffect(game, getCard, card, instance, "onDestroy");
 
   if (instance.battlefieldIndex !== null) {
     const slot = game.battlefields[instance.battlefieldIndex];
@@ -94,6 +96,7 @@ function conquerBattlefield(
     const card = getCard(instance.cardId);
     const xp = KeywordEngine.xpOnConquerOrHold(game, card, instance);
     if (xp > 0) game.players[newController].xp += xp;
+    fireTemplatedEffect(game, getCard, card, instance, "onConquer");
   }
 }
 
@@ -112,6 +115,12 @@ export function resolveCombat(
   if (defenderIds.length === 0) {
     if (attackerIds.length > 0) conquerBattlefield(game, getCard, battlefieldIndex, attacker);
     return;
+  }
+
+  for (const instanceId of defenderIds) {
+    const instance = game.instances[instanceId];
+    if (!instance) continue;
+    fireTemplatedEffect(game, getCard, getCard(instance.cardId), instance, "onDefend");
   }
 
   const attackerDealers = livingDamageDealers(game, getCard, attackerIds, "attacking");
@@ -153,6 +162,7 @@ export function resolveHoldTriggers(game: GameState, getCard: (id: string) => Ca
       const card = getCard(instance.cardId);
       const xp = KeywordEngine.xpOnConquerOrHold(game, card, instance);
       if (xp > 0) game.players[player].xp += xp;
+      fireTemplatedEffect(game, getCard, card, instance, "onHold");
     }
   });
 }

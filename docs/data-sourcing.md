@@ -111,14 +111,69 @@ Schritte:
 ## Ergebnis (Stand 2026-08-13)
 
 - **1019 Karten** importiert, alle 5 Sets, in `src/cards/data/official-catalog.json`.
-- **971 Karten** als Sonderfall in `src/cards/data/special-cases-todo.json`
-  gesammelt (Feld `residualText` zeigt den nicht abgedeckten Teil, `fullText`
-  den kompletten Originaltext für die spätere Implementierung).
-- **48 Karten** sind bereits vollständig generisch spielbar.
+- **48 Karten** sind bereits vollständig generisch spielbar (nur printed
+  Keywords, kein Unique-Text).
+- **48 weitere Karten** wurden automatisch als "Templated Effect" erkannt
+  (`src/cards/data/templated-effects.json`) — siehe
+  `scripts/match-templated-effects.mjs` und den Abschnitt "Templated Effects"
+  unten. Diese sind vollständig spielbar, ganz ohne Handschreiben von Code.
+- **923 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`
+  (Feld `residualText` zeigt den nicht abgedeckten Teil, `fullText` den
+  kompletten Originaltext für die spätere Implementierung).
 - 1 Karte (`ogn-16`, "Dangerous Duo") wurde manuell mit dem bereits
   existierenden `dangerous-duo`-Special-Case verknüpft (Text stimmt fast
   wörtlich überein) — siehe `IMPLEMENTED_SPECIAL_CASES` im Import-Script als
   Muster für weitere Verknüpfungen.
+
+## Templated Effects — automatische Karteneffekt-Erkennung
+
+`scripts/match-templated-effects.mjs` versucht, den `residualText` jeder
+Sonderfall-Karte gegen eine kleine, streng geprüfte Menge von Trigger+Aktion-
+Mustern zu matchen (z.B. "When you play me, draw 1." → Trigger `onPlay` +
+Aktion `drawCards(1)`). Nur wenn der **gesamte** Resttext auf ein bekanntes
+einfaches Muster passt, wird die Karte automatisch übernommen — Präzision vor
+Trefferquote, im Zweifel bleibt eine Karte im manuellen Rückstand statt falsch
+umgesetzt zu werden.
+
+**Ergebnis nach mehreren Iterationsrunden:** 48 von 971 anfänglich
+unklassifizierten Karten (~5%). Grund für die vergleichsweise niedrige Quote,
+mit echten Daten belegt (siehe Analyse im Chat-Verlauf dieser Session):
+
+- Die meisten Kartentexte kombinieren mehrere Klauseln/Bedingungen
+  ("if...", "choose X. Then Y.", Pronomen-Verweise über Satzgrenzen) — ein
+  präzisionsorientierter Matcher lehnt das bewusst ab, statt zu raten.
+- **Gear (112 Karten)** und **Legend (93 Karten)** haben strukturell fast nie
+  einfache Trigger-Effekte, sondern **aktivierte Fähigkeiten**
+  ("Exhaust: Gib einer Einheit +2 Might") oder **statische Modifikatoren**
+  ("Einheiten, die du kontrollierst, haben +1 Might im Angriff") — beides
+  eigene Mechanik-Kategorien, die der Trigger-Matcher strukturell nicht
+  abdecken kann.
+
+Die 48 automatisch erkannten Karten laufen über einen generischen Interpreter
+(`src/game/templatedEffectEngine.ts`), der ein festes Set von Aktions-
+Primitiven ausführt: `buffMight`, `dealDamage`, `killTarget`, `recallTarget`,
+`readyTarget`, `drawCards`, `discardCards`, `scorePoints`, `gainXP`,
+`channelRunes`. Trigger-Hooks sind verdrahtet in `onPlay` (mit echter
+Ziel-Auswahl-UI), `onConquer`, `onHold`, `onAttack`, `onDefend`,
+`onAttackOrDefend`, `onMove`, `onDestroy`.
+
+**Bekannte Einschränkung:** nur `onPlay` hat eine echte interaktive
+Ziel-Auswahl (wiederverwendet die bestehende Spell-Target-UI). Alle anderen
+Trigger wählen bei "choose"-Zielen deterministisch den ersten gültigen
+Kandidaten — noch keine Spieler-Entscheidung. Das ist dokumentiert, nicht
+versteckt; Ausbau zu echter Auswahl-UI ist ein separater nächster Schritt.
+
+### Nächste Hebel für mehr Abdeckung (größer als weiteres Regex-Tuning)
+
+1. **Aktivierte Fähigkeiten** ("Kosten, Exhaust: Effekt") als eigene
+   generische Mechanik — neuer Move-Typ + Kosten-Zahlung + Wiederverwendung
+   der Aktions-Primitive. Betrifft einen Großteil der 112 Gear-Karten.
+2. **Statische Modifikatoren** ("Einheiten, die du kontrollierst, haben...")
+   als eigener Matcher, analog zum Trigger-Matcher, aber für dauerhafte
+   Board-weite Effekte statt einmalige Aktionen.
+3. Mehrfach-Ziel-Auswahl ("give two friendly units each +2 Might") und
+   einfache Bedingungen ("if you control 2+ gear, ...") als Erweiterung der
+   Templated-Effect-Sprache.
 
 ## Bekannte Einschränkungen des Imports
 

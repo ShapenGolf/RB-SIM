@@ -56,36 +56,12 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a friendly unit at a battlefield +2 Might this turn for each enemy unit there."
   },
   {
-    "id": "ogn-66",
-    "name": "Ahri, Alluring",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I hold, you score 1 point.",
-    "fullText": "When I hold, you score 1 point."
-  },
-  {
     "id": "ven-3",
     "name": "Brittle Steel",
     "set": "VEN",
     "type": "spell",
     "residualText": "Kill a gear.\n 4 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)",
     "fullText": "Kill a gear.\n[Flow] 4 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
-    "id": "sfd-227",
-    "name": "Ahri, Inquisitive",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I attack or defend, give an enemy unit here -2 Might this turn, to a minimum of 1 Might.",
-    "fullText": "When I attack or defend, give an enemy unit here -2 Might this turn, to a minimum of 1 Might."
-  },
-  {
-    "id": "ogn-119",
-    "name": "Ahri, Inquisitive",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I attack or defend, give an enemy unit here -2 Might this turn, to a minimum of 1 Might.",
-    "fullText": "When I attack or defend, give an enemy unit here -2 Might this turn, to a minimum of 1 Might."
   },
   {
     "id": "ven-21",
@@ -230,14 +206,6 @@
     "type": "unit",
     "residualText": "When you play me, return all units with 2 Might or less to their owners' hands.",
     "fullText": "When you play me, return all units with 2 Might or less to their owners' hands."
-  },
-  {
-    "id": "ogn-148",
-    "name": "Anivia, Primal",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I attack, deal 3 to all enemy units here.",
-    "fullText": "When I attack, deal 3 to all enemy units here."
   },
   {
     "id": "ogs-1",
@@ -672,22 +640,6 @@
     "fullText": "You may pay 1 EnergyFury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit at a battlefield."
   },
   {
-    "id": "ogs-12",
-    "name": "Blast of Power",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Kill a unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nKill a unit at a battlefield."
-  },
-  {
-    "id": "ogn-97",
-    "name": "Blastcone Fae",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, give a unit -2 Might this turn, to a minimum of 1 Might.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, give a unit -2 Might this turn, to a minimum of 1 Might."
-  },
-  {
     "id": "unl-19",
     "name": "Blighted Battleaxe",
     "set": "UNL",
@@ -864,14 +816,6 @@
     "fullText": "Your Mechs have [Deflect] and [Ganking]. (Opponents must pay Rune to choose us with a spell or ability. We can move from battlefield to battlefield.)\nI enter ready if you control another Mech."
   },
   {
-    "id": "unl-3",
-    "name": "Mischievous Marai",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me to a battlefield, deal 2 to an enemy unit here.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me to a battlefield, deal 2 to an enemy unit here."
-  },
-  {
     "id": "ven-70",
     "name": "Brutal Hunter",
     "set": "VEN",
@@ -982,14 +926,6 @@
     "type": "spell",
     "residualText": "Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
-  },
-  {
-    "id": "ogn-127",
-    "name": "Cannon Barrage",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 2 to all enemy units in combat.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nDeal 2 to all enemy units in combat."
   },
   {
     "id": "ogn-15",
@@ -1104,14 +1040,6 @@
     "fullText": "When you play a spell on an opponent's turn, you may exhaust me to play a Gold gear token exhausted."
   },
   {
-    "id": "ogn-3",
-    "name": "Chemtech Enforcer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, discard 1.",
-    "fullText": "[Assault 2] (+2 Might while I'm an attacker.)\nWhen you play me, discard 1."
-  },
-  {
     "id": "ogn-139",
     "name": "Cithria of Cloudfield",
     "set": "OGN",
@@ -1160,14 +1088,6 @@
     "fullText": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Mind Rune (Mind Rune: Attach this to a unit you control.)"
   },
   {
-    "id": "ven-48",
-    "name": "Cloud Drake",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When you play me, draw 1.",
-    "fullText": "When you play me, draw 1."
-  },
-  {
     "id": "unl-31",
     "name": "Combat Experience",
     "set": "UNL",
@@ -1206,14 +1126,6 @@
     "type": "spell",
     "residualText": "You may spend 5 XP as an additional cost to play this.\nChoose an enemy unit at a battlefield with 3 Might or less. If you paid the additional cost, choose any enemy unit at a battlefield instead. Take control of it, exhaust it, and recall it.",
     "fullText": "You may spend 5 XP as an additional cost to play this.\nChoose an enemy unit at a battlefield with 3 Might or less. If you paid the additional cost, choose any enemy unit at a battlefield instead. Take control of it, exhaust it, and recall it."
-  },
-  {
-    "id": "ogn-83",
-    "name": "Consult the Past",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Draw 2.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play any time, even before spells and abilities resolve.)\nDraw 2."
   },
   {
     "id": "ven-10",
@@ -1270,14 +1182,6 @@
     "type": "unit",
     "residualText": "3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n When I move, draw 1.",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] When I move, draw 1."
-  },
-  {
-    "id": "ogn-130",
-    "name": "Crackshot Corsair",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When I attack, deal 1 to an enemy unit here.",
-    "fullText": "When I attack, deal 1 to an enemy unit here."
   },
   {
     "id": "unl-122",
@@ -1608,14 +1512,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell that costs no more than 4 Energy and no more than Rune."
   },
   {
-    "id": "unl-92",
-    "name": "Demacian Diplomat",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, gain 1 XP.",
-    "fullText": "When you play me, gain 1 XP."
-  },
-  {
     "id": "sfd-31",
     "name": "Desert's Call",
     "set": "SFD",
@@ -1670,14 +1566,6 @@
     "type": "unit",
     "residualText": "I enter ready if you control another Dragon.",
     "fullText": "I enter ready if you control another Dragon."
-  },
-  {
-    "id": "sfd-32",
-    "name": "Disarming Rake",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, you may kill a gear.",
-    "fullText": "When you play me, you may kill a gear."
   },
   {
     "id": "ven-117",
@@ -2088,14 +1976,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Backline] (I must be assigned combat damage last.)\nWhen you play me from face down on your turn, you may move an enemy unit at a different location to my battlefield."
   },
   {
-    "id": "unl-123",
-    "name": "Evershade Stalker",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, discard 1, then draw 1.",
-    "fullText": "When you play me, discard 1, then draw 1."
-  },
-  {
     "id": "unl-134",
     "name": "Existential Dread",
     "set": "UNL",
@@ -2208,14 +2088,6 @@
     "fullText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name."
   },
   {
-    "id": "ogn-85",
-    "name": "Falling Comet",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 6 to a unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 6 to a unit at a battlefield."
-  },
-  {
     "id": "ogn-29",
     "name": "Falling Star",
     "set": "OGN",
@@ -2248,28 +2120,12 @@
     "fullText": "[Deathknell] — Play two 3 Might Mech unit tokens to your base. (When I die, get the effect.)"
   },
   {
-    "id": "ven-26",
-    "name": "Field Musicians",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When you play me, give a unit +3 Might this turn.",
-    "fullText": "When you play me, give a unit +3 Might this turn."
-  },
-  {
     "id": "ogn-168",
     "name": "Fight or Flight",
     "set": "OGN",
     "type": "spell",
     "residualText": "Move a unit from a battlefield to its base.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nMove a unit from a battlefield to its base."
-  },
-  {
-    "id": "ogs-22",
-    "name": "Final Spark",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Deal 8 to a unit.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 8 to a unit."
   },
   {
     "id": "ogn-47",
@@ -2318,14 +2174,6 @@
     "type": "legend",
     "residualText": "Exhaust:  —  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] — [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "ogs-2",
-    "name": "Firestorm",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Deal 3 to all enemy units at a battlefield.",
-    "fullText": "Deal 3 to all enemy units at a battlefield."
   },
   {
     "id": "ogn-132",
@@ -2752,28 +2600,12 @@
     "fullText": "When you conquer or hold, you may exhaust me to replace that battlefield with a Brush battlefield token."
   },
   {
-    "id": "unl-21",
-    "name": "Grim Apothecary",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, you may return a friendly unit at a battlefield to its owner's hand.",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, you may return a friendly unit at a battlefield to its owner's hand."
-  },
-  {
     "id": "unl-95",
     "name": "Grim Resolve",
     "set": "UNL",
     "type": "spell",
     "residualText": "Give a friendly unit +3 Might this turn. When it wins a combat this turn, gain 2 XP.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a friendly unit +3 Might this turn. When it wins a combat this turn, gain 2 XP."
-  },
-  {
-    "id": "ogn-280",
-    "name": "Grove of the God-Willow",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you hold here, draw 1.",
-    "fullText": "When you hold here, draw 1."
   },
   {
     "id": "ven-50",
@@ -2904,14 +2736,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nCounter a spell unless its controller pays 2 Energy."
   },
   {
-    "id": "ogn-234",
-    "name": "Harnessed Dragon",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, kill an enemy unit.",
-    "fullText": "When you play me, kill an enemy unit."
-  },
-  {
     "id": "sfd-137",
     "name": "Harpoon Squad",
     "set": "SFD",
@@ -2984,14 +2808,6 @@
     "fullText": "Your Dragons' Energy costs are reduced by 2 Energy, to a minimum of 1 Energy."
   },
   {
-    "id": "unl-34",
-    "name": "Herald of Spring",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, gain 2 XP.",
-    "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nWhen you play me, gain 2 XP."
-  },
-  {
     "id": "ogn-308",
     "name": "Herald of the Arcane",
     "set": "OGN",
@@ -3062,14 +2878,6 @@
     "type": "gear",
     "residualText": "3 EnergyRune. This ability's Energy cost is reduced by the Might of the unit you choose. (Pay the cost: Attach this to a unit you control.)",
     "fullText": "[Equip] 3 EnergyRune. This ability's Energy cost is reduced by the Might of the unit you choose. (Pay the cost: Attach this to a unit you control.)"
-  },
-  {
-    "id": "ogn-9",
-    "name": "Hextech Ray",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 3 to a unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 3 to a unit at a battlefield."
   },
   {
     "id": "ogn-213",
@@ -3200,14 +3008,6 @@
     "fullText": "When I move, you may move an enemy unit here with less Might than me to a different battlefield."
   },
   {
-    "id": "ogs-3",
-    "name": "Incinerate",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Deal 2 to a unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 2 to a unit at a battlefield."
-  },
-  {
     "id": "unl-135",
     "name": "Insightful Investigator",
     "set": "UNL",
@@ -3222,14 +3022,6 @@
     "type": "spell",
     "residualText": "Each player discards their hand, then draws 4.",
     "fullText": "Each player discards their hand, then draws 4."
-  },
-  {
-    "id": "unl-27",
-    "name": "Inviolus Vox",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I conquer, give a friendly unit +8 Might this turn.",
-    "fullText": "When I conquer, give a friendly unit +8 Might this turn."
   },
   {
     "id": "sfd-57",
@@ -3408,22 +3200,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)\nWhen I move, [Add] 1 EnergyRune. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "ven-168",
-    "name": "Jinx, Demolitionist",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me, discard 2.",
-    "fullText": "[Accelerate]\n[Assault 2]\nWhen you play me, discard 2."
-  },
-  {
-    "id": "ogn-30",
-    "name": "Jinx, Demolitionist",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When you play me, discard 2.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\n[Assault 2] (+2 Might while I'm an attacker.)\nWhen you play me, discard 2."
-  },
-  {
     "id": "ogn-202",
     "name": "Jinx, Rebel",
     "set": "OGN",
@@ -3446,14 +3222,6 @@
     "type": "champion",
     "residualText": "When I conquer, you may play a spell from your trash with Energy cost less than your points without paying its Energy cost. Then recycle it. (You must still pay its Power cost.)",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nWhen I conquer, you may play a spell from your trash with Energy cost less than your points without paying its Energy cost. Then recycle it. (You must still pay its Power cost.)"
-  },
-  {
-    "id": "ogn-39",
-    "name": "Kai'Sa, Survivor",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I conquer, draw 1.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\nWhen I conquer, draw 1."
   },
   {
     "id": "sfd-237",
@@ -3736,14 +3504,6 @@
     "fullText": "[Assault] (+1 Might while I'm an attacker.)\n[Deathknell][>] Draw 1. If it's your Beginning Phase, draw 2 instead. (When I die, get the effect.)"
   },
   {
-    "id": "ogn-87",
-    "name": "Lecturing Yordle",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, draw 1.",
-    "fullText": "[Tank] (I must be assigned combat damage first.)\nWhen you play me, draw 1."
-  },
-  {
     "id": "ogn-78",
     "name": "Lee Sin, Ascetic",
     "set": "OGN",
@@ -3918,14 +3678,6 @@
     "type": "champion",
     "residualText": "The first time I conquer each turn, ready me.",
     "fullText": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nThe first time I conquer each turn, ready me."
-  },
-  {
-    "id": "unl-125",
-    "name": "Lunar Boon",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Discard 1, then draw 2.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nDiscard 1, then draw 2."
   },
   {
     "id": "ven-6",
@@ -4224,14 +3976,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Ganking] (I can move from battlefield to battlefield.)\nThe first time I move each turn, you may ready something else that's exhausted."
   },
   {
-    "id": "unl-127",
-    "name": "Mister Root",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, gain 2 XP.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyChaos Rune as an additional cost to have me enter ready.)\nWhen I move to a battlefield, gain 2 XP."
-  },
-  {
     "id": "ogn-152",
     "name": "Mistfall",
     "set": "OGN",
@@ -4278,14 +4022,6 @@
     "type": "spell",
     "residualText": "Choose a battlefield where you have units. You may move up to one enemy unit to that battlefield. Then give enemy units there -2 Might this turn.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a battlefield where you have units. You may move up to one enemy unit to that battlefield. Then give enemy units there -2 Might this turn."
-  },
-  {
-    "id": "unl-66",
-    "name": "Moonlight Affliction",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a unit -10 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a unit -10 Might this turn."
   },
   {
     "id": "ogn-170",
@@ -4406,14 +4142,6 @@
     "type": "champion",
     "residualText": "When I win a combat, draw 1. (I win if I remain after combat.)",
     "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I win a combat, draw 1. (I win if I remain after combat.)"
-  },
-  {
-    "id": "unl-115",
-    "name": "Nilah, Joyful Ascetic",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I move, gain 1 XP.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Ganking] (I can move from battlefield to battlefield.)\nWhen I move, gain 1 XP."
   },
   {
     "id": "ogn-303",
@@ -4824,14 +4552,6 @@
     "fullText": "When you hold here, you may pay RuneRuneRuneRune to score 1 point."
   },
   {
-    "id": "sfd-87",
-    "name": "Premonition",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Draw 3.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nDraw 3."
-  },
-  {
     "id": "unl-227",
     "name": "Pridestalker",
     "set": "UNL",
@@ -4846,14 +4566,6 @@
     "type": "legend",
     "residualText": "When you play a unit, give a unit +1 Might this turn.",
     "fullText": "When you play a unit, give a unit +1 Might this turn."
-  },
-  {
-    "id": "ogn-154",
-    "name": "Primal Strength",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a unit +7 Might this turn.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a unit +7 Might this turn."
   },
   {
     "id": "sfd-75",
@@ -4896,14 +4608,6 @@
     "fullText": "When you play me, you may disempower something you control to empower a legend, unit, or gear."
   },
   {
-    "id": "ogn-114",
-    "name": "Progress Day",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Draw 4.",
-    "fullText": "Draw 4."
-  },
-  {
     "id": "ogn-115",
     "name": "Promising Future",
     "set": "OGN",
@@ -4926,14 +4630,6 @@
     "type": "spell",
     "residualText": "Choose a friendly unit. Kill an enemy unit with less Might than it.\n 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)",
     "fullText": "Choose a friendly unit. Kill an enemy unit with less Might than it.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
-    "id": "sfd-97",
-    "name": "Punch First",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Give a unit +5 Might this turn.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a unit +5 Might this turn."
   },
   {
     "id": "ven-7",
@@ -5094,14 +4790,6 @@
     "type": "battlefield",
     "residualText": "When you defend here, you may move a friendly unit here to base.",
     "fullText": "When you defend here, you may move a friendly unit here to base."
-  },
-  {
-    "id": "ogn-172",
-    "name": "Rebuke",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Return a unit at a battlefield to its owner's hand.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nReturn a unit at a battlefield to its owner's hand."
   },
   {
     "id": "ven-152",
@@ -5358,14 +5046,6 @@
     "type": "battlefield",
     "residualText": "When a unit here is returned to a player's hand, that player may pay 1 Energy to channel 1 rune exhausted.",
     "fullText": "When a unit here is returned to a player's hand, that player may pay 1 Energy to channel 1 rune exhausted."
-  },
-  {
-    "id": "ogn-92",
-    "name": "Riptide Rex",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, deal 6 to an enemy unit at a battlefield.",
-    "fullText": "When you play me, deal 6 to an enemy unit at a battlefield."
   },
   {
     "id": "ven-163",
@@ -6072,14 +5752,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 3 to a unit at a battlefield. If it would die this turn, banish it instead."
   },
   {
-    "id": "ogn-93",
-    "name": "Smoke Screen",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a unit -4 Might this turn, to a minimum of 1 Might.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a unit -4 Might this turn, to a minimum of 1 Might."
-  },
-  {
     "id": "unl-83",
     "name": "Smoke and Mirrors",
     "set": "UNL",
@@ -6376,14 +6048,6 @@
     "fullText": "When you play me, return a Bird, Cat, Dog, or Poro from your trash to your hand."
   },
   {
-    "id": "ogn-288",
-    "name": "Startipped Peak",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you hold here, you may channel 1 rune exhausted.",
-    "fullText": "When you hold here, you may channel 1 rune exhausted."
-  },
-  {
     "id": "ogn-177",
     "name": "Stealthy Pursuer",
     "set": "OGN",
@@ -6400,14 +6064,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Empower] 7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +7 Might."
   },
   {
-    "id": "sfd-48",
-    "name": "Stellacorn Herder",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move, draw 1.",
-    "fullText": "When I move, draw 1."
-  },
-  {
     "id": "sfd-56",
     "name": "Sterak's Gage",
     "set": "SFD",
@@ -6422,14 +6078,6 @@
     "type": "spell",
     "residualText": "Choose a friendly unit in your base. Deal damage equal to its Might to all enemy units at a battlefield, then move your unit there.",
     "fullText": "Choose a friendly unit in your base. Deal damage equal to its Might to all enemy units at a battlefield, then move your unit there."
-  },
-  {
-    "id": "ogn-137",
-    "name": "Stormclaw Ursine",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, channel 1 rune exhausted.",
-    "fullText": "[Tank] (I must be assigned combat damage first.)\nWhen you play me, channel 1 rune exhausted."
   },
   {
     "id": "sfd-107",
@@ -6598,14 +6246,6 @@
     "type": "unit",
     "residualText": "— Channel 2 runes exhausted and draw 1. (When I die, get the effect.)",
     "fullText": "[Accelerate] (You may pay 1 EnergyCalm Rune as an additional cost to have me enter ready.)\n[Deathknell] — Channel 2 runes exhausted and draw 1. (When I die, get the effect.)"
-  },
-  {
-    "id": "ogn-197",
-    "name": "Teemo, Scout",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When you play me, give me +3 Might this turn.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, give me +3 Might this turn."
   },
   {
     "id": "sfd-230",
@@ -6862,14 +6502,6 @@
     "type": "battlefield",
     "residualText": "When you conquer here, if you assigned 3 or more excess damage, play a 1 Might Bird unit token with .",
     "fullText": "When you conquer here, if you assigned 3 or more excess damage, play a 1 Might Bird unit token with [Deflect]."
-  },
-  {
-    "id": "ogn-185",
-    "name": "Traveling Merchant",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When I move, discard 1, then draw 1.",
-    "fullText": "When I move, discard 1, then draw 1."
   },
   {
     "id": "sfd-220",
@@ -7192,14 +6824,6 @@
     "fullText": "When you conquer here, you may ready a friendly gear. If it's an Equipment, you may detach it."
   },
   {
-    "id": "ogn-229",
-    "name": "Vengeance",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Kill a unit.",
-    "fullText": "Kill a unit."
-  },
-  {
     "id": "unl-150",
     "name": "Vex, Apathetic",
     "set": "UNL",
@@ -7470,14 +7094,6 @@
     "type": "spell",
     "residualText": "Starting with the next player, each player may return a unit to its owner's hand.",
     "fullText": "Starting with the next player, each player may return a unit to its owner's hand."
-  },
-  {
-    "id": "ogn-82",
-    "name": "Whiteflame Protector",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, give a unit +8 Might this turn.",
-    "fullText": "When you play me, give a unit +8 Might this turn."
   },
   {
     "id": "ogn-55",

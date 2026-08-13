@@ -1,0 +1,576 @@
+{
+  "ogn-66": {
+    "trigger": "onHold",
+    "actions": [
+      {
+        "type": "scorePoints",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-227": {
+    "trigger": "onAttackOrDefend",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseEnemyUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": -2,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogn-119": {
+    "trigger": "onAttackOrDefend",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseEnemyUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": -2,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogn-148": {
+    "trigger": "onAttack",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "allEnemyUnitsAtBattlefield"
+        },
+        "amount": 3
+      }
+    ]
+  },
+  "ogs-12": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "killTarget",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": true
+        }
+      }
+    ]
+  },
+  "ogn-97": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": -2,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "unl-3": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseEnemyUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": 2
+      }
+    ]
+  },
+  "ogn-127": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "allEnemyUnitsAtBattlefield"
+        },
+        "amount": 2
+      }
+    ]
+  },
+  "ogn-3": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "discardCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ven-48": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-83": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 2
+      }
+    ]
+  },
+  "ogn-130": {
+    "trigger": "onAttack",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseEnemyUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": 1
+      }
+    ]
+  },
+  "unl-92": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "gainXP",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-32": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "killTarget",
+        "target": {
+          "kind": "chooseFriendlyGear"
+        }
+      }
+    ]
+  },
+  "unl-123": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "discardCards",
+        "player": "controller",
+        "amount": 1
+      },
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-85": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": 6
+      }
+    ]
+  },
+  "ven-26": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 3,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogs-22": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 8
+      }
+    ]
+  },
+  "ogs-2": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "allEnemyUnitsAtBattlefield"
+        },
+        "amount": 3
+      }
+    ]
+  },
+  "unl-21": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "recallTarget",
+        "target": {
+          "kind": "chooseFriendlyUnit"
+        }
+      }
+    ]
+  },
+  "ogn-280": {
+    "trigger": "onHold",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-234": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "killTarget",
+        "target": {
+          "kind": "chooseEnemyUnit",
+          "atBattlefieldOnly": false
+        }
+      }
+    ]
+  },
+  "unl-34": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "gainXP",
+        "player": "controller",
+        "amount": 2
+      }
+    ]
+  },
+  "ogn-9": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": 3
+      }
+    ]
+  },
+  "ogs-3": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": 2
+      }
+    ]
+  },
+  "unl-27": {
+    "trigger": "onConquer",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseFriendlyUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 8,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ven-168": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "discardCards",
+        "player": "controller",
+        "amount": 2
+      }
+    ]
+  },
+  "ogn-30": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "discardCards",
+        "player": "controller",
+        "amount": 2
+      }
+    ]
+  },
+  "ogn-39": {
+    "trigger": "onConquer",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-87": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "unl-125": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "discardCards",
+        "player": "controller",
+        "amount": 1
+      },
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 2
+      }
+    ]
+  },
+  "unl-127": {
+    "trigger": "onMove",
+    "actions": [
+      {
+        "type": "gainXP",
+        "player": "controller",
+        "amount": 2
+      }
+    ]
+  },
+  "unl-66": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": -10,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "unl-115": {
+    "trigger": "onMove",
+    "actions": [
+      {
+        "type": "gainXP",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-87": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 3
+      }
+    ]
+  },
+  "ogn-154": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 7,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogn-114": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 4
+      }
+    ]
+  },
+  "sfd-97": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 5,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogn-172": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "recallTarget",
+        "target": {
+          "kind": "chooseFriendlyUnit"
+        }
+      }
+    ]
+  },
+  "ogn-92": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "dealDamage",
+        "target": {
+          "kind": "chooseEnemyUnit",
+          "atBattlefieldOnly": true
+        },
+        "amount": 6
+      }
+    ]
+  },
+  "ogn-93": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": -4,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogn-288": {
+    "trigger": "onHold",
+    "actions": [
+      {
+        "type": "channelRunes",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-48": {
+    "trigger": "onMove",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-137": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "channelRunes",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-197": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "self"
+        },
+        "amount": 3,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogn-185": {
+    "trigger": "onMove",
+    "actions": [
+      {
+        "type": "discardCards",
+        "player": "controller",
+        "amount": 1
+      },
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-229": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "killTarget",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        }
+      }
+    ]
+  },
+  "ogn-82": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 8,
+        "duration": "thisTurn"
+      }
+    ]
+  }
+}

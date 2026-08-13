@@ -5,6 +5,7 @@ import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat } from "./combat";
 import { createInstance } from "./setup";
+import { fireTemplatedEffect } from "./templatedEffectEngine";
 import type { GameState } from "./state";
 
 export interface PlayCardArgs {
@@ -71,6 +72,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   if (card.type === "spell") {
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, args.targetInstanceId);
+    fireTemplatedEffect(G, getCard, card, instance, "onPlay", args.targetInstanceId);
     delete G.instances[instance.instanceId];
     player.trash.push(cardId);
   } else {
@@ -78,6 +80,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     player.base.push(instance.instanceId);
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, args.targetInstanceId);
+    fireTemplatedEffect(G, getCard, card, instance, "onPlay", args.targetInstanceId);
   }
 
   player.playedMainDeckCardThisTurn = true;
@@ -112,6 +115,13 @@ export const attackBattlefield: MoveFn<GameState> = (
     instance.battlefieldIndex = args.battlefieldIndex;
     player.base = player.base.filter((id) => id !== instanceId);
     slot.units[player.id].push(instanceId);
+  }
+
+  for (const instanceId of args.unitInstanceIds) {
+    const instance = G.instances[instanceId];
+    const card = getCard(instance.cardId);
+    fireTemplatedEffect(G, getCard, card, instance, "onAttack");
+    fireTemplatedEffect(G, getCard, card, instance, "onMove");
   }
 
   resolveCombat(G, getCard, args.battlefieldIndex, player.id);
