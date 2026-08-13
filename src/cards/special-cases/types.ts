@@ -186,4 +186,11 @@ export interface SpecialCaseHandler {
    * longer have a live instance (e.g. it was in the trash to begin with).
    */
   onOptionalCostPaid?(game: GameState, playerId: PlayerId, payload?: string): void;
+
+  /**
+   * Called when THIS card is discarded from hand, by any source — see game/discardEngine.ts
+   * `discardCardToTrash`, the sole discard chokepoint. No SpecialCaseContext — a discarded card
+   * has no live CardInstance (it was in hand, not in play).
+   */
+  onSelfDiscarded?(game: GameState, playerId: PlayerId): void;
 }

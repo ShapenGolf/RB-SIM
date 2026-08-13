@@ -109,6 +109,9 @@ import { kogmawCaustic } from "./kogmaw-caustic";
 import { maddenedMarauder } from "./maddened-marauder";
 import { mindsplitter } from "./mindsplitter";
 import { rhasaTheSunderer } from "./rhasa-the-sunderer";
+import { scrapheap } from "./scrapheap";
+import { dazzlingAurora } from "./dazzling-aurora";
+import { packOfWonders } from "./pack-of-wonders";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -219,6 +222,9 @@ const handlers: SpecialCaseHandler[] = [
   maddenedMarauder,
   mindsplitter,
   rhasaTheSunderer,
+  scrapheap,
+  dazzlingAurora,
+  packOfWonders,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -377,6 +383,10 @@ export const SpecialCaseEngine = {
 
   onOptionalCostPaid: (game: GameState, specialCaseId: string, playerId: PlayerId, payload?: string) => {
     getSpecialCaseHandlerById(specialCaseId)?.onOptionalCostPaid?.(game, playerId, payload);
+  },
+
+  onSelfDiscarded: (game: GameState, getCard: (id: string) => Card, playerId: PlayerId, cardId: string) => {
+    getSpecialCaseHandler(getCard(cardId))?.onSelfDiscarded?.(game, playerId);
   },
 
   /** Broadcasts a just-killed enemy unit to every board instance `killingController` controls with an `onAllyKillUnit` hook. */

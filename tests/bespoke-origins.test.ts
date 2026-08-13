@@ -6,6 +6,7 @@ import { computeMight } from "../src/game/might";
 import { playCard, activateAbility, attackBattlefield, resolveOptionalCost, endTurn } from "../src/game/moves";
 import { destroyInstance, resolveHoldTriggers } from "../src/game/combat";
 import { runBeginning, runTurnStart } from "../src/game/turnFlow";
+import { discardCardToTrash } from "../src/game/discardEngine";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -2507,6 +2508,93 @@ describe("Rhasa the Sunderer (ogn-195): costs 1 less per card in trash", () => {
     });
 
     expect(result).toBeUndefined();
+  });
+});
+
+describe("Scrapheap (ogn-182): draw 1 when played, discarded, or killed", () => {
+  it("draws on play", () => {
+    const game = makeGame();
+    const scrapheap = putOnBase(game, "ogn-182", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    SpecialCaseEngine.onPlay(game, getCard(scrapheap.cardId), scrapheap);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+
+  it("draws on destroy", () => {
+    const game = makeGame();
+    const scrapheap = putOnBase(game, "ogn-182", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    destroyInstance(game, getCard, scrapheap.instanceId);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+
+  it("draws when discarded (via the shared discardCardToTrash chokepoint)", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-182"];
+    game.players["0"].mainDeck = ["ogn-4"];
+    const discarded = game.players["0"].hand.shift()!;
+    discardCardToTrash(game, getCard, "0", discarded);
+    expect(game.players["0"].hand).toContain("ogn-4");
+    expect(game.players["0"].trash).toContain("ogn-182");
+  });
+});
+
+describe("Dazzling Aurora (ogn-160): at end of turn, reveal to a unit, play it free, recycle rest", () => {
+  it("plays the first unit revealed and recycles the non-units before it", () => {
+    const game = makeGame();
+    const aurora = putOnBase(game, "ogn-160", "0");
+    game.players["0"].mainDeck = ["ogn-8", "ogn-5", "unit-plain-footman", "ogn-4"];
+
+    SpecialCaseEngine.onEndOfTurn(game, getCard(aurora.cardId), aurora);
+
+    const newInstanceId = game.players["0"].base.find(
+      (id) => id !== aurora.instanceId && game.instances[id].cardId === "unit-plain-footman",
+    );
+    expect(newInstanceId).toBeDefined();
+    expect(game.players["0"].mainDeck).toEqual(["ogn-4", "ogn-8", "ogn-5"]);
+  });
+
+  it("does nothing when no unit is found in the deck", () => {
+    const game = makeGame();
+    const aurora = putOnBase(game, "ogn-160", "0");
+    game.players["0"].mainDeck = ["ogn-8", "ogn-5"];
+
+    SpecialCaseEngine.onEndOfTurn(game, getCard(aurora.cardId), aurora);
+
+    expect(game.players["0"].mainDeck).toEqual(["ogn-8", "ogn-5"]);
+  });
+});
+
+describe("Pack of Wonders (ogn-181): Exhaust: return another friendly gear/unit to hand", () => {
+  it("returns a friendly unit at a battlefield to hand", () => {
+    const game = makeGame();
+    const pack = putOnBase(game, "ogn-181", "0", { exhausted: false });
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    const result = activateAbility(ctx(game, "0"), {
+      instanceId: pack.instanceId,
+      energyRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("unit-plain-footman");
+  });
+
+  it("cannot target itself", () => {
+    const game = makeGame();
+    const pack = putOnBase(game, "ogn-181", "0", { exhausted: false });
+
+    const result = activateAbility(ctx(game, "0"), {
+      instanceId: pack.instanceId,
+      energyRuneIds: [],
+      targetInstanceId: pack.instanceId,
+    });
+
+    expect(result).toBeUndefined(); // move succeeds (cost paid) but onActivate no-ops
+    expect(game.instances[pack.instanceId]).toBeDefined();
   });
 });
 

@@ -1120,14 +1120,6 @@
     "fullText": "You may play me to an occupied enemy battlefield."
   },
   {
-    "id": "ogn-160",
-    "name": "Dazzling Aurora",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "At the end of your turn, reveal cards from the top of your Main Deck until you reveal a unit. Play it, ignoring its cost, and recycle the rest.",
-    "fullText": "At the end of your turn, reveal cards from the top of your Main Deck until you reveal a unit. Play it, ignoring its cost, and recycle the rest."
-  },
-  {
     "id": "unl-73",
     "name": "Deadly Flourish",
     "set": "UNL",
@@ -3592,14 +3584,6 @@
     "fullText": "When I defend, you may kill me to move an attacking unit to its base."
   },
   {
-    "id": "ogn-181",
-    "name": "Pack of Wonders",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Exhaust: Return another friendly gear, unit, or  card to its owner's hand.",
-    "fullText": "Exhaust: Return another friendly gear, unit, or [Hidden] card to its owner's hand."
-  },
-  {
     "id": "ven-33",
     "name": "Pakaa Protector",
     "set": "VEN",
@@ -4390,14 +4374,6 @@
     "type": "legend",
     "residualText": "Exhaust:  1 Energy. Spend this Energy only during showdowns. (Abilities that add resources can't be reacted to.)",
     "fullText": "[Reaction][>] Exhaust: [Add] 1 Energy. Spend this Energy only during showdowns. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "ogn-182",
-    "name": "Scrapheap",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "When this is played, discarded, or killed, draw 1.",
-    "fullText": "When this is played, discarded, or killed, draw 1."
   },
   {
     "id": "unl-157",

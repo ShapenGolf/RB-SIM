@@ -6,6 +6,7 @@ import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat } from "./combat";
 import { createInstance } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
+import { discardCardToTrash } from "./discardEngine";
 import type { Card } from "../cards/types";
 import type { CardInstance, GameState, PlayerState } from "./state";
 
@@ -171,10 +172,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   if (canPayDiscardCost) {
     for (let i = 0; i < discardCostConfig!.discardCount; i += 1) {
       const discarded = player.hand.shift();
-      if (discarded) {
-        player.trash.push(discarded);
-        player.discardedCardThisTurn = true;
-      }
+      if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
     }
   }
 

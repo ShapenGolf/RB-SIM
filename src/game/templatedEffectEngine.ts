@@ -2,6 +2,7 @@ import type { Card } from "../cards/types";
 import type { TemplatedAction, TemplatedTargetSpec, TemplatedTrigger } from "../cards/templatedEffects";
 import type { CardInstance, GameState, PlayerId } from "./state";
 import { destroyInstance } from "./combat";
+import { discardCardToTrash } from "./discardEngine";
 
 /**
  * Interpreter for auto-matched TemplatedEffect data (see
@@ -156,10 +157,7 @@ function runAction(
       // No player choice of which card yet (documented simplification): discards from the front of hand.
       for (let i = 0; i < action.amount; i += 1) {
         const discarded = controller.hand.shift();
-        if (discarded) {
-          controller.trash.push(discarded);
-          controller.discardedCardThisTurn = true;
-        }
+        if (discarded) discardCardToTrash(game, getCard, source.controller, discarded);
       }
       return;
     }

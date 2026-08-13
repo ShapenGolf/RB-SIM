@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { discardCardToTrash } from "../../game/discardEngine";
 
 /**
  * When you play me, choose an opponent. They reveal their hand. Choose a card from it, and
@@ -13,9 +15,6 @@ export const mindsplitter: SpecialCaseHandler = {
     const opponentId = ctx.instance.controller === "0" ? "1" : "0";
     const opponent = ctx.game.players[opponentId];
     const discarded = opponent.hand.shift();
-    if (discarded) {
-      opponent.trash.push(discarded);
-      opponent.discardedCardThisTurn = true;
-    }
+    if (discarded) discardCardToTrash(ctx.game, getCard, opponentId, discarded);
   },
 };

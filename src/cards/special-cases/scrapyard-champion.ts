@@ -1,5 +1,7 @@
 import type { SpecialCaseHandler } from "./types";
 import { KeywordEngine } from "../../keywords/registry";
+import { getCard } from "../db";
+import { discardCardToTrash } from "../../game/discardEngine";
 
 /** Legion — When you play me, discard 2, then draw 2. (Get the effect if you've played another card this turn.) */
 export const scrapyardChampion: SpecialCaseHandler = {
@@ -9,10 +11,7 @@ export const scrapyardChampion: SpecialCaseHandler = {
     const controller = ctx.game.players[ctx.instance.controller];
     for (let i = 0; i < 2; i += 1) {
       const discarded = controller.hand.shift();
-      if (discarded) {
-        controller.trash.push(discarded);
-        controller.discardedCardThisTurn = true;
-      }
+      if (discarded) discardCardToTrash(ctx.game, getCard, ctx.instance.controller, discarded);
     }
     for (let i = 0; i < 2; i += 1) {
       const drawn = controller.mainDeck.shift();
