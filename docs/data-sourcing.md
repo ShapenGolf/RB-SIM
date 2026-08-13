@@ -118,15 +118,20 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **11 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **40 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
-  überschreibt): Cleave, Disintegrate, Captain Farron, Thermo Beam,
-  Magma Wurm, Dangerous Duo, Adaptatron, Draven Showboat, Wielder of
-  Water, Rune Prison + Solari Shieldbearer (teilen sich einen Handler).
-- Macht **171 von 1019 Karten (~17%) vollständig spielbar.**
-- **848 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+  überschreibt). Vollständige Liste dort; nicht mehr einzeln aufgezählt,
+  da die Liste inzwischen zu lang für Prosa ist.
+- Macht **200 von 1019 Karten (~20%) vollständig spielbar.**
+- **819 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Einige Karten sind bewusst zurückgestellt statt implementiert, weil sie
+  fehlende Engine-Mechaniken brauchen würden (dokumentiert statt stillschweigend
+  übersprungen): Gegner-Entscheidungen ("unless"), Tod-Ersatzeffekte, ein
+  Spell-Counter/Reaktionsfenster-System, nicht-Energy-Zusatzkosten (Domain-Rune,
+  Unit exhausten), und das Hidden-Keyword (~50 Karten, verdeckt spielen +
+  später aufdecken — größte offene Einzelmechanik).
 - Nebenbei einen weiteren Datenqualitäts-Fix gefunden: ein nackter
   Bracket-Tag ohne Zahl (`[Assault]`, `[Shield]`, `[Deflect]`) bedeutet
   laut Erinnerungstext auf vielen Karten konsistent "1", wurde aber bisher
