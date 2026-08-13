@@ -4,6 +4,7 @@ import starterSetData from "./data/starter-set.json";
 import officialCatalogData from "./data/official-catalog.json";
 import templatedEffectsData from "./data/templated-effects.json";
 import activatedAbilitiesData from "./data/activated-abilities.json";
+import specialCaseAssignmentsData from "./data/special-case-assignments.json";
 
 const starterSet = starterSetData as Card[];
 // Imported from the official Riftbound card gallery, all 5 sets (Origins,
@@ -17,12 +18,18 @@ const officialCatalog = officialCatalogData as Card[];
 // scripts/match-activated-abilities.mjs, and src/game/templatedEffectEngine.ts.
 const templatedEffects = templatedEffectsData as Record<string, TemplatedEffect>;
 const activatedAbilities = activatedAbilitiesData as Record<string, ActivatedAbility>;
+// Hand-implemented special-case handlers (src/cards/special-cases/), keyed by
+// card id. Kept separate from official-catalog.json so re-running the
+// importer (new sets, bug fixes) never clobbers this work — see
+// src/cards/data/special-cases-todo.json for what's still unassigned.
+const specialCaseAssignments = specialCaseAssignmentsData as Record<string, string>;
 
 export const cardDatabase: CardDatabase = Object.fromEntries(
   [...officialCatalog, ...starterSet].map((card) => {
     const extras: Partial<Card> = {};
     if (templatedEffects[card.id]) extras.templatedEffect = templatedEffects[card.id];
     if (activatedAbilities[card.id]) extras.activatedAbility = activatedAbilities[card.id];
+    if (specialCaseAssignments[card.id]) extras.specialCaseId = specialCaseAssignments[card.id];
     return [card.id, Object.keys(extras).length > 0 ? { ...card, ...extras } : card];
   }),
 );

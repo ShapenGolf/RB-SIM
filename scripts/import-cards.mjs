@@ -139,12 +139,6 @@ function canonicalGroupKey(item) {
   return `${item.set.value.id}-${numericPart}`;
 }
 
-// Real cards whose text we've confirmed matches an already-implemented special-case handler
-// (see src/cards/special-cases/). Keyed by our internal card id (setCode-collectorNumber).
-const IMPLEMENTED_SPECIAL_CASES = {
-  "ogn-16": "dangerous-duo", // Dangerous Duo: "[Legion] — When you play me, give a unit +2 Might this turn."
-};
-
 const raw = JSON.parse(readFileSync(inputPath, "utf-8"));
 const items = raw?.pageProps?.page?.blades?.[2]?.cards?.items;
 if (!Array.isArray(items)) {
@@ -203,9 +197,10 @@ for (const item of groups.values()) {
     tags: item.tags?.tags ?? [],
     sourceNote: `Imported from the official Riftbound card gallery (playriftbound.com), set ${item.set.value.label}, ${item.publicCode}.`,
   };
-  if (IMPLEMENTED_SPECIAL_CASES[id]) {
-    card.specialCaseId = IMPLEMENTED_SPECIAL_CASES[id];
-  } else if (needsSpecialCase) {
+  // Note: specialCaseId is NOT assigned here. It's kept in
+  // src/cards/data/special-case-assignments.json and merged in src/cards/db.ts,
+  // so re-running this import never clobbers hand-implemented card logic.
+  if (needsSpecialCase) {
     todo.push({ id, name: item.name, set: item.set.value.id, type, residualText: residual, fullText: plainText });
   }
 
