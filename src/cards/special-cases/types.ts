@@ -28,6 +28,9 @@ export interface SpecialCaseHandler {
   /** Called when the card instance is destroyed, after generic Deathknell handling. */
   onDestroy?(ctx: SpecialCaseContext): void;
 
+  /** Called when this instance Conquers a Battlefield (after control/points are already updated). */
+  onConquer?(ctx: SpecialCaseContext): void;
+
   /**
    * Might bonus this Gear/static-effect card grants to a given ally unit
    * instance while it attacks. Only relevant for Gear/Battlefield cards
@@ -40,6 +43,12 @@ export interface SpecialCaseHandler {
 
   /** Continuous self Might modifier independent of attacking/defending (e.g. an active Empowered bonus). */
   staticMightModifier?(ctx: SpecialCaseContext): number;
+
+  /** Conditional self Might modifier while attacking (e.g. "+2 Might while attacking alone"), on top of any printed Assault. */
+  attackingMightModifier?(ctx: SpecialCaseContext): number;
+
+  /** Conditional self Might modifier while defending, on top of any printed Shield. */
+  defendingMightModifier?(ctx: SpecialCaseContext): number;
 
   /** True if, while this is in play, other friendly units entering play should enter ready instead of exhausted. */
   othersEnterReady?(ctx: SpecialCaseContext): boolean;

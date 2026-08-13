@@ -118,14 +118,19 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **6 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **11 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
   überschreibt): Cleave, Disintegrate, Captain Farron, Thermo Beam,
-  Magma Wurm, Dangerous Duo.
-- Macht **166 von 1019 Karten (~16%) vollständig spielbar.**
-- **853 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+  Magma Wurm, Dangerous Duo, Adaptatron, Draven Showboat, Wielder of
+  Water, Rune Prison + Solari Shieldbearer (teilen sich einen Handler).
+- Macht **171 von 1019 Karten (~17%) vollständig spielbar.**
+- **848 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Nebenbei einen weiteren Datenqualitäts-Fix gefunden: ein nackter
+  Bracket-Tag ohne Zahl (`[Assault]`, `[Shield]`, `[Deflect]`) bedeutet
+  laut Erinnerungstext auf vielen Karten konsistent "1", wurde aber bisher
+  als wertlos (0) importiert. Jetzt korrekt mit `value: 1` befüllt.
 
 ### Neue generische Bausteine aus dieser Runde (wiederverwendbar für zukünftige Karten)
 
@@ -136,6 +141,14 @@ Schritte:
 - **`othersEnterReady`**: statischer Hook für Karten wie Magma Wurm ("Other
   friendly units enter ready"), die das Standard-Verhalten "tritt exhausted
   ein" für andere eigene Karten außer Kraft setzen.
+- **`onConquer`** als Special-Case-Hook (parallel zu Templated Effects) für
+  Karten wie Adaptatron.
+- **`attackingMightModifier` / `defendingMightModifier`** als Special-Case-
+  Hooks für bedingte Might-Boni, die kein printed Keyword sind (z.B.
+  Wielder of Water: "+2 Might solange ich allein bin").
+- **`discardedCardThisTurn`** auf `PlayerState`, gesetzt vom generischen
+  `discardCards`-Action-Primitive — Grundlage für Karten wie Raging Soul
+  (siehe unten, aktuell noch nicht selbst umgesetzt).
 - **`needsPlayTarget`** als deklaratives Flag auf `SpecialCaseHandler` statt
   einer von Hand gepflegten Liste in der UI — verhindert, dass eine neue
   Karte mit Ziel-Bedarf vergessen und dadurch beim Spielen still ohne Ziel
@@ -260,3 +273,14 @@ Resttext vieler Karten mit "Empower"-Fähigkeit.
 - Die rohe 3,2-MB-Quelldatei wurde **nicht** ins Repo übernommen (nur das
   verarbeitete Ergebnis) — bei Bedarf (neue Sets, Errata) muss sie erneut
   besorgt und der Import erneut ausgeführt werden.
+- **Kontextuelle Keyword-Erwähnungen werden fälschlich als eigene printed
+  Keywords attribuiert.** Wenn eine Karte einer ANDEREN Karte/sich selbst
+  bedingt ein Keyword verleiht (z.B. Raging Soul, ogn-19: "If you've
+  discarded a card this turn, I have [Assault] and [Ganking]"), landet
+  dieses Keyword unconditional in `card.keywords` — der Import kann nicht
+  unterscheiden zwischen "diese Karte HAT das Keyword" und "diese Karte
+  VERLEIHT das Keyword bedingt". Betrifft vermutlich mehrere Dutzend Karten
+  mit ähnlichem Muster. Noch kein genereller Fix; betroffene Karten beim
+  Bespoke-Implementieren einzeln behandeln (Raging Soul, ogn-19, ist deshalb
+  aktuell übersprungen und bleibt korrekt in `special-cases-todo.json`
+  stehen, statt fälschlich als erledigt markiert zu werden).

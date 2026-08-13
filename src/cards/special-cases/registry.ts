@@ -12,6 +12,10 @@ import { disintegrate } from "./disintegrate";
 import { captainFarron } from "./captain-farron";
 import { thermoBeam } from "./thermo-beam";
 import { magmaWurm } from "./magma-wurm";
+import { adaptatron } from "./adaptatron";
+import { dravenShowboat } from "./draven-showboat";
+import { wielderOfWater } from "./wielder-of-water";
+import { stunAnyUnit } from "./stun-any-unit";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -25,6 +29,10 @@ const handlers: SpecialCaseHandler[] = [
   captainFarron,
   thermoBeam,
   magmaWurm,
+  adaptatron,
+  dravenShowboat,
+  wielderOfWater,
+  stunAnyUnit,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -51,12 +59,22 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onDestroy?.(ctxFor(game, card, instance));
   },
 
+  onConquer: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onConquer?.(ctxFor(game, card, instance));
+  },
+
   onBeginningWhileHeld: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onBeginningWhileHeld?.(ctxFor(game, card, instance));
   },
 
   staticMightModifier: (game: GameState, card: Card, instance: CardInstance): number =>
     getSpecialCaseHandler(card)?.staticMightModifier?.(ctxFor(game, card, instance)) ?? 0,
+
+  attackingMightModifier: (game: GameState, card: Card, instance: CardInstance): number =>
+    getSpecialCaseHandler(card)?.attackingMightModifier?.(ctxFor(game, card, instance)) ?? 0,
+
+  defendingMightModifier: (game: GameState, card: Card, instance: CardInstance): number =>
+    getSpecialCaseHandler(card)?.defendingMightModifier?.(ctxFor(game, card, instance)) ?? 0,
 
   /** Sum of attacking-Might bonuses granted to `allyInstance` by every allied Gear/Battlefield special case currently in play. */
   attackingMightBonusFromAllies: (

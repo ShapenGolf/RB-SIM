@@ -79,6 +79,7 @@ function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
     xp: 0,
     pendingPredict: false,
     hasTakenFirstTurn: false,
+    discardedCardThisTurn: false,
   };
 }
 

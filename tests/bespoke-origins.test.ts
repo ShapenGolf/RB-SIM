@@ -124,3 +124,76 @@ describe("Magma Wurm (ogn-11): other friendly units enter ready", () => {
     expect(game.instances[newInstanceId!].exhausted).toBe(true);
   });
 });
+
+describe("Adaptatron (ogn-56): on conquer, may sacrifice a gear to buff self", () => {
+  it("kills the controller's own gear and buffs Adaptatron when conquering", () => {
+    const game = makeGame();
+    const adaptatron = putOnBase(game, "ogn-56", "0");
+    const gear = putOnBase(game, "gear-tactical-banner", "0");
+    moveToBattlefield(game, adaptatron.instanceId, 0);
+
+    SpecialCaseEngine.onConquer(game, getCard(adaptatron.cardId), adaptatron);
+
+    expect(game.instances[gear.instanceId]).toBeUndefined();
+    expect(adaptatron.statuses.buffed).toBe(true);
+  });
+
+  it("does nothing if there's no gear to sacrifice", () => {
+    const game = makeGame();
+    const adaptatron = putOnBase(game, "ogn-56", "0");
+    moveToBattlefield(game, adaptatron.instanceId, 0);
+
+    SpecialCaseEngine.onConquer(game, getCard(adaptatron.cardId), adaptatron);
+
+    expect(adaptatron.statuses.buffed).toBeUndefined();
+  });
+});
+
+describe("Draven, Showboat (ogn-28): Might increased by controller's points", () => {
+  it("adds the controller's current points to base Might", () => {
+    const game = makeGame();
+    const draven = putOnBase(game, "ogn-28", "0");
+    const baseline = computeMight(game, getCard, draven, "none");
+
+    game.players["0"].points = 4;
+
+    expect(computeMight(game, getCard, draven, "none")).toBe(baseline + 4);
+  });
+});
+
+describe("Wielder of Water (ogn-55): +2 Might while attacking or defending alone", () => {
+  it("gets the bonus when alone at its battlefield, not when accompanied", () => {
+    const game = makeGame();
+    const wielder = putOnBase(game, "ogn-55", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, wielder.instanceId, 0);
+    const alone = computeMight(game, getCard, wielder, "attacking");
+
+    moveToBattlefield(game, ally.instanceId, 0);
+    const accompanied = computeMight(game, getCard, wielder, "attacking");
+
+    expect(alone - accompanied).toBe(2);
+  });
+});
+
+describe("Rune Prison / Solari Shieldbearer (shared stun-any-unit): can stun either side", () => {
+  it("stuns a friendly unit just as well as an enemy one", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-50", "0");
+    const friendly = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, friendly.instanceId);
+
+    expect(friendly.statuses.stunned).toBe(true);
+  });
+
+  it("Solari Shieldbearer shares the exact same handler behavior", () => {
+    const game = makeGame();
+    const unit = putOnBase(game, "ogn-51", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(unit.cardId), unit, enemy.instanceId);
+
+    expect(enemy.statuses.stunned).toBe(true);
+  });
+});

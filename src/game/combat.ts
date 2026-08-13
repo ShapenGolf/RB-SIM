@@ -97,6 +97,7 @@ function conquerBattlefield(
     const xp = KeywordEngine.xpOnConquerOrHold(game, card, instance);
     if (xp > 0) game.players[newController].xp += xp;
     fireTemplatedEffect(game, getCard, card, instance, "onConquer");
+    SpecialCaseEngine.onConquer(game, card, instance);
   }
 }
 

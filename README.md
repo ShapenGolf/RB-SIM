@@ -21,10 +21,10 @@ pro Karte:
 - **17 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
   Exhaust: Effekt", inkl. Domain-Rune-Kosten) und spielbar
   (`src/cards/data/activated-abilities.json`).
-- **6 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
+- **11 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
   zuerst, der Reihe nach — siehe `src/cards/data/special-case-assignments.json`.
-- Macht **166 von 1019 Karten (~16%) vollständig spielbar.**
-- **853 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
+- Macht **171 von 1019 Karten (~17%) vollständig spielbar.**
+- **848 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
   Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
   Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
 
@@ -89,8 +89,8 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 Wir arbeiten systematisch auf **volle Abdeckung aller Karten** hin (siehe
 `docs/data-sourcing.md` für den aktuellen Stand und die Historie). Reihenfolge:
 
-1. Verbleibende `special-cases-todo.json`-Einträge (853, Stand nach den
-   ersten 6 Origins-Karten) der Reihe nach implementieren, Set für Set.
+1. Verbleibende `special-cases-todo.json`-Einträge (848, Stand nach den
+   ersten 11 Origins-Karten) der Reihe nach implementieren, Set für Set.
 2. Mehrfach-Ziel-Auswahl und einfache Bedingungen als Erweiterung der
    Templated-Effect-Sprache (mehr Karten automatisch abdecken, bevor sie
    bespoke werden müssen).

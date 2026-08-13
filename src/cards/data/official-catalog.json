@@ -379,10 +379,12 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhile I'm at a battlefield, your other units here have [Deflect].",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -671,7 +673,8 @@
         "keyword": "accelerate"
       },
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -1427,7 +1430,8 @@
         "keyword": "empowered"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "assault",
@@ -1975,7 +1979,8 @@
         "keyword": "temporary"
       },
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [],
@@ -2017,7 +2022,8 @@
     "text": "[Assault] (+1 Might while I'm an attacker.)\n[Deathknell] Channel 1 rune exhausted. (When I die, get the effect.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       },
       {
         "keyword": "deathknell"
@@ -2822,7 +2828,8 @@
     "text": "Your Mechs have [Deflect] and [Ganking]. (Opponents must pay Rune to choose us with a spell or ability. We can move from battlefield to battlefield.)\nI enter ready if you control another Mech.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "ganking"
@@ -3278,7 +3285,8 @@
     "text": "Other friendly units here have [Assault]. (+1 Might while they're attackers.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -3351,10 +3359,12 @@
         "keyword": "deathknell"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -3449,7 +3459,8 @@
         "keyword": "ambush"
       },
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -3874,7 +3885,8 @@
     "text": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "ganking"
@@ -4612,7 +4624,8 @@
     "text": "[Assault]",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -4636,7 +4649,8 @@
     "text": "[Assault] (+1 Might while I'm an attacker.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -4879,7 +4893,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nYou may play me to an occupied enemy battlefield.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -5139,7 +5154,8 @@
         "keyword": "reaction"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [],
@@ -6055,7 +6071,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nThe first time I win a combat each turn, you score 1 point.\nWhen I die in combat, choose an opponent. They score 1 point.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -7437,13 +7454,15 @@
         "keyword": "mighty"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "ganking"
       },
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -7692,7 +7711,8 @@
         "keyword": "reaction"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [],
@@ -8065,7 +8085,8 @@
     "text": "When you play me, play a 1 Might Bird unit token with [Deflect] here. (Opponents must pay Rune to choose it with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -8180,7 +8201,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Tank] (I must be assigned combat damage first.)\nI don't deal combat damage.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "tank"
@@ -8944,7 +8966,8 @@
         "keyword": "empowered"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "shield",
@@ -9159,7 +9182,8 @@
     "text": "At the start of your Beginning Phase, if you have exactly 4 cards in hand and exactly 4 units at battlefields, you win the game.\nDiscard 1, Exhaust: Play a 1 Might Bird unit token with [Deflect]. (Opponents must pay Rune to choose it with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [],
@@ -9539,7 +9563,8 @@
     "text": "Players ignore [Deflect] while paying for spells and abilities choosing something here.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [],
@@ -10412,7 +10437,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen you choose or ready me, give me +1 Might this turn.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -10437,7 +10463,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen you choose or ready me, give me +1 Might this turn.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -10462,7 +10489,8 @@
     "text": "[Deflect]\nWhen you choose or ready me, give me +1 Might this turn.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -10756,7 +10784,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nEach Equipment in your hand has [Quick-Draw]. (It gains [Reaction]. When you play it, attach it to a unit you control.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "quick-draw"
@@ -10926,7 +10955,8 @@
         "keyword": "vision"
       },
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -10980,7 +11010,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)\nWhen I move, [Add] 1 EnergyRune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "ganking"
@@ -11310,7 +11341,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen I move to a battlefield, give a friendly unit my keywords and +Might equal to my Might this turn.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -11935,7 +11967,8 @@
         "keyword": "accelerate"
       },
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -12175,7 +12208,8 @@
     "text": "[Assault] (+1 Might while I'm an attacker.)\n[Deathknell] Draw 1. If it's your Beginning Phase, draw 2 instead. (When I die, get the effect.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       },
       {
         "keyword": "deathknell"
@@ -12233,7 +12267,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)\nExhaust: Buff me. (I get a +1 Might buff.)\nI can have any number of buffs.",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -12362,7 +12397,8 @@
     "text": "[Shield]\nWhen I attack, stun an enemy unit here.",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -12391,7 +12427,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)\nWhen I attack, stun an enemy unit here. (It doesn't deal combat damage this turn.)",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -12686,7 +12723,8 @@
         "keyword": "ambush"
       },
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -12781,10 +12819,12 @@
     "text": "[Assault] (+1 Might while I'm an attacker.)\nWhen I attack, deal damage equal to my [Assault] to an enemy unit here.",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       },
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -13257,7 +13297,8 @@
         "value": 6
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "ganking"
@@ -13421,7 +13462,8 @@
     "text": "Your Mechs have [Shield]. (+1 Might while they're defenders.)",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -13446,7 +13488,8 @@
     "text": "Your Mechs have [Shield]. (+1 Might while they're defenders.)",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -14144,10 +14187,12 @@
         "value": 3
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -14502,7 +14547,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -15408,7 +15454,8 @@
         "keyword": "temporary"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [],
@@ -15430,7 +15477,8 @@
     "text": "[Assault] (+1 Might while I'm an attacker.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -15676,7 +15724,8 @@
     "text": "I cost 1 Energy less for each gear you control.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -15779,7 +15828,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen you play me, if an opponent's score is within 3 points of the Victory Score, ready me and gain 3 XP.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -15907,7 +15957,8 @@
     "text": "[Deflect]",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -15931,7 +15982,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -16339,7 +16391,8 @@
     "text": "Your Equipment each give [Assault]. (+1 Might while equipped unit is an attacker.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -16364,7 +16417,8 @@
     "text": "Your Equipment each give [Assault]. (+1 Might while equipped unit is an attacker.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -16455,7 +16509,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen I conquer, draw 1 or channel 1 rune exhausted.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -16636,7 +16691,8 @@
     "text": "If you've discarded a card this turn, I have [Assault] and [Ganking]. (+1 Might while I'm an attacker. I can move from battlefield to battlefield.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       },
       {
         "keyword": "ganking"
@@ -17061,7 +17117,8 @@
         "keyword": "accelerate"
       },
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       },
       {
         "keyword": "accelerate"
@@ -17298,7 +17355,8 @@
         "keyword": "ganking"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -17325,7 +17383,8 @@
         "keyword": "empowered"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "ganking"
@@ -17487,7 +17546,8 @@
         "value": 2
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "ganking"
@@ -17516,7 +17576,8 @@
     "text": "I have [Assault] equal to the number of gear you control. (+1 Might while I'm an attacker for each instance of Assault.)",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -18101,7 +18162,8 @@
     "text": "Your Mechs each have [Assault]. (+1 Might while we're attackers.)\nWhen I conquer, you may recycle another friendly unit to play a Mech from your trash. Reduce its Energy cost by the Might of the unit you recycled.",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -19122,7 +19184,8 @@
         "keyword": "empowered"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "shield",
@@ -19611,7 +19674,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)\nWhen I hold, if there is exactly one other unit you control here, you score 1 point.",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -20796,7 +20860,8 @@
     "text": "When you play this, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)\nFriendly buffed units have [Deflect] if they didn't already. (Opponents must pay Rune to choose those units with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [],
@@ -21090,7 +21155,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -21299,7 +21365,8 @@
         "grantedText": "7 Energy"
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "empowered"
@@ -21574,7 +21641,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       },
       {
         "keyword": "tank"
@@ -21944,13 +22012,15 @@
     "text": "[Shield] (+1 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nOther friendly units here have [Shield].",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       },
       {
         "keyword": "tank"
       },
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [
@@ -22576,7 +22646,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhile I'm at a battlefield, opponents can't score points.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -22777,7 +22848,8 @@
     "text": "[Assault] (+1 Might while I'm an attacker.)\nIf a unit died this turn, I enter ready.",
     "keywords": [
       {
-        "keyword": "assault"
+        "keyword": "assault",
+        "value": 1
       }
     ],
     "tags": [
@@ -22801,7 +22873,8 @@
     "text": "When you conquer here, if you assigned 3 or more excess damage, play a 1 Might Bird unit token with [Deflect].",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [],
@@ -22899,7 +22972,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)\nWhen I hold, play a ready 3 Might Sprite unit token with [Temporary] here. (Kill it at the start of its controller's next Beginning Phase, before scoring.)",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       },
       {
         "keyword": "temporary"
@@ -23235,10 +23309,12 @@
     "text": "Exhaust: Play two 1 Energy Might Bird unit tokens with [Deflect]. Use this ability only while I'm at a battlefield. (Opponents must pay Rune to choose a [Deflect] unit with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -23897,7 +23973,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen an opponent plays a unit while I'm at a battlefield, [Stun] it. They can't move it this turn. (It doesn't deal combat damage this turn.)",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
         "keyword": "stun"
@@ -23958,7 +24035,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nWhen you [Stun] an enemy unit at a battlefield, you may move me to that battlefield.",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       },
       {
         "keyword": "tank"
@@ -24049,7 +24127,8 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n2 EnergyFury Rune: Double my Might this turn.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -24638,10 +24717,12 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen you play me, choose an opponent. They play a 1 Might Bird unit token with [Deflect].",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       },
       {
-        "keyword": "deflect"
+        "keyword": "deflect",
+        "value": 1
       }
     ],
     "tags": [
@@ -25692,7 +25773,8 @@
     "text": "[Shield] (+1 Might while I'm a defender.)",
     "keywords": [
       {
-        "keyword": "shield"
+        "keyword": "shield",
+        "value": 1
       }
     ],
     "tags": [

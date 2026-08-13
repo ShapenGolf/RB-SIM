@@ -75,6 +75,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   runChannel(game, player);
   runDraw(game, player);
   game.players[player].playedMainDeckCardThisTurn = false;
+  game.players[player].discardedCardThisTurn = false;
   for (const instance of Object.values(game.instances)) {
     if (instance.controller === player) {
       instance.tempMightBonus = 0;

@@ -32,6 +32,12 @@ const KNOWN_KEYWORDS = new Set([
   "unique", "level",
 ]);
 
+// A bare bracket with no explicit number (e.g. "[Assault]") still means "1" for these
+// keywords, confirmed by their own in-line reminder text ("+1 Might...", "pay [a] Rune...")
+// appearing consistently across many different cards. Keywords not listed here (Hunt, Level,
+// ...) only ever appeared with an explicit number in the data, so no default is assumed.
+const DEFAULT_VALUE_ONE_KEYWORDS = new Set(["assault", "shield", "deflect"]);
+
 const ICON_MAP = {
   rb_might: "Might",
   rb_exhaust: "Exhaust",
@@ -102,7 +108,14 @@ function extractKeywords(plainText) {
     const normalized = name.trim().toLowerCase();
     if (!KNOWN_KEYWORDS.has(normalized)) return full; // leave unrecognized bracket text untouched, it'll show up as residual
     const entry = { keyword: normalized };
-    if (value !== undefined) entry.value = Number(value);
+    if (value !== undefined) {
+      entry.value = Number(value);
+    } else if (DEFAULT_VALUE_ONE_KEYWORDS.has(normalized)) {
+      // A bare "[Assault]" (no number) still means +1 \u2014 confirmed consistently across many
+      // cards' own reminder text ("+1 Might while I'm an attacker."), unlike e.g. "[Hunt]"
+      // or "[Level]" which only ever appear with an explicit number in the data.
+      entry.value = 1;
+    }
     keywords.push(entry);
     return "";
   });

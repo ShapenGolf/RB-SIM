@@ -32,14 +32,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nEach player kills one of their gear."
   },
   {
-    "id": "ogn-56",
-    "name": "Adaptatron",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When I conquer, you may kill a gear. If you do, buff me. (If I don't have a buff, I get a +1 Might buff.)",
-    "fullText": "When I conquer, you may kill a gear. If you do, buff me. (If I don't have a buff, I get a +1 Might buff.)"
-  },
-  {
     "id": "ven-24",
     "name": "Affectionate Poro",
     "set": "VEN",
@@ -1579,14 +1571,6 @@
     "id": "ven-172",
     "name": "Draven, Showboat",
     "set": "VEN",
-    "type": "champion",
-    "residualText": "My Might is increased by your points.",
-    "fullText": "My Might is increased by your points."
-  },
-  {
-    "id": "ogn-28",
-    "name": "Draven, Showboat",
-    "set": "OGN",
     "type": "champion",
     "residualText": "My Might is increased by your points.",
     "fullText": "My Might is increased by your points."
@@ -4816,14 +4800,6 @@
     "fullText": "Your Mechs have +1 Might (including me).\nWhen I hold, play a 3 Might Mech unit token to your base."
   },
   {
-    "id": "ogn-50",
-    "name": "Rune Prison",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Stun a unit. (It doesn't deal combat damage this turn.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nStun a unit. (It doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "ven-8",
     "name": "Ruthless Strike",
     "set": "VEN",
@@ -5310,14 +5286,6 @@
     "type": "unit",
     "residualText": "When you play me, choose an enemy unit. If it is stunned, kill it. Otherwise, stun it. (It doesn't deal combat damage this turn.)",
     "fullText": "When you play me, choose an enemy unit. If it is stunned, kill it. Otherwise, stun it. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "ogn-51",
-    "name": "Solari Shieldbearer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, stun a unit. (It doesn't deal combat damage this turn.)",
-    "fullText": "When you play me, stun a unit. (It doesn't deal combat damage this turn.)"
   },
   {
     "id": "ogn-72",
@@ -6550,14 +6518,6 @@
     "type": "spell",
     "residualText": "Starting with the next player, each player may return a unit to its owner's hand.",
     "fullText": "Starting with the next player, each player may return a unit to its owner's hand."
-  },
-  {
-    "id": "ogn-55",
-    "name": "Wielder of Water",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "While I'm attacking or defending alone, I have +2 Might.",
-    "fullText": "While I'm attacking or defending alone, I have +2 Might."
   },
   {
     "id": "ven-89",

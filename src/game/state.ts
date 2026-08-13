@@ -58,6 +58,8 @@ export interface PlayerState {
   pendingPredict: boolean;
   /** True once this player has completed their first turn (used for the second player's +1 Channel rule). */
   hasTakenFirstTurn: boolean;
+  /** Set true once this player has discarded a card this turn (e.g. "If you've discarded a card this turn, ..."). Reset at Awaken. */
+  discardedCardThisTurn: boolean;
 }
 
 export interface BattlefieldSlot {

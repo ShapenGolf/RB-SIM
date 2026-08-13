@@ -156,7 +156,10 @@ function runAction(
       // No player choice of which card yet (documented simplification): discards from the front of hand.
       for (let i = 0; i < action.amount; i += 1) {
         const discarded = controller.hand.shift();
-        if (discarded) controller.trash.push(discarded);
+        if (discarded) {
+          controller.trash.push(discarded);
+          controller.discardedCardThisTurn = true;
+        }
       }
       return;
     }
