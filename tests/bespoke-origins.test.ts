@@ -3485,3 +3485,45 @@ describe("Showstopper (ogn-270): buff a friendly base unit, then move it to a ba
     expect(target.battlefieldIndex).toBe(0);
   });
 });
+
+describe("Twisted Fate, Gambler (ogn-200): reveal top rune on attack, branch by domain", () => {
+  it("Fury: deals 2 to the first enemy here and 1 to the rest", () => {
+    const game = makeGame();
+    const tf = putOnBase(game, "ogn-200", "0");
+    moveToBattlefield(game, tf.instanceId, 0);
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury" as const, exhausted: false }];
+    const enemy1 = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy1.instanceId, 0);
+    const enemy2 = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy2.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(tf.cardId), tf);
+
+    expect(game.instances[enemy1.instanceId]).toBeUndefined(); // took 2, Might 1
+    expect(game.instances[enemy2.instanceId]).toBeUndefined(); // took 1, Might 1
+    expect(game.players["0"].runeDeck).toEqual([{ instanceId: "r1", domain: "Fury", exhausted: false }]);
+  });
+
+  it("Mind: draws 1", () => {
+    const game = makeGame();
+    const tf = putOnBase(game, "ogn-200", "0");
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Mind" as const, exhausted: false }];
+    game.players["0"].mainDeck = ["ogn-5"];
+
+    SpecialCaseEngine.onAttack(game, getCard(tf.cardId), tf);
+
+    expect(game.players["0"].hand).toContain("ogn-5");
+  });
+
+  it("Order: stuns an enemy unit", () => {
+    const game = makeGame();
+    const tf = putOnBase(game, "ogn-200", "0");
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Order" as const, exhausted: false }];
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(tf.cardId), tf);
+
+    expect(enemy.statuses.stunned).toBe(true);
+  });
+});

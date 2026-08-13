@@ -5056,14 +5056,6 @@
     "fullText": "Move a unit with 3 Might or less.\n[Flow] 4 EnergyChaos Rune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
-    "id": "ogn-200",
-    "name": "Twisted Fate, Gambler",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I attack, reveal the top rune of your rune deck, then recycle it. Do one of the following based on its domain:Fury Rune \u2014 Deal 2 to an enemy unit here and 1 to all other enemy units here.Mind Rune \u2014 Draw 1.Order Rune \u2014 Stun an enemy unit.",
-    "fullText": "When I attack, reveal the top rune of your rune deck, then recycle it. Do one of the following based on its domain:Fury Rune \u2014 Deal 2 to an enemy unit here and 1 to all other enemy units here.Mind Rune \u2014 Draw 1.Order Rune \u2014 Stun an enemy unit."
-  },
-  {
     "id": "ogn-157",
     "name": "Udyr, Wildman",
     "set": "OGN",

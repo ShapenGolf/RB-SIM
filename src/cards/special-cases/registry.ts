@@ -162,6 +162,7 @@ import { targonsPeak } from "./targons-peak";
 import { lastBreath } from "./last-breath";
 import { zenithBlade } from "./zenith-blade";
 import { showstopper } from "./showstopper";
+import { twistedFateGambler } from "./twisted-fate-gambler";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -324,6 +325,7 @@ const handlers: SpecialCaseHandler[] = [
   lastBreath,
   zenithBlade,
   showstopper,
+  twistedFateGambler,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
