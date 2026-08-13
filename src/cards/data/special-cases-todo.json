@@ -1616,14 +1616,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\nWhen I move, if you control 4 or fewer runes, draw 1."
   },
   {
-    "id": "ogn-59",
-    "name": "Eclipse Herald",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you stun an enemy unit, ready me and give me +1 Might this turn.",
-    "fullText": "When you stun an enemy unit, ready me and give me +1 Might this turn."
-  },
-  {
     "id": "sfd-139",
     "name": "Edge of Night",
     "set": "SFD",

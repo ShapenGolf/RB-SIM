@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { applyStun } from "./stun";
 
 /**
  * Stun a unit. (It doesn't deal combat damage this turn.) Unlike Stunning Blow, this targets
@@ -11,6 +13,6 @@ export const stunAnyUnit: SpecialCaseHandler = {
     if (!targetInstanceId) return;
     const target = ctx.game.instances[targetInstanceId];
     if (!target) return;
-    target.statuses.stunned = true;
+    applyStun(ctx.game, getCard, target, ctx.instance.controller);
   },
 };

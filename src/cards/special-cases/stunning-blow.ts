@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { applyStun } from "./stun";
 
 /** Stun an enemy Unit. */
 export const stunningBlow: SpecialCaseHandler = {
@@ -8,6 +10,6 @@ export const stunningBlow: SpecialCaseHandler = {
     if (!targetInstanceId) return;
     const target = ctx.game.instances[targetInstanceId];
     if (!target || target.controller === ctx.instance.controller) return;
-    target.statuses.stunned = true;
+    applyStun(ctx.game, getCard, target, ctx.instance.controller);
   },
 };

@@ -61,6 +61,9 @@ export interface SpecialCaseHandler {
    */
   onAllyCardPlayed?(ctx: SpecialCaseContext, playedCard: Card, playCountThisTurn: number): void;
 
+  /** Broadcast to every board instance the controller owns whenever THAT PLAYER stuns an enemy unit (see cards/special-cases/stun.ts `applyStun`). */
+  onAllyStun?(ctx: SpecialCaseContext, stunnedInstance: CardInstance): void;
+
   /**
    * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be
    * expressed as fixed-amount TemplatedActions (e.g. "deal damage equal to my Might") — the

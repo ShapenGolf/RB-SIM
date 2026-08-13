@@ -25,6 +25,7 @@ import { pitCrew } from "./pit-crew";
 import { luxIlluminated } from "./lux-illuminated";
 import { dianaNoLongerHuman } from "./diana-no-longer-human";
 import { revnaTheLorekeeper } from "./revna-the-lorekeeper";
+import { eclipseHerald } from "./eclipse-herald";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -51,6 +52,7 @@ const handlers: SpecialCaseHandler[] = [
   luxIlluminated,
   dianaNoLongerHuman,
   revnaTheLorekeeper,
+  eclipseHerald,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -102,6 +104,21 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onAllyCardPlayed?.(ctxFor(game, card, instance), playedCard, playCountThisTurn);
+    }
+  },
+
+  /** Broadcasts a just-stunned enemy unit to every board instance `stunningController` controls with an `onAllyStun` hook. */
+  onAllyStun: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    stunningController: PlayerId,
+    stunnedInstance: CardInstance,
+  ) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== stunningController) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyStun?.(ctxFor(game, card, instance), stunnedInstance);
     }
   },
 

@@ -276,6 +276,33 @@ describe("Caitlyn, Patrolling (ogn-68): Exhaust, deal damage equal to my Might",
   });
 });
 
+describe("Eclipse Herald (ogn-59): ready + buff when I stun an enemy unit", () => {
+  it("readies itself and gains +1 Might this turn when its controller stuns an enemy", () => {
+    const game = makeGame();
+    const herald = putOnBase(game, "ogn-59", "0", { exhausted: true });
+    const stunSpell = putOnBase(game, "ogn-50", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(stunSpell.cardId), stunSpell, enemy.instanceId);
+
+    expect(enemy.statuses.stunned).toBe(true);
+    expect(herald.exhausted).toBe(false);
+    expect(herald.tempMightBonus).toBe(1);
+  });
+
+  it("does not react when the opponent stuns a unit", () => {
+    const game = makeGame();
+    const herald = putOnBase(game, "ogn-59", "1", { exhausted: true });
+    const stunSpell = putOnBase(game, "ogn-50", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(stunSpell.cardId), stunSpell, enemy.instanceId);
+
+    expect(herald.exhausted).toBe(true);
+    expect(herald.tempMightBonus).toBe(0);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();
