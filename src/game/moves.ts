@@ -146,6 +146,7 @@ export const resolvePredict: MoveFn<GameState> = ({ G, playerID }, args: Resolve
 export interface ActivateAbilityArgs {
   instanceId: string;
   energyRuneIds: string[];
+  powerRuneId?: string;
   targetInstanceId?: string;
 }
 
@@ -159,6 +160,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (!ability) return INVALID_MOVE;
   if (ability.cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
   if (args.energyRuneIds.length !== ability.cost.energy) return INVALID_MOVE;
+  if (Boolean(ability.cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
 
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
@@ -166,9 +168,19 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
     if (!rune || rune.exhausted || seen.has(runeId)) return INVALID_MOVE;
     seen.add(runeId);
   }
+  if (args.powerRuneId) {
+    if (seen.has(args.powerRuneId)) return INVALID_MOVE;
+    const rune = player.runePool.find((r) => r.instanceId === args.powerRuneId);
+    if (!rune || rune.domain !== ability.cost.runeDomain) return INVALID_MOVE;
+  }
 
   for (const runeId of args.energyRuneIds) {
     player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  if (args.powerRuneId) {
+    const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
+    const [rune] = player.runePool.splice(idx, 1);
+    player.runeDeck.push(rune);
   }
   if (ability.cost.exhaustSelf) instance.exhausted = true;
 

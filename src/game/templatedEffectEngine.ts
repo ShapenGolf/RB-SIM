@@ -176,6 +176,17 @@ function runAction(
       }
       return;
     }
+    case "gainRune": {
+      for (let i = 0; i < action.amount; i += 1) {
+        game.nextInstanceSeq += 1;
+        controller.runePool.push({
+          instanceId: `rune-gained-${game.nextInstanceSeq}`,
+          domain: action.domain,
+          exhausted: false,
+        });
+      }
+      return;
+    }
   }
 }
 

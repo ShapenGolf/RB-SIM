@@ -64,5 +64,173 @@
         "duration": "thisTurn"
       }
     ]
+  },
+  "sfd-234": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Chaos",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-204": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Chaos",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-226": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Calm",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-81": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Calm",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-229": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Mind",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-120": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Mind",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-222": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Fury",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-40": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Fury",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-231": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Body",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-163": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Body",
+        "amount": 1
+      }
+    ]
+  },
+  "sfd-238": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Order",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-245": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Order",
+        "amount": 1
+      }
+    ]
   }
 }

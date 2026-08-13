@@ -5,9 +5,9 @@
  * itself, then a simple effect) instead of an automatic trigger. Precision
  * over recall, same as the trigger matcher — see its header comment.
  *
- * v1 scope: only a plain Energy cost (no Rune/domain cost, no "recycle a
- * card"/"kill this" sacrifice costs) plus Exhausting the card itself. Cards
- * with richer costs are left for bespoke implementation.
+ * v1 scope: an Energy cost and/or a single Domain Rune cost, plus
+ * Exhausting the card itself. No sacrifice costs ("Kill this:", "Recycle a
+ * card..."). Cards with richer costs are left for bespoke implementation.
  *
  * Usage: node scripts/match-activated-abilities.mjs <todo.json> <matched-out.json> <remaining-todo-out.json>
  */
@@ -20,7 +20,11 @@ if (!todoPath || !matchedOutPath || !remainingOutPath) {
   process.exit(1);
 }
 
-const ABILITY_PATTERN = /^(?:(\d+) Energy,\s*)?Exhaust:\s*(.+)$/is;
+const DOMAIN_RUNE = /(Fury|Calm|Mind|Body|Chaos|Order) Rune/i;
+const ABILITY_PATTERN = new RegExp(
+  `^(?:(\\d+) Energy)?(?:${DOMAIN_RUNE.source})?,?\\s*Exhaust:\\s*(.+)$`,
+  "is",
+);
 
 function matchActivatedAbility(text) {
   // Only accept a single-ability card: no second ability line, no other leftover sentences.
@@ -29,9 +33,12 @@ function matchActivatedAbility(text) {
   const m = trimmed.match(ABILITY_PATTERN);
   if (!m) return null;
   const energy = m[1] ? Number(m[1]) : 0;
-  const actions = parseAction(m[2].trim());
+  const runeDomain = m[2] ? m[2][0].toUpperCase() + m[2].slice(1).toLowerCase() : undefined;
+  const actions = parseAction(m[3].trim());
   if (!actions) return null;
-  return { cost: { energy, exhaustSelf: true }, actions };
+  const cost = { energy, exhaustSelf: true };
+  if (runeDomain) cost.runeDomain = runeDomain;
+  return { cost, actions };
 }
 
 const todo = JSON.parse(readFileSync(todoPath, "utf-8"));

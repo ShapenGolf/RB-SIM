@@ -1,3 +1,5 @@
+import type { Domain } from "./types";
+
 /**
  * Data schema for auto-matched, data-driven card effects (see
  * scripts/match-templated-effects.mjs and src/game/templatedEffects.ts for
@@ -40,7 +42,8 @@ export type TemplatedAction =
   | { type: "discardCards"; player: "controller"; amount: number }
   | { type: "scorePoints"; player: "controller"; amount: number }
   | { type: "gainXP"; player: "controller"; amount: number }
-  | { type: "channelRunes"; player: "controller"; amount: number };
+  | { type: "channelRunes"; player: "controller"; amount: number }
+  | { type: "gainRune"; player: "controller"; domain: Domain; amount: number };
 
 export interface TemplatedEffect {
   trigger: TemplatedTrigger;
@@ -55,11 +58,12 @@ export function templatedEffectNeedsPlayTarget(effect: TemplatedEffect | undefin
 
 /**
  * Auto-matched "[Cost,] Exhaust: Effect" activated ability (see
- * scripts/match-activated-abilities.mjs). v1 scope: a plain Energy cost plus
- * exhausting the card itself — no domain/Rune cost, no sacrifice costs.
+ * scripts/match-activated-abilities.mjs). Cost is Energy + optionally one
+ * Rune of a specific Domain (recycled, same as a card's Power cost) +
+ * exhausting the card itself. No sacrifice costs (e.g. "Kill this:").
  */
 export interface ActivatedAbility {
-  cost: { energy: number; exhaustSelf: boolean };
+  cost: { energy: number; exhaustSelf: boolean; runeDomain?: Domain };
   actions: TemplatedAction[];
 }
 

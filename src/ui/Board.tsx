@@ -131,13 +131,26 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setPendingTarget(null);
   }
 
+  function computeAbilityPayment(ability: NonNullable<ReturnType<typeof getCard>["activatedAbility"]>) {
+    const powerRune = ability.cost.runeDomain
+      ? player.runePool.find((r) => r.domain === ability.cost.runeDomain)
+      : undefined;
+    if (ability.cost.runeDomain && !powerRune) return null;
+    const readyRunes = player.runePool.filter((r) => !r.exhausted && r.instanceId !== powerRune?.instanceId);
+    if (readyRunes.length < ability.cost.energy) return null;
+    return {
+      energyRuneIds: readyRunes.slice(0, ability.cost.energy).map((r) => r.instanceId),
+      powerRuneId: powerRune?.instanceId,
+    };
+  }
+
   function activateAbilityAuto(instanceId: string) {
     const instance = G.instances[instanceId];
     const card = getCard(instance.cardId);
     const ability = card.activatedAbility;
     if (!ability) return;
-    const readyRunes = player.runePool.filter((r) => !r.exhausted);
-    if (readyRunes.length < ability.cost.energy) {
+    const payment = computeAbilityPayment(ability);
+    if (!payment) {
       window.alert("Nicht genug Runen, um diese Fähigkeit zu aktivieren.");
       return;
     }
@@ -145,10 +158,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       setPendingAbility({ instanceId });
       return;
     }
-    moves.activateAbility({
-      instanceId,
-      energyRuneIds: readyRunes.slice(0, ability.cost.energy).map((r) => r.instanceId),
-    });
+    moves.activateAbility({ instanceId, ...payment });
   }
 
   function confirmAbilityTarget(targetInstanceId: string) {
@@ -157,10 +167,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     const card = getCard(instance.cardId);
     const ability = card.activatedAbility;
     if (!ability) return;
-    const readyRunes = player.runePool.filter((r) => !r.exhausted).slice(0, ability.cost.energy);
+    const payment = computeAbilityPayment(ability);
+    if (!payment) return;
     moves.activateAbility({
       instanceId: pendingAbility.instanceId,
-      energyRuneIds: readyRunes.map((r) => r.instanceId),
+      ...payment,
       targetInstanceId,
     });
     setPendingAbility(null);

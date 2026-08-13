@@ -113,6 +113,10 @@ export const ACTION_PATTERNS = [
     re: /^channel (\d+) runes? exhausted\.?$/i,
     build: (m) => [{ type: "channelRunes", player: "controller", amount: Number(m[1]) }],
   },
+  {
+    re: /^—?\s*(Fury|Calm|Mind|Body|Chaos|Order) Rune\.?$/i,
+    build: (m) => [{ type: "gainRune", player: "controller", domain: m[1], amount: 1 }],
+  },
 ];
 
 /**
