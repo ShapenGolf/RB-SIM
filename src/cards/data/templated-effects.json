@@ -9,6 +9,17 @@
       }
     ]
   },
+  "ven-3": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "killTarget",
+        "target": {
+          "kind": "chooseFriendlyGear"
+        }
+      }
+    ]
+  },
   "sfd-227": {
     "trigger": "onAttackOrDefend",
     "actions": [
@@ -174,6 +185,26 @@
       }
     ]
   },
+  "unl-61": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
+  "ven-49": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
   "unl-123": {
     "trigger": "onPlay",
     "actions": [
@@ -199,6 +230,20 @@
           "atBattlefieldOnly": true
         },
         "amount": 6
+      }
+    ]
+  },
+  "sfd-34": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 2,
+        "duration": "thisTurn"
       }
     ]
   },
@@ -238,6 +283,20 @@
           "kind": "allEnemyUnitsAtBattlefield"
         },
         "amount": 3
+      }
+    ]
+  },
+  "sfd-66": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": -2,
+        "duration": "thisTurn"
       }
     ]
   },
@@ -423,6 +482,20 @@
       }
     ]
   },
+  "ven-81": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 6,
+        "duration": "thisTurn"
+      }
+    ]
+  },
   "sfd-87": {
     "trigger": "onPlay",
     "actions": [
@@ -495,6 +568,16 @@
       }
     ]
   },
+  "unl-158": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "gainXP",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
   "ogn-93": {
     "trigger": "onPlay",
     "actions": [
@@ -564,6 +647,17 @@
         "type": "drawCards",
         "player": "controller",
         "amount": 1
+      }
+    ]
+  },
+  "unl-9": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "readyTarget",
+        "target": {
+          "kind": "chooseFriendlyUnit"
+        }
       }
     ]
   },

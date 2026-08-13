@@ -56,14 +56,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a friendly unit at a battlefield +2 Might this turn for each enemy unit there."
   },
   {
-    "id": "ven-3",
-    "name": "Brittle Steel",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Kill a gear.\n 4 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)",
-    "fullText": "Kill a gear.\n[Flow] 4 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "ven-21",
     "name": "Akali, Deadly Weapon",
     "set": "VEN",
@@ -384,14 +376,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyOrder Rune as an additional cost to have me enter ready.)\nWhen I attack, you may move any number of your token units to this battlefield."
   },
   {
-    "id": "sfd-161",
-    "name": "B.F. Sword",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Order Rune (Order Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Order Rune (Order Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "ven-9",
     "name": "Baccai Reaper",
     "set": "VEN",
@@ -548,7 +532,7 @@
     "name": "Bellows Breath",
     "set": "SFD",
     "type": "spell",
-    "residualText": "1 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 1 to up to three units at the same location.",
+    "residualText": "Deal 1 to up to three units at the same location.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 1 to up to three units at the same location."
   },
   {
@@ -616,14 +600,6 @@
     "fullText": "The first time I move each turn, choose a player. They [Burn 1]. (They put the top card of their Main Deck into their trash.)"
   },
   {
-    "id": "sfd-178",
-    "name": "Blade of the Ruined King",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "— Order Rune, Kill a friendly unit (Pay the cost: Attach this to a unit you control.)",
-    "fullText": "[Equip] — Order Rune, Kill a friendly unit (Pay the cost: Attach this to a unit you control.)"
-  },
-  {
     "id": "unl-133",
     "name": "Blast Cone",
     "set": "UNL",
@@ -638,14 +614,6 @@
     "type": "unit",
     "residualText": "You may pay 1 EnergyFury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit at a battlefield.",
     "fullText": "You may pay 1 EnergyFury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit at a battlefield."
-  },
-  {
-    "id": "unl-19",
-    "name": "Blighted Battleaxe",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "1 EnergyFury Rune (1 EnergyFury Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] 1 EnergyFury Rune (1 EnergyFury Rune: Attach this to a unit you control.)"
   },
   {
     "id": "ogn-25",
@@ -692,7 +660,7 @@
     "name": "Blood Rush",
     "set": "SFD",
     "type": "spell",
-    "residualText": "1 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit . (+2 Might while it's an attacker.)",
+    "residualText": "Give a unit . (+2 Might while it's an attacker.)",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 2]. (+2 Might while it's an attacker.)"
   },
   {
@@ -732,7 +700,7 @@
     "name": "Bonds of Strength",
     "set": "SFD",
     "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive two friendly units each +1 Might this turn.",
+    "residualText": "Give two friendly units each +1 Might this turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive two friendly units each +1 Might this turn."
   },
   {
@@ -742,22 +710,6 @@
     "type": "spell",
     "residualText": "Choose a battlefield. An opponent reveals their hand. You may choose a unit from it. They play that unit to that battlefield, ignoring any and all costs. When they do,  it. (It doesn't deal combat damage this turn.)",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nChoose a battlefield. An opponent reveals their hand. You may choose a unit from it. They play that unit to that battlefield, ignoring any and all costs. When they do, [Stun] it. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "sfd-118",
-    "name": "Boneshiver",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "1 EnergyBody Rune (1 EnergyBody Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] 1 EnergyBody Rune (1 EnergyBody Rune: Attach this to a unit you control.)"
-  },
-  {
-    "id": "sfd-133",
-    "name": "Boots of Swiftness",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)"
   },
   {
     "id": "ven-67",
@@ -806,14 +758,6 @@
     "type": "unit",
     "residualText": "I have +2 Might and . (I can move from battlefield to battlefield.)",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "sfd-42",
-    "name": "Brutalizer",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Calm Rune (Calm Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)"
   },
   {
     "id": "ogn-26",
@@ -908,7 +852,7 @@
     "name": "Called Shot",
     "set": "SFD",
     "type": "spell",
-    "residualText": "Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other.",
+    "residualText": "Look at the top 2 cards of your Main Deck. Draw one and recycle the other.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
   },
   {
@@ -1064,14 +1008,6 @@
     "fullText": "As you play me, you may pay Calm Rune as an additional cost. If you do, draw 1."
   },
   {
-    "id": "sfd-64",
-    "name": "Cloth Armor",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Mind Rune (Mind Rune: Attach this to a unit you control.)",
-    "fullText": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Mind Rune (Mind Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "unl-31",
     "name": "Combat Experience",
     "set": "UNL",
@@ -1208,14 +1144,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell if an opponent has played another spell this turn."
   },
   {
-    "id": "sfd-134",
-    "name": "Cull",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "ogn-209",
     "name": "Cull the Weak",
     "set": "OGN",
@@ -1276,7 +1204,7 @@
     "name": "Danger Zone",
     "set": "SFD",
     "type": "spell",
-    "residualText": "1 EnergyRune (You may pay the additional cost to repeat this spell's effect.)\nGive your Mechs +1 Might this turn.",
+    "residualText": "Give your Mechs +1 Might this turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 1 EnergyRune (You may pay the additional cost to repeat this spell's effect.)\nGive your Mechs +1 Might this turn."
   },
   {
@@ -1364,7 +1292,7 @@
     "name": "Death Mark",
     "set": "VEN",
     "type": "spell",
-    "residualText": "[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)\nPlay a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me  this turn.\")\n 1 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)\nPlay a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me  this turn.\")",
     "fullText": "[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)\nPlay a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.\")\n[Flow] 1 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -1492,7 +1420,7 @@
     "name": "Desert's Call",
     "set": "SFD",
     "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nPlay a 2 Might Sand Soldier unit token.",
+    "residualText": "Play a 2 Might Sand Soldier unit token.",
     "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nPlay a 2 Might Sand Soldier unit token."
   },
   {
@@ -1600,44 +1528,12 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nThis turn, double a unit's Might and give it \"RuneRune: Ready me.\""
   },
   {
-    "id": "sfd-95",
-    "name": "Doran's Blade",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Body Rune (Body Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)"
-  },
-  {
-    "id": "sfd-124",
-    "name": "Doran's Ring",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)"
-  },
-  {
-    "id": "sfd-33",
-    "name": "Doran's Shield",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Calm Rune (Calm Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "unl-32",
     "name": "Double Trouble",
     "set": "UNL",
     "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.",
+    "residualText": "Look at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.",
     "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest."
-  },
-  {
-    "id": "unl-61",
-    "name": "Downstage Dramatics",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nDraw 1.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nDraw 1."
   },
   {
     "id": "sfd-147",
@@ -1668,7 +1564,7 @@
     "name": "Dragon Form",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Choose a unit. Its base Might becomes 5 this turn.\n 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Choose a unit. Its base Might becomes 5 this turn.",
     "fullText": "Choose a unit. Its base Might becomes 5 this turn.\n[Flow] 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -1734,14 +1630,6 @@
     "type": "champion",
     "residualText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn.",
     "fullText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn."
-  },
-  {
-    "id": "ven-49",
-    "name": "Dredge Up",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Draw 1.\n 2 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
-    "fullText": "Draw 1.\n[Flow] 2 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
     "id": "sfd-72",
@@ -1820,7 +1708,7 @@
     "name": "Edge of Night",
     "set": "SFD",
     "type": "gear",
-    "residualText": "When you play this from face down, attach it to a unit you control here.\n Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
+    "residualText": "When you play this from face down, attach it to a unit you control here.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play this from face down, attach it to a unit you control here.\n[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)"
   },
   {
@@ -1956,16 +1844,8 @@
     "name": "Existential Dread",
     "set": "UNL",
     "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\n an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)",
+    "residualText": "an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\n[Stun] an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "sfd-73",
-    "name": "Experimental Hexplate",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Mind Rune (Mind Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Mind Rune (Mind Rune: Attach this to a unit you control.)"
   },
   {
     "id": "ven-147",
@@ -1982,14 +1862,6 @@
     "type": "legend",
     "residualText": "Exhaust: Give a friendly unit  this turn.",
     "fullText": "[Action][>] Exhaust: Give a friendly unit [Tank] this turn."
-  },
-  {
-    "id": "sfd-153",
-    "name": "Eye of the Herald",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Order Rune (Order Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Order Rune (Order Rune: Attach this to a unit you control.)"
   },
   {
     "id": "sfd-82",
@@ -2078,14 +1950,6 @@
     "type": "unit",
     "residualText": "When you play me, look at the top 4 cards of your Main Deck. You may reveal a spell with Energy cost 4 Energy or more from among them and draw it. Recycle the rest.",
     "fullText": "When you play me, look at the top 4 cards of your Main Deck. You may reveal a spell with Energy cost 4 Energy or more from among them and draw it. Recycle the rest."
-  },
-  {
-    "id": "sfd-34",
-    "name": "Feral Strength",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit +2 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit +2 Might this turn."
   },
   {
     "id": "sfd-21",
@@ -2232,14 +2096,6 @@
     "fullText": "When you play this, play a 1 Might Recruit unit token at your base.\nKill this: Recycle up to 4 cards from trashes."
   },
   {
-    "id": "sfd-190",
-    "name": "Forgefire Cape",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Rune (Rune: Attach this to a unit you control.)",
-    "fullText": "[Unique] (Your deck can have only 1 card with this name.)\n[Equip] Rune (Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "unl-211",
     "name": "Forgotten Library",
     "set": "UNL",
@@ -2318,14 +2174,6 @@
     "type": "gear",
     "residualText": "When you draw your second card each turn, give a friendly unit +2 Might this turn.",
     "fullText": "When you draw your second card each turn, give a friendly unit +2 Might this turn."
-  },
-  {
-    "id": "sfd-66",
-    "name": "Frigid Touch",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit -2 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit -2 Might this turn."
   },
   {
     "id": "unl-33",
@@ -2592,14 +2440,6 @@
     "fullText": "[Empower] 12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
   },
   {
-    "id": "sfd-51",
-    "name": "Guardian Angel",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Calm Rune (Calm Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "sfd-35",
     "name": "Guardian of the Passage",
     "set": "SFD",
@@ -2680,14 +2520,6 @@
     "fullText": "When you hold here, you may return your Chosen Champion from your trash to your Champion Zone if it is empty."
   },
   {
-    "id": "ven-27",
-    "name": "Hand Hammer",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "Calm Rune (Calm Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "ogn-302",
     "name": "Hand of Noxus",
     "set": "OGN",
@@ -2708,7 +2540,7 @@
     "name": "Hard Bargain",
     "set": "SFD",
     "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nCounter a spell unless its controller pays 2 Energy.",
+    "residualText": "Counter a spell unless its controller pays 2 Energy.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nCounter a spell unless its controller pays 2 Energy."
   },
   {
@@ -2808,14 +2640,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a friendly unit +1 Might this turn and [Stun] an enemy unit at its location. (A stunned unit doesn't deal combat damage this turn.)"
   },
   {
-    "id": "sfd-102",
-    "name": "Hexdrinker",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Body Rune (Body Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "sfd-83",
     "name": "Hextech Anomaly",
     "set": "SFD",
@@ -2838,14 +2662,6 @@
     "type": "gear",
     "residualText": "This enters exhausted.\nExhaust: Empower another gear. (It becomes Empowered if it's not already.)",
     "fullText": "This enters exhausted.\nExhaust: Empower another gear. (It becomes Empowered if it's not already.)"
-  },
-  {
-    "id": "unl-188",
-    "name": "Hextech Gauntlets",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "3 EnergyRune. This ability's Energy cost is reduced by the Might of the unit you choose. (Pay the cost: Attach this to a unit you control.)",
-    "fullText": "[Equip] 3 EnergyRune. This ability's Energy cost is reduced by the Might of the unit you choose. (Pay the cost: Attach this to a unit you control.)"
   },
   {
     "id": "ogn-213",
@@ -2894,14 +2710,6 @@
     "type": "unit",
     "residualText": "Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit this turn and only once each turn.",
     "fullText": "Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit this turn and only once each turn."
-  },
-  {
-    "id": "unl-96",
-    "name": "Hunter's Machete",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "Body Rune (Body Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)"
   },
   {
     "id": "unl-80",
@@ -3052,7 +2860,7 @@
     "name": "Iterative Design",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Play a 3 Might Mech unit token.\n 2 EnergyMind Rune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Play a 3 Might Mech unit token.",
     "fullText": "Play a 3 Might Mech unit token.\n[Flow] 2 EnergyMind Rune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -3412,7 +3220,7 @@
     "name": "Lacerate",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Choose a unit. If it's , disempower it. Then kill it if it has 3 Might or less.\n 4 EnergyOrder RuneOrder Rune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Choose a unit. If it's , disempower it. Then kill it if it has 3 Might or less.",
     "fullText": "Choose a unit. If it's [Empowered], disempower it. Then kill it if it has 3 Might or less.\n[Flow] 4 EnergyOrder RuneOrder Rune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -3430,14 +3238,6 @@
     "type": "spell",
     "residualText": "Ready a friendly unit. It deals damage equal to its Might to an enemy unit at a battlefield.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nReady a friendly unit. It deals damage equal to its Might to an enemy unit at a battlefield."
-  },
-  {
-    "id": "sfd-150",
-    "name": "Last Rites",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "— Chaos Rune, Recycle 2 cards from your trash (Pay the cost: Attach this to a unit you control.)",
-    "fullText": "[Equip] — Chaos Rune, Recycle 2 cards from your trash (Pay the cost: Attach this to a unit you control.)"
   },
   {
     "id": "ogn-69",
@@ -3532,7 +3332,7 @@
     "name": "Lightning Rush",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.\n 2 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.",
     "fullText": "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.\n[Flow] 2 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -3574,14 +3374,6 @@
     "type": "unit",
     "residualText": "If I died alone, draw 1.",
     "fullText": "[Deathknell][>] If I died alone, draw 1."
-  },
-  {
-    "id": "sfd-22",
-    "name": "Long Sword",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Fury Rune (Fury Rune: Attach this to a unit you control.)",
-    "fullText": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)"
   },
   {
     "id": "ogn-301",
@@ -3740,7 +3532,7 @@
     "name": "Marching Orders",
     "set": "SFD",
     "type": "spell",
-    "residualText": "3 Energy (You may pay the additional cost to repeat this spell's effect.)\nChoose a friendly unit anywhere and an enemy unit at a battlefield. They deal damage equal to their Mights to each other.",
+    "residualText": "Choose a friendly unit anywhere and an enemy unit at a battlefield. They deal damage equal to their Mights to each other.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 3 Energy (You may pay the additional cost to repeat this spell's effect.)\nChoose a friendly unit anywhere and an enemy unit at a battlefield. They deal damage equal to their Mights to each other."
   },
   {
@@ -4216,14 +4008,6 @@
     "fullText": "Ready your units."
   },
   {
-    "id": "ven-81",
-    "name": "Onslaught",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Give a unit +6 Might this turn.\n 4 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
-    "fullText": "Give a unit +6 Might this turn.\n[Flow] 4 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "sfd-213",
     "name": "Ornn's Forge",
     "set": "SFD",
@@ -4312,14 +4096,6 @@
     "fullText": "When you play me, buff me. Then, if I am at a battlefield, buff all other friendly units there. (To buff a unit, give it a +1 Might buff if it doesn't already have one.)"
   },
   {
-    "id": "ven-11",
-    "name": "Pendulum Blade",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "Fury Rune (Fury Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "sfd-15",
     "name": "Perched Grimwyrm",
     "set": "SFD",
@@ -4332,7 +4108,7 @@
     "name": "Perfect Execution",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Ready a unit and give it  this turn. (+3 Might while it's an attacker.)\n 3 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Ready a unit and give it  this turn. (+3 Might while it's an attacker.)",
     "fullText": "Ready a unit and give it [Assault 3] this turn. (+3 Might while it's an attacker.)\n[Flow] 3 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -4364,7 +4140,7 @@
     "name": "Piercing Light",
     "set": "SFD",
     "type": "spell",
-    "residualText": "2 EnergyFury Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 2 to a unit at a battlefield, then deal 2 to up to one other unit.",
+    "residualText": "Deal 2 to a unit at a battlefield, then deal 2 to up to one other unit.",
     "fullText": "[Repeat] 2 EnergyFury Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 2 to a unit at a battlefield, then deal 2 to up to one other unit."
   },
   {
@@ -4580,7 +4356,7 @@
     "name": "Public Execution",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Choose a friendly unit. Kill an enemy unit with less Might than it.\n 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Choose a friendly unit. Kill an enemy unit with less Might than it.",
     "fullText": "Choose a friendly unit. Kill an enemy unit with less Might than it.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -4638,14 +4414,6 @@
     "type": "gear",
     "residualText": "—  Exhaust (Pay the cost: Empower me. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Draw 1.",
     "fullText": "[Empower] —  Exhaust (Pay the cost: Empower me. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Draw 1."
-  },
-  {
-    "id": "sfd-191",
-    "name": "Rabadon's Deathcrown",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Rune (Rune: Attach this to a unit you control.)",
-    "fullText": "[Unique] (Your deck can have only 1 card with this name.)\n[Equip] Rune (Rune: Attach this to a unit you control.)"
   },
   {
     "id": "ogn-261",
@@ -4766,14 +4534,6 @@
     "type": "spell",
     "residualText": "Play four 1 Might Recruit unit tokens. (They can be played to your base or to battlefields you control.)",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nPlay four 1 Might Recruit unit tokens. (They can be played to your base or to battlefields you control.)"
-  },
-  {
-    "id": "sfd-16",
-    "name": "Recurve Bow",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Fury Rune (Fury Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)"
   },
   {
     "id": "unl-29",
@@ -5136,14 +4896,6 @@
     "fullText": "I don't deal combat damage unless I'm at a battlefield with exactly one other unit you control."
   },
   {
-    "id": "sfd-172",
-    "name": "Sacred Shears",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Order Rune (Order Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Order Rune (Order Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "unl-173",
     "name": "Sacrifice",
     "set": "UNL",
@@ -5296,14 +5048,6 @@
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
   },
   {
-    "id": "sfd-9",
-    "name": "Serrated Dirk",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Fury Rune (Fury Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "sfd-232",
     "name": "Sett, Brawler",
     "set": "SFD",
@@ -5348,7 +5092,7 @@
     "name": "Shadow Dash",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.\n 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.",
     "fullText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -5412,7 +5156,7 @@
     "name": "Shady Spectacles",
     "set": "VEN",
     "type": "gear",
-    "residualText": "1 EnergyOrder Rune (1 EnergyOrder Rune: Attach this to a unit you control.)\nAs this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it.",
+    "residualText": "As this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it.",
     "fullText": "[Equip] 1 EnergyOrder Rune (1 EnergyOrder Rune: Attach this to a unit you control.)\nAs this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it."
   },
   {
@@ -5456,14 +5200,6 @@
     "fullText": "When I hold, if there is exactly one other unit you control here, draw 1."
   },
   {
-    "id": "unl-158",
-    "name": "Shepherd's Heirloom",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "When you play this, gain 1 XP.\n — Spend 1 XP (Pay the cost: Attach this to a unit you control.)",
-    "fullText": "When you play this, gain 1 XP.\n[Equip] — Spend 1 XP (Pay the cost: Attach this to a unit you control.)"
-  },
-  {
     "id": "ven-59",
     "name": "Shock Blast",
     "set": "VEN",
@@ -5492,7 +5228,7 @@
     "name": "Shurelya's Requiem",
     "set": "SFD",
     "type": "gear",
-    "residualText": "Rune (Rune: Attach this to a unit you control.)\nWhen you play this, ready your units.",
+    "residualText": "When you play this, ready your units.",
     "fullText": "[Unique] (Your deck can have only 1 card with this name.)\n[Equip] Rune (Rune: Attach this to a unit you control.)\nWhen you play this, ready your units."
   },
   {
@@ -5500,7 +5236,7 @@
     "name": "Shuriken Flip",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.\n 3 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.",
     "fullText": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.\n[Flow] 3 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -5582,14 +5318,6 @@
     "type": "spell",
     "residualText": "This spell's Energy cost is reduced by the highest Might among units you control.\nDeal 5 to a unit at a battlefield.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nThis spell's Energy cost is reduced by the highest Might among units you control.\nDeal 5 to a unit at a battlefield."
-  },
-  {
-    "id": "sfd-30",
-    "name": "Skyfall of Areion",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "1 EnergyFury Rune (1 EnergyFury Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] 1 EnergyFury Rune (1 EnergyFury Rune: Attach this to a unit you control.)"
   },
   {
     "id": "unl-38",
@@ -5704,14 +5432,6 @@
     "fullText": "Your token units have +1 Might."
   },
   {
-    "id": "unl-39",
-    "name": "Soul Sword",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "Calm Rune (Calm Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "ven-195",
     "name": "Soul's Reflection",
     "set": "VEN",
@@ -5758,14 +5478,6 @@
     "type": "unit",
     "residualText": "I have +1 Might for each other unit you control here with my name.\nYour deck can have any number of cards named Spiderling.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nI have +1 Might for each other unit you control here with my name.\nYour deck can have any number of cards named Spiderling."
-  },
-  {
-    "id": "sfd-186",
-    "name": "Spinning Axe",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Rune (Rune: Attach this to a unit you control.)",
-    "fullText": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Rune (Rune: Attach this to a unit you control.)\n[Temporary] (If this is unattached, kill it at the start of its controller's Beginning Phase, before scoring.)"
   },
   {
     "id": "sfd-144",
@@ -5836,7 +5548,7 @@
     "name": "Square Up",
     "set": "UNL",
     "type": "spell",
-    "residualText": "— Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit  this turn. (+4 Might while it's an attacker.)",
+    "residualText": "Give a unit  this turn. (+4 Might while it's an attacker.)",
     "fullText": "[Repeat] — Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn. (+4 Might while it's an attacker.)"
   },
   {
@@ -5920,14 +5632,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Empower] 7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +7 Might."
   },
   {
-    "id": "sfd-56",
-    "name": "Sterak's Gage",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Calm Rune (Calm Rune: Attach this to a unit you control.)",
-    "fullText": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "ogn-250",
     "name": "Stormbringer",
     "set": "OGN",
@@ -5996,7 +5700,7 @@
     "name": "Svellsongur",
     "set": "SFD",
     "type": "gear",
-    "residualText": "1 EnergyCalm Rune (1 EnergyCalm Rune: Attach this to a unit you control.)\nAs this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it.",
+    "residualText": "As this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it.",
     "fullText": "[Equip] 1 EnergyCalm Rune (1 EnergyCalm Rune: Attach this to a unit you control.)\nAs this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it."
   },
   {
@@ -6052,7 +5756,7 @@
     "name": "Syndra, Transcendent",
     "set": "UNL",
     "type": "champion",
-    "residualText": "While I'm in a showdown, your spells have  2 EnergyChaos Rune. (You may pay the additional cost to repeat the spell's effect.)",
+    "residualText": "While I'm in a showdown, your spells have",
     "fullText": "While I'm in a showdown, your spells have [Repeat] 2 EnergyChaos Rune. (You may pay the additional cost to repeat the spell's effect.)"
   },
   {
@@ -6132,7 +5836,7 @@
     "name": "Temporal Portal",
     "set": "SFD",
     "type": "gear",
-    "residualText": "Rune, Exhaust: Give the next spell you play this turn  equal to its cost. (You may pay the additional cost to repeat the spell's effect.)",
+    "residualText": "Rune, Exhaust: Give the next spell you play this turn",
     "fullText": "Rune, Exhaust: Give the next spell you play this turn [Repeat] equal to its cost. (You may pay the additional cost to repeat the spell's effect.)"
   },
   {
@@ -6140,7 +5844,7 @@
     "name": "Temptation",
     "set": "SFD",
     "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nMove an enemy unit to a location where there's a unit with the same controller.",
+    "residualText": "Move an enemy unit to a location where there's a unit with the same controller.",
     "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nMove an enemy unit to a location where there's a unit with the same controller."
   },
   {
@@ -6148,7 +5852,7 @@
     "name": "The Academy",
     "set": "UNL",
     "type": "battlefield",
-    "residualText": "When you hold here, give your next spell this turn  equal to its base cost. (You may pay the additional cost to repeat the spell's effect.)",
+    "residualText": "When you hold here, give your next spell this turn",
     "fullText": "When you hold here, give your next spell this turn [Repeat] equal to its base cost. (You may pay the additional cost to repeat the spell's effect.)"
   },
   {
@@ -6244,7 +5948,7 @@
     "name": "The Zero Drive",
     "set": "SFD",
     "type": "gear",
-    "residualText": "1 EnergyMind Rune (1 EnergyMind Rune: Attach this to a unit you control.)\n3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)",
+    "residualText": "3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)",
     "fullText": "[Equip] 1 EnergyMind Rune (1 EnergyMind Rune: Attach this to a unit you control.)\n3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)"
   },
   {
@@ -6284,7 +5988,7 @@
     "name": "Thwonk!",
     "set": "SFD",
     "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nStun an attacking unit. (It doesn't deal combat damage this turn.)",
+    "residualText": "Stun an attacking unit. (It doesn't deal combat damage this turn.)",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nStun an attacking unit. (It doesn't deal combat damage this turn.)"
   },
   {
@@ -6416,14 +6120,6 @@
     "fullText": "Units here have +1 Might. (This includes attackers.)"
   },
   {
-    "id": "sfd-115",
-    "name": "Trinity Force",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Body Rune (Body Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "sfd-174",
     "name": "Trove Golem",
     "set": "SFD",
@@ -6468,7 +6164,7 @@
     "name": "Twilight Shroud",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Give a friendly unit +1 Might this turn. It can't be chosen by enemy spells and abilities this turn.\n 2 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Give a friendly unit +1 Might this turn. It can't be chosen by enemy spells and abilities this turn.",
     "fullText": "Give a friendly unit +1 Might this turn. It can't be chosen by enemy spells and abilities this turn.\n[Flow] 2 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -6476,7 +6172,7 @@
     "name": "Twilight Step",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Move a unit with 3 Might or less.\n 4 EnergyChaos Rune (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Move a unit with 3 Might or less.",
     "fullText": "Move a unit with 3 Might or less.\n[Flow] 4 EnergyChaos Rune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
@@ -6588,16 +6284,8 @@
     "name": "Up from the Deep",
     "set": "VEN",
     "type": "spell",
-    "residualText": "Play two 1 Might Tentacle unit tokens from Bilgewater.\n 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
+    "residualText": "Play two 1 Might Tentacle unit tokens from Bilgewater.",
     "fullText": "Play two 1 Might Tentacle unit tokens from Bilgewater.\n[Flow] 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
-    "id": "unl-9",
-    "name": "Upstage Comedy",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "2 Energy (You may pay the additional cost to repeat this spell's effect.)\nReady a unit.",
-    "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nReady a unit."
   },
   {
     "id": "unl-218",
@@ -6920,14 +6608,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nAs you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nReady a unit."
   },
   {
-    "id": "sfd-108",
-    "name": "Warmog's Armor",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Body Rune (Body Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "ogn-159",
     "name": "Warwick, Hunter",
     "set": "OGN",
@@ -7022,14 +6702,6 @@
     "type": "unit",
     "residualText": "While I'm buffed, I have an additional +1 Might.",
     "fullText": "While I'm buffed, I have an additional +1 Might."
-  },
-  {
-    "id": "sfd-86",
-    "name": "World Atlas",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Mind Rune (Mind Rune: Attach this to a unit you control.)",
-    "fullText": "[Equip] Mind Rune (Mind Rune: Attach this to a unit you control.)"
   },
   {
     "id": "ogn-118",

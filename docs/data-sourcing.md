@@ -108,28 +108,46 @@ Schritte:
    Unique-Effekt: die Karte landet in `special-cases-todo.json` statt
    automatisch (falsch) als "generisch abgedeckt" markiert zu werden.
 
-## Ergebnis (Stand 2026-08-13)
+## Ergebnis (Stand 2026-08-13, nach drei Ausbaustufen)
 
 - **1019 Karten** importiert, alle 5 Sets, in `src/cards/data/official-catalog.json`.
-- **48 Karten** vollständig generisch spielbar (nur printed Keywords, kein
+- **81 Karten** vollständig generisch spielbar (nur printed Keywords, kein
   Unique-Text).
-- **51 Karten** automatisch als "Templated Effect" erkannt
+- **59 Karten** automatisch als "Templated Effect" erkannt
   (`src/cards/data/templated-effects.json`, `scripts/match-templated-effects.mjs`).
-- **4 Karten** automatisch als "Activated Ability" erkannt
-  (`src/cards/data/activated-abilities.json`, `scripts/match-activated-abilities.mjs`).
-- Macht **103 von 1019 Karten (~10%) vollständig spielbar ohne eine Zeile
+- **16 Karten** automatisch als "Activated Ability" erkannt, inkl.
+  Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
+  `scripts/match-activated-abilities.mjs`).
+- Macht **156 von 1019 Karten (~15%) vollständig spielbar ohne eine Zeile
   kartenspezifischen Code.**
-- **916 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`
-  (Feld `residualText` zeigt den nicht abgedeckten Teil, `fullText` den
-  kompletten Originaltext für die spätere Implementierung).
+- **863 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - 1 Karte (`ogn-16`, "Dangerous Duo") wurde manuell mit dem bereits
-  existierenden `dangerous-duo`-Special-Case verknüpft (Text stimmt fast
-  wörtlich überein) — siehe `IMPLEMENTED_SPECIAL_CASES` im Import-Script als
-  Muster für weitere Verknüpfungen.
-- Nebenbei einen echten Bug im Import behoben: `[Empower] KOSTEN (KOSTEN:
-  Empower me. Use only if not Empowered.)` wurde nicht sauber erkannt und
-  landete als Rauschen im Resttext von ~40 Karten — jetzt korrekt als
-  eigene Keyword-Instanz mit Kosten-Text erfasst.
+  existierenden `dangerous-duo`-Special-Case verknüpft — siehe
+  `IMPLEMENTED_SPECIAL_CASES` im Import-Script als Muster für weitere
+  Verknüpfungen.
+
+### Wichtigster Fund dieser Runde: ein zweiter, größerer Daten-Bug
+
+Die geplante dritte Mechanik ("statische Modifikatoren") stellte sich beim
+Nachmessen als **kaum vorhanden** heraus: nur ~5 Karten im gesamten
+Datensatz haben überhaupt die Form "Ich habe +X Might solange Y" oder
+"Deine Einheiten haben +X Might" als vollständigen, eigenständigen Text —
+zu wenig, um den Aufwand für eine neue generische Mechanik zu rechtfertigen.
+Statt das trotzdem durchzuziehen, bin ich der Diskrepanz nachgegangen und
+habe stattdessen etwas Wertvolleres gefunden: derselbe Bug-Typ wie beim
+`[Empower]`-Fix (Kostentext zwischen Klammer-Tag und Erinnerungstext, den
+der generische Stripper nicht erfasst) betraf **auch** `[Equip]`, `[Repeat]`
+und `[Flow]` — vier verschiedene Keywords, nicht nur eins. Der verallgemeinerte
+Fix (`COST_BEARING_KEYWORDS` in `scripts/import-cards.mjs`) hat allein **33
+Karten** von Rauschen befreit, viele davon dadurch komplett generisch
+spielbar geworden (z.B. Equip-Gear wie "Blighted Battleaxe", deren
+kompletter Text nur noch aus dem Keyword + Kosten bestand).
+
+Lehre daraus: bei diesem Datensatz bringt das Nachmessen einer Hypothese vor
+dem Bauen der Mechanik regelmäßig mehr als das direkte Umsetzen — die zweite
+"vielversprechende" Mechanik war es nicht, aber das genauere Hinsehen dabei
+hat einen Bug gefunden, der mehr gebracht hat als die Mechanik selbst
+gebracht hätte.
 
 ## Templated Effects — automatische Karteneffekt-Erkennung
 
@@ -192,19 +210,25 @@ Empower me...)` — die Aktivierungskosten für den Empowered-Status — wurden
 vom ursprünglichen Import nicht als Einheit erkannt und verunreinigten den
 Resttext vieler Karten mit "Empower"-Fähigkeit.
 
-### Nächste Hebel für mehr Abdeckung (größer als weiteres Regex-Tuning)
+### Nächste Hebel für mehr Abdeckung (erledigt vs. offen)
 
-1. Domain/Rune-Kostenanteile bei Activated Abilities unterstützen (deutlich
-   mehr Gear-/Legend-Karten betroffen als die reine-Energy-Untermenge).
-2. **Statische Modifikatoren** ("Einheiten, die du kontrollierst, haben...")
-   als eigener Matcher, analog zum Trigger-Matcher, aber für dauerhafte
-   Board-weite Effekte statt einmalige Aktionen.
+1. ~~Domain/Rune-Kostenanteile bei Activated Abilities~~ — erledigt.
+2. ~~Statische Modifikatoren als eigene Mechanik~~ — geprüft, verworfen:
+   zu wenige Karten (~5) rechtfertigen keine neue Mechanik. Stattdessen den
+   generalisierten Cost-Bearing-Keyword-Fix gebaut (siehe oben) — deutlich
+   höherer Ertrag für ähnlichen Aufwand.
 3. Mehrfach-Ziel-Auswahl ("give two friendly units each +2 Might") und
    einfache Bedingungen ("if you control 2+ gear, ...") als Erweiterung der
    Templated-Effect-Sprache.
 4. Echte interaktive Ziel-Auswahl für die Trigger, die aktuell nur den ersten
    gültigen Kandidaten automatisch wählen (onConquer/onHold/onAttack/
    onDefend/onMove/onDestroy).
+5. "Equip"-Mechanik selbst laufzeitseitig umsetzen (aktuell nur die
+   Kosten/Text-Extraktion sauber, aber "an eine Einheit anhängen" ist noch
+   keine echte Spielmechanik — siehe `activatedAbilityNeedsTarget`-Pendant
+   für Equip als nächster Schritt).
+6. Restliche 863 Sonderfälle priorisiert von Hand abarbeiten (siehe README
+   "Nächste Schritte").
 
 ## Bekannte Einschränkungen des Imports
 

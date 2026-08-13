@@ -201,7 +201,8 @@
     "text": "Kill a gear.\n[Flow] 4 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "4 EnergyFury Rune"
       }
     ],
     "tags": [],
@@ -1365,7 +1366,8 @@
     "text": "[Equip] Order Rune (Order Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Order Rune"
       }
     ],
     "tags": [
@@ -1871,10 +1873,11 @@
     "text": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 1 to up to three units at the same location.",
     "keywords": [
       {
-        "keyword": "action"
+        "keyword": "repeat",
+        "grantedText": "1 EnergyMind Rune"
       },
       {
-        "keyword": "repeat"
+        "keyword": "action"
       }
     ],
     "tags": [],
@@ -2109,7 +2112,8 @@
     "text": "[Equip] — Order Rune, Kill a friendly unit (Pay the cost: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "— Order Rune, Kill a friendly unit"
       }
     ],
     "tags": [
@@ -2262,7 +2266,8 @@
     "text": "[Equip] 1 EnergyFury Rune (1 EnergyFury Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "1 EnergyFury Rune"
       }
     ],
     "tags": [
@@ -2458,10 +2463,11 @@
     "text": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 2]. (+2 Might while it's an attacker.)",
     "keywords": [
       {
-        "keyword": "action"
+        "keyword": "repeat",
+        "grantedText": "1 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "action"
       },
       {
         "keyword": "assault",
@@ -2611,10 +2617,11 @@
     "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive two friendly units each +1 Might this turn.",
     "keywords": [
       {
-        "keyword": "reaction"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "reaction"
       }
     ],
     "tags": [],
@@ -2666,7 +2673,8 @@
     "text": "[Equip] 1 EnergyBody Rune (1 EnergyBody Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "1 EnergyBody Rune"
       }
     ],
     "tags": [
@@ -2690,7 +2698,8 @@
     "text": "[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Chaos Rune"
       }
     ],
     "tags": [
@@ -2902,7 +2911,8 @@
     "text": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Calm Rune"
       }
     ],
     "tags": [
@@ -3192,10 +3202,11 @@
     "text": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other.",
     "keywords": [
       {
-        "keyword": "action"
+        "keyword": "repeat",
+        "grantedText": "Chaos Rune"
       },
       {
-        "keyword": "repeat"
+        "keyword": "action"
       }
     ],
     "tags": [],
@@ -3759,10 +3770,11 @@
     "text": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Mind Rune (Mind Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "quick-draw"
+        "keyword": "equip",
+        "grantedText": "Mind Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "quick-draw"
       }
     ],
     "tags": [
@@ -4342,7 +4354,8 @@
     "text": "[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Chaos Rune"
       }
     ],
     "tags": [
@@ -4546,10 +4559,11 @@
     "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 1 EnergyRune (You may pay the additional cost to repeat this spell's effect.)\nGive your Mechs +1 Might this turn.",
     "keywords": [
       {
-        "keyword": "reaction"
+        "keyword": "repeat",
+        "grantedText": "1 EnergyRune"
       },
       {
-        "keyword": "repeat"
+        "keyword": "reaction"
       }
     ],
     "tags": [
@@ -4921,11 +4935,12 @@
     "text": "[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)\nPlay a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.\")\n[Flow] 1 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "assault",
-        "value": 4
+        "keyword": "flow",
+        "grantedText": "1 EnergyRuneRune"
       },
       {
-        "keyword": "flow"
+        "keyword": "assault",
+        "value": 4
       }
     ],
     "tags": [
@@ -5349,7 +5364,8 @@
     "text": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nPlay a 2 Might Sand Soldier unit token.",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       }
     ],
     "tags": [],
@@ -5713,7 +5729,8 @@
     "text": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Body Rune"
       }
     ],
     "tags": [
@@ -5737,7 +5754,8 @@
     "text": "[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Chaos Rune"
       }
     ],
     "tags": [
@@ -5761,7 +5779,8 @@
     "text": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Calm Rune"
       }
     ],
     "tags": [
@@ -5785,7 +5804,8 @@
     "text": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       }
     ],
     "tags": [],
@@ -5807,10 +5827,11 @@
     "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nDraw 1.",
     "keywords": [
       {
-        "keyword": "reaction"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "reaction"
       }
     ],
     "tags": [],
@@ -5908,7 +5929,8 @@
     "text": "Choose a unit. Its base Might becomes 5 this turn.\n[Flow] 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "3 Energy"
       }
     ],
     "tags": [],
@@ -6131,7 +6153,8 @@
     "text": "Draw 1.\n[Flow] 2 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "2 Energy"
       }
     ],
     "tags": [],
@@ -6360,10 +6383,11 @@
     "text": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play this from face down, attach it to a unit you control here.\n[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "hidden"
+        "keyword": "equip",
+        "grantedText": "Chaos Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "hidden"
       }
     ],
     "tags": [
@@ -6812,10 +6836,11 @@
     "text": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\n[Stun] an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)",
     "keywords": [
       {
-        "keyword": "action"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "action"
       },
       {
         "keyword": "stun"
@@ -6840,7 +6865,8 @@
     "text": "[Equip] Mind Rune (Mind Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Mind Rune"
       }
     ],
     "tags": [
@@ -6920,7 +6946,8 @@
     "text": "[Equip] Order Rune (Order Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Order Rune"
       }
     ],
     "tags": [
@@ -7233,10 +7260,11 @@
     "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit +2 Might this turn.",
     "keywords": [
       {
-        "keyword": "reaction"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "reaction"
       }
     ],
     "tags": [],
@@ -7773,10 +7801,11 @@
     "text": "[Unique] (Your deck can have only 1 card with this name.)\n[Equip] Rune (Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "unique"
+        "keyword": "equip",
+        "grantedText": "Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "unique"
       }
     ],
     "tags": [
@@ -8011,10 +8040,11 @@
     "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit -2 Might this turn.",
     "keywords": [
       {
-        "keyword": "reaction"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "reaction"
       }
     ],
     "tags": [],
@@ -8943,7 +8973,8 @@
     "text": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Calm Rune"
       }
     ],
     "tags": [
@@ -9212,7 +9243,8 @@
     "text": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Calm Rune"
       }
     ],
     "tags": [
@@ -9298,10 +9330,11 @@
     "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nCounter a spell unless its controller pays 2 Energy.",
     "keywords": [
       {
-        "keyword": "reaction"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "reaction"
       }
     ],
     "tags": [],
@@ -9706,7 +9739,8 @@
     "text": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Body Rune"
       }
     ],
     "tags": [
@@ -9806,7 +9840,8 @@
     "text": "[Equip] 3 EnergyRune. This ability's Energy cost is reduced by the Might of the unit you choose. (Pay the cost: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "3 EnergyRune. This ability's Energy cost is reduced by the Might of the unit you choose."
       }
     ],
     "tags": [
@@ -10047,7 +10082,8 @@
     "text": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Body Rune"
       }
     ],
     "tags": [
@@ -10535,7 +10571,8 @@
     "text": "Play a 3 Might Mech unit token.\n[Flow] 2 EnergyMind Rune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "2 EnergyMind Rune"
       }
     ],
     "tags": [],
@@ -11929,10 +11966,11 @@
     "text": "Choose a unit. If it's [Empowered], disempower it. Then kill it if it has 3 Might or less.\n[Flow] 4 EnergyOrder RuneOrder Rune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "empowered"
+        "keyword": "flow",
+        "grantedText": "4 EnergyOrder RuneOrder Rune"
       },
       {
-        "keyword": "flow"
+        "keyword": "empowered"
       }
     ],
     "tags": [],
@@ -12005,7 +12043,8 @@
     "text": "[Equip] — Chaos Rune, Recycle 2 cards from your trash (Pay the cost: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "— Chaos Rune, Recycle 2 cards from your trash"
       }
     ],
     "tags": [
@@ -12405,7 +12444,8 @@
     "text": "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.\n[Flow] 2 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "2 EnergyRune"
       }
     ],
     "tags": [
@@ -12569,10 +12609,11 @@
     "text": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "quick-draw"
+        "keyword": "equip",
+        "grantedText": "Fury Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "quick-draw"
       }
     ],
     "tags": [
@@ -13095,10 +13136,11 @@
     "text": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 3 Energy (You may pay the additional cost to repeat this spell's effect.)\nChoose a friendly unit anywhere and an enemy unit at a battlefield. They deal damage equal to their Mights to each other.",
     "keywords": [
       {
-        "keyword": "action"
+        "keyword": "repeat",
+        "grantedText": "3 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "action"
       }
     ],
     "tags": [],
@@ -14929,7 +14971,8 @@
     "text": "Give a unit +6 Might this turn.\n[Flow] 4 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "4 Energy"
       }
     ],
     "tags": [],
@@ -15260,7 +15303,8 @@
     "text": "[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Fury Rune"
       }
     ],
     "tags": [
@@ -15310,11 +15354,12 @@
     "text": "Ready a unit and give it [Assault 3] this turn. (+3 Might while it's an attacker.)\n[Flow] 3 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "assault",
-        "value": 3
+        "keyword": "flow",
+        "grantedText": "3 EnergyFury Rune"
       },
       {
-        "keyword": "flow"
+        "keyword": "assault",
+        "value": 3
       }
     ],
     "tags": [],
@@ -15436,7 +15481,8 @@
     "text": "[Repeat] 2 EnergyFury Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 2 to a unit at a battlefield, then deal 2 to up to one other unit.",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "2 EnergyFury Rune"
       }
     ],
     "tags": [],
@@ -16213,7 +16259,8 @@
     "text": "Choose a friendly unit. Kill an enemy unit with less Might than it.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "5 EnergyRuneRune"
       }
     ],
     "tags": [
@@ -16462,10 +16509,11 @@
     "text": "[Unique] (Your deck can have only 1 card with this name.)\n[Equip] Rune (Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "unique"
+        "keyword": "equip",
+        "grantedText": "Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "unique"
       }
     ],
     "tags": [
@@ -16908,7 +16956,8 @@
     "text": "[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Fury Rune"
       }
     ],
     "tags": [
@@ -18211,7 +18260,8 @@
     "text": "[Equip] Order Rune (Order Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Order Rune"
       }
     ],
     "tags": [
@@ -19101,7 +19151,8 @@
     "text": "[Equip] Fury Rune (Fury Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Fury Rune"
       }
     ],
     "tags": [
@@ -19261,7 +19312,8 @@
     "text": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "5 EnergyRuneRune"
       }
     ],
     "tags": [
@@ -19448,7 +19500,8 @@
     "text": "[Equip] 1 EnergyOrder Rune (1 EnergyOrder Rune: Attach this to a unit you control.)\nAs this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it.",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "1 EnergyOrder Rune"
       }
     ],
     "tags": [
@@ -19635,7 +19688,8 @@
     "text": "When you play this, gain 1 XP.\n[Equip] — Spend 1 XP (Pay the cost: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "— Spend 1 XP"
       }
     ],
     "tags": [
@@ -19772,10 +19826,11 @@
     "text": "[Unique] (Your deck can have only 1 card with this name.)\n[Equip] Rune (Rune: Attach this to a unit you control.)\nWhen you play this, ready your units.",
     "keywords": [
       {
-        "keyword": "unique"
+        "keyword": "equip",
+        "grantedText": "Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "unique"
       }
     ],
     "tags": [
@@ -19806,7 +19861,8 @@
     "text": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.\n[Flow] 3 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "3 EnergyRune"
       }
     ],
     "tags": [
@@ -20089,7 +20145,8 @@
     "text": "[Equip] 1 EnergyFury Rune (1 EnergyFury Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "1 EnergyFury Rune"
       }
     ],
     "tags": [
@@ -20489,7 +20546,8 @@
     "text": "[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Calm Rune"
       }
     ],
     "tags": [
@@ -20684,10 +20742,11 @@
     "text": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Rune (Rune: Attach this to a unit you control.)\n[Temporary] (If this is unattached, kill it at the start of its controller's Beginning Phase, before scoring.)",
     "keywords": [
       {
-        "keyword": "quick-draw"
+        "keyword": "equip",
+        "grantedText": "Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "quick-draw"
       },
       {
         "keyword": "temporary"
@@ -20953,7 +21012,8 @@
     "text": "[Repeat] — Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn. (+4 Might while it's an attacker.)",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "— Discard 1"
       },
       {
         "keyword": "assault",
@@ -21293,10 +21353,11 @@
     "text": "[Quick-Draw] (This has [Reaction]. When you play it, attach it to a unit you control.)\n[Equip] Calm Rune (Calm Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "quick-draw"
+        "keyword": "equip",
+        "grantedText": "Calm Rune"
       },
       {
-        "keyword": "equip"
+        "keyword": "quick-draw"
       }
     ],
     "tags": [
@@ -21572,7 +21633,8 @@
     "text": "[Equip] 1 EnergyCalm Rune (1 EnergyCalm Rune: Attach this to a unit you control.)\nAs this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it.",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "1 EnergyCalm Rune"
       }
     ],
     "tags": [
@@ -21759,7 +21821,8 @@
     "text": "While I'm in a showdown, your spells have [Repeat] 2 EnergyChaos Rune. (You may pay the additional cost to repeat the spell's effect.)",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "2 EnergyChaos Rune."
       }
     ],
     "tags": [
@@ -22067,7 +22130,8 @@
     "text": "Rune, Exhaust: Give the next spell you play this turn [Repeat] equal to its cost. (You may pay the additional cost to repeat the spell's effect.)",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "equal to its cost."
       }
     ],
     "tags": [],
@@ -22089,7 +22153,8 @@
     "text": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nMove an enemy unit to a location where there's a unit with the same controller.",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       }
     ],
     "tags": [],
@@ -22111,7 +22176,8 @@
     "text": "When you hold here, give your next spell this turn [Repeat] equal to its base cost. (You may pay the additional cost to repeat the spell's effect.)",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "equal to its base cost."
       }
     ],
     "tags": [],
@@ -22347,7 +22413,8 @@
     "text": "[Equip] 1 EnergyMind Rune (1 EnergyMind Rune: Attach this to a unit you control.)\n3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "1 EnergyMind Rune"
       }
     ],
     "tags": [
@@ -22479,10 +22546,11 @@
     "text": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nStun an attacking unit. (It doesn't deal combat damage this turn.)",
     "keywords": [
       {
-        "keyword": "action"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       },
       {
-        "keyword": "repeat"
+        "keyword": "action"
       }
     ],
     "tags": [],
@@ -22926,7 +22994,8 @@
     "text": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Body Rune"
       }
     ],
     "tags": [
@@ -23065,7 +23134,8 @@
     "text": "Give a friendly unit +1 Might this turn. It can't be chosen by enemy spells and abilities this turn.\n[Flow] 2 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "2 Energy"
       }
     ],
     "tags": [],
@@ -23092,7 +23162,8 @@
     "text": "Move a unit with 3 Might or less.\n[Flow] 4 EnergyChaos Rune (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "4 EnergyChaos Rune"
       }
     ],
     "tags": [],
@@ -23435,7 +23506,8 @@
     "text": "Play two 1 Might Tentacle unit tokens from Bilgewater.\n[Flow] 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
     "keywords": [
       {
-        "keyword": "flow"
+        "keyword": "flow",
+        "grantedText": "3 Energy"
       }
     ],
     "tags": [],
@@ -23457,7 +23529,8 @@
     "text": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nReady a unit.",
     "keywords": [
       {
-        "keyword": "repeat"
+        "keyword": "repeat",
+        "grantedText": "2 Energy"
       }
     ],
     "tags": [],
@@ -24615,7 +24688,8 @@
     "text": "[Equip] Body Rune (Body Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Body Rune"
       }
     ],
     "tags": [
@@ -24942,7 +25016,8 @@
     "text": "[Equip] Mind Rune (Mind Rune: Attach this to a unit you control.)",
     "keywords": [
       {
-        "keyword": "equip"
+        "keyword": "equip",
+        "grantedText": "Mind Rune"
       }
     ],
     "tags": [

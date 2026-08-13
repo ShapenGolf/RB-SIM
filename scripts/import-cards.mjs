@@ -76,16 +76,24 @@ function extractKeywords(plainText) {
     return { keywords: [], residual: "" };
   }
 
-  // "[Empower] COST (COST: Empower me/this. Use only if not Empowered.)" repeats its own cost text
-  // before the reminder parenthetical, so the generic tag+adjacent-paren stripper below can't match it
-  // (there's a cost clause between "]" and "("). Handle it as its own shape first, keeping the cost text.
-  residual = residual.replace(
-    /\[Empower\]\s*([^()]+?)\s*\(\s*\1\s*:\s*Empower (?:me|this)\.(?:[^()]*)?\)/gi,
-    (_full, cost) => {
-      keywords.push({ keyword: "empower", grantedText: cost.trim() });
+  // Several keywords carry their own cost text between the bracket tag and its reminder
+  // parenthetical (e.g. "[Repeat] 2 Energy (You may pay the additional cost to repeat this
+  // spell's effect.)"), which the generic tag+adjacent-paren stripper below can't match (it
+  // only handles a paren immediately after "]", with nothing in between). Handle each with its
+  // own stable reminder wording first, capturing the cost text as the keyword's `grantedText`.
+  const COST_BEARING_KEYWORDS = [
+    { keyword: "empower", reminder: /\(\s*\1\s*:\s*Empower (?:me|this)\.(?:[^()]*)?\)/i },
+    { keyword: "repeat", reminder: /\(You may pay the additional cost to repeat (?:this|the) spell'?s? effect\.\)/i },
+    { keyword: "flow", reminder: /\(You may play this from your trash for its Flow cost\.[^()]*\)/i },
+    { keyword: "equip", reminder: /\((?:\1|Pay the cost)\s*:\s*Attach this to a unit you control\.\)/i },
+  ];
+  for (const { keyword, reminder } of COST_BEARING_KEYWORDS) {
+    const pattern = new RegExp(`\\[${keyword}\\]\\s*([^()\\[\\]]+?)\\s*${reminder.source}`, "gi");
+    residual = residual.replace(pattern, (_full, cost) => {
+      keywords.push({ keyword, grantedText: cost.trim() });
       return "";
-    },
-  );
+    });
+  }
 
   // Match a bracket tag and, optionally, an immediately-adjacent reminder parenthetical
   // (e.g. "[Deflect] (Opponents must pay...)") as a single unit so both get removed together.

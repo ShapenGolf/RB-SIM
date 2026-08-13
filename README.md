@@ -13,16 +13,17 @@ Online-Multiplayer noch nicht aktiviert.
 siehe [`docs/data-sourcing.md`](docs/data-sourcing.md). Spielbarkeits-Stand
 pro Karte:
 
-- **48 Karten** vollständig generisch (nur printed Keywords).
-- **51 Karten** automatisch als "Templated Effect" erkannt (Trigger + Aktion,
+- **81 Karten** vollständig generisch (nur printed Keywords).
+- **59 Karten** automatisch als "Templated Effect" erkannt (Trigger + Aktion,
   z.B. "When you play me, draw 1.") und spielbar
   (`src/cards/data/templated-effects.json` + `src/game/templatedEffectEngine.ts`)
   — kein Code pro Karte nötig.
-- **4 Karten** automatisch als "Activated Ability" erkannt ("Exhaust:
-  Effekt") und spielbar (`src/cards/data/activated-abilities.json`).
-- Macht **103 von 1019 Karten (~10%) vollständig spielbar ohne
+- **16 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
+  Exhaust: Effekt", inkl. Domain-Rune-Kosten) und spielbar
+  (`src/cards/data/activated-abilities.json`).
+- Macht **156 von 1019 Karten (~15%) vollständig spielbar ohne
   kartenspezifischen Code.**
-- **916 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
+- **863 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
   Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
   Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
 
@@ -84,19 +85,24 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 ## Nächste Schritte
 
-1. Domain/Rune-Kostenanteile bei Activated Abilities unterstützen (v1 deckt
-   nur reine Energy-Kosten ab, siehe `docs/data-sourcing.md`).
-2. **Statische Modifikatoren** ("Einheiten, die du kontrollierst, haben...")
-   als eigener Matcher, analog zu Templated Effects.
-3. Verbleibende `special-cases-todo.json`-Einträge (916) priorisiert
-   bespoke implementieren — nach Set, Deck-Archetyp, oder was du mit
-   Freunden tatsächlich spielen willst.
-4. Handler für die noch fehlenden generischen Keywords ergänzen (Hidden,
-   Equip, Empower, Ganking, Tank, Backline, Weaponmaster, Flow, Repeat,
-   Mighty, Buff, Predict als eigenständiger Hook — siehe Tabelle in
-   `docs/rules-reference.md`).
-5. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
+Wir arbeiten systematisch auf **volle Abdeckung aller Karten** hin (siehe
+`docs/data-sourcing.md` für den aktuellen Stand und die Historie). Reihenfolge:
+
+1. Verbleibende `special-cases-todo.json`-Einträge (863) priorisiert bespoke
+   implementieren — nach Set, Deck-Archetyp, oder was du mit Freunden
+   tatsächlich spielen willst.
+2. Mehrfach-Ziel-Auswahl und einfache Bedingungen als Erweiterung der
+   Templated-Effect-Sprache (mehr Karten automatisch abdecken, bevor sie
+   bespoke werden müssen).
+3. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
+   den ersten gültigen Kandidaten wählen (onConquer/onHold/onAttack/
+   onDefend/onMove/onDestroy).
+4. "Equip"-Mechanik laufzeitseitig umsetzen (Anhängen an eine Einheit).
+5. Handler für die noch fehlenden generischen Keywords ergänzen (Hidden,
+   Ganking, Tank, Backline, Weaponmaster, Mighty, Predict als eigenständiger
+   Hook — siehe Tabelle in `docs/rules-reference.md`).
+6. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
    (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
-6. Online-Multiplayer: `Local()`-Transport in `src/ui/client.ts` durch
+7. Online-Multiplayer: `Local()`-Transport in `src/ui/client.ts` durch
    `SocketIO({ server })` ersetzen, Server aufsetzen, auf Vercel deployen.
-7. Chain/Priority-System für Reaction-Timing nachrüsten.
+8. Chain/Priority-System für Reaction-Timing nachrüsten.
