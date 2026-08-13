@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from "boardgame.io/core";
-import type { Move } from "boardgame.io";
+import type { MoveFn } from "boardgame.io";
 import { getCard } from "../cards/db";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
@@ -15,7 +15,7 @@ export interface PlayCardArgs {
   targetInstanceId?: string;
 }
 
-export const playCard: Move<GameState> = ({ G, playerID }, args: PlayCardArgs) => {
+export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs) => {
   const player = G.players[playerID as "0" | "1"];
   const cardId = player.hand[args.handIndex];
   if (!cardId) return INVALID_MOVE;
@@ -89,7 +89,7 @@ export interface AttackBattlefieldArgs {
   unitInstanceIds: string[];
 }
 
-export const attackBattlefield: Move<GameState> = (
+export const attackBattlefield: MoveFn<GameState> = (
   { G, playerID },
   args: AttackBattlefieldArgs,
 ) => {
@@ -122,7 +122,7 @@ export interface ResolvePredictArgs {
   keepOnTop: boolean;
 }
 
-export const resolvePredict: Move<GameState> = ({ G, playerID }, args: ResolvePredictArgs) => {
+export const resolvePredict: MoveFn<GameState> = ({ G, playerID }, args: ResolvePredictArgs) => {
   const player = G.players[playerID as "0" | "1"];
   if (!player.pendingPredict) return INVALID_MOVE;
   if (!args.keepOnTop) {
@@ -133,6 +133,6 @@ export const resolvePredict: Move<GameState> = ({ G, playerID }, args: ResolvePr
   return undefined;
 };
 
-export const endTurn: Move<GameState> = ({ events }) => {
+export const endTurn: MoveFn<GameState> = ({ events }) => {
   events.endTurn();
 };
