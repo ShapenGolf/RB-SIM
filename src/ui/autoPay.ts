@@ -49,11 +49,17 @@ export function computeAutoPayment(
       ? discardCostConfig.energyReduction
       : 0;
   const selfCostReduction = SpecialCaseEngine.costReduction(game, card, instance);
+  const allyCostReduction = SpecialCaseEngine.costReductionFromAllies(game, getCard, instance, card);
   const nextSpellReduction =
     card.type === "spell" ? (game.players[instance.controller]?.nextSpellCostReduction ?? 0) : 0;
   const energyNeeded = Math.max(
     0,
-    (card.energyCost ?? 0) + additionalEnergy - discardReduction - selfCostReduction - nextSpellReduction,
+    (card.energyCost ?? 0) +
+      additionalEnergy -
+      discardReduction -
+      selfCostReduction -
+      allyCostReduction -
+      nextSpellReduction,
   );
   const readyCandidates = runePool.filter((r) => !r.exhausted && !used.has(r.instanceId));
   if (readyCandidates.length < energyNeeded) return null;

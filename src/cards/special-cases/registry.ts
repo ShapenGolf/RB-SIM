@@ -57,6 +57,10 @@ import { tastyFaefolk } from "./tasty-faefolk";
 import { watchfulSentry } from "./watchful-sentry";
 import { leeSin } from "./lee-sin";
 import { yasuo } from "./yasuo";
+import { leona } from "./leona";
+import { eagerApprentice } from "./eager-apprentice";
+import { garbageGrabber } from "./garbage-grabber";
+import { gemcraftSeer } from "./gemcraft-seer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -115,6 +119,10 @@ const handlers: SpecialCaseHandler[] = [
   watchfulSentry,
   leeSin,
   yasuo,
+  leona,
+  eagerApprentice,
+  garbageGrabber,
+  gemcraftSeer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -168,6 +176,26 @@ export const SpecialCaseEngine = {
 
   costReduction: (game: GameState, card: Card, instance: CardInstance): number =>
     getSpecialCaseHandler(card)?.costReduction?.(ctxFor(game, card, instance)) ?? 0,
+
+  /** Sum of Energy cost reductions every other special-case card the controller owns grants to the card about to be played. */
+  costReductionFromAllies: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    playedInstance: CardInstance,
+    playedCard: Card,
+  ): number => {
+    let total = 0;
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.instanceId === playedInstance.instanceId) continue;
+      if (sourceInstance.controller !== playedInstance.controller) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      const fn = handler?.costReductionForAlly;
+      if (!fn) continue;
+      total += fn(ctxFor(game, sourceCard, sourceInstance), playedCard);
+    }
+    return total;
+  },
 
   activateNeedsTarget: (card: Card) => getSpecialCaseHandler(card)?.activateNeedsTarget ?? false,
 
@@ -295,6 +323,28 @@ export const SpecialCaseEngine = {
       const fn = handler?.defendingMightBonusForAlly;
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), allyInstance);
+    }
+    return total;
+  },
+
+  /** Conditional self "enters ready" check for the card being played itself. */
+  selfEntersReady: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.selfEntersReady?.(ctxFor(game, card, instance)) ?? false,
+
+  /** Sum of static Might modifiers every enemy special-case card's presence applies to `targetInstance`, independent of role. */
+  staticMightModifierFromEnemies: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    targetInstance: CardInstance,
+  ): number => {
+    let total = 0;
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.instanceId === targetInstance.instanceId) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      const fn = handler?.staticMightModifierForEnemy;
+      if (!fn) continue;
+      total += fn(ctxFor(game, sourceCard, sourceInstance), targetInstance);
     }
     return total;
   },

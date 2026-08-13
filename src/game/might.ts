@@ -19,6 +19,7 @@ export function computeMight(
   let total = (card.might ?? 0) + instance.tempMightBonus + buffBonus;
 
   total += SpecialCaseEngine.staticMightModifier(game, card, instance);
+  total += SpecialCaseEngine.staticMightModifierFromEnemies(game, getCard, instance);
 
   if (role === "attacking") {
     total += KeywordEngine.attackingMightModifier(game, card, instance);

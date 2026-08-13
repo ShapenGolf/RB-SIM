@@ -38,6 +38,7 @@ export function resolvePlayedCard(
     const entersReady =
       (payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
       SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance) ||
+      SpecialCaseEngine.selfEntersReady(G, card, instance) ||
       (isUnit && player.nextUnitEntersReady);
     if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
     instance.exhausted = !entersReady;
@@ -102,10 +103,16 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   );
   const discardReduction = canPayDiscardCost ? discardCostConfig!.energyReduction : 0;
   const selfCostReduction = SpecialCaseEngine.costReduction(G, card, instance);
+  const allyCostReduction = SpecialCaseEngine.costReductionFromAllies(G, getCard, instance, card);
   const nextSpellReduction = card.type === "spell" ? player.nextSpellCostReduction : 0;
   const energyNeeded = Math.max(
     0,
-    (card.energyCost ?? 0) + additionalEnergy - discardReduction - selfCostReduction - nextSpellReduction,
+    (card.energyCost ?? 0) +
+      additionalEnergy -
+      discardReduction -
+      selfCostReduction -
+      allyCostReduction -
+      nextSpellReduction,
   );
   if (args.energyRuneIds.length !== energyNeeded) return INVALID_MOVE;
 

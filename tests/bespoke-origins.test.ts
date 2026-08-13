@@ -1329,6 +1329,164 @@ describe("Yasuo, Remorseful (ogn-76): on attack, deal damage equal to my Might t
   });
 });
 
+describe("Leona, Zealot (ogn-79): conditional ready + Might debuff on stunned enemies here", () => {
+  it("enters ready when the opponent is within 3 of the Victory Score", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-79"];
+    game.players["1"].points = 5; // 8 - 3
+    game.players["0"].runePool = [
+      { instanceId: "power", domain: "Calm" as const, exhausted: false },
+      ...Array.from({ length: getCard("ogn-79").energyCost! }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Calm" as const,
+        exhausted: false,
+      })),
+    ];
+
+    playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.filter((r) => r.instanceId !== "power").map((r) => r.instanceId),
+      powerRuneIds: ["power"],
+    });
+
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "ogn-79");
+    expect(game.instances[newInstanceId!].exhausted).toBe(false);
+  });
+
+  it("gives a stunned enemy at the same battlefield -8 Might", () => {
+    const game = makeGame();
+    const leona = putOnBase(game, "ogn-79", "0");
+    const enemy = putOnBase(game, "unit-vanguard-striker", "1");
+    enemy.statuses.stunned = true;
+    moveToBattlefield(game, leona.instanceId, 0);
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    expect(computeMight(game, getCard, enemy, "none")).toBe(0); // floored at 0, not the card's stated 1
+  });
+
+  it("does not debuff a non-stunned enemy", () => {
+    const game = makeGame();
+    const leona = putOnBase(game, "ogn-79", "0");
+    const enemy = putOnBase(game, "unit-vanguard-striker", "1");
+    moveToBattlefield(game, leona.instanceId, 0);
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    expect(computeMight(game, getCard, enemy, "none")).toBe(getCard("unit-vanguard-striker").might);
+  });
+});
+
+describe("Eager Apprentice (ogn-84): spells you play cost 1 less while I'm at a battlefield", () => {
+  it("reduces a spell's cost while at a battlefield", () => {
+    const game = makeGame();
+    const apprentice = putOnBase(game, "ogn-84", "0");
+    moveToBattlefield(game, apprentice.instanceId, 0);
+    game.players["0"].hand = ["ogn-5"]; // Disintegrate, Energy 4
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    game.players["0"].runePool = Array.from({ length: 3 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBeUndefined();
+  });
+
+  it("does not reduce cost while on base", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-84", "0"); // stays on base, not at a battlefield
+    game.players["0"].hand = ["ogn-5"];
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    game.players["0"].runePool = Array.from({ length: 3 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+});
+
+describe("Garbage Grabber (ogn-99): recycle 3 from trash, 1 Energy, Exhaust: Draw 1", () => {
+  it("recycles 3 cards from trash and draws", () => {
+    const game = makeGame();
+    const grabber = putOnBase(game, "ogn-99", "0", { exhausted: false });
+    game.players["0"].trash = ["ogn-4", "ogn-5", "ogn-8", "ogn-11"];
+    game.players["0"].mainDeck = ["ogn-14"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury" as const, exhausted: false }];
+
+    const result = activateAbility(ctx(game, "0"), {
+      instanceId: grabber.instanceId,
+      energyRuneIds: ["r1"],
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.players["0"].trash).toEqual(["ogn-11"]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-4", "ogn-5", "ogn-8"]);
+    expect(game.players["0"].hand).toContain("ogn-14");
+  });
+
+  it("fails without enough cards in trash", () => {
+    const game = makeGame();
+    const grabber = putOnBase(game, "ogn-99", "0", { exhausted: false });
+    game.players["0"].trash = ["ogn-4"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury" as const, exhausted: false }];
+
+    const result = activateAbility(ctx(game, "0"), {
+      instanceId: grabber.instanceId,
+      energyRuneIds: ["r1"],
+    });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+});
+
+describe("Gemcraft Seer (ogn-100): other friendly units have Vision", () => {
+  it("triggers Predict when another friendly unit is played", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-100", "0");
+    game.players["0"].hand = ["unit-plain-footman"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+
+    playCard(ctx(game, "0"), { handIndex: 0, energyRuneIds: ["r1"], powerRuneIds: [] });
+
+    expect(game.players["0"].pendingPredict).toBe(true);
+  });
+
+  it("does not trigger for a spell", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-100", "0");
+    game.players["0"].hand = ["ogn-8"]; // Get Excited!
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    game.players["0"].runePool = [
+      { instanceId: "power", domain: "Fury" as const, exhausted: false },
+      { instanceId: "r1", domain: "Fury" as const, exhausted: false },
+    ];
+
+    playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["r1"],
+      powerRuneIds: ["power"],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(game.players["0"].pendingPredict).toBe(false);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

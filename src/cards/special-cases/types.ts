@@ -69,6 +69,12 @@ export interface SpecialCaseHandler {
   /** True if, while this is in play, other friendly units entering play should enter ready instead of exhausted. */
   othersEnterReady?(ctx: SpecialCaseContext): boolean;
 
+  /** Conditional self "enters ready instead of exhausted" check, evaluated when this card itself is played (e.g. "If an opponent's score is within 3 of the Victory Score, I enter ready"). */
+  selfEntersReady?(ctx: SpecialCaseContext): boolean;
+
+  /** Continuous Might modifier this card's static presence applies to a given ENEMY instance, independent of attacking/defending role (e.g. "Stunned enemy units here have -8 Might"). */
+  staticMightModifierForEnemy?(ctx: SpecialCaseContext, enemyInstance: CardInstance): number;
+
   /**
    * Broadcast to every board instance the controller owns whenever THAT PLAYER plays any card
    * (this instance included) — for "when you play a/your Nth card..." effects that react to
@@ -98,6 +104,13 @@ export interface SpecialCaseHandler {
    * `additionalCostDiscardForReduction`, this isn't gated behind an opt-in additional cost.
    */
   costReduction?(ctx: SpecialCaseContext): number;
+
+  /**
+   * Energy cost reduction this card's static presence grants to ANOTHER card of the controller's
+   * that's about to be played (e.g. Eager Apprentice: "spells you play cost 1 Energy less while
+   * I'm at a battlefield"). `playedCard` is the card being played, not this source card.
+   */
+  costReductionForAlly?(ctx: SpecialCaseContext, playedCard: Card): number;
 
   /**
    * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be

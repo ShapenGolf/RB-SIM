@@ -1544,14 +1544,6 @@
     "fullText": "At the start of your Beginning Phase, you may kill a unit you control here to draw 1. (This happens before scoring.)"
   },
   {
-    "id": "ogn-84",
-    "name": "Eager Apprentice",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "While I'm at a battlefield, the Energy costs for spells you play is reduced by 1 Energy, to a minimum of 1 Energy.",
-    "fullText": "While I'm at a battlefield, the Energy costs for spells you play is reduced by 1 Energy, to a minimum of 1 Energy."
-  },
-  {
     "id": "sfd-6",
     "name": "Eager Drakehound",
     "set": "SFD",
@@ -2080,14 +2072,6 @@
     "fullText": "[Empower] Body RuneBody Rune\n[Empowered][>] If a spell or ability that chooses me would stun me, give me -Might, or return me to hand, give me +3 Might instead."
   },
   {
-    "id": "ogn-99",
-    "name": "Garbage Grabber",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Recycle 3 from your trash, 1 Energy, Exhaust: Draw 1.",
-    "fullText": "Recycle 3 from your trash, 1 Energy, Exhaust: Draw 1."
-  },
-  {
     "id": "unl-213",
     "name": "Gardens of Becoming",
     "set": "UNL",
@@ -2118,14 +2102,6 @@
     "type": "unit",
     "residualText": "When you play me, give a unit  this turn. (It can move from battlefield to battlefield.)",
     "fullText": "When you play me, give a unit [Ganking] this turn. (It can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ogn-100",
-    "name": "Gemcraft Seer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "Other friendly units have .",
-    "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nOther friendly units have [Vision]."
   },
   {
     "id": "unl-94",
@@ -3110,14 +3086,6 @@
     "type": "champion",
     "residualText": "When I attack, stun an enemy unit here. (It doesn't deal combat damage this turn.)",
     "fullText": "[Shield] (+1 Might while I'm a defender.)\nWhen I attack, stun an enemy unit here. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "ogn-79",
-    "name": "Leona, Zealot",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "If an opponent's score is within 3 points of the Victory Score, I enter ready.\nStunned enemy units here have -8 Might, to a minimum of 1 Might.",
-    "fullText": "If an opponent's score is within 3 points of the Victory Score, I enter ready.\nStunned enemy units here have -8 Might, to a minimum of 1 Might."
   },
   {
     "id": "ven-156",
