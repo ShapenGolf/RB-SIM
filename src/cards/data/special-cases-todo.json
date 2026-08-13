@@ -68,7 +68,7 @@
     "name": "Akali, Deadly Weapon",
     "set": "VEN",
     "type": "champion",
-    "residualText": "2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\nWhen I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm , deal 2 instead.\n I have +1 Might.",
+    "residualText": "When I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm , deal 2 instead.\n I have +1 Might.",
     "fullText": "[Empower] 2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\nWhen I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm [Empowered], deal 2 instead.\n[Empowered][>] I have +1 Might."
   },
   {
@@ -156,7 +156,7 @@
     "name": "Ambessa, Respected and Feared",
     "set": "VEN",
     "type": "champion",
-    "residualText": "1 EnergyOrder RuneOrder Rune (1 EnergyOrder RuneOrder Rune: Empower me. Use only if not Empowered.)\n I have . (+2 Might while I'm an attacker.)\n When I attack, kill an enemy unit here with less Might than me.",
+    "residualText": "I have . (+2 Might while I'm an attacker.)\n When I attack, kill an enemy unit here with less Might than me.",
     "fullText": "[Empower] 1 EnergyOrder RuneOrder Rune (1 EnergyOrder RuneOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Assault 2]. (+2 Might while I'm an attacker.)\n[Empowered][>] When I attack, kill an enemy unit here with less Might than me."
   },
   {
@@ -172,7 +172,7 @@
     "name": "Ambessa, The Wolf",
     "set": "VEN",
     "type": "champion",
-    "residualText": "3 EnergyBody Rune (3 EnergyBody Rune: Empower me. Use only if not Empowered.)\n I have +3 Might and can't be dealt damage unless I'm in combat.",
+    "residualText": "I have +3 Might and can't be dealt damage unless I'm in combat.",
     "fullText": "[Empower] 3 EnergyBody Rune (3 EnergyBody Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +3 Might and can't be dealt damage unless I'm in combat."
   },
   {
@@ -244,7 +244,7 @@
     "name": "Applied Researchers",
     "set": "VEN",
     "type": "unit",
-    "residualText": "3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n Your spells cost 1 EnergyRune less, to a minimum of 1 Energy.",
+    "residualText": "Your spells cost 1 EnergyRune less, to a minimum of 1 Energy.",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] Your spells cost 1 EnergyRune less, to a minimum of 1 Energy."
   },
   {
@@ -252,7 +252,7 @@
     "name": "Apprentice Mage",
     "set": "VEN",
     "type": "unit",
-    "residualText": "2 Energy (2 Energy: Empower me. Use only if not Empowered.)\nWhen I become , . (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n I have +1 Might.",
+    "residualText": "When I become , . (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n I have +1 Might.",
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], [Predict 2]. (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n[Empowered][>] I have +1 Might."
   },
   {
@@ -356,7 +356,7 @@
     "name": "Aurok General",
     "set": "VEN",
     "type": "unit",
-    "residualText": "3 EnergyOrder Rune (3 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n Your units that are  have +2 Might (including me).",
+    "residualText": "Your units that are  have +2 Might (including me).",
     "fullText": "[Empower] 3 EnergyOrder Rune (3 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] Your units that are [Empowered] have +2 Might (including me)."
   },
   {
@@ -412,7 +412,7 @@
     "name": "Baccai Witherclaw",
     "set": "VEN",
     "type": "unit",
-    "residualText": "1 EnergyRuneRune (1 EnergyRuneRune: Empower me. Use only if not Empowered.)\n I have +2 Might.\n[>>] Channel 2 runes exhausted. (When I die while Empowered, get the effect.)",
+    "residualText": "I have +2 Might.\n[>>] Channel 2 runes exhausted. (When I die while Empowered, get the effect.)",
     "fullText": "[Empower] 1 EnergyRuneRune (1 EnergyRuneRune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might.\n[Empowered][>][>>][Deathknell][>] Channel 2 runes exhausted. (When I die while Empowered, get the effect.)"
   },
   {
@@ -656,22 +656,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nEach opponent reveals the top card of their Main Deck. Choose one and banish it, then play it, ignoring its cost. Then recycle the rest."
   },
   {
-    "id": "ogn-257",
-    "name": "Blind Monk",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "1 Energy, Exhaust: Buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
-    "id": "ogn-304",
-    "name": "Blind Monk",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "1 Energy, Exhaust: Buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
     "id": "ogn-67",
     "name": "Blitzcrank, Impassive",
     "set": "OGN",
@@ -820,7 +804,7 @@
     "name": "Brutal Hunter",
     "set": "VEN",
     "type": "unit",
-    "residualText": "3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n I have +2 Might and . (I can move from battlefield to battlefield.)",
+    "residualText": "I have +2 Might and . (I can move from battlefield to battlefield.)",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
@@ -1176,14 +1160,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. The next time that unit would be dealt damage this turn, prevent it. Draw 1."
   },
   {
-    "id": "ven-57",
-    "name": "Covert Informant",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n When I move, draw 1.",
-    "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] When I move, draw 1."
-  },
-  {
     "id": "unl-122",
     "name": "Crescent Guardian",
     "set": "UNL",
@@ -1284,7 +1260,7 @@
     "name": "Dame the Despoiler",
     "set": "VEN",
     "type": "unit",
-    "residualText": "5 EnergyBody Rune (5 EnergyBody Rune: Empower me. Use only if not Empowered.)\n When I attack or defend, choose a unit here. Increase my Might to its Might this turn, then give me +1 Might this turn.",
+    "residualText": "When I attack or defend, choose a unit here. Increase my Might to its Might this turn, then give me +1 Might this turn.",
     "fullText": "[Empower] 5 EnergyBody Rune (5 EnergyBody Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] When I attack or defend, choose a unit here. Increase my Might to its Might this turn, then give me +1 Might this turn."
   },
   {
@@ -1492,7 +1468,7 @@
     "name": "Defender of Tomorrow",
     "set": "VEN",
     "type": "legend",
-    "residualText": "2 EnergyRuneRune (2 EnergyRuneRune: Empower me. Use only if not Empowered.)\n1 Energy, Exhaust: Ready a gear.\n 1 Energy, Exhaust: Ready 2 gear.",
+    "residualText": "1 Energy, Exhaust: Ready a gear.\n 1 Energy, Exhaust: Ready 2 gear.",
     "fullText": "[Empower] 2 EnergyRuneRune (2 EnergyRuneRune: Empower me. Use only if not Empowered.)\n1 Energy, Exhaust: Ready a gear.\n[Empowered][>] 1 Energy, Exhaust: Ready 2 gear."
   },
   {
@@ -2396,7 +2372,7 @@
     "name": "Gangplank, Naval",
     "set": "VEN",
     "type": "champion",
-    "residualText": "Body RuneBody Rune (Body RuneBody Rune: Empower me. Use only if not Empowered.)\n If a spell or ability that chooses me would stun me, give me -Might, or return me to hand, give me +3 Might instead.",
+    "residualText": "If a spell or ability that chooses me would stun me, give me -Might, or return me to hand, give me +3 Might instead.",
     "fullText": "[Empower] Body RuneBody Rune (Body RuneBody Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] If a spell or ability that chooses me would stun me, give me -Might, or return me to hand, give me +3 Might instead."
   },
   {
@@ -2532,7 +2508,7 @@
     "name": "Glowstone",
     "set": "VEN",
     "type": "gear",
-    "residualText": "RuneRune (RuneRune: Empower me. Use only if not Empowered.)\nDisempower this, Exhaust: Choose a player. They gain control of this and recall it. (Send it to their base.)\nAt the end of your turn, kill this and deal 5 to all units you control.",
+    "residualText": "Disempower this, Exhaust: Choose a player. They gain control of this and recall it. (Send it to their base.)\nAt the end of your turn, kill this and deal 5 to all units you control.",
     "fullText": "[Empower] RuneRune (RuneRune: Empower me. Use only if not Empowered.)\nDisempower this, Exhaust: Choose a player. They gain control of this and recall it. (Send it to their base.)\nAt the end of your turn, kill this and deal 5 to all units you control."
   },
   {
@@ -2744,14 +2720,6 @@
     "fullText": "When I move from a battlefield, give me +2 Might this turn."
   },
   {
-    "id": "sfd-52",
-    "name": "Heart of Dark Ice",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Exhaust: Give a unit +3 Might this turn.",
-    "fullText": "Exhaust: Give a unit +3 Might this turn."
-  },
-  {
     "id": "ven-197",
     "name": "Heart of the Tempest",
     "set": "VEN",
@@ -2796,7 +2764,7 @@
     "name": "Helm of Suppression",
     "set": "VEN",
     "type": "gear",
-    "residualText": "4 EnergyCalm Rune (4 EnergyCalm Rune: Empower this. Use only if not Empowered.)\nOpponents' spells cost 1 Energy more. If this is , they cost 1 EnergyRune more instead.",
+    "residualText": "Opponents' spells cost 1 Energy more. If this is , they cost 1 EnergyRune more instead.",
     "fullText": "[Empower] 4 EnergyCalm Rune (4 EnergyCalm Rune: Empower this. Use only if not Empowered.)\nOpponents' spells cost 1 Energy more. If this is [Empowered], they cost 1 EnergyRune more instead."
   },
   {
@@ -3268,7 +3236,7 @@
     "name": "Kayle, Justified",
     "set": "VEN",
     "type": "champion",
-    "residualText": "3 Energy (3 Energy: Empower me.)\nI can be  up to three times.\nI have +2 Might for each time I'm .\nWhile I'm  three times, I have  and .",
+    "residualText": "I can be  up to three times.\nI have +2 Might for each time I'm .\nWhile I'm  three times, I have  and .",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I'm [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking]."
   },
   {
@@ -3276,7 +3244,7 @@
     "name": "Kayle, Justified",
     "set": "VEN",
     "type": "champion",
-    "residualText": "3 Energy (3 Energy: Empower me.)\nI can be  up to three times.\nI have +2 Might for each time I’m .\nWhile I'm  three times, I have  and .",
+    "residualText": "I can be  up to three times.\nI have +2 Might for each time I’m .\nWhile I'm  three times, I have  and .",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I’m [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking]."
   },
   {
@@ -3372,7 +3340,7 @@
     "name": "Kharox",
     "set": "VEN",
     "type": "unit",
-    "residualText": "6 EnergyChaos RuneChaos Rune (6 EnergyChaos RuneChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become , choose an opponent. They [Burn 3]. Then you may do this: Choose a unit in their trash and play it, ignoring its cost. (To Burn 3, they put the top 3 cards of their Main Deck into their trash.)",
+    "residualText": "When I become , choose an opponent. They [Burn 3]. Then you may do this: Choose a unit in their trash and play it, ignoring its cost. (To Burn 3, they put the top 3 cards of their Main Deck into their trash.)",
     "fullText": "[Empower] 6 EnergyChaos RuneChaos Rune (6 EnergyChaos RuneChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], choose an opponent. They [Burn 3]. Then you may do this: Choose a unit in their trash and play it, ignoring its cost. (To Burn 3, they put the top 3 cards of their Main Deck into their trash.)"
   },
   {
@@ -3404,7 +3372,7 @@
     "name": "Kinkou Lifeblade",
     "set": "VEN",
     "type": "unit",
-    "residualText": "2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n I have +1 Might and . (I can move from battlefield to battlefield.)",
+    "residualText": "I have +1 Might and . (I can move from battlefield to battlefield.)",
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
@@ -3900,7 +3868,7 @@
     "name": "Mel, Newly Awakened",
     "set": "VEN",
     "type": "champion",
-    "residualText": "When you play me, draw 1.\n 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n Your spells and abilities can't be countered. If a spell or ability you control would give -Might to a unit it chooses, it gives an additional -1 Might.",
+    "residualText": "When you play me, draw 1.\n\n Your spells and abilities can't be countered. If a spell or ability you control would give -Might to a unit it chooses, it gives an additional -1 Might.",
     "fullText": "When you play me, draw 1.\n[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] Your spells and abilities can't be countered. If a spell or ability you control would give -Might to a unit it chooses, it gives an additional -1 Might."
   },
   {
@@ -4096,14 +4064,6 @@
     "fullText": "You may pay Calm Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, [Stun] an enemy unit. (It doesn't deal combat damage this turn.)\nWhen I hold, the next time you play a unit this turn, ready it and [Buff] it."
   },
   {
-    "id": "ven-46",
-    "name": "Nasus, Ascended",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "8 Energy (8 Energy: Empower me. Use only if not Empowered.)\n When I conquer, you score 1 point.",
-    "fullText": "[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)\n[Empower] 8 Energy (8 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] When I conquer, you score 1 point."
-  },
-  {
     "id": "ven-63",
     "name": "Nasus, Guardian of Knowledge",
     "set": "VEN",
@@ -4196,7 +4156,7 @@
     "name": "Noxian Emissary",
     "set": "VEN",
     "type": "unit",
-    "residualText": "1 EnergyOrder Rune (1 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n[>>] Play two 1 Might Recruit unit tokens to your base. (When I die while Empowered, get the effect.)",
+    "residualText": "[>>] Play two 1 Might Recruit unit tokens to your base. (When I die while Empowered, get the effect.)",
     "fullText": "[Empower] 1 EnergyOrder Rune (1 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered][>][>>][Deathknell][>] Play two 1 Might Recruit unit tokens to your base. (When I die while Empowered, get the effect.)"
   },
   {
@@ -4262,14 +4222,6 @@
     "type": "spell",
     "residualText": "Give a unit +6 Might this turn.\n 4 Energy (You may play this from your trash for its Flow cost. Then banish it.)",
     "fullText": "Give a unit +6 Might this turn.\n[Flow] 4 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
-    "id": "ogn-90",
-    "name": "Orb of Regret",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Exhaust: Give a unit -1 Might this turn, to a minimum of 1 Might.",
-    "fullText": "Exhaust: Give a unit -1 Might this turn, to a minimum of 1 Might."
   },
   {
     "id": "sfd-213",
@@ -4716,7 +4668,7 @@
     "name": "Rage Amplifier",
     "set": "VEN",
     "type": "gear",
-    "residualText": "6 EnergyFury Rune (6 EnergyFury Rune: Empower this. Use only if not Empowered.)\nYour units have +1 Might. If I'm , they have +2 Might instead.",
+    "residualText": "Your units have +1 Might. If I'm , they have +2 Might instead.",
     "fullText": "[Empower] 6 EnergyFury Rune (6 EnergyFury Rune: Empower this. Use only if not Empowered.)\nYour units have +1 Might. If I'm [Empowered], they have +2 Might instead."
   },
   {
@@ -5100,7 +5052,7 @@
     "name": "Rogue Assassin",
     "set": "VEN",
     "type": "legend",
-    "residualText": "3 EnergyRune (3 EnergyRune: Empower this. Use only if not Empowered.)\n Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm , ready it.",
+    "residualText": "Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm , ready it.",
     "fullText": "[Empower] 3 EnergyRune (3 EnergyRune: Empower this. Use only if not Empowered.)\n[Action][>] Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it."
   },
   {
@@ -5436,7 +5388,7 @@
     "name": "Serene Ascetic",
     "set": "VEN",
     "type": "unit",
-    "residualText": "3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n I have  and . (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
+    "residualText": "I have  and . (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
   },
   {
@@ -5500,7 +5452,7 @@
     "name": "Shadow Fiend",
     "set": "VEN",
     "type": "unit",
-    "residualText": "2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\n I have . (+3 Might while I'm an attacker.)",
+    "residualText": "I have . (+3 Might while I'm an attacker.)",
     "fullText": "[Empower] 2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Assault 3]. (+3 Might while I'm an attacker.)"
   },
   {
@@ -5804,7 +5756,7 @@
     "name": "Solari Sunhawk",
     "set": "VEN",
     "type": "unit",
-    "residualText": "2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n I have +1 Might and . (Opponents must pay RuneRune to choose me with a spell or ability.)",
+    "residualText": "I have +1 Might and . (Opponents must pay RuneRune to choose me with a spell or ability.)",
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might and [Deflect 2]. (Opponents must pay RuneRune to choose me with a spell or ability.)"
   },
   {
@@ -6060,7 +6012,7 @@
     "name": "Steel Paws",
     "set": "VEN",
     "type": "unit",
-    "residualText": "7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n I have +7 Might.",
+    "residualText": "I have +7 Might.",
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Empower] 7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +7 Might."
   },
   {
@@ -6212,7 +6164,7 @@
     "name": "Tail-Cloaked Matriarch",
     "set": "VEN",
     "type": "unit",
-    "residualText": "2 EnergyChaos Rune (2 EnergyChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become , you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost.",
+    "residualText": "When I become , you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost.",
     "fullText": "[Empower] 2 EnergyChaos Rune (2 EnergyChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost."
   },
   {
@@ -6476,7 +6428,7 @@
     "name": "Tools of Empire",
     "set": "VEN",
     "type": "gear",
-    "residualText": "2 Energy (2 Energy: Empower this. Use only if not Empowered.)\nExhaust: Give a unit +2 Might this turn. If this is , give that unit +4 Might this turn instead.",
+    "residualText": "Exhaust: Give a unit +2 Might this turn. If this is , give that unit +4 Might this turn instead.",
     "fullText": "[Empower] 2 Energy (2 Energy: Empower this. Use only if not Empowered.)\nExhaust: Give a unit +2 Might this turn. If this is [Empowered], give that unit +4 Might this turn instead."
   },
   {
@@ -7182,14 +7134,6 @@
     "type": "unit",
     "residualText": "The first time a friendly unit dies each turn, draw 1.",
     "fullText": "The first time a friendly unit dies each turn, draw 1."
-  },
-  {
-    "id": "unl-40",
-    "name": "Wuju Apprentice",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, draw 1. (While you have 6+ XP, get the effect.)",
-    "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\n[Level 6][>] When you play me, draw 1. (While you have 6+ XP, get the effect.)"
   },
   {
     "id": "ogs-19",

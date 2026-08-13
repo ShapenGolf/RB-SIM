@@ -130,6 +130,16 @@
       }
     ]
   },
+  "ven-57": {
+    "trigger": "onMove",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
   "ogn-130": {
     "trigger": "onAttack",
     "actions": [
@@ -393,6 +403,16 @@
       }
     ]
   },
+  "ven-46": {
+    "trigger": "onConquer",
+    "actions": [
+      {
+        "type": "scorePoints",
+        "player": "controller",
+        "amount": 1
+      }
+    ]
+  },
   "unl-115": {
     "trigger": "onMove",
     "actions": [
@@ -570,6 +590,16 @@
         },
         "amount": 8,
         "duration": "thisTurn"
+      }
+    ]
+  },
+  "unl-40": {
+    "trigger": "onPlay",
+    "actions": [
+      {
+        "type": "drawCards",
+        "player": "controller",
+        "amount": 1
       }
     ]
   }

@@ -274,7 +274,8 @@
     "text": "[Empower] 2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\nWhen I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm [Empowered], deal 2 instead.\n[Empowered] I have +1 Might.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 EnergyFury Rune"
       },
       {
         "keyword": "empowered"
@@ -537,7 +538,8 @@
     "text": "[Empower] 1 EnergyOrder RuneOrder Rune (1 EnergyOrder RuneOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered] I have [Assault 2]. (+2 Might while I'm an attacker.)\n[Empowered] When I attack, kill an enemy unit here with less Might than me.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "1 EnergyOrder RuneOrder Rune"
       },
       {
         "keyword": "empowered"
@@ -606,7 +608,8 @@
     "text": "[Empower] 3 EnergyBody Rune (3 EnergyBody Rune: Empower me. Use only if not Empowered.)\n[Empowered] I have +3 Might and can't be dealt damage unless I'm in combat.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 EnergyBody Rune"
       },
       {
         "keyword": "empowered"
@@ -870,7 +873,8 @@
     "text": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered] Your spells cost 1 EnergyRune less, to a minimum of 1 Energy.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 Energy"
       },
       {
         "keyword": "empowered"
@@ -897,7 +901,8 @@
     "text": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], [Predict 2]. (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n[Empowered] I have +1 Might.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 Energy"
       },
       {
         "keyword": "empowered"
@@ -1247,7 +1252,8 @@
     "text": "[Empower] 3 EnergyOrder Rune (3 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered] Your units that are [Empowered] have +2 Might (including me).",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 EnergyOrder Rune"
       },
       {
         "keyword": "empowered"
@@ -1447,7 +1453,8 @@
     "text": "[Empower] 1 EnergyRuneRune (1 EnergyRuneRune: Empower me. Use only if not Empowered.)\n[Empowered] I have +2 Might.\n[Empowered][>>][Deathknell] Channel 2 runes exhausted. (When I die while Empowered, get the effect.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "1 EnergyRuneRune"
       },
       {
         "keyword": "empowered"
@@ -2864,7 +2871,8 @@
     "text": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered] I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 Energy"
       },
       {
         "keyword": "empowered"
@@ -4143,7 +4151,8 @@
     "text": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered] When I move, draw 1.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 Energy"
       },
       {
         "keyword": "empowered"
@@ -4480,7 +4489,8 @@
     "text": "[Empower] 5 EnergyBody Rune (5 EnergyBody Rune: Empower me. Use only if not Empowered.)\n[Empowered] When I attack or defend, choose a unit here. Increase my Might to its Might this turn, then give me +1 Might this turn.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "5 EnergyBody Rune"
       },
       {
         "keyword": "empowered"
@@ -5234,7 +5244,8 @@
     "text": "[Empower] 2 EnergyRuneRune (2 EnergyRuneRune: Empower me. Use only if not Empowered.)\n1 Energy, Exhaust: Ready a gear.\n[Empowered] 1 Energy, Exhaust: Ready 2 gear.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 EnergyRuneRune"
       },
       {
         "keyword": "empowered"
@@ -8168,7 +8179,8 @@
     "text": "[Empower] Body RuneBody Rune (Body RuneBody Rune: Empower me. Use only if not Empowered.)\n[Empowered] If a spell or ability that chooses me would stun me, give me -Might, or return me to hand, give me +3 Might instead.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "Body RuneBody Rune"
       },
       {
         "keyword": "empowered"
@@ -8620,7 +8632,8 @@
     "text": "[Empower] RuneRune (RuneRune: Empower me. Use only if not Empowered.)\nDisempower this, Exhaust: Choose a player. They gain control of this and recall it. (Send it to their base.)\nAt the end of your turn, kill this and deal 5 to all units you control.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "RuneRune"
       }
     ],
     "tags": [],
@@ -9521,7 +9534,8 @@
     "text": "[Empower] 4 EnergyCalm Rune (4 EnergyCalm Rune: Empower this. Use only if not Empowered.)\nOpponents' spells cost 1 Energy more. If this is [Empowered], they cost 1 EnergyRune more instead.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "4 EnergyCalm Rune"
       },
       {
         "keyword": "empowered"
@@ -11284,7 +11298,8 @@
     "text": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I'm [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking].",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 Energy"
       },
       {
         "keyword": "empowered"
@@ -11325,7 +11340,8 @@
     "text": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I’m [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking].",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 Energy"
       },
       {
         "keyword": "empowered"
@@ -11668,7 +11684,8 @@
     "text": "[Empower] 6 EnergyChaos RuneChaos Rune (6 EnergyChaos RuneChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], choose an opponent. They [Burn 3]. Then you may do this: Choose a unit in their trash and play it, ignoring its cost. (To Burn 3, they put the top 3 cards of their Main Deck into their trash.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "6 EnergyChaos RuneChaos Rune"
       },
       {
         "keyword": "empowered"
@@ -11766,7 +11783,8 @@
     "text": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered] I have +1 Might and [Ganking]. (I can move from battlefield to battlefield.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 Energy"
       },
       {
         "keyword": "empowered"
@@ -13538,7 +13556,8 @@
     "text": "When you play me, draw 1.\n[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered] Your spells and abilities can't be countered. If a spell or ability you control would give -Might to a unit it chooses, it gives an additional -1 Might.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 Energy"
       },
       {
         "keyword": "empowered"
@@ -14337,11 +14356,12 @@
     "text": "[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)\n[Empower] 8 Energy (8 Energy: Empower me. Use only if not Empowered.)\n[Empowered] When I conquer, you score 1 point.",
     "keywords": [
       {
-        "keyword": "deflect",
-        "value": 2
+        "keyword": "empower",
+        "grantedText": "8 Energy"
       },
       {
-        "keyword": "empower"
+        "keyword": "deflect",
+        "value": 2
       },
       {
         "keyword": "empowered"
@@ -14704,7 +14724,8 @@
     "text": "[Empower] 1 EnergyOrder Rune (1 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered][>>][Deathknell] Play two 1 Might Recruit unit tokens to your base. (When I die while Empowered, get the effect.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "1 EnergyOrder Rune"
       },
       {
         "keyword": "empowered"
@@ -16516,7 +16537,8 @@
     "text": "[Empower] 6 EnergyFury Rune (6 EnergyFury Rune: Empower this. Use only if not Empowered.)\nYour units have +1 Might. If I'm [Empowered], they have +2 Might instead.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "6 EnergyFury Rune"
       },
       {
         "keyword": "empowered"
@@ -17906,7 +17928,8 @@
     "text": "[Empower] 3 EnergyRune (3 EnergyRune: Empower this. Use only if not Empowered.)\n[Action] Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 EnergyRune"
       },
       {
         "keyword": "action"
@@ -19043,7 +19066,8 @@
     "text": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "3 Energy"
       },
       {
         "keyword": "empowered"
@@ -19261,7 +19285,8 @@
     "text": "[Empower] 2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\n[Empowered] I have [Assault 3]. (+3 Might while I'm an attacker.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 EnergyFury Rune"
       },
       {
         "keyword": "empowered"
@@ -20310,7 +20335,8 @@
     "text": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered] I have +1 Might and [Deflect 2]. (Opponents must pay RuneRune to choose me with a spell or ability.)",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 Energy"
       },
       {
         "keyword": "empowered"
@@ -21210,10 +21236,11 @@
     "text": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Empower] 7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n[Empowered] I have +7 Might.",
     "keywords": [
       {
-        "keyword": "deflect"
+        "keyword": "empower",
+        "grantedText": "7 Energy"
       },
       {
-        "keyword": "empower"
+        "keyword": "deflect"
       },
       {
         "keyword": "empowered"
@@ -21779,7 +21806,8 @@
     "text": "[Empower] 2 EnergyChaos Rune (2 EnergyChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 EnergyChaos Rune"
       },
       {
         "keyword": "empowered"
@@ -22603,7 +22631,8 @@
     "text": "[Empower] 2 Energy (2 Energy: Empower this. Use only if not Empowered.)\nExhaust: Give a unit +2 Might this turn. If this is [Empowered], give that unit +4 Might this turn instead.",
     "keywords": [
       {
-        "keyword": "empower"
+        "keyword": "empower",
+        "grantedText": "2 Energy"
       },
       {
         "keyword": "empowered"

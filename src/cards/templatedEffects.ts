@@ -52,3 +52,18 @@ export function templatedEffectNeedsPlayTarget(effect: TemplatedEffect | undefin
   if (!effect || effect.trigger !== "onPlay") return false;
   return effect.actions.some((a) => "target" in a && a.target.kind.startsWith("choose"));
 }
+
+/**
+ * Auto-matched "[Cost,] Exhaust: Effect" activated ability (see
+ * scripts/match-activated-abilities.mjs). v1 scope: a plain Energy cost plus
+ * exhausting the card itself — no domain/Rune cost, no sacrifice costs.
+ */
+export interface ActivatedAbility {
+  cost: { energy: number; exhaustSelf: boolean };
+  actions: TemplatedAction[];
+}
+
+export function activatedAbilityNeedsTarget(ability: ActivatedAbility | undefined): boolean {
+  if (!ability) return false;
+  return ability.actions.some((a) => "target" in a && a.target.kind.startsWith("choose"));
+}

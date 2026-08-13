@@ -13,7 +13,10 @@ export function computeMight(
   role: CombatRole,
 ): number {
   const card = getCard(instance.cardId);
-  let total = (card.might ?? 0) + instance.tempMightBonus;
+  // "Buff" is Riftbound's own term for a single, non-stacking permanent +1 Might counter
+  // (a unit either has one or doesn't — "if it doesn't have a buff, it gets a +1 Might buff").
+  const buffBonus = instance.statuses.buffed ? 1 : 0;
+  let total = (card.might ?? 0) + instance.tempMightBonus + buffBonus;
 
   total += SpecialCaseEngine.staticMightModifier(game, card, instance);
 

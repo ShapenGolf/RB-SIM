@@ -111,19 +111,25 @@ Schritte:
 ## Ergebnis (Stand 2026-08-13)
 
 - **1019 Karten** importiert, alle 5 Sets, in `src/cards/data/official-catalog.json`.
-- **48 Karten** sind bereits vollständig generisch spielbar (nur printed
-  Keywords, kein Unique-Text).
-- **48 weitere Karten** wurden automatisch als "Templated Effect" erkannt
-  (`src/cards/data/templated-effects.json`) — siehe
-  `scripts/match-templated-effects.mjs` und den Abschnitt "Templated Effects"
-  unten. Diese sind vollständig spielbar, ganz ohne Handschreiben von Code.
-- **923 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`
+- **48 Karten** vollständig generisch spielbar (nur printed Keywords, kein
+  Unique-Text).
+- **51 Karten** automatisch als "Templated Effect" erkannt
+  (`src/cards/data/templated-effects.json`, `scripts/match-templated-effects.mjs`).
+- **4 Karten** automatisch als "Activated Ability" erkannt
+  (`src/cards/data/activated-abilities.json`, `scripts/match-activated-abilities.mjs`).
+- Macht **103 von 1019 Karten (~10%) vollständig spielbar ohne eine Zeile
+  kartenspezifischen Code.**
+- **916 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`
   (Feld `residualText` zeigt den nicht abgedeckten Teil, `fullText` den
   kompletten Originaltext für die spätere Implementierung).
 - 1 Karte (`ogn-16`, "Dangerous Duo") wurde manuell mit dem bereits
   existierenden `dangerous-duo`-Special-Case verknüpft (Text stimmt fast
   wörtlich überein) — siehe `IMPLEMENTED_SPECIAL_CASES` im Import-Script als
   Muster für weitere Verknüpfungen.
+- Nebenbei einen echten Bug im Import behoben: `[Empower] KOSTEN (KOSTEN:
+  Empower me. Use only if not Empowered.)` wurde nicht sauber erkannt und
+  landete als Rauschen im Resttext von ~40 Karten — jetzt korrekt als
+  eigene Keyword-Instanz mit Kosten-Text erfasst.
 
 ## Templated Effects — automatische Karteneffekt-Erkennung
 
@@ -163,17 +169,42 @@ Trigger wählen bei "choose"-Zielen deterministisch den ersten gültigen
 Kandidaten — noch keine Spieler-Entscheidung. Das ist dokumentiert, nicht
 versteckt; Ausbau zu echter Auswahl-UI ist ein separater nächster Schritt.
 
+## Activated Abilities — "[Kosten,] Exhaust: Effekt"
+
+`scripts/match-activated-abilities.mjs` erkennt die zweite große Mechanik-
+Kategorie: eine vom Spieler bezahlte Fähigkeit statt eines automatischen
+Triggers. v1-Umfang bewusst eng: nur reine Energy-Kosten + Erschöpfen der
+Karte selbst (kein Domain/Rune-Kostenanteil, keine Opferkosten wie "Kill
+this:"). Nutzt dieselben Aktions-Primitiven wie Templated Effects
+(`src/game/templatedEffectEngine.ts` stellt dafür `runTemplatedActions`
+gemeinsam bereit). Neuer Move `activateAbility` in `src/game/moves.ts`, mit
+echter interaktiver Ziel-Auswahl in der UI (Aktivierung ist immer ein
+expliziter Spielzug, genau wie `playCard`).
+
+**Ergebnis:** 4 von den nach dem Trigger-Matcher verbliebenen ~920 Karten.
+Deutlich weniger als erhofft — der Grund: die meisten "Exhaust:"-Texte haben
+entweder einen Domain/Rune-Kostenanteil (v1 bewusst ausgeklammert) oder eine
+mehrzeilige/mehrteilige Fähigkeit (z.B. zwei gestaffelte Effekte auf einer
+Karte), beides bewusst nicht auto-gematcht statt falsch vereinfacht.
+
+Nebenbei einen echten Datenqualitäts-Bug behoben: `[Empower] KOSTEN (KOSTEN:
+Empower me...)` — die Aktivierungskosten für den Empowered-Status — wurden
+vom ursprünglichen Import nicht als Einheit erkannt und verunreinigten den
+Resttext vieler Karten mit "Empower"-Fähigkeit.
+
 ### Nächste Hebel für mehr Abdeckung (größer als weiteres Regex-Tuning)
 
-1. **Aktivierte Fähigkeiten** ("Kosten, Exhaust: Effekt") als eigene
-   generische Mechanik — neuer Move-Typ + Kosten-Zahlung + Wiederverwendung
-   der Aktions-Primitive. Betrifft einen Großteil der 112 Gear-Karten.
+1. Domain/Rune-Kostenanteile bei Activated Abilities unterstützen (deutlich
+   mehr Gear-/Legend-Karten betroffen als die reine-Energy-Untermenge).
 2. **Statische Modifikatoren** ("Einheiten, die du kontrollierst, haben...")
    als eigener Matcher, analog zum Trigger-Matcher, aber für dauerhafte
    Board-weite Effekte statt einmalige Aktionen.
 3. Mehrfach-Ziel-Auswahl ("give two friendly units each +2 Might") und
    einfache Bedingungen ("if you control 2+ gear, ...") als Erweiterung der
    Templated-Effect-Sprache.
+4. Echte interaktive Ziel-Auswahl für die Trigger, die aktuell nur den ersten
+   gültigen Kandidaten automatisch wählen (onConquer/onHold/onAttack/
+   onDefend/onMove/onDestroy).
 
 ## Bekannte Einschränkungen des Imports
 

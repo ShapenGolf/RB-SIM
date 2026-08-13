@@ -1,4 +1,4 @@
-import type { TemplatedEffect } from "./templatedEffects";
+import type { ActivatedAbility, TemplatedEffect } from "./templatedEffects";
 
 /** "Colorless" covers domainless/neutral cards (e.g. some Battlefields), confirmed present in the official card data. */
 export type Domain = "Fury" | "Calm" | "Mind" | "Body" | "Chaos" | "Order" | "Colorless";
@@ -63,6 +63,8 @@ export interface Card {
    * interpreter in `src/game/templatedEffects.ts` — no bespoke code needed.
    */
   templatedEffect?: TemplatedEffect;
+  /** Auto-matched "[Cost,] Exhaust: Effect" activated ability, see scripts/match-activated-abilities.mjs. */
+  activatedAbility?: ActivatedAbility;
   /**
    * Provenance note for this data entry. Real cards researched via web
    * search are cited here; cards without a confirmed official source are

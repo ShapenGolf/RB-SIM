@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { getCard } from "../src/cards/db";
-import { fireTemplatedEffect } from "../src/game/templatedEffectEngine";
+import { fireTemplatedEffect, runTemplatedActions } from "../src/game/templatedEffectEngine";
 import { resolveCombat, resolveHoldTriggers } from "../src/game/combat";
+import { computeMight } from "../src/game/might";
 import { playCard } from "../src/game/moves";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
@@ -149,5 +150,37 @@ describe("templated effects — full attack integration via resolveCombat", () =
 
     expect(game.instances[enemy.instanceId]).toBeUndefined();
     expect(game.battlefields[0].controller).toBe("0");
+  });
+});
+
+describe("Buff (permanent, non-stacking Might counter)", () => {
+  it("grants a flat +1 Might that doesn't stack from repeated buffs", () => {
+    const game = makeGame();
+    const unit = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    const baseline = computeMight(game, getCard, unit, "attacking");
+
+    runTemplatedActions(game, getCard, unit, [
+      { type: "buffMight", target: { kind: "self" }, amount: 1, duration: "permanent" },
+    ]);
+    expect(computeMight(game, getCard, unit, "attacking")).toBe(baseline + 1);
+
+    // Buffing again does not stack — it's a boolean status, not a counter.
+    runTemplatedActions(game, getCard, unit, [
+      { type: "buffMight", target: { kind: "self" }, amount: 1, duration: "permanent" },
+    ]);
+    expect(computeMight(game, getCard, unit, "attacking")).toBe(baseline + 1);
+  });
+
+  it("persists across a turn boundary, unlike a this-turn Might bonus", () => {
+    const game = makeGame();
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+    unit.tempMightBonus = 3; // simulate an existing this-turn bonus
+    unit.statuses.buffed = true;
+
+    // Turn-start cleanup (see turnFlow.runTurnStart) resets tempMightBonus but must not touch statuses.
+    unit.tempMightBonus = 0;
+
+    expect(unit.statuses.buffed).toBe(true);
+    expect(computeMight(game, getCard, unit, "attacking")).toBe((getCard(unit.cardId).might ?? 0) + 1);
   });
 });

@@ -14,10 +14,15 @@ siehe [`docs/data-sourcing.md`](docs/data-sourcing.md). Spielbarkeits-Stand
 pro Karte:
 
 - **48 Karten** vollständig generisch (nur printed Keywords).
-- **48 Karten** automatisch als "Templated Effect" erkannt und spielbar
+- **51 Karten** automatisch als "Templated Effect" erkannt (Trigger + Aktion,
+  z.B. "When you play me, draw 1.") und spielbar
   (`src/cards/data/templated-effects.json` + `src/game/templatedEffectEngine.ts`)
   — kein Code pro Karte nötig.
-- **923 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
+- **4 Karten** automatisch als "Activated Ability" erkannt ("Exhaust:
+  Effekt") und spielbar (`src/cards/data/activated-abilities.json`).
+- Macht **103 von 1019 Karten (~10%) vollständig spielbar ohne
+  kartenspezifischen Code.**
+- **916 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
   Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
   Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
 
@@ -79,13 +84,11 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 ## Nächste Schritte
 
-1. **Aktivierte Fähigkeiten** ("Kosten, Exhaust: Effekt") als generische
-   Mechanik ergänzen — größter Hebel für weitere automatische Abdeckung,
-   betrifft einen Großteil der 112 Gear-Karten (siehe
-   `docs/data-sourcing.md`, Abschnitt "Nächste Hebel").
+1. Domain/Rune-Kostenanteile bei Activated Abilities unterstützen (v1 deckt
+   nur reine Energy-Kosten ab, siehe `docs/data-sourcing.md`).
 2. **Statische Modifikatoren** ("Einheiten, die du kontrollierst, haben...")
    als eigener Matcher, analog zu Templated Effects.
-3. Verbleibende `special-cases-todo.json`-Einträge (923) priorisiert
+3. Verbleibende `special-cases-todo.json`-Einträge (916) priorisiert
    bespoke implementieren — nach Set, Deck-Archetyp, oder was du mit
    Freunden tatsächlich spielen willst.
 4. Handler für die noch fehlenden generischen Keywords ergänzen (Hidden,

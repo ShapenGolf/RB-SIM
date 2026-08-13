@@ -14,6 +14,7 @@
  * Usage: node scripts/match-templated-effects.mjs <todo.json> <matched-out.json> <remaining-todo-out.json>
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { parseAction } from "./lib/action-patterns.mjs";
 
 const [, , todoPath, matchedOutPath, remainingOutPath] = process.argv;
 if (!todoPath || !matchedOutPath || !remainingOutPath) {
@@ -49,120 +50,6 @@ function stripTrigger(text, cardType) {
   }
   if (cardType === "spell") return { trigger: "onPlay", remainder: text.trim() };
   return null;
-}
-
-// --- Action clause parsing -----------------------------------------------------
-
-/** Each entry: regex (applied to the trigger-stripped, "you may "-stripped remainder) + builder(match) -> action(s). */
-const ACTION_PATTERNS = [
-  {
-    re: /^draw (\d+)\.?$/i,
-    build: (m) => [{ type: "drawCards", player: "controller", amount: Number(m[1]) }],
-  },
-  {
-    re: /^gain (\d+) xp\.?$/i,
-    build: (m) => [{ type: "gainXP", player: "controller", amount: Number(m[1]) }],
-  },
-  {
-    re: /^you score (\d+) points?\.?$/i,
-    build: (m) => [{ type: "scorePoints", player: "controller", amount: Number(m[1]) }],
-  },
-  {
-    re: /^discard (\d+)\.?$/i,
-    build: (m) => [{ type: "discardCards", player: "controller", amount: Number(m[1]) }],
-  },
-  {
-    re: /^ready me\.?$/i,
-    build: () => [{ type: "readyTarget", target: { kind: "self" } }],
-  },
-  {
-    re: /^i enter ready\.?$/i,
-    build: () => [{ type: "readyTarget", target: { kind: "self" } }],
-  },
-  {
-    re: /^give me ([+-]\d+) Might(?: this turn)?\.?$/i,
-    build: (m) => [{ type: "buffMight", target: { kind: "self" }, amount: Number(m[1]), duration: "thisTurn" }],
-  },
-  {
-    re: /^give (a friendly unit|a unit|an enemy unit)( here)?\s*([+-]\d+) Might this turn(?:, to a minimum of \d+ Might)?\.?$/i,
-    build: (m) => [
-      {
-        type: "buffMight",
-        target: {
-          kind: m[1].includes("enemy") ? "chooseEnemyUnit" : m[1] === "a unit" ? "chooseUnit" : "chooseFriendlyUnit",
-          atBattlefieldOnly: Boolean(m[2]),
-        },
-        amount: Number(m[3]),
-        duration: "thisTurn",
-      },
-    ],
-  },
-  {
-    re: /^deal (\d+) to (?:a|an) (enemy )?unit( here| at a battlefield)?\.?$/i,
-    build: (m) => [
-      {
-        type: "dealDamage",
-        target: { kind: m[2] ? "chooseEnemyUnit" : "chooseUnit", atBattlefieldOnly: Boolean(m[3]) },
-        amount: Number(m[1]),
-      },
-    ],
-  },
-  {
-    re: /^kill a gear\.?$/i,
-    build: () => [{ type: "killTarget", target: { kind: "chooseFriendlyGear" } }],
-  },
-  {
-    re: /^kill (?:a|an) (friendly |enemy )?unit( here| at a battlefield)?\.?$/i,
-    build: (m) => [
-      {
-        type: "killTarget",
-        target: {
-          kind: m[1]?.trim() === "enemy" ? "chooseEnemyUnit" : m[1]?.trim() === "friendly" ? "chooseFriendlyUnit" : "chooseUnit",
-          atBattlefieldOnly: Boolean(m[2]),
-        },
-      },
-    ],
-  },
-  {
-    re: /^deal (\d+) to all enemy units(?: (here|in combat|at a battlefield))?\.?$/i,
-    build: (m) => [{ type: "dealDamage", target: { kind: "allEnemyUnitsAtBattlefield" }, amount: Number(m[1]) }],
-  },
-  {
-    re: /^(?:recall|return) (?:a|an) (friendly |enemy )?unit(?: here| at a battlefield)? (?:exhausted )?to (?:its|their) owner'?s? hand\.?$/i,
-    build: (m) => [
-      {
-        type: "recallTarget",
-        target: { kind: m[1]?.trim() === "enemy" ? "chooseEnemyUnit" : "chooseFriendlyUnit" },
-      },
-    ],
-  },
-  {
-    re: /^channel (\d+) runes? exhausted\.?$/i,
-    build: (m) => [{ type: "channelRunes", player: "controller", amount: Number(m[1]) }],
-  },
-];
-
-function parseSingleAction(text) {
-  for (const { re, build } of ACTION_PATTERNS) {
-    const m = text.match(re);
-    if (m) return build(m);
-  }
-  return null;
-}
-
-function parseAction(remainder) {
-  const text = remainder.trim().replace(/^you may\s+/i, "");
-
-  // "X, then Y." — only accept if BOTH clauses independently match a known simple action;
-  // still refuses anything with a condition, pronoun follow-up, or other unrecognized shape.
-  const thenMatch = text.match(/^(.+?),\s*then\s+(.+)$/i);
-  if (thenMatch) {
-    const first = parseSingleAction(thenMatch[1].trim() + ".");
-    const second = parseSingleAction(thenMatch[2].trim());
-    if (first && second) return [...first, ...second];
-  }
-
-  return parseSingleAction(text);
 }
 
 // --- Main ------------------------------------------------------------------

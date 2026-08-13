@@ -5,7 +5,7 @@ import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat } from "./combat";
 import { createInstance } from "./setup";
-import { fireTemplatedEffect } from "./templatedEffectEngine";
+import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
 import type { GameState } from "./state";
 
 export interface PlayCardArgs {
@@ -140,6 +140,39 @@ export const resolvePredict: MoveFn<GameState> = ({ G, playerID }, args: Resolve
     if (top) player.mainDeck.push(top);
   }
   player.pendingPredict = false;
+  return undefined;
+};
+
+export interface ActivateAbilityArgs {
+  instanceId: string;
+  energyRuneIds: string[];
+  targetInstanceId?: string;
+}
+
+export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: ActivateAbilityArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  const instance = G.instances[args.instanceId];
+  if (!instance || instance.controller !== player.id) return INVALID_MOVE;
+
+  const card = getCard(instance.cardId);
+  const ability = card.activatedAbility;
+  if (!ability) return INVALID_MOVE;
+  if (ability.cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
+  if (args.energyRuneIds.length !== ability.cost.energy) return INVALID_MOVE;
+
+  const seen = new Set<string>();
+  for (const runeId of args.energyRuneIds) {
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune || rune.exhausted || seen.has(runeId)) return INVALID_MOVE;
+    seen.add(runeId);
+  }
+
+  for (const runeId of args.energyRuneIds) {
+    player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  if (ability.cost.exhaustSelf) instance.exhausted = true;
+
+  runTemplatedActions(G, getCard, instance, ability.actions, args.targetInstanceId);
   return undefined;
 };
 

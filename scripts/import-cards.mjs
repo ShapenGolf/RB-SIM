@@ -76,6 +76,17 @@ function extractKeywords(plainText) {
     return { keywords: [], residual: "" };
   }
 
+  // "[Empower] COST (COST: Empower me/this. Use only if not Empowered.)" repeats its own cost text
+  // before the reminder parenthetical, so the generic tag+adjacent-paren stripper below can't match it
+  // (there's a cost clause between "]" and "("). Handle it as its own shape first, keeping the cost text.
+  residual = residual.replace(
+    /\[Empower\]\s*([^()]+?)\s*\(\s*\1\s*:\s*Empower (?:me|this)\.(?:[^()]*)?\)/gi,
+    (_full, cost) => {
+      keywords.push({ keyword: "empower", grantedText: cost.trim() });
+      return "";
+    },
+  );
+
   // Match a bracket tag and, optionally, an immediately-adjacent reminder parenthetical
   // (e.g. "[Deflect] (Opponents must pay...)") as a single unit so both get removed together.
   const tagPattern = /\[([A-Za-z][A-Za-z\- ]*?)(?:\s+(\d+))?\](\s*(?:\u2014\s*)?\([^()]*\))?/g;

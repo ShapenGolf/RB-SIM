@@ -101,8 +101,12 @@ function runAction(
   switch (action.type) {
     case "buffMight": {
       for (const target of resolveTargets(game, getCard, source, action.target, explicitTargetInstanceId)) {
-        // "permanent" buffs aren't modeled yet (no matcher pattern emits this today); treat as this-turn.
-        target.tempMightBonus += action.amount;
+        if (action.duration === "permanent") {
+          // Non-stacking: a unit either has the Buff status or doesn't (see might.ts).
+          target.statuses.buffed = true;
+        } else {
+          target.tempMightBonus += action.amount;
+        }
       }
       return;
     }
@@ -175,6 +179,19 @@ function runAction(
   }
 }
 
+/** Runs a list of TemplatedActions for `source` — shared by triggered effects and activated abilities. */
+export function runTemplatedActions(
+  game: GameState,
+  getCard: (id: string) => Card,
+  source: CardInstance,
+  actions: TemplatedAction[],
+  explicitTargetInstanceId?: string,
+): void {
+  for (const action of actions) {
+    runAction(game, getCard, source, action, explicitTargetInstanceId);
+  }
+}
+
 /** Fires a card's TemplatedEffect if its trigger matches (also matching onAttackOrDefend against onAttack/onDefend). */
 export function fireTemplatedEffect(
   game: GameState,
@@ -191,7 +208,5 @@ export function fireTemplatedEffect(
     (effect.trigger === "onAttackOrDefend" && (trigger === "onAttack" || trigger === "onDefend"));
   if (!matches) return;
 
-  for (const action of effect.actions) {
-    runAction(game, getCard, instance, action, explicitTargetInstanceId);
-  }
+  runTemplatedActions(game, getCard, instance, effect.actions, explicitTargetInstanceId);
 }

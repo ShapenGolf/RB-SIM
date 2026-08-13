@@ -1,0 +1,68 @@
+{
+  "ogn-257": {
+    "cost": {
+      "energy": 1,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseFriendlyUnit"
+        },
+        "amount": 1,
+        "duration": "permanent"
+      }
+    ]
+  },
+  "ogn-304": {
+    "cost": {
+      "energy": 1,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseFriendlyUnit"
+        },
+        "amount": 1,
+        "duration": "permanent"
+      }
+    ]
+  },
+  "sfd-52": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": 3,
+        "duration": "thisTurn"
+      }
+    ]
+  },
+  "ogn-90": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "buffMight",
+        "target": {
+          "kind": "chooseUnit",
+          "atBattlefieldOnly": false
+        },
+        "amount": -1,
+        "duration": "thisTurn"
+      }
+    ]
+  }
+}
