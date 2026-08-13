@@ -64,6 +64,33 @@ function assignDamage(
   return Math.max(0, remaining);
 }
 
+/**
+ * Deals `totalDamage` sequentially across `targetInstanceIds` (each filled to its own toughness
+ * before moving to the next), destroying any that die. For non-combat, non-spell effects like
+ * "deal 5 damage split among any number of enemy units here" — no player choice of how to split
+ * (documented simplification, same spirit as the discard-choice one elsewhere in this file).
+ */
+export function dealDistributedDamage(
+  game: GameState,
+  getCard: (id: string) => Card,
+  targetInstanceIds: string[],
+  totalDamage: number,
+): void {
+  let remaining = totalDamage;
+  const destroyed: string[] = [];
+  for (const targetInstanceId of targetInstanceIds) {
+    if (remaining <= 0) break;
+    const target = game.instances[targetInstanceId];
+    if (!target) continue;
+    const hp = computeMight(game, getCard, target, "none");
+    const hit = Math.min(remaining, hp);
+    target.damage += hit;
+    remaining -= hit;
+    if (target.damage >= hp) destroyed.push(targetInstanceId);
+  }
+  for (const id of destroyed) destroyInstance(game, getCard, id);
+}
+
 export function destroyInstance(game: GameState, getCard: (id: string) => Card, instanceId: string): void {
   const instance = game.instances[instanceId];
   if (!instance) return;

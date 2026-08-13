@@ -35,6 +35,9 @@ export interface SpecialCaseHandler {
    */
   onConquer?(ctx: SpecialCaseContext, excessDamage: number): void;
 
+  /** Called when this instance attacks (moved onto a Battlefield as an attacker), before combat resolves — alongside the generic onAttack templated trigger. */
+  onAttack?(ctx: SpecialCaseContext): void;
+
   /**
    * Might bonus this Gear/static-effect card grants to a given ally unit
    * instance while it attacks. Only relevant for Gear/Battlefield cards

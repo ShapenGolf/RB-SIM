@@ -771,6 +771,48 @@ describe("Immortal Phoenix (ogn-37): may pay to play from trash when you kill a 
   });
 });
 
+describe("Kadregrin the Infernal (ogn-38): draw 1 per Mighty (5+ Might) unit you control", () => {
+  it("draws once for itself (9 Might) plus once per other Mighty unit", () => {
+    const game = makeGame();
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5", "ogn-8"];
+    const mighty = putOnBase(game, "unit-vanguard-striker", "0");
+    mighty.tempMightBonus = 5; // 2 base + 5 = 7, Mighty
+    putOnBase(game, "unit-plain-footman", "0"); // Might 2, not Mighty
+    const kadregrin = putOnBase(game, "ogn-38", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(kadregrin.cardId), kadregrin);
+
+    // Kadregrin itself (9 Might) + the buffed striker (7 Might) = 2 Mighty units.
+    expect(game.players["0"].hand).toEqual(["ogn-4", "ogn-5"]);
+  });
+});
+
+describe("Volibear, Furious (ogn-41): on attack, deal 5 split among enemy units here", () => {
+  it("distributes damage across enemy units at the battlefield, killing what it can", () => {
+    const game = makeGame();
+    const voli = putOnBase(game, "ogn-41", "0", { exhausted: false });
+    const enemy1 = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    const enemy2 = putOnBase(game, "unit-vanguard-striker", "1"); // Might 2
+    moveToBattlefield(game, voli.instanceId, 0);
+    moveToBattlefield(game, enemy1.instanceId, 0);
+    moveToBattlefield(game, enemy2.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(voli.cardId), voli);
+
+    expect(game.instances[enemy1.instanceId]).toBeUndefined();
+    expect(game.instances[enemy2.instanceId]).toBeUndefined();
+  });
+
+  it("does nothing while not at a battlefield", () => {
+    const game = makeGame();
+    const voli = putOnBase(game, "ogn-41", "0", { exhausted: false });
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+
+    expect(() => SpecialCaseEngine.onAttack(game, getCard(voli.cardId), voli)).not.toThrow();
+    expect(game.instances[enemy.instanceId]).toBeDefined();
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

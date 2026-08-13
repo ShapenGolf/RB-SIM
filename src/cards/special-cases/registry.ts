@@ -39,6 +39,8 @@ import { ragingFirebrand } from "./raging-firebrand";
 import { tryndamere } from "./tryndamere";
 import { viDestructive } from "./vi-destructive";
 import { immortalPhoenix } from "./immortal-phoenix";
+import { kadregrin } from "./kadregrin";
+import { volibear } from "./volibear";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -79,6 +81,8 @@ const handlers: SpecialCaseHandler[] = [
   tryndamere,
   viDestructive,
   immortalPhoenix,
+  kadregrin,
+  volibear,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -111,6 +115,10 @@ export const SpecialCaseEngine = {
 
   onConquer: (game: GameState, card: Card, instance: CardInstance, excessDamage: number) => {
     getSpecialCaseHandler(card)?.onConquer?.(ctxFor(game, card, instance), excessDamage);
+  },
+
+  onAttack: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onAttack?.(ctxFor(game, card, instance));
   },
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,

@@ -180,6 +180,7 @@ export const attackBattlefield: MoveFn<GameState> = (
     const instance = G.instances[instanceId];
     const card = getCard(instance.cardId);
     fireTemplatedEffect(G, getCard, card, instance, "onAttack");
+    SpecialCaseEngine.onAttack(G, card, instance);
     fireTemplatedEffect(G, getCard, card, instance, "onMove");
   }
 

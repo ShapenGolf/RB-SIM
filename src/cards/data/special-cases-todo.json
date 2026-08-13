@@ -2832,14 +2832,6 @@
     "fullText": "When you discard one or more cards, ready me and give me +1 Might this turn."
   },
   {
-    "id": "ogn-38",
-    "name": "Kadregrin the Infernal",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, draw 1 for each of your  units. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "When you play me, draw 1 for each of your [Mighty] units. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
     "id": "ogn-112",
     "name": "Kai'Sa, Evolutionary",
     "set": "OGN",
@@ -6270,14 +6262,6 @@
     "type": "legend",
     "residualText": "When you win a combat, gain 1 XP.\nSpend 1 XP, Exhaust:  a unit.\nSpend 2 XP, Exhaust: Move an exhausted friendly unit from a battlefield to its base.",
     "fullText": "When you win a combat, gain 1 XP.\nSpend 1 XP, Exhaust: [Buff] a unit.\nSpend 2 XP, Exhaust: Move an exhausted friendly unit from a battlefield to its base."
-  },
-  {
-    "id": "ogn-41",
-    "name": "Volibear, Furious",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I attack, deal 5 damage split among any number of enemy units here.",
-    "fullText": "[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)\nWhen I attack, deal 5 damage split among any number of enemy units here."
   },
   {
     "id": "ogn-158",
