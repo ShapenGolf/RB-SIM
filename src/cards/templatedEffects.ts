@@ -69,6 +69,7 @@ export interface ActivatedAbility {
     runeDomain?: Domain;
     recycleFromTrash?: number;
     spendBuff?: boolean;
+    killSelf?: boolean;
   };
   actions: TemplatedAction[];
 }

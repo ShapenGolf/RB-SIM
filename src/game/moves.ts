@@ -3,7 +3,7 @@ import type { MoveFn } from "boardgame.io";
 import { getCard } from "../cards/db";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
-import { resolveCombat } from "./combat";
+import { resolveCombat, destroyInstance } from "./combat";
 import { createInstance } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
@@ -306,6 +306,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
     const recycled = player.trash.shift();
     if (recycled) player.mainDeck.push(recycled);
   }
+  if (cost.killSelf) destroyInstance(G, getCard, instance.instanceId);
 
   if (card.activatedAbility) {
     runTemplatedActions(G, getCard, instance, card.activatedAbility.actions, args.targetInstanceId);

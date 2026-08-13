@@ -384,14 +384,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\n[Stun] a unit. (It doesn't deal combat damage this turn.)\nIf you played this from your hand, draw 1."
   },
   {
-    "id": "ogn-206",
-    "name": "Back to Back",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give two friendly units each +2 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive two friendly units each +2 Might this turn."
-  },
-  {
     "id": "ogn-277",
     "name": "Back-Alley Bar",
     "set": "OGN",
@@ -1006,14 +998,6 @@
     "type": "spell",
     "residualText": "Counter a spell if an opponent has played another spell this turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell if an opponent has played another spell this turn."
-  },
-  {
-    "id": "ogn-209",
-    "name": "Cull the Weak",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Each player kills one of their units.",
-    "fullText": "Each player kills one of their units."
   },
   {
     "id": "ven-192",
@@ -1672,14 +1656,6 @@
     "fullText": "When I move to a battlefield, you may pay Chaos Rune to move a unit you control to the same battlefield."
   },
   {
-    "id": "ogn-211",
-    "name": "Faithful Manufactor",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, play a 1 Might Recruit unit token here.",
-    "fullText": "When you play me, play a 1 Might Recruit unit token here."
-  },
-  {
     "id": "ven-132",
     "name": "Fallen Feline",
     "set": "VEN",
@@ -1718,14 +1694,6 @@
     "type": "champion",
     "residualText": "When I attack or defend one on one, double my Might this combat.",
     "fullText": "When I attack or defend one on one, double my Might this combat."
-  },
-  {
-    "id": "ogn-232",
-    "name": "Fiora, Victorious",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "While I'm , I have , , and . (I'm Mighty while I have 5+ Might.)",
-    "fullText": "While I'm [Mighty], I have [Deflect], [Ganking], and [Shield]. (I'm Mighty while I have 5+ Might.)"
   },
   {
     "id": "sfd-180",
@@ -1806,14 +1774,6 @@
     "type": "battlefield",
     "residualText": "While you control this battlefield, friendly legends have \"Exhaust: Attach an Equipment you control to a unit you control.\"",
     "fullText": "While you control this battlefield, friendly legends have \"Exhaust: Attach an Equipment you control to a unit you control.\""
-  },
-  {
-    "id": "ogn-212",
-    "name": "Forge of the Future",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "When you play this, play a 1 Might Recruit unit token at your base.\nKill this: Recycle up to 4 cards from trashes.",
-    "fullText": "When you play this, play a 1 Might Recruit unit token at your base.\nKill this: Recycle up to 4 cards from trashes."
   },
   {
     "id": "unl-211",
@@ -2070,14 +2030,6 @@
     "type": "legend",
     "residualText": "When one of your units becomes , you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)",
     "fullText": "When one of your units becomes [Mighty], you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
-    "id": "ogn-233",
-    "name": "Grand Strategem",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give friendly units +5 Might this turn.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive friendly units +5 Might this turn."
   },
   {
     "id": "sfd-245",
@@ -2456,14 +2408,6 @@
     "fullText": "When you play me, choose an opponent. They reveal their hand. You may pay 2 XP to choose a card from their hand. If you do, they discard that card and draw 1."
   },
   {
-    "id": "ogn-201",
-    "name": "Invert Timelines",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Each player discards their hand, then draws 4.",
-    "fullText": "Each player discards their hand, then draws 4."
-  },
-  {
     "id": "sfd-57",
     "name": "Irelia, Fervent",
     "set": "SFD",
@@ -2630,14 +2574,6 @@
     "type": "champion",
     "residualText": "When I move,  1 EnergyRune. (Abilities that add resources can't be reacted to.)",
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)\nWhen I move, [Add] 1 EnergyRune. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "ogn-202",
-    "name": "Jinx, Rebel",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When you discard one or more cards, ready me and give me +1 Might this turn.",
-    "fullText": "When you discard one or more cards, ready me and give me +1 Might this turn."
   },
   {
     "id": "ogn-112",
@@ -3472,14 +3408,6 @@
     "fullText": "When I conquer, you may kill a gear with Energy cost no more than my Might."
   },
   {
-    "id": "ogn-222",
-    "name": "Noxian Drummer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, play a 1 Might Recruit unit token here. (It is also at the battlefield.)",
-    "fullText": "When I move to a battlefield, play a 1 Might Recruit unit token here. (It is also at the battlefield.)"
-  },
-  {
     "id": "ven-128",
     "name": "Noxian Emissary",
     "set": "VEN",
@@ -3606,14 +3534,6 @@
     "type": "unit",
     "residualText": "(I enter exhausted.)\nWhen you play me, if you control 3 or more other gear, draw 1.",
     "fullText": "(I enter exhausted.)\nWhen you play me, if you control 3 or more other gear, draw 1."
-  },
-  {
-    "id": "ogn-223",
-    "name": "Peak Guardian",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, buff me. Then, if I am at a battlefield, buff all other friendly units there. (To buff a unit, give it a +1 Might buff if it doesn't already have one.)",
-    "fullText": "When you play me, buff me. Then, if I am at a battlefield, buff all other friendly units there. (To buff a unit, give it a +1 Might buff if it doesn't already have one.)"
   },
   {
     "id": "sfd-15",
@@ -3750,14 +3670,6 @@
     "type": "gear",
     "residualText": "When you play this, draw 1.\n1 EnergyCalm Rune, Exhaust, Kill this: Draw 1.",
     "fullText": "When you play this, draw 1.\n1 EnergyCalm Rune, Exhaust, Kill this: Draw 1."
-  },
-  {
-    "id": "ogn-203",
-    "name": "Possession",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Choose an enemy unit at a battlefield. Take control of it and recall it. (Send it to your base. This isn't a move.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose an enemy unit at a battlefield. Take control of it and recall it. (Send it to your base. This isn't a move.)"
   },
   {
     "id": "sfd-214",
@@ -4696,22 +4608,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nChoose a unit you control and another unit you control at a different location. If at least one of them has [Temporary], move each to the other's location. Draw 1."
   },
   {
-    "id": "ogn-216",
-    "name": "Soaring Scout",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 Channel 1 rune exhausted. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 Channel 1 rune exhausted. (When I die, get the effect.)"
-  },
-  {
-    "id": "ogn-225",
-    "name": "Solari Chief",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, choose an enemy unit. If it is stunned, kill it. Otherwise, stun it. (It doesn't deal combat damage this turn.)",
-    "fullText": "When you play me, choose an enemy unit. If it is stunned, kill it. Otherwise, stun it. (It doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "ven-122",
     "name": "Solari Sunhawk",
     "set": "VEN",
@@ -5320,14 +5216,6 @@
     "fullText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location."
   },
   {
-    "id": "ogn-217",
-    "name": "Trifarian Gloryseeker",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 When you play me, buff me. (If I don't have a buff, I get a +1 Might buff. Get the effect if you've played another card this turn.)",
-    "fullText": "[Legion] \u2014 When you play me, buff me. (If I don't have a buff, I get a +1 Might buff. Get the effect if you've played another card this turn.)"
-  },
-  {
     "id": "ogn-294",
     "name": "Trifarian War Camp",
     "set": "OGN",
@@ -5502,22 +5390,6 @@
     "type": "unit",
     "residualText": "I enter ready.",
     "fullText": "I enter ready."
-  },
-  {
-    "id": "ogn-218",
-    "name": "Vanguard Captain",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "\u2014 When you play me, play two 1 Might Recruit unit tokens here. (Get the effect if you've played another card this turn.)",
-    "fullText": "[Legion] \u2014 When you play me, play two 1 Might Recruit unit tokens here. (Get the effect if you've played another card this turn.)"
-  },
-  {
-    "id": "ogn-228",
-    "name": "Vanguard Helm",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "When a buffed friendly unit dies, buff another friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "When a buffed friendly unit dies, buff another friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
   },
   {
     "id": "unl-10",

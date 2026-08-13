@@ -2598,6 +2598,315 @@ describe("Pack of Wonders (ogn-181): Exhaust: return another friendly gear/unit 
   });
 });
 
+describe("Invert Timelines (ogn-201): each player discards hand, draws 4", () => {
+  it("discards both hands and draws up to 4 each", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-201", "0");
+    game.players["0"].hand = ["ogn-4", "ogn-5"];
+    game.players["1"].hand = ["ogn-8"];
+    game.players["0"].mainDeck = ["ogn-11", "ogn-14", "ogn-15", "ogn-16", "ogn-19"];
+    game.players["1"].mainDeck = ["ogn-22", "ogn-27"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].hand.length).toBe(4);
+    expect(game.players["0"].trash).toEqual(["ogn-4", "ogn-5"]);
+    expect(game.players["1"].hand).toEqual(["ogn-22", "ogn-27"]);
+    expect(game.players["1"].trash).toEqual(["ogn-8"]);
+  });
+});
+
+describe("Jinx, Rebel (ogn-202): ready + buff on any discard", () => {
+  it("readies and buffs when its controller discards", () => {
+    const game = makeGame();
+    const jinx = putOnBase(game, "ogn-202", "0", { exhausted: true });
+    game.players["0"].hand = ["ogn-4"];
+
+    discardCardToTrash(game, getCard, "0", game.players["0"].hand.shift()!);
+
+    expect(jinx.exhausted).toBe(false);
+    expect(jinx.tempMightBonus).toBe(1);
+  });
+
+  it("does not react to the opponent's discard", () => {
+    const game = makeGame();
+    const jinx = putOnBase(game, "ogn-202", "0", { exhausted: true });
+    game.players["1"].hand = ["ogn-4"];
+
+    discardCardToTrash(game, getCard, "1", game.players["1"].hand.shift()!);
+
+    expect(jinx.exhausted).toBe(true);
+    expect(jinx.tempMightBonus).toBe(0);
+  });
+});
+
+describe("Possession (ogn-203): take control of an enemy unit at a battlefield, recall it", () => {
+  it("changes controller and sends the unit to the new controller's base", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-203", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.controller).toBe("0");
+    expect(target.zone).toBe("base");
+    expect(game.players["0"].base).toContain(target.instanceId);
+    expect(game.battlefields[0].units["1"]).not.toContain(target.instanceId);
+  });
+});
+
+describe("Cull the Weak (ogn-209): each player kills one of their units", () => {
+  it("kills a unit for each player that has one", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-209", "0");
+    const myUnit = putOnBase(game, "unit-plain-footman", "0");
+    const theirUnit = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.instances[myUnit.instanceId]).toBeUndefined();
+    expect(game.instances[theirUnit.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Faithful Manufactor (ogn-211) / Vanguard Captain (ogn-218): play Recruit token(s)", () => {
+  it("Faithful Manufactor plays one 1-Might Recruit token", () => {
+    const game = makeGame();
+    const manufactor = putOnBase(game, "ogn-211", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(manufactor.cardId), manufactor);
+
+    const tokenId = game.players["0"].base.find(
+      (id) => id !== manufactor.instanceId && game.instances[id].cardId === "token-recruit",
+    );
+    expect(tokenId).toBeDefined();
+    expect(computeMight(game, getCard, game.instances[tokenId!], "none")).toBe(1);
+  });
+
+  it("Vanguard Captain (Legion) plays two Recruit tokens when the condition is active", () => {
+    const game = makeGame();
+    const captain = putOnBase(game, "ogn-218", "0");
+    game.players["0"].playedMainDeckCardThisTurn = true;
+
+    SpecialCaseEngine.onPlay(game, getCard(captain.cardId), captain);
+
+    const tokenCount = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit").length;
+    expect(tokenCount).toBe(2);
+  });
+
+  it("Vanguard Captain does nothing without Legion active", () => {
+    const game = makeGame();
+    const captain = putOnBase(game, "ogn-218", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(captain.cardId), captain);
+
+    const tokenCount = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit").length;
+    expect(tokenCount).toBe(0);
+  });
+});
+
+describe("Forge of the Future (ogn-212): play Recruit on play, Kill this: recycle 4", () => {
+  it("plays a Recruit token on play", () => {
+    const game = makeGame();
+    const forge = putOnBase(game, "ogn-212", "0");
+    SpecialCaseEngine.onPlay(game, getCard(forge.cardId), forge);
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenId).toBeDefined();
+  });
+
+  it("kills itself and recycles up to 4 from trash", () => {
+    const game = makeGame();
+    const forge = putOnBase(game, "ogn-212", "0", { exhausted: false });
+    game.players["0"].mainDeck = [];
+    game.players["0"].trash = ["ogn-4", "ogn-5", "ogn-8", "ogn-11", "ogn-14"];
+
+    const result = activateAbility(ctx(game, "0"), { instanceId: forge.instanceId, energyRuneIds: [] });
+
+    expect(result).toBeUndefined();
+    expect(game.instances[forge.instanceId]).toBeUndefined();
+    // Forge itself lands in trash (via destroyInstance) before the recycle-4 loop runs, so the
+    // 4 recycled cards are the original front-of-trash, leaving the 5th original plus Forge.
+    expect(game.players["0"].trash).toEqual(["ogn-14", "ogn-212"]);
+    expect(game.players["0"].mainDeck).toEqual(["ogn-4", "ogn-5", "ogn-8", "ogn-11"]);
+  });
+});
+
+describe("Soaring Scout (ogn-216): Deathknell — channel 1 exhausted", () => {
+  it("channels an exhausted rune on destroy", () => {
+    const game = makeGame();
+    const scout = putOnBase(game, "ogn-216", "0");
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+    destroyInstance(game, getCard, scout.instanceId);
+    expect(game.players["0"].runePool).toEqual([{ instanceId: "r1", domain: "Fury", exhausted: true }]);
+  });
+});
+
+describe("Trifarian Gloryseeker (ogn-217): Legion — buff on play", () => {
+  it("buffs itself when Legion is active", () => {
+    const game = makeGame();
+    const seeker = putOnBase(game, "ogn-217", "0");
+    game.players["0"].playedMainDeckCardThisTurn = true;
+    SpecialCaseEngine.onPlay(game, getCard(seeker.cardId), seeker);
+    expect(seeker.statuses.buffed).toBe(true);
+  });
+
+  it("does nothing without Legion", () => {
+    const game = makeGame();
+    const seeker = putOnBase(game, "ogn-217", "0");
+    SpecialCaseEngine.onPlay(game, getCard(seeker.cardId), seeker);
+    expect(seeker.statuses.buffed).toBeUndefined();
+  });
+});
+
+describe("Noxian Drummer (ogn-222): on move to a battlefield, play a Recruit token here", () => {
+  it("plays a token at the same battlefield on attack", () => {
+    const game = makeGame();
+    const drummer = putOnBase(game, "ogn-222", "0", { exhausted: false });
+    moveToBattlefield(game, drummer.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(drummer.cardId), drummer);
+
+    const tokenId = game.battlefields[0].units["0"].find((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("Peak Guardian (ogn-223): buff self, and other allies here if at a battlefield", () => {
+  it("only buffs itself when on base", () => {
+    const game = makeGame();
+    const guardian = putOnBase(game, "ogn-223", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(guardian.cardId), guardian);
+
+    expect(guardian.statuses.buffed).toBe(true);
+    expect(ally.statuses.buffed).toBeUndefined();
+  });
+
+  it("buffs itself and other allies at the same battlefield", () => {
+    const game = makeGame();
+    const guardian = putOnBase(game, "ogn-223", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, guardian.instanceId, 0);
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(guardian.cardId), guardian);
+
+    expect(guardian.statuses.buffed).toBe(true);
+    expect(ally.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Solari Chief (ogn-225): stun an enemy unit, or kill it if already stunned", () => {
+  it("stuns a non-stunned enemy", () => {
+    const game = makeGame();
+    const chief = putOnBase(game, "ogn-225", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(chief.cardId), chief, enemy.instanceId);
+
+    expect(enemy.statuses.stunned).toBe(true);
+    expect(game.instances[enemy.instanceId]).toBeDefined();
+  });
+
+  it("kills an already-stunned enemy", () => {
+    const game = makeGame();
+    const chief = putOnBase(game, "ogn-225", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    enemy.statuses.stunned = true;
+
+    SpecialCaseEngine.onPlay(game, getCard(chief.cardId), chief, enemy.instanceId);
+
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Vanguard Helm (ogn-228): when a buffed friendly unit dies, buff another", () => {
+  it("buffs another friendly unit when a buffed one dies", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-228", "0");
+    const dying = putOnBase(game, "unit-plain-guard", "0");
+    const other = putOnBase(game, "unit-plain-footman", "0");
+    dying.statuses.buffed = true;
+
+    destroyInstance(game, getCard, dying.instanceId);
+
+    expect(other.statuses.buffed).toBe(true);
+  });
+
+  it("does not react to a non-buffed unit dying", () => {
+    const game = makeGame();
+    putOnBase(game, "ogn-228", "0");
+    const dying = putOnBase(game, "unit-plain-guard", "0");
+    const other = putOnBase(game, "unit-plain-footman", "0");
+
+    destroyInstance(game, getCard, dying.instanceId);
+
+    expect(other.statuses.buffed).toBeUndefined();
+  });
+});
+
+describe("Fiora, Victorious (ogn-232): Ganking and Shield only while Mighty (5+ Might)", () => {
+  it("cannot Gank while below 5 Might", () => {
+    const game = makeGame();
+    const fiora = putOnBase(game, "ogn-232", "0", { exhausted: false }); // base Might 4
+    moveToBattlefield(game, fiora.instanceId, 0);
+
+    const result = attackBattlefield(ctx(game, "0"), { battlefieldIndex: 1, unitInstanceIds: [fiora.instanceId] });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+
+  it("can Gank once Mighty (5+ Might)", () => {
+    const game = makeGame();
+    const fiora = putOnBase(game, "ogn-232", "0", { exhausted: false });
+    fiora.tempMightBonus = 1; // 4 base + 1 = 5, Mighty
+    moveToBattlefield(game, fiora.instanceId, 0);
+
+    const result = attackBattlefield(ctx(game, "0"), { battlefieldIndex: 1, unitInstanceIds: [fiora.instanceId] });
+
+    expect(result).toBeUndefined();
+  });
+
+  it("has no Shield bonus while below 5 Might, gains +1 while Mighty", () => {
+    const game = makeGame();
+    const fiora = putOnBase(game, "ogn-232", "0");
+    const baseline = getCard("ogn-232").might!;
+
+    expect(computeMight(game, getCard, fiora, "defending")).toBe(baseline);
+
+    fiora.tempMightBonus = 1; // now 5, Mighty
+    expect(computeMight(game, getCard, fiora, "defending")).toBe(baseline + 1 + 1); // +1 tempMightBonus, +1 Shield
+  });
+});
+
+describe("Grand Strategem (ogn-233): give friendly units +5 Might this turn", () => {
+  it("buffs all friendly units, not enemies", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-233", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(ally.tempMightBonus).toBe(5);
+    expect(enemy.tempMightBonus).toBe(0);
+  });
+});
+
+describe("Back to Back (ogn-206): give two friendly units +2 Might each (simplified to one)", () => {
+  it("buffs the single chosen friendly unit", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-206", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.tempMightBonus).toBe(2);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

@@ -101,6 +101,9 @@ export interface SpecialCaseHandler {
   /** Broadcast to every board instance the controller owns whenever THAT PLAYER stuns an enemy unit (see cards/special-cases/stun.ts `applyStun`). */
   onAllyStun?(ctx: SpecialCaseContext, stunnedInstance: CardInstance): void;
 
+  /** Broadcast to every board instance the controller owns whenever THAT PLAYER discards a card, from any source (see game/discardEngine.ts `discardCardToTrash`). */
+  onAllyDiscard?(ctx: SpecialCaseContext): void;
+
   /** Broadcast to every board instance the controller owns whenever THAT PLAYER kills an enemy unit, from any source (combat or spell damage) — see game/combat.ts destroyInstance call sites. `killedInstance` reflects its statuses at the moment of death. */
   onAllyKillUnit?(ctx: SpecialCaseContext, killedInstance: CardInstance): void;
 
@@ -156,6 +159,8 @@ export interface SpecialCaseHandler {
     recycleFromTrash?: number;
     /** "Spend my buff" as part of this ability's cost — requires the instance to already be buffed, consumed by clearing statuses.buffed. */
     spendBuff?: boolean;
+    /** "Kill this:" as the cost itself (vs. Treasure Trove-style "...Exhaust: Kill this", where killing is the EFFECT). The instance is destroyed before onActivate runs. */
+    killSelf?: boolean;
   };
 
   /** Set when the bespoke activated ability needs a player-chosen target. */

@@ -112,6 +112,22 @@ import { rhasaTheSunderer } from "./rhasa-the-sunderer";
 import { scrapheap } from "./scrapheap";
 import { dazzlingAurora } from "./dazzling-aurora";
 import { packOfWonders } from "./pack-of-wonders";
+import { invertTimelines } from "./invert-timelines";
+import { jinxRebel } from "./jinx-rebel";
+import { possession } from "./possession";
+import { cullTheWeak } from "./cull-the-weak";
+import { faithfulManufactor } from "./faithful-manufactor";
+import { forgeOfTheFuture } from "./forge-of-the-future";
+import { soaringScout } from "./soaring-scout";
+import { trifarianGloryseeker } from "./trifarian-gloryseeker";
+import { vanguardCaptain } from "./vanguard-captain";
+import { noxianDrummer } from "./noxian-drummer";
+import { peakGuardian } from "./peak-guardian";
+import { solariChief } from "./solari-chief";
+import { vanguardHelm } from "./vanguard-helm";
+import { fioraVictorious } from "./fiora-victorious";
+import { grandStrategem } from "./grand-strategem";
+import { backToBack } from "./back-to-back";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -225,6 +241,22 @@ const handlers: SpecialCaseHandler[] = [
   scrapheap,
   dazzlingAurora,
   packOfWonders,
+  invertTimelines,
+  jinxRebel,
+  possession,
+  cullTheWeak,
+  faithfulManufactor,
+  forgeOfTheFuture,
+  soaringScout,
+  trifarianGloryseeker,
+  vanguardCaptain,
+  noxianDrummer,
+  peakGuardian,
+  solariChief,
+  vanguardHelm,
+  fioraVictorious,
+  grandStrategem,
+  backToBack,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -401,6 +433,16 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onAllyKillUnit?.(ctxFor(game, card, instance), killedInstance);
+    }
+  },
+
+  /** Broadcasts to every board instance `discardingController` owns with an `onAllyDiscard` hook. */
+  onAllyDiscard: (game: GameState, getCard: (id: string) => Card, discardingController: PlayerId) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== discardingController) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyDiscard?.(ctxFor(game, card, instance));
     }
   },
 

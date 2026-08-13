@@ -19,4 +19,5 @@ export function discardCardToTrash(
   player.trash.push(cardId);
   player.discardedCardThisTurn = true;
   SpecialCaseEngine.onSelfDiscarded(game, getCard, controller, cardId);
+  SpecialCaseEngine.onAllyDiscard(game, getCard, controller);
 }
