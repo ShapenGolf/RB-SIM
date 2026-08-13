@@ -75,6 +75,8 @@ export interface PlayerState {
   nextSpellBonusDamage: number;
   /** Persistent-for-the-turn (not consumed on first use, unlike nextUnitEntersReady): every unit/champion this player plays this turn enters ready. Reset at Awaken. */
   unitsEnterReadyThisTurn: boolean;
+  /** Set true whenever an ENEMY unit/champion (from this player's perspective) dies, e.g. for "if an enemy unit has died this turn, ..." effects. Reset at Awaken. */
+  enemyUnitDiedThisTurn: boolean;
 }
 
 export interface BattlefieldSlot {

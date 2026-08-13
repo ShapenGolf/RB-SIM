@@ -87,6 +87,9 @@ export interface SpecialCaseHandler {
   /** Continuous Might modifier this card's static presence applies to a given ENEMY instance, independent of attacking/defending role (e.g. "Stunned enemy units here have -8 Might"). */
   staticMightModifierForEnemy?(ctx: SpecialCaseContext, enemyInstance: CardInstance): number;
 
+  /** Continuous Might modifier this card's static presence applies to a given ALLY instance, independent of attacking/defending role (e.g. "Other buffed friendly units at my battlefield have +2 Might"). */
+  staticMightModifierForAlly?(ctx: SpecialCaseContext, allyInstance: CardInstance): number;
+
   /**
    * Broadcast to every board instance the controller owns whenever THAT PLAYER plays any card
    * (this instance included) — for "when you play a/your Nth card..." effects that react to

@@ -800,14 +800,6 @@
     "fullText": "When you play me, you and each opponent may play a Gold gear token exhausted. For each opponent who did, you play a Gold gear token exhausted."
   },
   {
-    "id": "ogn-149",
-    "name": "Carnivorous Snapvine",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, choose an enemy unit at a battlefield. We deal damage equal to our Mights to each other.",
-    "fullText": "When you play me, choose an enemy unit at a battlefield. We deal damage equal to our Mights to each other."
-  },
-  {
     "id": "unl-153",
     "name": "Carrion Dredger",
     "set": "UNL",
@@ -822,14 +814,6 @@
     "type": "spell",
     "residualText": "Each player chooses a unit they control. Kill the rest.",
     "fullText": "Each player chooses a unit they control. Kill the rest."
-  },
-  {
-    "id": "ogn-138",
-    "name": "Catalyst of Aeons",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Channel 2 runes exhausted. If you couldn't channel 2 runes this way, draw 1.",
-    "fullText": "Channel 2 runes exhausted. If you couldn't channel 2 runes this way, draw 1."
   },
   {
     "id": "ogn-165",
@@ -886,14 +870,6 @@
     "type": "gear",
     "residualText": "When you play a spell on an opponent's turn, you may exhaust me to play a Gold gear token exhausted.",
     "fullText": "When you play a spell on an opponent's turn, you may exhaust me to play a Gold gear token exhausted."
-  },
-  {
-    "id": "ogn-139",
-    "name": "Cithria of Cloudfield",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play another unit, buff me. (If I don't have a buff, I get a +1 Might buff.)",
-    "fullText": "When you play another unit, buff me. (If I don't have a buff, I get a +1 Might buff.)"
   },
   {
     "id": "ven-56",
@@ -2912,14 +2888,6 @@
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "ogn-141",
-    "name": "Kinkou Monk",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, buff up to two other friendly units. (Each one that doesn't have a buff gets a +1 Might buff.)",
-    "fullText": "When you play me, buff up to two other friendly units. (Each one that doesn't have a buff gets a +1 Might buff.)"
-  },
-  {
     "id": "ven-159",
     "name": "Kinkou Temple",
     "set": "VEN",
@@ -2990,14 +2958,6 @@
     "type": "champion",
     "residualText": "Draw 1. If it's your Beginning Phase, draw 2 instead. (When I die, get the effect.)",
     "fullText": "[Assault] (+1 Might while I'm an attacker.)\n[Deathknell][>] Draw 1. If it's your Beginning Phase, draw 2 instead. (When I die, get the effect.)"
-  },
-  {
-    "id": "ogn-151",
-    "name": "Lee Sin, Centered",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "Other buffed friendly units at my battlefield have +2 Might.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\nOther buffed friendly units at my battlefield have +2 Might."
   },
   {
     "id": "ven-74",
@@ -3840,14 +3800,6 @@
     "fullText": "When you ready a friendly unit, give it +1 Might this turn."
   },
   {
-    "id": "ogn-136",
-    "name": "Pit Rookie",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, buff another friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "When you play me, buff another friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
     "id": "ven-75",
     "name": "Platewyrm Egg",
     "set": "VEN",
@@ -4038,14 +3990,6 @@
     "type": "champion",
     "residualText": "Once each turn, when an enemy unit dies while I'm at a battlefield, play a Gold gear token exhausted. (It has \" Kill this, Exhaust:  Rune.\")",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Backline] (I must be assigned combat damage last.)\nOnce each turn, when an enemy unit dies while I'm at a battlefield, play a Gold gear token exhausted. (It has \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
-  },
-  {
-    "id": "ogn-155",
-    "name": "Qiyana, Victorious",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I conquer, draw 1 or channel 1 rune exhausted.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen I conquer, draw 1 or channel 1 rune exhausted."
   },
   {
     "id": "ven-54",
@@ -4470,14 +4414,6 @@
     "type": "spell",
     "residualText": "As an additional cost to play this, you may discard 1.\nDeal 3 to a unit at a battlefield. If you paid the additional cost, deal 5 to it instead.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nAs an additional cost to play this, you may discard 1.\nDeal 3 to a unit at a battlefield. If you paid the additional cost, deal 5 to it instead."
-  },
-  {
-    "id": "ogn-156",
-    "name": "Sabotage",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Choose an opponent. They reveal their hand. Choose a non-unit card from it, and recycle that card.",
-    "fullText": "Choose an opponent. They reveal their hand. Choose a non-unit card from it, and recycle that card."
   },
   {
     "id": "ven-129",
@@ -5022,14 +4958,6 @@
     "type": "gear",
     "residualText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1.",
     "fullText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1."
-  },
-  {
-    "id": "ogn-144",
-    "name": "Spoils of War",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "If an enemy unit has died this turn, this costs 2 Energy less.\nDraw 2.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nIf an enemy unit has died this turn, this costs 2 Energy less.\nDraw 2."
   },
   {
     "id": "unl-69",

@@ -78,6 +78,15 @@ import { duneDrake } from "./dune-drake";
 import { firstMate } from "./first-mate";
 import { flurryOfBlades } from "./flurry-of-blades";
 import { mobilize } from "./mobilize";
+import { pitRookie } from "./pit-rookie";
+import { catalystOfAeons } from "./catalyst-of-aeons";
+import { cithriaOfCloudfield } from "./cithria-of-cloudfield";
+import { kinkouMonk } from "./kinkou-monk";
+import { spoilsOfWar } from "./spoils-of-war";
+import { carnivorousSnapvine } from "./carnivorous-snapvine";
+import { leeSinCentered } from "./lee-sin-centered";
+import { sabotage } from "./sabotage";
+import { qiyana } from "./qiyana";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -157,6 +166,15 @@ const handlers: SpecialCaseHandler[] = [
   firstMate,
   flurryOfBlades,
   mobilize,
+  pitRookie,
+  catalystOfAeons,
+  cithriaOfCloudfield,
+  kinkouMonk,
+  spoilsOfWar,
+  carnivorousSnapvine,
+  leeSinCentered,
+  sabotage,
+  qiyana,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -410,6 +428,25 @@ export const SpecialCaseEngine = {
       const sourceCard = getCard(sourceInstance.cardId);
       const handler = getSpecialCaseHandler(sourceCard);
       const fn = handler?.staticMightModifierForEnemy;
+      if (!fn) continue;
+      total += fn(ctxFor(game, sourceCard, sourceInstance), targetInstance);
+    }
+    return total;
+  },
+
+  /** Sum of static Might modifiers every ally special-case card's presence applies to `targetInstance`, independent of role. */
+  staticMightModifierFromAllies: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    targetInstance: CardInstance,
+  ): number => {
+    let total = 0;
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.instanceId === targetInstance.instanceId) continue;
+      if (sourceInstance.controller !== targetInstance.controller) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      const fn = handler?.staticMightModifierForAlly;
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), targetInstance);
     }

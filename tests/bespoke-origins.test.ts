@@ -1857,6 +1857,189 @@ describe("Mobilize (ogn-134): channel 1 rune exhausted, else draw 1", () => {
   });
 });
 
+describe("Pit Rookie (ogn-136): when you play me, buff another friendly unit", () => {
+  it("buffs the chosen ally", () => {
+    const game = makeGame();
+    const rookie = putOnBase(game, "ogn-136", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(rookie.cardId), rookie, ally.instanceId);
+
+    expect(ally.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Catalyst of Aeons (ogn-138): channel 2 exhausted, else draw 1", () => {
+  it("channels 2 exhausted runes when available", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-138", "0");
+    game.players["0"].runeDeck = [
+      { instanceId: "r1", domain: "Fury", exhausted: false },
+      { instanceId: "r2", domain: "Fury", exhausted: false },
+    ];
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].runePool.length).toBe(2);
+    expect(game.players["0"].hand).toEqual([]);
+  });
+
+  it("draws 1 when fewer than 2 runes could be channeled", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-138", "0");
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].runePool.length).toBe(1);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Cithria of Cloudfield (ogn-139): when you play another unit, buff me", () => {
+  it("buffs itself when another unit is played", () => {
+    const game = makeGame();
+    const cithria = putOnBase(game, "ogn-139", "0");
+    game.players["0"].hand = ["unit-plain-footman"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+
+    playCard(ctx(game, "0"), { handIndex: 0, energyRuneIds: ["r1"], powerRuneIds: [] });
+
+    expect(cithria.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Kinkou Monk (ogn-141): buff up to two other friendly units (simplified to one)", () => {
+  it("buffs the single chosen ally", () => {
+    const game = makeGame();
+    const monk = putOnBase(game, "ogn-141", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(monk.cardId), monk, ally.instanceId);
+
+    expect(ally.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Spoils of War (ogn-144): cost reduced if an enemy unit died this turn, draw 2", () => {
+  it("draws 2 always, costs less only after an enemy death", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-144", "0");
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].hand).toEqual(["ogn-4", "ogn-5"]);
+  });
+
+  it("reduces cost by 2 after an enemy unit died this turn", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-144"];
+    const card = getCard("ogn-144");
+    game.players["0"].enemyUnitDiedThisTurn = true;
+    game.players["0"].runePool = [
+      { instanceId: "power", domain: "Body" as const, exhausted: false },
+      ...Array.from({ length: card.energyCost! - 2 }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Body" as const,
+        exhausted: false,
+      })),
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.filter((r) => r.instanceId !== "power").map((r) => r.instanceId),
+      powerRuneIds: ["power"],
+    });
+
+    expect(result).toBeUndefined();
+  });
+});
+
+describe("Carnivorous Snapvine (ogn-149): trade Might damage with a chosen enemy unit", () => {
+  it("kills a weaker enemy unit while surviving itself", () => {
+    const game = makeGame();
+    const snapvine = putOnBase(game, "ogn-149", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(snapvine.cardId), snapvine, enemy.instanceId);
+
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+    expect(game.instances[snapvine.instanceId]).toBeDefined();
+  });
+
+  it("ignores a friendly unit and a unit not at a battlefield", () => {
+    const game = makeGame();
+    const snapvine = putOnBase(game, "ogn-149", "0");
+    const notAtBattlefield = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(snapvine.cardId), snapvine, notAtBattlefield.instanceId);
+
+    expect(game.instances[notAtBattlefield.instanceId]).toBeDefined();
+  });
+});
+
+describe("Lee Sin, Centered (ogn-151): other buffed friendly units at my battlefield have +2 Might", () => {
+  it("buffs a buffed ally at the same battlefield", () => {
+    const game = makeGame();
+    const leeSin = putOnBase(game, "ogn-151", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    ally.statuses.buffed = true;
+    moveToBattlefield(game, leeSin.instanceId, 0);
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    expect(computeMight(game, getCard, ally, "none")).toBe(getCard("unit-plain-footman").might! + 1 + 2); // +1 buff, +2 Lee Sin
+  });
+
+  it("does not buff a non-buffed ally", () => {
+    const game = makeGame();
+    const leeSin = putOnBase(game, "ogn-151", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, leeSin.instanceId, 0);
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    expect(computeMight(game, getCard, ally, "none")).toBe(getCard("unit-plain-footman").might);
+  });
+});
+
+describe("Sabotage (ogn-156): reveal opponent's hand, recycle a non-unit card", () => {
+  it("recycles the first non-unit card found", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-156", "0");
+    game.players["1"].hand = ["unit-plain-footman", "ogn-8", "unit-plain-guard"]; // ogn-8 is a spell
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["1"].hand).toEqual(["unit-plain-footman", "unit-plain-guard"]);
+    expect(game.players["1"].mainDeck).toContain("ogn-8");
+  });
+
+  it("does nothing if the opponent's hand is all units", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-156", "0");
+    game.players["1"].hand = ["unit-plain-footman"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["1"].hand).toEqual(["unit-plain-footman"]);
+  });
+});
+
+describe("Qiyana, Victorious (ogn-155): on conquer, draw 1 or channel 1 (simplified to draw)", () => {
+  it("draws a card on conquer", () => {
+    const game = makeGame();
+    const qiyana = putOnBase(game, "ogn-155", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onConquer(game, getCard(qiyana.cardId), qiyana, 0);
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();
