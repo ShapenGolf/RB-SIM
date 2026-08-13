@@ -47,6 +47,7 @@ import { findYourCenter } from "./find-your-center";
 import { maskOfForesight } from "./mask-of-foresight";
 import { poroHerder } from "./poro-herder";
 import { spiritsRefuge } from "./spirits-refuge";
+import { ravenbornTome } from "./ravenborn-tome";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -95,6 +96,7 @@ const handlers: SpecialCaseHandler[] = [
   maskOfForesight,
   poroHerder,
   spiritsRefuge,
+  ravenbornTome,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

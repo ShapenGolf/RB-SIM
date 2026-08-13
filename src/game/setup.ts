@@ -83,6 +83,7 @@ function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
     cardsPlayedThisTurn: 0,
     nextUnitEntersReady: false,
     nextSpellCostReduction: 0,
+    nextSpellBonusDamage: 0,
   };
 }
 

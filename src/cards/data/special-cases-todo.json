@@ -4240,14 +4240,6 @@
     "fullText": "When an opponent plays a gear, you may banish me to banish it."
   },
   {
-    "id": "ogn-32",
-    "name": "Ravenborn Tome",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Exhaust: The next spell you play this turn deals 1 Bonus Damage. (Each instance of damage the spell deals is increased by 1.)",
-    "fullText": "Exhaust: The next spell you play this turn deals 1 Bonus Damage. (Each instance of damage the spell deals is increased by 1.)"
-  },
-  {
     "id": "ogn-285",
     "name": "Reaver's Row",
     "set": "OGN",

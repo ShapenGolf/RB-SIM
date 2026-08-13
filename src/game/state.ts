@@ -66,6 +66,8 @@ export interface PlayerState {
   nextUnitEntersReady: boolean;
   /** One-shot: Energy cost reduction applied to the next spell this player plays this turn. Consumed on use, reset at Awaken. */
   nextSpellCostReduction: number;
+  /** One-shot: Bonus damage added to every dealSpellDamage instance of the next spell this player plays this turn (see game/spellDamage.ts). Consumed once that spell finishes resolving, reset at Awaken. */
+  nextSpellBonusDamage: number;
 }
 
 export interface BattlefieldSlot {

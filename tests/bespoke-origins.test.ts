@@ -975,6 +975,37 @@ describe("Spirit's Refuge (ogn-63): buff a friendly unit on play", () => {
   });
 });
 
+describe("Ravenborn Tome (ogn-32): next spell deals +1 Bonus Damage", () => {
+  it("adds +1 to the next spell's dealSpellDamage call, then clears itself via the real playCard move", () => {
+    const game = makeGame();
+    const tome = putOnBase(game, "ogn-32", "0", { exhausted: false });
+
+    SpecialCaseEngine.onActivate(game, getCard(tome.cardId), tome);
+    expect(game.players["0"].nextSpellBonusDamage).toBe(1);
+
+    const target = putOnBase(game, "unit-vanguard-striker", "1");
+    target.tempMightBonus = 2; // effective toughness 4: survives 3, dies to 3+1 bonus
+    game.players["0"].hand = ["ogn-5"]; // Disintegrate, Energy 2, deals 3
+    const card = getCard("ogn-5");
+    game.players["0"].runePool = Array.from({ length: card.energyCost! }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: game.players["0"].runePool.map((r) => r.instanceId),
+      powerRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.instances[target.instanceId]).toBeUndefined(); // proves the +1 bonus landed
+    expect(game.players["0"].nextSpellBonusDamage).toBe(0);
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

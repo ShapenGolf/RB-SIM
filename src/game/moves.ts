@@ -29,6 +29,7 @@ export function resolvePlayedCard(
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
     fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
+    if (player.nextSpellBonusDamage > 0) player.nextSpellBonusDamage = 0;
     delete G.instances[instance.instanceId];
     player.trash.push(instance.cardId);
   } else {
