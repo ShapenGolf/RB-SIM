@@ -73,6 +73,8 @@ export interface PlayerState {
   nextSpellCostReduction: number;
   /** One-shot: Bonus damage added to every dealSpellDamage instance of the next spell this player plays this turn (see game/spellDamage.ts). Consumed once that spell finishes resolving, reset at Awaken. */
   nextSpellBonusDamage: number;
+  /** Persistent-for-the-turn (not consumed on first use, unlike nextUnitEntersReady): every unit/champion this player plays this turn enters ready. Reset at Awaken. */
+  unitsEnterReadyThisTurn: boolean;
 }
 
 export interface BattlefieldSlot {
@@ -110,4 +112,6 @@ export interface GameState {
   winner: PlayerId | null;
   nextInstanceSeq: number;
   pendingOptionalCost: PendingOptionalCost | null;
+  /** Set by "take a turn after this one" effects (e.g. Time Warp) — game.ts's turn.order.next reads this to repeat the same player instead of alternating, then clears it in onBegin once consumed. */
+  extraTurnFor: PlayerId | null;
 }

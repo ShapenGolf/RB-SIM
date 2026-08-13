@@ -32,14 +32,18 @@ export function resolvePlayedCard(
     fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
     if (player.nextSpellBonusDamage > 0) player.nextSpellBonusDamage = 0;
     delete G.instances[instance.instanceId];
-    player.trash.push(instance.cardId);
+    if (SpecialCaseEngine.banishSelfOnResolve(G, card, instance)) {
+      player.banishment.push(instance.cardId);
+    } else {
+      player.trash.push(instance.cardId);
+    }
   } else {
     const isUnit = card.type === "unit" || card.type === "champion";
     const entersReady =
       (payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
       SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance) ||
       SpecialCaseEngine.selfEntersReady(G, card, instance) ||
-      (isUnit && player.nextUnitEntersReady);
+      (isUnit && (player.nextUnitEntersReady || player.unitsEnterReadyThisTurn));
     if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
     instance.exhausted = !entersReady;
     if (ambushBattlefieldIndex !== undefined) {
@@ -195,7 +199,10 @@ export const attackBattlefield: MoveFn<GameState> = (
     if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
     const movingFromAnotherBattlefield =
       instance.zone === "battlefield" && instance.battlefieldIndex !== args.battlefieldIndex;
-    if (instance.zone !== "base" && !(movingFromAnotherBattlefield && KeywordEngine.hasKeyword(card, "ganking"))) {
+    const conditionalGanking = SpecialCaseEngine.hasConditionalGanking(G, card, instance);
+    const hasGanking =
+      conditionalGanking !== undefined ? conditionalGanking : KeywordEngine.hasKeyword(card, "ganking");
+    if (instance.zone !== "base" && !(movingFromAnotherBattlefield && hasGanking)) {
       return INVALID_MOVE;
     }
   }

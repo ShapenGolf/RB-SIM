@@ -68,6 +68,16 @@ import { spriteMother } from "./sprite-mother";
 import { drMundo } from "./dr-mundo";
 import { wraithOfEchoes } from "./wraith-of-echoes";
 import { viktor } from "./viktor";
+import { thousandTailedWatcher } from "./thousand-tailed-watcher";
+import { timeWarp } from "./time-warp";
+import { uncheckedPower } from "./unchecked-power";
+import { arenaBar } from "./arena-bar";
+import { bilgewaterBully } from "./bilgewater-bully";
+import { confront } from "./confront";
+import { duneDrake } from "./dune-drake";
+import { firstMate } from "./first-mate";
+import { flurryOfBlades } from "./flurry-of-blades";
+import { mobilize } from "./mobilize";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -137,6 +147,16 @@ const handlers: SpecialCaseHandler[] = [
   drMundo,
   wraithOfEchoes,
   viktor,
+  thousandTailedWatcher,
+  timeWarp,
+  uncheckedPower,
+  arenaBar,
+  bilgewaterBully,
+  confront,
+  duneDrake,
+  firstMate,
+  flurryOfBlades,
+  mobilize,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -190,6 +210,20 @@ export const SpecialCaseEngine = {
 
   costReduction: (game: GameState, card: Card, instance: CardInstance): number =>
     getSpecialCaseHandler(card)?.costReduction?.(ctxFor(game, card, instance)) ?? 0,
+
+  banishSelfOnResolve: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.banishSelfOnResolve?.(ctxFor(game, card, instance)) ?? false,
+
+  /**
+   * `undefined` means the card has no conditional-Ganking handler at all (fall back to the
+   * printed keyword check). A defined `true`/`false` is authoritative and OVERRIDES the printed
+   * keyword — needed because the bracket-import can't distinguish a conditionally-granted
+   * keyword mention from a printed one (see docs/data-sourcing.md; same quirk as Raging Soul),
+   * so cards like Bilgewater Bully ("While I'm buffed, I have Ganking") import with an
+   * unconditional printed "ganking" that would otherwise always win.
+   */
+  hasConditionalGanking: (game: GameState, card: Card, instance: CardInstance): boolean | undefined =>
+    getSpecialCaseHandler(card)?.hasConditionalGanking?.(ctxFor(game, card, instance)),
 
   /** Sum of Energy cost reductions every other special-case card the controller owns grants to the card about to be played. */
   costReductionFromAllies: (

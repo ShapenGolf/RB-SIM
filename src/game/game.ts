@@ -20,10 +20,18 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
 
   turn: {
     onBegin: ({ G, ctx }) => {
+      if (G.extraTurnFor === (ctx.currentPlayer as PlayerId)) G.extraTurnFor = null;
       runTurnStart(G, ctx.currentPlayer as PlayerId);
     },
     onEnd: ({ G, ctx }) => {
       markFirstTurnTaken(G, ctx.currentPlayer as PlayerId);
+    },
+    order: {
+      first: () => 0,
+      next: ({ G, ctx }) =>
+        G.extraTurnFor === (ctx.currentPlayer as PlayerId)
+          ? ctx.playOrderPos
+          : (ctx.playOrderPos + 1) % ctx.numPlayers,
     },
   },
 

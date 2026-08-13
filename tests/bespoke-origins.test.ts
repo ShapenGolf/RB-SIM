@@ -1632,6 +1632,231 @@ describe("Viktor, Innovator (ogn-117): play a card on opponent's turn (no-op by 
   });
 });
 
+describe("Thousand-Tailed Watcher (ogn-116): give enemy units -3 Might this turn on play", () => {
+  it("debuffs enemy units but not friendly ones", () => {
+    const game = makeGame();
+    const watcher = putOnBase(game, "ogn-116", "0");
+    const enemy = putOnBase(game, "unit-vanguard-striker", "1");
+    const ally = putOnBase(game, "unit-vanguard-striker", "0");
+    const enemyBaseline = computeMight(game, getCard, enemy, "none");
+    const allyBaseline = computeMight(game, getCard, ally, "none");
+
+    SpecialCaseEngine.onPlay(game, getCard(watcher.cardId), watcher);
+
+    expect(computeMight(game, getCard, enemy, "none")).toBe(Math.max(0, enemyBaseline - 3));
+    expect(computeMight(game, getCard, ally, "none")).toBe(allyBaseline);
+  });
+});
+
+describe("Time Warp (ogn-122): take a turn after this one, banish this", () => {
+  it("sets extraTurnFor and banishes itself via playCard", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-122"];
+    const card = getCard("ogn-122");
+    game.players["0"].runePool = [
+      { instanceId: "p1", domain: "Mind" as const, exhausted: false },
+      { instanceId: "p2", domain: "Mind" as const, exhausted: false },
+      { instanceId: "p3", domain: "Mind" as const, exhausted: false },
+      { instanceId: "p4", domain: "Mind" as const, exhausted: false },
+      ...Array.from({ length: card.energyCost! }, (_, i) => ({
+        instanceId: `r${i}`,
+        domain: "Mind" as const,
+        exhausted: false,
+      })),
+    ];
+
+    const result = playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: Array.from({ length: card.energyCost! }, (_, i) => `r${i}`),
+      powerRuneIds: ["p1", "p2", "p3", "p4"],
+    });
+
+    expect(result).toBeUndefined();
+    expect(game.extraTurnFor).toBe("0");
+    expect(game.players["0"].banishment).toContain("ogn-122");
+    expect(game.players["0"].trash).not.toContain("ogn-122");
+  });
+});
+
+describe("Unchecked Power (ogn-123): exhaust friendly units, deal 12 to all battlefield units", () => {
+  it("exhausts friendly units and kills everything at battlefields", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-123", "0");
+    const myUnit = putOnBase(game, "unit-plain-footman", "0", { exhausted: false });
+    const enemyUnit = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, myUnit.instanceId, 0);
+    moveToBattlefield(game, enemyUnit.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.instances[myUnit.instanceId]).toBeUndefined();
+    expect(game.instances[enemyUnit.instanceId]).toBeUndefined();
+  });
+
+  it("leaves units on base untouched by the damage but exhausts them", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-123", "0");
+    const baseUnit = putOnBase(game, "unit-plain-footman", "0", { exhausted: false });
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.instances[baseUnit.instanceId]).toBeDefined();
+    expect(baseUnit.exhausted).toBe(true);
+  });
+});
+
+describe("Arena Bar (ogn-124): Exhaust: Buff an exhausted friendly unit", () => {
+  it("buffs an exhausted friendly unit", () => {
+    const game = makeGame();
+    const bar = putOnBase(game, "ogn-124", "0", { exhausted: false });
+    const target = putOnBase(game, "unit-plain-footman", "0", { exhausted: true });
+
+    const result = activateAbility(ctx(game, "0"), {
+      instanceId: bar.instanceId,
+      energyRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(result).toBeUndefined();
+    expect(target.statuses.buffed).toBe(true);
+  });
+
+  it("does not buff a ready unit", () => {
+    const game = makeGame();
+    const bar = putOnBase(game, "ogn-124", "0", { exhausted: false });
+    const target = putOnBase(game, "unit-plain-footman", "0", { exhausted: false });
+
+    activateAbility(ctx(game, "0"), {
+      instanceId: bar.instanceId,
+      energyRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(target.statuses.buffed).toBeUndefined();
+  });
+});
+
+describe("Bilgewater Bully (ogn-125): Ganking while buffed", () => {
+  it("allows battlefield-to-battlefield movement only while buffed", () => {
+    const game = makeGame();
+    const bully = putOnBase(game, "ogn-125", "0", { exhausted: false });
+    bully.statuses.buffed = true;
+    moveToBattlefield(game, bully.instanceId, 0);
+
+    const result = attackBattlefield(ctx(game, "0"), { battlefieldIndex: 1, unitInstanceIds: [bully.instanceId] });
+
+    expect(result).toBeUndefined();
+    expect(game.instances[bully.instanceId].battlefieldIndex).toBe(1);
+  });
+
+  it("blocks the move when not buffed", () => {
+    const game = makeGame();
+    const bully = putOnBase(game, "ogn-125", "0", { exhausted: false });
+    moveToBattlefield(game, bully.instanceId, 0);
+
+    const result = attackBattlefield(ctx(game, "0"), { battlefieldIndex: 1, unitInstanceIds: [bully.instanceId] });
+
+    expect(result).toBe(INVALID_MOVE);
+  });
+});
+
+describe("Confront (ogn-129): units you play this turn enter ready, draw 1", () => {
+  it("makes every unit played this turn enter ready", () => {
+    const game = makeGame();
+    const confront = putOnBase(game, "ogn-129", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(confront.cardId), confront);
+    expect(game.players["0"].unitsEnterReadyThisTurn).toBe(true);
+    expect(game.players["0"].hand).toContain("ogn-4");
+
+    game.players["0"].hand = ["unit-plain-footman"];
+    game.players["0"].runePool = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+    playCard(ctx(game, "0"), { handIndex: 0, energyRuneIds: ["r1"], powerRuneIds: [] });
+
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-footman");
+    expect(game.instances[newInstanceId!].exhausted).toBe(false);
+  });
+});
+
+describe("Dune Drake (ogn-131): +2 Might on attack if a ready enemy unit is here", () => {
+  it("gets the bonus against a ready enemy", () => {
+    const game = makeGame();
+    const drake = putOnBase(game, "ogn-131", "0", { exhausted: false });
+    const enemy = putOnBase(game, "unit-plain-guard", "1", { exhausted: false });
+    moveToBattlefield(game, drake.instanceId, 0);
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(drake.cardId), drake);
+
+    expect(drake.tempMightBonus).toBe(2);
+  });
+
+  it("gets no bonus against an exhausted enemy", () => {
+    const game = makeGame();
+    const drake = putOnBase(game, "ogn-131", "0", { exhausted: false });
+    const enemy = putOnBase(game, "unit-plain-guard", "1", { exhausted: true });
+    moveToBattlefield(game, drake.instanceId, 0);
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(drake.cardId), drake);
+
+    expect(drake.tempMightBonus).toBe(0);
+  });
+});
+
+describe("First Mate (ogn-132): when you play me, ready another unit", () => {
+  it("readies the chosen unit", () => {
+    const game = makeGame();
+    const mate = putOnBase(game, "ogn-132", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0", { exhausted: true });
+
+    SpecialCaseEngine.onPlay(game, getCard(mate.cardId), mate, target.instanceId);
+
+    expect(target.exhausted).toBe(false);
+  });
+});
+
+describe("Flurry of Blades (ogn-133): deal 1 to all units at battlefields", () => {
+  it("kills a 1-Might unit at a battlefield, leaves base units alone", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-133", "0");
+    const atBattlefield = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    const onBase = putOnBase(game, "unit-plain-guard", "0");
+    moveToBattlefield(game, atBattlefield.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.instances[atBattlefield.instanceId]).toBeUndefined();
+    expect(game.instances[onBase.instanceId]).toBeDefined();
+  });
+});
+
+describe("Mobilize (ogn-134): channel 1 rune exhausted, else draw 1", () => {
+  it("channels a rune exhausted when the rune deck has one", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-134", "0");
+    game.players["0"].runeDeck = [{ instanceId: "r1", domain: "Fury", exhausted: false }];
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].runePool).toEqual([{ instanceId: "r1", domain: "Fury", exhausted: true }]);
+    expect(game.players["0"].hand).toEqual([]);
+  });
+
+  it("draws instead when the rune deck is empty", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "ogn-134", "0");
+    game.players["0"].runeDeck = [];
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
 describe("Wizened Elder (ogn-65): extra +1 Might while buffed", () => {
   it("stacks its own bonus on top of the standard Buff +1", () => {
     const game = makeGame();

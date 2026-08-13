@@ -117,6 +117,12 @@ export interface SpecialCaseHandler {
    */
   costReduction?(ctx: SpecialCaseContext): number;
 
+  /** True if this spell should be banished instead of trashed once it finishes resolving (e.g. Time Warp: "Banish this"). Spells only. */
+  banishSelfOnResolve?(ctx: SpecialCaseContext): boolean;
+
+  /** True if this instance conditionally has Ganking (move battlefield to battlefield) right now, beyond its printed keywords (e.g. Bilgewater Bully: "While I'm buffed, I have Ganking"). */
+  hasConditionalGanking?(ctx: SpecialCaseContext): boolean;
+
   /**
    * Energy cost reduction this card's static presence grants to ANOTHER card of the controller's
    * that's about to be played (e.g. Eager Apprentice: "spells you play cost 1 Energy less while

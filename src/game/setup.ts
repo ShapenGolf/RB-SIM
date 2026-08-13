@@ -84,6 +84,7 @@ function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
     nextUnitEntersReady: false,
     nextSpellCostReduction: 0,
     nextSpellBonusDamage: 0,
+    unitsEnterReadyThisTurn: false,
   };
 }
 
@@ -123,6 +124,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     winner: null,
     nextInstanceSeq: 0,
     pendingOptionalCost: null,
+    extraTurnFor: null,
   };
 }
 

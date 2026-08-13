@@ -264,14 +264,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nBanish a friendly unit, then its owner plays it, ignoring its cost. Deal 3 to an enemy unit at a battlefield. Banish this."
   },
   {
-    "id": "ogn-124",
-    "name": "Arena Bar",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Exhaust: Buff an exhausted friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "Exhaust: Buff an exhausted friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
     "id": "unl-1",
     "name": "Arena Kingpin",
     "set": "UNL",
@@ -534,14 +526,6 @@
     "type": "unit",
     "residualText": "When you play me, choose a player. They discard 1.",
     "fullText": "When you play me, choose a player. They discard 1."
-  },
-  {
-    "id": "ogn-125",
-    "name": "Bilgewater Bully",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "While I'm buffed, I have . (I can move from battlefield to battlefield.)",
-    "fullText": "While I'm buffed, I have [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
     "id": "unl-208",
@@ -958,14 +942,6 @@
     "type": "spell",
     "residualText": "Draw 2.\n This costs 2 Energy less. (While you have 6+ XP, get the effect.)\n This costs 4 Energy less instead.",
     "fullText": "Draw 2.\n[Level 6][>] This costs 2 Energy less. (While you have 6+ XP, get the effect.)\n[Level 11][>] This costs 4 Energy less instead."
-  },
-  {
-    "id": "ogn-129",
-    "name": "Confront",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Units you play this turn enter ready. Draw 1.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nUnits you play this turn enter ready. Draw 1."
   },
   {
     "id": "unl-140",
@@ -1512,14 +1488,6 @@
     "fullText": "When you play me, if you control two or more gear, ready me."
   },
   {
-    "id": "ogn-131",
-    "name": "Dune Drake",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When I attack, give me +2 Might this turn if there is a ready enemy unit here.",
-    "fullText": "When I attack, give me +2 Might this turn if there is a ready enemy unit here."
-  },
-  {
     "id": "sfd-27",
     "name": "Dunebreaker",
     "set": "SFD",
@@ -1848,14 +1816,6 @@
     "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "ogn-132",
-    "name": "First Mate",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, ready another unit.",
-    "fullText": "When you play me, ready another unit."
-  },
-  {
     "id": "sfd-140",
     "name": "Fizz, Trickster",
     "set": "SFD",
@@ -1878,14 +1838,6 @@
     "type": "spell",
     "residualText": "Move up to 2 friendly units to base.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nMove up to 2 friendly units to base."
-  },
-  {
-    "id": "ogn-133",
-    "name": "Flurry of Blades",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 1 to all units at battlefields.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nDeal 1 to all units at battlefields."
   },
   {
     "id": "unl-44",
@@ -3470,14 +3422,6 @@
     "type": "gear",
     "residualText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it.",
     "fullText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it."
-  },
-  {
-    "id": "ogn-134",
-    "name": "Mobilize",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Channel 1 rune exhausted. If you can't, draw 1.",
-    "fullText": "Channel 1 rune exhausted. If you can't, draw 1."
   },
   {
     "id": "ogn-282",
@@ -5496,14 +5440,6 @@
     "fullText": "[Equip] 1 EnergyMind Rune (1 EnergyMind Rune: Attach this to a unit you control.)\n3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)"
   },
   {
-    "id": "ogn-116",
-    "name": "Thousand-Tailed Watcher",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, give enemy units -3 Might this turn, to a minimum of 1 Might.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nWhen you play me, give enemy units -3 Might this turn, to a minimum of 1 Might."
-  },
-  {
     "id": "ven-166",
     "name": "Threshold of the Gray",
     "set": "VEN",
@@ -5550,14 +5486,6 @@
     "type": "unit",
     "residualText": "When you play me, you may choose a friendly unit. Move me to its location and it to my original location.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, you may choose a friendly unit. Move me to its location and it to my original location."
-  },
-  {
-    "id": "ogn-122",
-    "name": "Time Warp",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Take a turn after this one. Banish this.",
-    "fullText": "Take a turn after this one. Banish this."
   },
   {
     "id": "ven-37",
@@ -5726,14 +5654,6 @@
     "type": "unit",
     "residualText": "Exhaust: Play two 1 Energy Might Bird unit tokens with . Use this ability only while I'm at a battlefield. (Opponents must pay Rune to choose a  unit with a spell or ability.)",
     "fullText": "Exhaust: Play two 1 Energy Might Bird unit tokens with [Deflect]. Use this ability only while I'm at a battlefield. (Opponents must pay Rune to choose a [Deflect] unit with a spell or ability.)"
-  },
-  {
-    "id": "ogn-123",
-    "name": "Unchecked Power",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Exhaust all friendly units, then deal 12 to ALL units at battlefields.",
-    "fullText": "Exhaust all friendly units, then deal 12 to ALL units at battlefields."
   },
   {
     "id": "ogn-178",
