@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **190 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **217 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -146,8 +146,14 @@ Schritte:
   Importdaten für alle Equipment-Karten `null`/0 (vermutlich
   Importer-Lücke). Das **[Repeat]-Keyword** (24 Karten) ist weiterhin
   nicht generisch implementiert — größere offene Einzelmechanik.
-- Macht **350 von 1019 Karten (~34%) vollständig spielbar.**
-- **669 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Nebenbefund: Karten mit identischem Fließtext bei anderer
+  Collector-Nummer (Reprints derselben Karte innerhalb eines Sets oder
+  über Sets hinweg) lassen sich per Textvergleich gegen bereits
+  zugewiesene Karten erkennen und ohne neuen Code direkt demselben
+  Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
+  in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
+- Macht **377 von 1019 Karten (~37%) vollständig spielbar.**
+- **642 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - Einige Karten sind bewusst zurückgestellt statt implementiert, weil sie
   fehlende Engine-Mechaniken brauchen würden (dokumentiert statt stillschweigend
   übersprungen): Gegner-Entscheidungen ("unless"), Tod-Ersatzeffekte, ein
