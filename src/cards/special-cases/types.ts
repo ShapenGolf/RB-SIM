@@ -351,4 +351,10 @@ export interface SpecialCaseHandler {
    * "Your" in the reminder text means the doomed unit's controller, matching LeBlanc's controller.
    */
   preventsTemporaryDeath?(ctx: SpecialCaseContext, doomedInstance: CardInstance): boolean;
+
+  /** True if this instance deals no combat damage at all (e.g. Galio, Indefatigable: "I don't deal combat damage."), on top of whatever the generic Stun keyword already covers via KeywordEngine.preventsCombatDamage. */
+  preventsCombatDamage?(ctx: SpecialCaseContext): boolean;
+
+  /** True if this instance can't be readied during its controller's Awaken step (e.g. Maduli the Gatekeeper: "I can't be readied."). Checked in turnFlow.ts runAwaken. */
+  preventsSelfReady?(ctx: SpecialCaseContext): boolean;
 }

@@ -12,7 +12,10 @@ export const WIN_SCORE = 8;
 export function runAwaken(game: GameState, player: PlayerId): void {
   game.turnPhase = "awaken";
   for (const instance of Object.values(game.instances)) {
-    if (instance.controller === player) instance.exhausted = false;
+    if (instance.controller !== player) continue;
+    const card = getCard(instance.cardId);
+    if (card.specialCaseId && SpecialCaseEngine.preventsSelfReady(game, card, instance)) continue;
+    instance.exhausted = false;
   }
   for (const rune of game.players[player].runePool) rune.exhausted = false;
 }

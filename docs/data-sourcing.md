@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **305 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **312 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,13 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **465 von 1019 Karten (~46%) vollständig spielbar.**
-- **554 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **472 von 1019 Karten (~46%) vollständig spielbar.**
+- **547 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **Zwei weitere kleine wiederverwendbare Hooks:** `preventsCombatDamage`
+  (SpecialCase-Pendant zum bestehenden Keyword-Hook, z.B. Galio,
+  Indefatigable: "I don't deal combat damage."); `preventsSelfReady`, jetzt in
+  `turnFlow.ts` `runAwaken` abgefragt (z.B. Maduli the Gatekeeper: "I can't be
+  readied.").
 - **Zwei neue wiederverwendbare Cost-/Trigger-Bausteine:** ein
   `discardCount`-Feld für bespoke Activated Abilities ("Discard N, Exhaust:
   Effekt", z.B. Gutter Palace — zahlt über die bestehende

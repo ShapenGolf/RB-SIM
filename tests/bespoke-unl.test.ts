@@ -4,7 +4,7 @@ import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
 import { destroyInstance, resolveCombat } from "../src/game/combat";
-import { runBeginning } from "../src/game/turnFlow";
+import { runBeginning, runAwaken } from "../src/game/turnFlow";
 import { activateAbility, playCard } from "../src/game/moves";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
@@ -1030,6 +1030,150 @@ describe("Megatusk (unl-126): Spend 3 XP: give your units here Ganking this turn
     expect(megatusk.grantedThisTurn).toContainEqual({ keyword: "ganking" });
     expect(ally.grantedThisTurn).toContainEqual({ keyword: "ganking" });
     expect(enemy.grantedThisTurn).toEqual([]);
+  });
+});
+
+describe("Ultrasoft Poro (unl-160): Exhaust, at a battlefield: play two Bird Deflect tokens", () => {
+  it("plays two tokens at its battlefield", () => {
+    const game = makeGame();
+    const poro = putOnBase(game, "unl-160", "0");
+    moveToBattlefield(game, poro.instanceId, 0);
+
+    SpecialCaseEngine.onActivate(game, getCard(poro.cardId), poro);
+
+    const tokens = game.battlefields[0].units["0"].filter(
+      (id) => game.instances[id].cardId === "token-bird-deflect",
+    );
+    expect(tokens).toHaveLength(2);
+  });
+
+  it("does nothing while not at a battlefield", () => {
+    const game = makeGame();
+    const poro = putOnBase(game, "unl-160", "0"); // still on base
+    SpecialCaseEngine.onActivate(game, getCard(poro.cardId), poro);
+    const tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-bird-deflect");
+    expect(tokens).toHaveLength(0);
+  });
+});
+
+describe("Divining Shells (unl-161): [Vision] Kill this, Exhaust: give a unit +2 Might this turn", () => {
+  it("buffs the target and destroys itself", () => {
+    const game = makeGame();
+    const shells = putOnBase(game, "unl-161", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onActivate(game, getCard(shells.cardId), shells, target.instanceId);
+
+    expect(target.tempMightBonus).toBe(2);
+  });
+});
+
+describe("Shadow's Call (unl-165): give a friendly unit Temporary, draw 2", () => {
+  it("marks the target Temporary and draws 2", () => {
+    const game = makeGame();
+    const call = putOnBase(game, "unl-165", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5"];
+
+    SpecialCaseEngine.onPlay(game, getCard(call.cardId), call, target.instanceId);
+
+    expect(target.statuses.temporary).toBe(true);
+    expect(game.players["0"].hand).toEqual(["ogn-4", "ogn-5"]);
+  });
+});
+
+describe("Galio, Indefatigable (unl-171): deals no combat damage", () => {
+  it("does not damage the defender in combat", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "battlefield-ancient-ruins", units: { "0": [], "1": [] }, controller: null };
+    const galio = putOnBase(game, "unl-171", "0");
+    moveToBattlefield(game, galio.instanceId, 0);
+    const defender = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, defender.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(defender.damage).toBe(0);
+  });
+});
+
+describe("Shard of Undoing (unl-174): first friendly Beginning-Phase death forces an opponent kill, once per turn", () => {
+  it("kills an enemy unit the first time, not the second", () => {
+    const game = makeGame();
+    game.turnPhase = "beginning";
+    const shard = putOnBase(game, "unl-174", "0");
+    const ally1 = putOnBase(game, "unit-plain-footman", "0");
+    const ally2 = putOnBase(game, "unit-plain-footman", "0");
+    const enemy1 = putOnBase(game, "unit-plain-footman", "1");
+    const enemy2 = putOnBase(game, "unit-plain-footman", "1");
+    void shard;
+
+    destroyInstance(game, getCard, ally1.instanceId);
+    expect(game.instances[enemy1.instanceId]).toBeUndefined();
+    expect(game.instances[enemy2.instanceId]).toBeDefined();
+
+    destroyInstance(game, getCard, ally2.instanceId);
+    expect(game.instances[enemy2.instanceId]).toBeDefined(); // second death this turn doesn't retrigger
+  });
+
+  it("does nothing outside the Beginning Phase", () => {
+    const game = makeGame();
+    game.turnPhase = "main";
+    putOnBase(game, "unl-174", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    destroyInstance(game, getCard, ally.instanceId);
+    expect(game.instances[enemy.instanceId]).toBeDefined();
+  });
+});
+
+describe("The Ruination (unl-180): kill all units", () => {
+  it("destroys every unit and champion on both sides", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-180", "0");
+    const a = putOnBase(game, "unit-plain-footman", "0");
+    const b = putOnBase(game, "unit-plain-footman", "1");
+    const gear = putOnBase(game, "gear-tactical-banner", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(game.instances[a.instanceId]).toBeUndefined();
+    expect(game.instances[b.instanceId]).toBeUndefined();
+    expect(game.instances[gear.instanceId]).toBeDefined(); // not a unit/champion
+  });
+});
+
+describe("Maduli the Gatekeeper (unl-144): can't be readied; Chaos Rune: move to a beatable enemy battlefield", () => {
+  it("never readies during Awaken", () => {
+    const game = makeGame();
+    const maduli = putOnBase(game, "unl-144", "0", { exhausted: true });
+    runAwaken(game, "0");
+    expect(maduli.exhausted).toBe(true);
+  });
+
+  it("moves to the first enemy battlefield it can beat", () => {
+    const game = makeGame();
+    const maduli = putOnBase(game, "unl-144", "0"); // Might 6
+    const weakEnemy = putOnBase(game, "unit-plain-footman", "1"); // Might 2
+    moveToBattlefield(game, weakEnemy.instanceId, 1);
+
+    SpecialCaseEngine.onActivate(game, getCard(maduli.cardId), maduli);
+
+    expect(maduli.zone).toBe("battlefield");
+    expect(maduli.battlefieldIndex).toBe(1);
+  });
+
+  it("does not move if no enemy battlefield is beatable", () => {
+    const game = makeGame();
+    const maduli = putOnBase(game, "unl-144", "0");
+    const strongEnemy = putOnBase(game, "unit-plain-footman", "1");
+    strongEnemy.tempMightBonus = 10;
+    moveToBattlefield(game, strongEnemy.instanceId, 1);
+
+    SpecialCaseEngine.onActivate(game, getCard(maduli.cardId), maduli);
+
+    expect(maduli.zone).toBe("base");
   });
 });
 

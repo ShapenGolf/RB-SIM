@@ -27,7 +27,12 @@ function livingDamageDealers(
 ): { instanceId: string; might: number }[] {
   return instanceIds
     .map((instanceId) => game.instances[instanceId])
-    .filter((instance) => instance && !KeywordEngine.preventsCombatDamage(game, getCard(instance.cardId), instance))
+    .filter(
+      (instance) =>
+        instance &&
+        !KeywordEngine.preventsCombatDamage(game, getCard(instance.cardId), instance) &&
+        !SpecialCaseEngine.preventsCombatDamage(game, getCard(instance.cardId), instance),
+    )
     .map((instance) => ({
       instanceId: instance.instanceId,
       might: computeMight(game, getCard, instance, role),

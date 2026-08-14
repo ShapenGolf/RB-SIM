@@ -1032,14 +1032,6 @@
     "fullText": "Each player chooses 2 units, 2 gear, 2 runes, and 2 cards in their hands. Recycle the rest."
   },
   {
-    "id": "unl-161",
-    "name": "Divining Shells",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "Kill this, Exhaust: Give a unit +2 Might this turn.",
-    "fullText": "[Vision] (When you play this, look at the top card of your Main Deck. You may recycle it.)\n[Action][>] Kill this, Exhaust: Give a unit +2 Might this turn."
-  },
-  {
     "id": "ven-142",
     "name": "Dominus",
     "set": "VEN",
@@ -1430,14 +1422,6 @@
     "type": "unit",
     "residualText": "12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n I have +3 Might.",
     "fullText": "[Empower] 12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +3 Might."
-  },
-  {
-    "id": "unl-171",
-    "name": "Galio, Indefatigable",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "I don't deal combat damage.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Tank] (I must be assigned combat damage first.)\nI don't deal combat damage."
   },
   {
     "id": "ven-86",
@@ -2326,14 +2310,6 @@
     "type": "champion",
     "residualText": "Exhaust:  \u2014  2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] \u2014 [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "unl-144",
-    "name": "Maduli the Gatekeeper",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I can't be readied.\nChaos Rune: Move me to an occupied enemy battlefield if my Might is greater than the total Might of enemy units there.",
-    "fullText": "I can't be readied.\nChaos Rune: Move me to an occupied enemy battlefield if my Might is greater than the total Might of enemy units there."
   },
   {
     "id": "unl-163",
@@ -3416,14 +3392,6 @@
     "fullText": "When you hold here, [Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)"
   },
   {
-    "id": "unl-165",
-    "name": "Shadow's Call",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a friendly unit without . Give it . Draw 2. (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "Choose a friendly unit without [Temporary]. Give it [Temporary]. Draw 2. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
     "id": "ven-96",
     "name": "Shadowblade Lurker",
     "set": "VEN",
@@ -3454,14 +3422,6 @@
     "type": "spell",
     "residualText": "Choose an enemy unit. Deal 6 to it unless its controller has you draw 2.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose an enemy unit. Deal 6 to it unless its controller has you draw 2."
-  },
-  {
-    "id": "unl-174",
-    "name": "Shard of Undoing",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "The first time a friendly unit dies during your Beginning Phase each turn, each opponent must kill one of their units.",
-    "fullText": "The first time a friendly unit dies during your Beginning Phase each turn, each opponent must kill one of their units."
   },
   {
     "id": "ven-138",
@@ -3904,14 +3864,6 @@
     "fullText": "As you play this, name a tag. (For example, Miss Fortune, Demacia, and Poro are tags.)\nExhaust: Give a unit with the named tag -2 Might this turn."
   },
   {
-    "id": "unl-180",
-    "name": "The Ruination",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Kill all units.",
-    "fullText": "Kill all units."
-  },
-  {
     "id": "sfd-90",
     "name": "The Zero Drive",
     "set": "SFD",
@@ -4022,14 +3974,6 @@
     "type": "champion",
     "residualText": "Spend my buff: Choose one you've not chosen this turn \u2014Deal 2 to a unit at a battlefield.Stun a unit at a battlefield.Ready me.Give me  this turn.",
     "fullText": "Spend my buff: Choose one you've not chosen this turn \u2014Deal 2 to a unit at a battlefield.Stun a unit at a battlefield.Ready me.Give me [Ganking] this turn."
-  },
-  {
-    "id": "unl-160",
-    "name": "Ultrasoft Poro",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Exhaust: Play two 1 Energy Might Bird unit tokens with . Use this ability only while I'm at a battlefield. (Opponents must pay Rune to choose a  unit with a spell or ability.)",
-    "fullText": "Exhaust: Play two 1 Energy Might Bird unit tokens with [Deflect]. Use this ability only while I'm at a battlefield. (Opponents must pay Rune to choose a [Deflect] unit with a spell or ability.)"
   },
   {
     "id": "sfd-175",

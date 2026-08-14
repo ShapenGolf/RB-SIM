@@ -302,6 +302,13 @@ import { crowdFavorite } from "./crowd-favorite";
 import { poppyParagon } from "./poppy-paragon";
 import { crescentGuardian } from "./crescent-guardian";
 import { megatusk } from "./megatusk";
+import { ultrasoftPoro } from "./ultrasoft-poro";
+import { diviningShells } from "./divining-shells";
+import { shadowsCall } from "./shadows-call";
+import { galioIndefatigable } from "./galio-indefatigable";
+import { shardOfUndoing } from "./shard-of-undoing";
+import { theRuination } from "./the-ruination";
+import { maduliTheGatekeeper } from "./maduli-the-gatekeeper";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -604,6 +611,13 @@ const handlers: SpecialCaseHandler[] = [
   poppyParagon,
   crescentGuardian,
   megatusk,
+  ultrasoftPoro,
+  diviningShells,
+  shadowsCall,
+  galioIndefatigable,
+  shardOfUndoing,
+  theRuination,
+  maduliTheGatekeeper,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -949,6 +963,12 @@ export const SpecialCaseEngine = {
     }
     return false;
   },
+
+  preventsCombatDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    Boolean(getSpecialCaseHandler(card)?.preventsCombatDamage?.(ctxFor(game, card, instance))),
+
+  preventsSelfReady: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    Boolean(getSpecialCaseHandler(card)?.preventsSelfReady?.(ctxFor(game, card, instance))),
 
   /** Extra spell damage from the Battlefield `targetInstance` is currently sitting at. */
   spellDamageBonusFromBattlefield: (
