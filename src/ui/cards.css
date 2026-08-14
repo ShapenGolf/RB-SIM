@@ -142,32 +142,39 @@ body {
   border-color: currentColor;
 }
 
-/* ---- Card frame ---- */
+/* ---- Card frame ----
+   The default (unhovered) card is JUST the image — no name/type/rules-text overlay, since
+   that's already printed on the card art itself and would just duplicate it. Hovering shows an
+   enlarged, readable version (.rb-card-zoom) via position:fixed so it's never clipped by a
+   scrolling ancestor (e.g. the hand strip). */
+
+.rb-card-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+}
 
 .rb-card {
   --dom: var(--domain-colorless);
   --dom-dark: var(--domain-colorless-dark);
   --rarity-color: var(--rarity-common);
   position: relative;
-  width: 132px;
-  border-radius: 10px;
+  width: 108px;
+  border-radius: 8px;
   border: 1px solid #000;
   box-shadow:
     0 0 0 2px var(--rarity-color),
     0 3px 8px rgba(0, 0, 0, 0.5);
-  background:
-    linear-gradient(160deg, var(--dom) 0%, var(--dom-dark) 55%, #0c0d10 100%);
+  background: linear-gradient(160deg, var(--dom) 0%, var(--dom-dark) 55%, #0c0d10 100%);
   overflow: hidden;
   cursor: default;
-  text-align: left;
-  color: #fff;
-  font-family: inherit;
   padding: 0;
   transition: transform 0.08s ease, box-shadow 0.08s ease;
   flex-shrink: 0;
 }
 .rb-card.rb-card-sm {
-  width: 92px;
+  width: 76px;
 }
 .rb-card.rb-clickable {
   cursor: pointer;
@@ -190,34 +197,34 @@ body {
 .rb-card-art {
   position: relative;
   width: 100%;
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 744 / 1039;
   background-size: cover;
   background-position: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .rb-card-art-placeholder {
-  font-size: 22px;
+  font-size: 13px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.75);
   text-align: center;
-  padding: 4px;
-  line-height: 1.1;
+  padding: 6px;
+  line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .rb-card-cost {
   position: absolute;
   top: 4px;
   left: 4px;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #f3f4f6, #6b7280 70%);
   color: #111;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -229,14 +236,14 @@ body {
 .rb-card-power {
   position: absolute;
   top: 4px;
-  left: 26px;
+  left: 24px;
   display: flex;
   gap: 2px;
   z-index: 2;
 }
 .rb-card-power-pip {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   border: 1px solid #000;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
@@ -254,50 +261,18 @@ body {
   z-index: 2;
 }
 
-.rb-card-body {
-  padding: 5px 6px 6px;
-}
-.rb-card-name {
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.15;
-  margin: 0 0 2px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-}
-.rb-card-type {
-  font-size: 8.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.65);
-  margin-bottom: 3px;
-}
-.rb-card-text {
-  font-size: 8.5px;
-  line-height: 1.25;
-  color: rgba(255, 255, 255, 0.88);
-  background: rgba(0, 0, 0, 0.28);
-  border-radius: 5px;
-  padding: 4px 5px;
-  max-height: 72px;
-  overflow-y: auto;
-}
-.rb-card-text b.rb-kw {
-  color: #fde68a;
-  font-weight: 700;
-}
-
 .rb-card-might {
   position: absolute;
   bottom: 4px;
   right: 4px;
-  min-width: 22px;
-  height: 22px;
+  min-width: 20px;
+  height: 20px;
   padding: 0 4px;
   border-radius: 6px;
   background: radial-gradient(circle at 35% 30%, #fecaca, #7f1d1d 75%);
   color: #fff;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,8 +304,62 @@ body {
   justify-content: center;
 }
 
+/* Hover-to-zoom preview: fixed + centered so it always reads clearly, regardless of where the
+   card sits (including inside a horizontally-scrolling hand strip). */
+.rb-card-zoom {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.rb-card-wrap:hover .rb-card-zoom {
+  display: flex;
+}
+.rb-card-zoom-inner {
+  width: min(60vw, 420px);
+  aspect-ratio: 744 / 1039;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid var(--rarity-color);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  background: linear-gradient(160deg, var(--dom) 0%, var(--dom-dark) 55%, #0c0d10 100%);
+}
+.rb-card-zoom-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.rb-card-zoom-placeholder {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+.rb-card-zoom-name {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+.rb-card-zoom-type {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 14px;
+}
+.rb-card-zoom-text {
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
 .rb-card-footer {
-  padding: 4px 6px 6px;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -501,4 +530,42 @@ body {
 }
 .rb-toolbar button:hover {
   color: var(--text-main);
+}
+
+/* ---- Face-to-face table layout ---- */
+
+.rb-opponent-zone {
+  opacity: 0.92;
+}
+.rb-opponent-zone .rb-section-label {
+  margin-top: 4px;
+}
+
+.rb-card-back {
+  width: 76px;
+  aspect-ratio: 744 / 1039;
+  border-radius: 8px;
+  border: 1px solid #000;
+  background:
+    repeating-linear-gradient(135deg, #1f2937 0 8px, #161b24 8px 16px);
+  box-shadow: 0 0 0 2px #3f3f46, 0 2px 6px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.rb-table-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  color: var(--text-dim);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.rb-table-divider::before,
+.rb-table-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #23262f;
 }

@@ -242,6 +242,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     );
   }
 
+  const opponent = G.players[opponentId];
+
   return (
     <div className="rb-board">
       <div className="rb-topbar">
@@ -253,7 +255,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         </div>
         <div className="rb-scoreline">
           <span>
-            Punkte: <b>{player.points}</b> — Gegner <b>{G.players[opponentId].points}</b>
+            Punkte: <b>{player.points}</b> — Gegner <b>{opponent.points}</b>
           </span>
           <span>
             XP: <b>{player.xp}</b>
@@ -262,17 +264,28 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         <div className={`rb-turn-pill${canAct ? " active" : ""}`}>{canAct ? "Am Zug" : "Wartet"}</div>
       </div>
 
-      <div className="rb-section-label">
-        Rune Pool <span className="rb-count">{player.runePool.length}</span>
+      {/* Opponent sits across the table: their hand (face down, count only) and base up top. */}
+      <div className="rb-opponent-zone">
+        <div className="rb-section-label">
+          Gegner-Hand <span className="rb-count">{opponent.hand.length}</span>
+        </div>
+        <div className="rb-row">
+          {opponent.hand.map((_, i) => (
+            <div key={i} className="rb-card-back" />
+          ))}
+        </div>
+
+        <div className="rb-section-label">
+          Gegner-Base <span className="rb-count">{opponent.base.length}</span>
+        </div>
+        <div className="rb-row">
+          {opponent.base.map((id) => (
+            <CardFace key={id} card={getCard(G.instances[id].cardId)} instance={G.instances[id]} size="sm" />
+          ))}
+        </div>
       </div>
-      <div className="rb-rune-strip">
-        {player.runePool.map((r) => (
-          <span key={r.instanceId} className={`rb-rune${r.exhausted ? "" : " ready"}`}>
-            {r.domain}
-            {r.exhausted ? " · ex" : ""}
-          </span>
-        ))}
-      </div>
+
+      <div className="rb-table-divider">Battlefields</div>
 
       {pendingTarget && (
         <div className="rb-callout warn">
@@ -334,9 +347,6 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         </div>
       )}
 
-      <div className="rb-section-label">
-        Battlefields
-      </div>
       <div className="rb-battlefields">
         {G.battlefields.map((slot, idx) => {
           const controlClass =
@@ -372,6 +382,20 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             </div>
           );
         })}
+      </div>
+
+      <div className="rb-table-divider">Deine Seite</div>
+
+      <div className="rb-section-label">
+        Rune Pool <span className="rb-count">{player.runePool.length}</span>
+      </div>
+      <div className="rb-rune-strip">
+        {player.runePool.map((r) => (
+          <span key={r.instanceId} className={`rb-rune${r.exhausted ? "" : " ready"}`}>
+            {r.domain}
+            {r.exhausted ? " · ex" : ""}
+          </span>
+        ))}
       </div>
 
       <div className="rb-section-label">
