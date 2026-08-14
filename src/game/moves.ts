@@ -176,6 +176,10 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
 
   player.hand.splice(args.handIndex, 1);
 
+  if (card.type === "spell") {
+    player.maxEnergySpentOnSpellThisTurn = Math.max(player.maxEnergySpentOnSpellThisTurn, energyNeeded);
+  }
+
   if (canPayDiscardCost) {
     for (let i = 0; i < discardCostConfig!.discardCount; i += 1) {
       const discarded = player.hand.shift();

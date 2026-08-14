@@ -87,4 +87,39 @@ describe("resolveCombat", () => {
 
     expect(game.players["0"].xp).toBe(1);
   });
+
+  it("[Tank] defenders are assigned combat damage first", () => {
+    const game = makeGame();
+    const attacker = putOnBase(game, "unit-plain-guard", "0"); // Might 1
+    const tank = putOnBase(game, "unit-plain-guard", "1"); // Might 1, granted Tank
+    tank.grantedThisTurn.push({ keyword: "tank" });
+    const normal = putOnBase(game, "unit-plain-footman", "1"); // Might 2, high enough to survive
+    moveToBattlefield(game, attacker.instanceId, 0);
+    moveToBattlefield(game, tank.instanceId, 0);
+    moveToBattlefield(game, normal.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    // The 1 point of damage went to the Tank defender, killing it; the normal defender is untouched.
+    expect(game.instances[tank.instanceId]).toBeUndefined();
+    expect(game.instances[normal.instanceId]).toBeDefined();
+    expect(normal.damage).toBe(0);
+  });
+
+  it("[Backline] defenders are assigned combat damage last", () => {
+    const game = makeGame();
+    const attacker = putOnBase(game, "unit-plain-guard", "0"); // Might 1
+    const backline = putOnBase(game, "unit-plain-guard", "1"); // Might 1, granted Backline
+    backline.grantedThisTurn.push({ keyword: "backline" });
+    const normal = putOnBase(game, "unit-plain-guard", "1"); // Might 1, normal
+    moveToBattlefield(game, attacker.instanceId, 0);
+    moveToBattlefield(game, backline.instanceId, 0);
+    moveToBattlefield(game, normal.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    // The 1 point of damage went to the normal defender first, sparing the Backline one.
+    expect(game.instances[backline.instanceId]).toBeDefined();
+    expect(game.instances[normal.instanceId]).toBeUndefined();
+  });
 });

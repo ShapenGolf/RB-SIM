@@ -560,14 +560,6 @@
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "unl-4",
-    "name": "Prepared Neophyte",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If you've spent 4 Energy or more to play a spell this turn, I have +4 Might.",
-    "fullText": "If you've spent 4 Energy or more to play a spell this turn, I have +4 Might."
-  },
-  {
     "id": "ogn-268",
     "name": "Bullet Time",
     "set": "OGN",
@@ -702,14 +694,6 @@
     "type": "unit",
     "residualText": "As you play me, you may pay Calm Rune as an additional cost. If you do, draw 1.",
     "fullText": "As you play me, you may pay Calm Rune as an additional cost. If you do, draw 1."
-  },
-  {
-    "id": "unl-31",
-    "name": "Combat Experience",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a unit +1 Might this turn.\n Give it +3 Might this turn instead. (While you have 6+ XP, get the effect.)",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a unit +1 Might this turn.\n[Level 6][>] Give it +3 Might this turn instead. (While you have 6+ XP, get the effect.)"
   },
   {
     "id": "ogn-231",
@@ -1112,14 +1096,6 @@
     "fullText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn."
   },
   {
-    "id": "unl-63",
-    "name": "Eclipse",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a unit -4 Might this turn.\n. (Look at the top card of your Main Deck. You may recycle it.)",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a unit -4 Might this turn.\n[Predict]. (Look at the top card of your Main Deck. You may recycle it.)"
-  },
-  {
     "id": "ven-16",
     "name": "Eclipse Dragon",
     "set": "VEN",
@@ -1390,14 +1366,6 @@
     "type": "unit",
     "residualText": "When I become ready, give me +2 Might this turn.",
     "fullText": "When I become ready, give me +2 Might this turn."
-  },
-  {
-    "id": "unl-46",
-    "name": "Friendship",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a unit. Give it +1 Might this turn for each of the following tags among your units \u2014 Bird, Cat, Dog, and Poro.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. Give it +1 Might this turn for each of the following tags among your units \u2014 Bird, Cat, Dog, and Poro."
   },
   {
     "id": "unl-74",
@@ -2216,14 +2184,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nWhen I move from a location, play a 3 Might Sprite unit token with [Temporary] there. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
   },
   {
-    "id": "unl-58",
-    "name": "Lillia, Protector of Dreams",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When you play a token unit, give me +1 Might this turn.\nYour token units have . (They must be assigned combat damage first.)",
-    "fullText": "When you play a token unit, give me +1 Might this turn.\nYour token units have [Tank]. (They must be assigned combat damage first.)"
-  },
-  {
     "id": "unl-190",
     "name": "Lilting Lullaby",
     "set": "UNL",
@@ -2246,14 +2206,6 @@
     "type": "legend",
     "residualText": "At start of your Beginning Phase, draw 1 if you have one or fewer cards in your hand.",
     "fullText": "At start of your Beginning Phase, draw 1 if you have one or fewer cards in your hand."
-  },
-  {
-    "id": "unl-12",
-    "name": "Lord Broadmane",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, give your other units here  this turn. (+1 Might while they're attackers.)",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, give your other units here [Assault] this turn. (+1 Might while they're attackers.)"
   },
   {
     "id": "unl-13",
@@ -2478,14 +2430,6 @@
     "type": "gear",
     "residualText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it.",
     "fullText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it."
-  },
-  {
-    "id": "unl-14",
-    "name": "Monster Harpoon",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Deal 2 to a unit at a battlefield. If you control a facedown card, deal 4 to it instead.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 2 to a unit at a battlefield. If you control a facedown card, deal 4 to it instead."
   },
   {
     "id": "ven-17",
@@ -3296,14 +3240,6 @@
     "fullText": "This enters exhausted.\nKill this, 1 Energy, Exhaust: [Predict 2], then draw 1. Gain 1 XP.  (To Predict 2, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)"
   },
   {
-    "id": "unl-53",
-    "name": "Scuttle Crab",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "(Units with 0 Might can conquer and hold.)\nWhen you play me, draw 1.\n Choose an opponent. They reveal their hand. You can look at their facedown cards this turn. Gain 1 XP. (When I die, get the effects.)",
-    "fullText": "(Units with 0 Might can conquer and hold.)\nWhen you play me, draw 1.\n[Deathknell][>] Choose an opponent. They reveal their hand. You can look at their facedown cards this turn. Gain 1 XP. (When I die, get the effects.)"
-  },
-  {
     "id": "ven-30",
     "name": "Serene Ascetic",
     "set": "VEN",
@@ -4056,14 +3992,6 @@
     "fullText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base."
   },
   {
-    "id": "unl-60",
-    "name": "Vilemaw",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Enemy units here with less Might than me don't deal combat damage.\nWhen I hold, draw 1.",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nEnemy units here with less Might than me don't deal combat damage.\nWhen I hold, draw 1."
-  },
-  {
     "id": "ogn-295",
     "name": "Vilemaw's Lair",
     "set": "OGN",
@@ -4270,22 +4198,6 @@
     "type": "champion",
     "residualText": "The third time I move in a turn, you score 1 point.",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nThe third time I move in a turn, you score 1 point."
-  },
-  {
-    "id": "unl-18",
-    "name": "Yeti Brawler",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \" Kill this, Exhaust:  Rune.\")",
-    "fullText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
-  },
-  {
-    "id": "unl-56",
-    "name": "Yuumi, Magical Cat",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I attack or defend, give one of your other units here +3 Might and  this turn. (It must be assigned combat damage first.)",
-    "fullText": "When I attack or defend, give one of your other units here +3 Might and [Tank] this turn. (It must be assigned combat damage first.)"
   },
   {
     "id": "ven-23",

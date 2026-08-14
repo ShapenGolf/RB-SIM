@@ -4,7 +4,7 @@ import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { computeMight } from "./might";
 import { fireTemplatedEffect } from "./templatedEffectEngine";
 import { battlefieldPseudoInstance } from "./pseudoInstance";
-import type { GameState, PlayerId } from "./state";
+import type { CardInstance, GameState, PlayerId } from "./state";
 
 /**
  * Combat resolution assumption (unverified against the full official rules
@@ -19,6 +19,35 @@ function otherPlayer(id: PlayerId): PlayerId {
   return id === "0" ? "1" : "0";
 }
 
+function hasActiveKeyword(card: Card, instance: CardInstance, name: string): boolean {
+  return KeywordEngine.hasKeyword(card, name) || instance.grantedThisTurn.some((k) => k.keyword === name);
+}
+
+/**
+ * [Tank] units are assigned combat damage first, [Backline] units last, everyone else in
+ * between — stable within each group (see e.g. Xin Zhao, Vigilant / Galio, Indefatigable for
+ * Tank, LeBlanc, Everywhere at Once / Enthusiastic Promoter for Backline).
+ */
+function orderForDamageAssignment(
+  game: GameState,
+  getCard: (id: string) => Card,
+  targets: string[],
+): string[] {
+  return targets
+    .map((instanceId, index) => {
+      const instance = game.instances[instanceId];
+      let rank = 1;
+      if (instance) {
+        const card = getCard(instance.cardId);
+        if (hasActiveKeyword(card, instance, "tank")) rank = 0;
+        else if (hasActiveKeyword(card, instance, "backline")) rank = 2;
+      }
+      return { instanceId, rank, index };
+    })
+    .sort((a, b) => a.rank - b.rank || a.index - b.index)
+    .map((entry) => entry.instanceId);
+}
+
 function livingDamageDealers(
   game: GameState,
   getCard: (id: string) => Card,
@@ -31,7 +60,8 @@ function livingDamageDealers(
       (instance) =>
         instance &&
         !KeywordEngine.preventsCombatDamage(game, getCard(instance.cardId), instance) &&
-        !SpecialCaseEngine.preventsCombatDamage(game, getCard(instance.cardId), instance),
+        !SpecialCaseEngine.preventsCombatDamage(game, getCard(instance.cardId), instance) &&
+        !SpecialCaseEngine.preventsCombatDamageForEnemy(game, getCard, instance),
     )
     .map((instance) => ({
       instanceId: instance.instanceId,
@@ -58,7 +88,7 @@ function assignDamage(
   role: "attacking" | "defending",
 ): number {
   let remaining = totalDamage;
-  for (const instanceId of targets) {
+  for (const instanceId of orderForDamageAssignment(game, getCard, targets)) {
     if (remaining <= 0) break;
     const instance = game.instances[instanceId];
     if (!instance) continue;
@@ -181,7 +211,9 @@ export function resolveCombat(
   for (const instanceId of defenderIds) {
     const instance = game.instances[instanceId];
     if (!instance) continue;
-    fireTemplatedEffect(game, getCard, getCard(instance.cardId), instance, "onDefend");
+    const defenderCard = getCard(instance.cardId);
+    fireTemplatedEffect(game, getCard, defenderCard, instance, "onDefend");
+    if (defenderCard.specialCaseId) SpecialCaseEngine.onDefend(game, defenderCard, instance);
   }
 
   const battlefieldCard = getCard(slot.cardId);

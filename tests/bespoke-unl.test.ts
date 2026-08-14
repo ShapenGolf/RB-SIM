@@ -6,6 +6,7 @@ import { computeMight } from "../src/game/might";
 import { destroyInstance, resolveCombat } from "../src/game/combat";
 import { runBeginning, runAwaken } from "../src/game/turnFlow";
 import { activateAbility, playCard } from "../src/game/moves";
+import { playTokenToBase } from "../src/cards/special-cases/token-helpers";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -1328,6 +1329,204 @@ describe("Vex, Apathetic (unl-150): [Deflect] stuns and locks down enemy units p
     SpecialCaseEngine.onEnemyCardPlayed(game, getCard, "1", getCard(played.cardId), played);
 
     expect(played.statuses.stunned).toBeFalsy();
+  });
+});
+
+describe("Prepared Neophyte (unl-4): +4 Might if 4+ Energy was spent on a spell this turn", () => {
+  it("gets the bonus once the threshold is met", () => {
+    const game = makeGame();
+    const neophyte = putOnBase(game, "unl-4", "0");
+    expect(SpecialCaseEngine.staticMightModifier(game, getCard(neophyte.cardId), neophyte)).toBe(0);
+    game.players["0"].maxEnergySpentOnSpellThisTurn = 4;
+    expect(SpecialCaseEngine.staticMightModifier(game, getCard(neophyte.cardId), neophyte)).toBe(4);
+  });
+
+  it("is actually tracked by the real playCard move", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-5"]; // Disintegrate, Energy 4
+    game.players["0"].runePool = Array.from({ length: 4 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["r0", "r1", "r2", "r3"],
+      powerRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(game.players["0"].maxEnergySpentOnSpellThisTurn).toBe(4);
+  });
+});
+
+describe("Lord Broadmane (unl-12): [Ambush] on play, grant Assault to other units here", () => {
+  it("grants Assault to other friendly units at its battlefield, not itself", () => {
+    const game = makeGame();
+    const broadmane = putOnBase(game, "unl-12", "0");
+    moveToBattlefield(game, broadmane.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(broadmane.cardId), broadmane);
+
+    expect(ally.grantedThisTurn).toContainEqual({ keyword: "assault", value: 1 });
+    expect(broadmane.grantedThisTurn).toEqual([]);
+  });
+});
+
+describe("Monster Harpoon (unl-14): deal 2 to a unit at a battlefield", () => {
+  it("deals 2 damage to the target", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-14", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.damage).toBe(2);
+  });
+});
+
+describe("Yeti Brawler (unl-18): conquering with 3+ excess damage plays two exhausted Gold tokens", () => {
+  it("plays two exhausted Gold gear tokens", () => {
+    const game = makeGame();
+    const yeti = putOnBase(game, "unl-18", "0");
+    SpecialCaseEngine.onConquer(game, getCard(yeti.cardId), yeti, 3);
+    const tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokens).toHaveLength(2);
+    expect(tokens.every((id) => game.instances[id].exhausted)).toBe(true);
+  });
+
+  it("does not play tokens below the threshold", () => {
+    const game = makeGame();
+    const yeti = putOnBase(game, "unl-18", "0");
+    SpecialCaseEngine.onConquer(game, getCard(yeti.cardId), yeti, 2);
+    const tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokens).toHaveLength(0);
+  });
+});
+
+describe("Combat Experience (unl-31): +1 Might this turn, +3 instead at Level 6", () => {
+  it("gives +1 normally", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-31", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    expect(target.tempMightBonus).toBe(1);
+  });
+
+  it("gives +3 at 6+ XP", () => {
+    const game = makeGame();
+    game.players["0"].xp = 6;
+    const spell = putOnBase(game, "unl-31", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    expect(target.tempMightBonus).toBe(3);
+  });
+});
+
+describe("Friendship (unl-46): +1 Might this turn per tribal tag among your units", () => {
+  it("counts distinct tribal tags", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-46", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    putOnBase(game, "sfd-36", "0"); // Lonely Poro — tag Poro
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(target.tempMightBonus).toBe(1);
+  });
+});
+
+describe("Scuttle Crab (unl-53): draw 1 on play; Deathknell gains 1 XP", () => {
+  it("draws on play and gains XP on death", () => {
+    const game = makeGame();
+    const crab = putOnBase(game, "unl-53", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    SpecialCaseEngine.onPlay(game, getCard(crab.cardId), crab);
+    expect(game.players["0"].hand).toEqual(["ogn-4"]);
+
+    destroyInstance(game, getCard, crab.instanceId);
+    expect(game.players["0"].xp).toBe(1);
+  });
+});
+
+describe("Yuumi, Magical Cat (unl-56): on attack or defend, buff another friendly unit here", () => {
+  it("buffs an ally on attack", () => {
+    const game = makeGame();
+    const yuumi = putOnBase(game, "unl-56", "0");
+    moveToBattlefield(game, yuumi.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(yuumi.cardId), yuumi);
+
+    expect(ally.tempMightBonus).toBe(3);
+    expect(ally.grantedThisTurn).toContainEqual({ keyword: "tank" });
+  });
+
+  it("buffs an ally on defend", () => {
+    const game = makeGame();
+    const yuumi = putOnBase(game, "unl-56", "0");
+    moveToBattlefield(game, yuumi.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    SpecialCaseEngine.onDefend(game, getCard(yuumi.cardId), yuumi);
+
+    expect(ally.tempMightBonus).toBe(3);
+  });
+});
+
+describe("Lillia, Protector of Dreams (unl-58): +1 Might this turn when you play a token unit", () => {
+  it("buffs itself when a token unit is created via the token helpers", () => {
+    const game = makeGame();
+    const lillia = putOnBase(game, "unl-58", "0");
+    playTokenToBase(game, "token-recruit", "0");
+    expect(lillia.tempMightBonus).toBe(1);
+  });
+
+  it("does not buff for a non-unit token", () => {
+    const game = makeGame();
+    const lillia = putOnBase(game, "unl-58", "0");
+    playTokenToBase(game, "token-gold-gear", "0");
+    expect(lillia.tempMightBonus).toBe(0);
+  });
+});
+
+describe("Vilemaw (unl-60): [Ambush] weaker enemy units here deal no combat damage; draw 1 on hold", () => {
+  it("prevents a weaker enemy from dealing combat damage", () => {
+    const game = makeGame();
+    const vilemawUnit = putOnBase(game, "unl-60", "0"); // Might 8
+    moveToBattlefield(game, vilemawUnit.instanceId, 0);
+    const weakEnemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, weakEnemy.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(vilemawUnit.damage).toBe(0);
+  });
+
+  it("draws 1 when held", () => {
+    const game = makeGame();
+    const vilemawUnit = putOnBase(game, "unl-60", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    SpecialCaseEngine.onHold(game, getCard(vilemawUnit.cardId), vilemawUnit);
+    expect(game.players["0"].hand).toEqual(["ogn-4"]);
+  });
+});
+
+describe("Eclipse (unl-63): -4 Might this turn to a unit", () => {
+  it("applies the penalty", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-63", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    expect(target.tempMightBonus).toBe(-4);
   });
 });
 

@@ -315,6 +315,17 @@ import { moonfall } from "./moonfall";
 import { isolate } from "./isolate";
 import { heroicCharge } from "./heroic-charge";
 import { vexApathetic } from "./vex-apathetic";
+import { preparedNeophyte } from "./prepared-neophyte";
+import { lordBroadmane } from "./lord-broadmane";
+import { monsterHarpoon } from "./monster-harpoon";
+import { yetiBrawler } from "./yeti-brawler";
+import { combatExperience } from "./combat-experience";
+import { friendship } from "./friendship";
+import { scuttleCrab } from "./scuttle-crab";
+import { yuumiMagicalCat } from "./yuumi-magical-cat";
+import { lilliaProtectorOfDreams } from "./lillia-protector-of-dreams";
+import { vilemaw } from "./vilemaw";
+import { eclipse } from "./eclipse";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -630,6 +641,17 @@ const handlers: SpecialCaseHandler[] = [
   isolate,
   heroicCharge,
   vexApathetic,
+  preparedNeophyte,
+  lordBroadmane,
+  monsterHarpoon,
+  yetiBrawler,
+  combatExperience,
+  friendship,
+  scuttleCrab,
+  yuumiMagicalCat,
+  lilliaProtectorOfDreams,
+  vilemaw,
+  eclipse,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -776,6 +798,22 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onEnemyCardPlayed?.(ctxFor(game, card, instance), playedCard, playedInstance);
+    }
+  },
+
+  /** Broadcasts a just-created token to every board instance `controller` owns, for onAllyTokenPlayed hooks (e.g. Lillia, Protector of Dreams). */
+  onAllyTokenPlayed: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    controller: PlayerId,
+    tokenCard: Card,
+    tokenInstance: CardInstance,
+  ) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== controller) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyTokenPlayed?.(ctxFor(game, card, instance), tokenCard, tokenInstance);
     }
   },
 
@@ -995,6 +1033,27 @@ export const SpecialCaseEngine = {
 
   preventsCombatDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
     Boolean(getSpecialCaseHandler(card)?.preventsCombatDamage?.(ctxFor(game, card, instance))),
+
+  /** True if any ENEMY instance's static presence prevents `instance` from dealing combat damage (e.g. Vilemaw). */
+  preventsCombatDamageForEnemy: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    instance: CardInstance,
+  ): boolean => {
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.controller === instance.controller) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      if (handler?.preventsCombatDamageForEnemy?.(ctxFor(game, sourceCard, sourceInstance), instance)) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  onDefend: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onDefend?.(ctxFor(game, card, instance));
+  },
 
   preventsSelfReady: (game: GameState, card: Card, instance: CardInstance): boolean =>
     Boolean(getSpecialCaseHandler(card)?.preventsSelfReady?.(ctxFor(game, card, instance))),

@@ -21,14 +21,17 @@ pro Karte:
 - **17 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
   Exhaust: Effekt", inkl. Domain-Rune-Kosten) und spielbar
   (`src/cards/data/activated-abilities.json`).
-- **318 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
+- **329 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
   zuerst, der Reihe nach, jetzt auch Proving Grounds, Spiritforged und
   Unleashed — siehe `src/cards/data/special-case-assignments.json`.
 - **Equipment (Equip) und Weaponmaster** sind jetzt implementiert (eigenes
   Anlege-System: `equipGear`-Move, `game/equip.ts`, Weaponmaster-Keyword-
   Handler) — siehe `docs/rules-reference.md`.
-- Macht **478 von 1019 Karten (~47%) vollständig spielbar.**
-- **541 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
+- **[Tank]/[Backline] werden jetzt bei der Kampfschaden-Zuweisung
+  berücksichtigt** (Tank zuerst, Backline zuletzt) — vorher waren beide
+  Keywords zwar erkannt, aber komplett wirkungslos.
+- Macht **489 von 1019 Karten (~48%) vollständig spielbar.**
+- **530 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
   Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
   Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
 

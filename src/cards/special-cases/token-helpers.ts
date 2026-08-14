@@ -8,6 +8,10 @@ function applyAmbientReady(game: GameState, token: CardInstance): void {
   if (SpecialCaseEngine.othersEnterReadyFor(game, getCard, token)) token.exhausted = false;
 }
 
+function broadcastTokenPlayed(game: GameState, controller: PlayerId, token: CardInstance): void {
+  SpecialCaseEngine.onAllyTokenPlayed(game, getCard, controller, getCard(token.cardId), token);
+}
+
 /**
  * Creates a token instance and places it "here" — at the same location as `source` (its
  * Battlefield if it's there, otherwise the controller's base). Shared by every "play a unit
@@ -23,6 +27,7 @@ export function playTokenHere(game: GameState, tokenId: string, controller: Play
     game.players[controller].base.push(token.instanceId);
   }
   applyAmbientReady(game, token);
+  broadcastTokenPlayed(game, controller, token);
   return token;
 }
 
@@ -31,5 +36,6 @@ export function playTokenToBase(game: GameState, tokenId: string, controller: Pl
   const token = createInstance(game, tokenId, controller);
   game.players[controller].base.push(token.instanceId);
   applyAmbientReady(game, token);
+  broadcastTokenPlayed(game, controller, token);
   return token;
 }

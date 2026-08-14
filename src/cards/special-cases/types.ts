@@ -38,6 +38,9 @@ export interface SpecialCaseHandler {
   /** Called when this instance attacks (moved onto a Battlefield as an attacker), before combat resolves — alongside the generic onAttack templated trigger. */
   onAttack?(ctx: SpecialCaseContext): void;
 
+  /** Called for each of this instance's Showdowns as a defender, before combat damage is assigned — alongside the generic onDefend templated trigger (see game/combat.ts resolveCombat). */
+  onDefend?(ctx: SpecialCaseContext): void;
+
   /**
    * Called whenever this instance moves onto a Battlefield via `attackBattlefield` — the initial
    * attack from base AND any subsequent Ganking move both count, matching the generic
@@ -119,6 +122,15 @@ export interface SpecialCaseHandler {
    * still valid (only relevant to handlers that check `playedCard.type` first).
    */
   onEnemyCardPlayed?(ctx: SpecialCaseContext, playedCard: Card, playedInstance: CardInstance): void;
+
+  /**
+   * Broadcast to every board instance the controller owns whenever a token is created for them
+   * via the shared token-helpers.ts `playTokenHere`/`playTokenToBase` (e.g. Lillia, Protector of
+   * Dreams: "When you play a token unit, give me +1 Might this turn."). Unlike
+   * `onAllyCardPlayed`, tokens never go through the hand-paid `playCard` move, so they need this
+   * separate hook to be seen at all.
+   */
+  onAllyTokenPlayed?(ctx: SpecialCaseContext, tokenCard: Card, tokenInstance: CardInstance): void;
 
   /** Broadcast to every board instance the controller owns whenever THAT PLAYER stuns an enemy unit (see cards/special-cases/stun.ts `applyStun`). */
   onAllyStun?(ctx: SpecialCaseContext, stunnedInstance: CardInstance): void;
@@ -363,6 +375,9 @@ export interface SpecialCaseHandler {
 
   /** True if this instance deals no combat damage at all (e.g. Galio, Indefatigable: "I don't deal combat damage."), on top of whatever the generic Stun keyword already covers via KeywordEngine.preventsCombatDamage. */
   preventsCombatDamage?(ctx: SpecialCaseContext): boolean;
+
+  /** True if this instance's static presence stops a given ENEMY instance from dealing combat damage (e.g. Vilemaw: "Enemy units here with less Might than me don't deal combat damage."). Checked against every enemy instance the same way staticMightModifierForEnemy is. */
+  preventsCombatDamageForEnemy?(ctx: SpecialCaseContext, enemyInstance: CardInstance): boolean;
 
   /** True if this instance can't be readied during its controller's Awaken step (e.g. Maduli the Gatekeeper: "I can't be readied."). Checked in turnFlow.ts runAwaken. */
   preventsSelfReady?(ctx: SpecialCaseContext): boolean;

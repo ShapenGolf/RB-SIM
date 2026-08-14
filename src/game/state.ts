@@ -89,6 +89,8 @@ export interface PlayerState {
   friendlyUnitDiedDuringBeginningThisTurn: boolean;
   /** Set true once this player has played a spell card this turn, e.g. for "if you've played a spell this turn, ..." effects like Crescent Guardian. Reset at Awaken. */
   playedSpellThisTurn: boolean;
+  /** Highest actual Energy cost (after all reductions) this player has paid for a single spell this turn, e.g. for "if you've spent 4+ Energy to play a spell this turn, ..." effects like Prepared Neophyte. Reset at Awaken. */
+  maxEnergySpentOnSpellThisTurn: number;
 }
 
 export interface BattlefieldSlot {
