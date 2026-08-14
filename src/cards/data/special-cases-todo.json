@@ -624,14 +624,6 @@
     "fullText": "Each player chooses a unit they control. Kill the rest."
   },
   {
-    "id": "unl-71",
-    "name": "Chakram Dancer",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, give your other units here  this turn. (+1 Might while they're defenders.)",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, give your other units here [Shield] this turn. (+1 Might while they're defenders.)"
-  },
-  {
     "id": "ogn-128",
     "name": "Challenge",
     "set": "OGN",
@@ -838,14 +830,6 @@
     "type": "legend",
     "residualText": "Exhaust:  \u2014  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "unl-73",
-    "name": "Deadly Flourish",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Deal 3 to an enemy unit. When it dies this turn, play a Gold gear token exhausted. (It has \" Kill this, Exhaust:  Rune.\")",
-    "fullText": "Deal 3 to an enemy unit. When it dies this turn, play a Gold gear token exhausted. (It has \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
   },
   {
     "id": "ven-144",
@@ -2080,14 +2064,6 @@
     "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nWhen I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here."
   },
   {
-    "id": "unl-143",
-    "name": "Kha'Zix, Mutating Horror",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I attack or defend, if an enemy unit is alone here, give me +2 Might this turn and gain 2 XP.",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I attack or defend, if an enemy unit is alone here, give me +2 Might this turn and gain 2 XP."
-  },
-  {
     "id": "ven-114",
     "name": "Kharox",
     "set": "VEN",
@@ -2512,14 +2488,6 @@
     "fullText": "[Shield 5] (+5 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nI cost 2 EnergyCalm Rune less for each point you scored from holding this turn."
   },
   {
-    "id": "unl-114",
-    "name": "Nidalee, Cat Form",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I win a combat, draw 1. (I win if I remain after combat.)",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I win a combat, draw 1. (I win if I remain after combat.)"
-  },
-  {
     "id": "ogn-303",
     "name": "Nine-Tailed Fox",
     "set": "OGN",
@@ -2856,14 +2824,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Ganking] (I can move from battlefield to battlefield.)\nYou may pay Fury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, ready me and give me +2 Might this turn."
   },
   {
-    "id": "unl-145",
-    "name": "Pyke, Returned",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "Once each turn, when an enemy unit dies while I'm at a battlefield, play a Gold gear token exhausted. (It has \" Kill this, Exhaust:  Rune.\")",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Backline] (I must be assigned combat damage last.)\nOnce each turn, when an enemy unit dies while I'm at a battlefield, play a Gold gear token exhausted. (It has \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
-  },
-  {
     "id": "ven-54",
     "name": "Questionable Tome",
     "set": "VEN",
@@ -3038,14 +2998,6 @@
     "type": "champion",
     "residualText": "I can be played to a battlefield where there are enemy units.",
     "fullText": "[Ambush]\nI can be played to a battlefield where there are enemy units."
-  },
-  {
-    "id": "unl-120",
-    "name": "Rengar, Trophy Hunter",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "I can be played to a battlefield where there are enemy units (even if you don't have units there).",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nI can be played to a battlefield where there are enemy units (even if you don't have units there)."
   },
   {
     "id": "ven-76",
@@ -3574,14 +3526,6 @@
     "type": "spell",
     "residualText": "Deal 2 to a unit at a battlefield. If it's attacking, deal 4 to it instead.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nDeal 2 to a unit at a battlefield. If it's attacking, deal 4 to it instead."
-  },
-  {
-    "id": "unl-85",
-    "name": "Sumpworks Map",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "When an opponent scores, draw 1.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nWhen an opponent scores, draw 1."
   },
   {
     "id": "ogn-252",

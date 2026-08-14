@@ -326,6 +326,13 @@ import { yuumiMagicalCat } from "./yuumi-magical-cat";
 import { lilliaProtectorOfDreams } from "./lillia-protector-of-dreams";
 import { vilemaw } from "./vilemaw";
 import { eclipse } from "./eclipse";
+import { chakramDancer } from "./chakram-dancer";
+import { deadlyFlourish } from "./deadly-flourish";
+import { sumpworksMap } from "./sumpworks-map";
+import { nidaleeCatForm } from "./nidalee-cat-form";
+import { rengarTrophyHunter } from "./rengar-trophy-hunter";
+import { khazixMutatingHorror } from "./khazix-mutating-horror";
+import { pykeReturned } from "./pyke-returned";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -652,6 +659,13 @@ const handlers: SpecialCaseHandler[] = [
   lilliaProtectorOfDreams,
   vilemaw,
   eclipse,
+  chakramDancer,
+  deadlyFlourish,
+  sumpworksMap,
+  nidaleeCatForm,
+  rengarTrophyHunter,
+  khazixMutatingHorror,
+  pykeReturned,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1053,6 +1067,26 @@ export const SpecialCaseEngine = {
 
   onDefend: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onDefend?.(ctxFor(game, card, instance));
+  },
+
+  onSurviveCombat: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onSurviveCombat?.(ctxFor(game, card, instance));
+  },
+
+  /** Broadcasts a scoring event to every board instance the OPPONENT of `scoringPlayer` owns, for onOpponentScored hooks (e.g. Sumpworks Map). */
+  onOpponentScored: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    scoringPlayer: PlayerId,
+    scoredPoints: number,
+  ) => {
+    const opponentId: PlayerId = scoringPlayer === "0" ? "1" : "0";
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== opponentId) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onOpponentScored?.(ctxFor(game, card, instance), scoredPoints);
+    }
   },
 
   preventsSelfReady: (game: GameState, card: Card, instance: CardInstance): boolean =>

@@ -252,6 +252,13 @@ export function resolveCombat(
     if (instance) instance.damage = 0;
   }
 
+  for (const id of [...slot.units[attacker], ...slot.units[defender]]) {
+    const instance = game.instances[id];
+    if (!instance) continue;
+    const survivorCard = getCard(instance.cardId);
+    if (survivorCard.specialCaseId) SpecialCaseEngine.onSurviveCombat(game, survivorCard, instance);
+  }
+
   const attackerSurvivors = slot.units[attacker].length;
   const defenderSurvivors = slot.units[defender].length;
   if (defenderSurvivors === 0 && attackerSurvivors > 0) {

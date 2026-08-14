@@ -1530,6 +1530,166 @@ describe("Eclipse (unl-63): -4 Might this turn to a unit", () => {
   });
 });
 
+describe("Chakram Dancer (unl-71): [Ambush] on play, grant Shield to other units here", () => {
+  it("grants Shield to other friendly units at its battlefield, not itself", () => {
+    const game = makeGame();
+    const dancer = putOnBase(game, "unl-71", "0");
+    moveToBattlefield(game, dancer.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(dancer.cardId), dancer);
+
+    expect(ally.grantedThisTurn).toContainEqual({ keyword: "shield", value: 1 });
+    expect(dancer.grantedThisTurn).toEqual([]);
+  });
+});
+
+describe("Deadly Flourish (unl-73): deal 3 to an enemy unit, Gold token if it dies", () => {
+  it("plays a token when the damage is lethal", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-73", "0");
+    const target = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokenId).toBeDefined();
+    expect(game.instances[tokenId!].exhausted).toBe(true);
+  });
+
+  it("does not play a token if the target survives", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-73", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    target.tempMightBonus = 10; // survives 3 damage easily
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeDefined();
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokenId).toBeUndefined();
+  });
+});
+
+describe("Sumpworks Map (unl-85): draw 1 when an opponent scores", () => {
+  it("draws when the opponent scores via the real Beginning Phase", () => {
+    const game = makeGame();
+    putOnBase(game, "unl-85", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    game.battlefields[0].controller = "1";
+
+    runBeginning(game, "1");
+
+    expect(game.players["0"].hand).toEqual(["ogn-4"]);
+  });
+
+  it("does not draw when the opponent doesn't score", () => {
+    const game = makeGame();
+    putOnBase(game, "unl-85", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    runBeginning(game, "1");
+
+    expect(game.players["0"].hand).toEqual([]);
+  });
+});
+
+describe("Nidalee, Cat Form (unl-114): [Ambush] draw 1 when I win a combat (survive it)", () => {
+  it("draws when it survives a real Showdown", () => {
+    const game = makeGame();
+    const nidalee = putOnBase(game, "unl-114", "0"); // Might 4
+    moveToBattlefield(game, nidalee.instanceId, 0);
+    const weakEnemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, weakEnemy.instanceId, 0);
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.instances[nidalee.instanceId]).toBeDefined();
+    expect(game.players["0"].hand).toEqual(["ogn-4"]);
+  });
+
+  it("does not draw from an unopposed conquest (no Showdown)", () => {
+    const game = makeGame();
+    const nidalee = putOnBase(game, "unl-114", "0");
+    moveToBattlefield(game, nidalee.instanceId, 0);
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.players["0"].hand).toEqual([]);
+  });
+});
+
+describe("Rengar, Trophy Hunter (unl-120): can be played to an enemy-occupied battlefield", () => {
+  it("allows playing to a battlefield with enemy units even without friendly ones there", () => {
+    const game = makeGame();
+    const rengar = putOnBase(game, "unl-120", "0");
+    expect(SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(game, getCard(rengar.cardId), rengar)).toBe(true);
+  });
+});
+
+describe("Kha'Zix, Mutating Horror (unl-143): [Ambush] +2 Might and 2 XP on attack/defend vs a lone enemy", () => {
+  it("triggers when exactly one enemy unit is at the battlefield", () => {
+    const game = makeGame();
+    const khazix = putOnBase(game, "unl-143", "0");
+    moveToBattlefield(game, khazix.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(khazix.cardId), khazix);
+
+    expect(khazix.tempMightBonus).toBe(2);
+    expect(game.players["0"].xp).toBe(2);
+  });
+
+  it("does not trigger with more than one enemy unit there", () => {
+    const game = makeGame();
+    const khazix = putOnBase(game, "unl-143", "0");
+    moveToBattlefield(game, khazix.instanceId, 0);
+    const enemy1 = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy1.instanceId, 0);
+    const enemy2 = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy2.instanceId, 0);
+
+    SpecialCaseEngine.onDefend(game, getCard(khazix.cardId), khazix);
+
+    expect(khazix.tempMightBonus).toBe(0);
+    expect(game.players["0"].xp).toBe(0);
+  });
+});
+
+describe("Pyke, Returned (unl-145): [Backline] once per turn, play a Gold token when I kill an enemy here", () => {
+  it("plays a token the first time this turn, not the second", () => {
+    const game = makeGame();
+    const pyke = putOnBase(game, "unl-145", "0");
+    moveToBattlefield(game, pyke.instanceId, 0);
+    const victim1 = putOnBase(game, "unit-plain-footman", "1");
+    const victim2 = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onAllyKillUnit(game, getCard, "0", victim1);
+    let tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokens).toHaveLength(1);
+
+    SpecialCaseEngine.onAllyKillUnit(game, getCard, "0", victim2);
+    tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokens).toHaveLength(1); // still just one — the once-per-turn gate held
+  });
+
+  it("does not trigger while not at a battlefield", () => {
+    const game = makeGame();
+    putOnBase(game, "unl-145", "0"); // still on base
+    const victim = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onAllyKillUnit(game, getCard, "0", victim);
+
+    const tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokens).toHaveLength(0);
+  });
+});
+
 describe("Ivern, Nurturer (unl-51): look at top 3, draw a unit, buff on tribal hit", () => {
   it("draws the first unit found and buffs a friendly unit if it's a tracked tribe", () => {
     const game = makeGame();

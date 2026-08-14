@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **329 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **336 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,16 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **489 von 1019 Karten (~48%) vollständig spielbar.**
-- **530 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **496 von 1019 Karten (~49%) vollständig spielbar.**
+- **523 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **Drei weitere kleine Hooks:** `onSurviveCombat` (feuert auf jede
+  überlebende Einheit nach einem echten Showdown — vorher war "eine Combat
+  gewinnen" als Ereignis nicht klar definierbar, Nidalees Reminder-Text "I
+  win if I remain after combat" gibt jetzt eine eindeutige Definition vor);
+  `onOpponentScored`, verdrahtet in `turnFlow.ts` `runBeginning` direkt nach
+  der Punktevergabe (Sumpworks Map). `allowsPlayToEnemyOccupiedBattlefield`
+  (bereits für Deadbloom Predator gebaut) jetzt auch für Rengar, Trophy
+  Hunter wiederverwendet.
 - **Engine-Bugfix (kein Special-Case, betrifft alle bisherigen Karten mit
   [Tank]/[Backline]):** `game/combat.ts`s `assignDamage` hat Ziele bisher
   stur in Array-Reihenfolge abgearbeitet — [Tank] ("zuerst zugewiesen") und

@@ -41,6 +41,12 @@ export interface SpecialCaseHandler {
   /** Called for each of this instance's Showdowns as a defender, before combat damage is assigned — alongside the generic onDefend templated trigger (see game/combat.ts resolveCombat). */
   onDefend?(ctx: SpecialCaseContext): void;
 
+  /** Called on this instance if it's still alive right after a real Showdown resolves (i.e. it "won" the combat by remaining — see Nidalee, Cat Form). Not called for an unopposed conquest (no Showdown took place). */
+  onSurviveCombat?(ctx: SpecialCaseContext): void;
+
+  /** Called on every board instance the OPPONENT of the scoring player owns, whenever that player scores points at their Beginning step (e.g. Sumpworks Map: "When an opponent scores, draw 1."). */
+  onOpponentScored?(ctx: SpecialCaseContext, scoredPoints: number): void;
+
   /**
    * Called whenever this instance moves onto a Battlefield via `attackBattlefield` — the initial
    * attack from base AND any subsequent Ganking move both count, matching the generic

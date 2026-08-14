@@ -49,6 +49,7 @@ export function runBeginning(game: GameState, player: PlayerId): void {
     scoredPoints += 1;
   });
   game.players[player].points += scoredPoints;
+  if (scoredPoints > 0) SpecialCaseEngine.onOpponentScored(game, getCard, player, scoredPoints);
   resolveHoldTriggers(game, getCard, player);
 
   game.battlefields.forEach((slot, index) => {
