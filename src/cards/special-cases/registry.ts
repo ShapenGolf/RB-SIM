@@ -371,6 +371,9 @@ import { heraldOfTheArcane } from "./herald-of-the-arcane";
 import { bountyHunter } from "./bounty-hunter";
 import { eyeOfTwilight } from "./eye-of-twilight";
 import { defenderOfTomorrow } from "./defender-of-tomorrow";
+import { shadowTemple } from "./shadow-temple";
+import { patchedPorobot } from "./patched-porobot";
+import { renektonRageFueled } from "./renekton-rage-fueled";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -742,6 +745,9 @@ const handlers: SpecialCaseHandler[] = [
   bountyHunter,
   eyeOfTwilight,
   defenderOfTomorrow,
+  shadowTemple,
+  patchedPorobot,
+  renektonRageFueled,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

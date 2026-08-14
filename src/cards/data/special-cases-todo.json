@@ -2376,14 +2376,6 @@
     "fullText": "Each other player chooses Cards or Runes. For each player that chooses Cards, you and that player each draw 1. For each player that chooses Runes, you and that player each channel 1 rune exhausted."
   },
   {
-    "id": "ven-58",
-    "name": "Patched Porobot",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "(I enter exhausted.)\nWhen you play me, if you control 3 or more other gear, draw 1.",
-    "fullText": "(I enter exhausted.)\nWhen you play me, if you control 3 or more other gear, draw 1."
-  },
-  {
     "id": "sfd-15",
     "name": "Perched Grimwyrm",
     "set": "SFD",
@@ -2696,14 +2688,6 @@
     "fullText": "1 Energy: Give me +1 Might this turn.\nWhen my Might becomes 10 or more, empower me. (I become Empowered if I'm not already.)\n[Empowered][>] I have [Deflect] and [Ganking]. (Opponents must pay Rune to choose me with a spell or ability. I can move from battlefield to battlefield.)"
   },
   {
-    "id": "ven-19",
-    "name": "Renekton, Rage Fueled",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I attack, if you control 4 or fewer runes, deal 2 to all enemy units here.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\nWhen I attack, if you control 4 or fewer runes, deal 2 to all enemy units here."
-  },
-  {
     "id": "sfd-25",
     "name": "Rengar, Pouncing",
     "set": "SFD",
@@ -2942,14 +2926,6 @@
     "type": "unit",
     "residualText": "When I move, you may [Burn 1] to give me +1 Might this turn. (To Burn 1, put the top card of your Main Deck into your trash.)",
     "fullText": "When I move, you may [Burn 1] to give me +1 Might this turn. (To Burn 1, put the top card of your Main Deck into your trash.)"
-  },
-  {
-    "id": "ven-165",
-    "name": "Shadow Temple",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "When you hold here, [Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)",
-    "fullText": "When you hold here, [Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)"
   },
   {
     "id": "ven-103",
