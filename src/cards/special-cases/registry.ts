@@ -374,6 +374,11 @@ import { defenderOfTomorrow } from "./defender-of-tomorrow";
 import { shadowTemple } from "./shadow-temple";
 import { patchedPorobot } from "./patched-porobot";
 import { renektonRageFueled } from "./renekton-rage-fueled";
+import { rivenShattered } from "./riven-shattered";
+import { keeperOfLaw } from "./keeper-of-law";
+import { gutturalRoar } from "./guttural-roar";
+import { shenLeaderOfKinkouOrder } from "./shen-leader-of-kinkou-order";
+import { shenScourgeOfShadows } from "./shen-scourge-of-shadows";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -748,6 +753,11 @@ const handlers: SpecialCaseHandler[] = [
   shadowTemple,
   patchedPorobot,
   renektonRageFueled,
+  rivenShattered,
+  keeperOfLaw,
+  gutturalRoar,
+  shenLeaderOfKinkouOrder,
+  shenScourgeOfShadows,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

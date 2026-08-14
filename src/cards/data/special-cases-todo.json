@@ -1368,14 +1368,6 @@
     "fullText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, banish a card from any trash to give a unit [Assault 2] this turn. (+2 Might while it's an attacker.)"
   },
   {
-    "id": "ven-72",
-    "name": "Guttural Roar",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Give a unit +2 Might this turn. If it's , give it +4 Might this turn instead.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a unit +2 Might this turn. If it's [Empowered], give it +4 Might this turn instead."
-  },
-  {
     "id": "sfd-210",
     "name": "Hall of Legends",
     "set": "SFD",
@@ -1774,14 +1766,6 @@
     "type": "champion",
     "residualText": "If I have moved twice this turn, I don't take damage.",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nIf I have moved twice this turn, I don't take damage."
-  },
-  {
-    "id": "ven-119",
-    "name": "Keeper of Law",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I cost 2 EnergyOrder Rune less if you control a battlefield with exactly two units there.",
-    "fullText": "I cost 2 EnergyOrder Rune less if you control a battlefield with exactly two units there."
   },
   {
     "id": "unl-81",
@@ -2752,22 +2736,6 @@
     "fullText": "[Empower] costs of your units here cost 1 Energy or Rune less."
   },
   {
-    "id": "ven-171",
-    "name": "Riven, Shattered",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I attack, choose an enemy unit here. Deal 2 to it for each Equipment attached to me.",
-    "fullText": "[Weaponmaster]\nWhen I attack, choose an enemy unit here. Deal 2 to it for each Equipment attached to me."
-  },
-  {
-    "id": "ven-41",
-    "name": "Riven, Shattered",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I attack, choose an enemy unit here. Deal 2 to it for each Equipment attached to me.",
-    "fullText": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nWhen I attack, choose an enemy unit here. Deal 2 to it for each Equipment attached to me."
-  },
-  {
     "id": "sfd-77",
     "name": "Rocket Barrage",
     "set": "SFD",
@@ -2950,30 +2918,6 @@
     "type": "spell",
     "residualText": "Choose an enemy unit. Deal 6 to it unless its controller has you draw 2.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose an enemy unit. Deal 6 to it unless its controller has you draw 2."
-  },
-  {
-    "id": "ven-138",
-    "name": "Shen, Leader of the Kinkou Order",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I hold, if there is exactly one other unit you control here, you score 1 point.",
-    "fullText": "[Shield] (+1 Might while I'm a defender.)\nWhen I hold, if there is exactly one other unit you control here, you score 1 point."
-  },
-  {
-    "id": "ven-170",
-    "name": "Shen, Scourge of Shadows",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I hold, if there is exactly one other unit you control here, draw 1.",
-    "fullText": "When I hold, if there is exactly one other unit you control here, draw 1."
-  },
-  {
-    "id": "ven-42",
-    "name": "Shen, Scourge of Shadows",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I hold, if there is exactly one other unit you control here, draw 1.",
-    "fullText": "When I hold, if there is exactly one other unit you control here, draw 1."
   },
   {
     "id": "ven-59",
