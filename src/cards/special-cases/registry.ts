@@ -189,6 +189,12 @@ import { honestBroker } from "./honest-broker";
 import { sandshifter } from "./sandshifter";
 import { trustyRamhound } from "./trusty-ramhound";
 import { ribbonDancer } from "./ribbon-dancer";
+import { jaxUnrelenting } from "./jax-unrelenting";
+import { lucianMerciless } from "./lucian-merciless";
+import { ornnForgeGod } from "./ornn-forge-god";
+import { sivirAmbitious } from "./sivir-ambitious";
+import { yoneBlademaster } from "./yone-blademaster";
+import { shurelyasRequiem } from "./shurelyas-requiem";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -378,6 +384,12 @@ const handlers: SpecialCaseHandler[] = [
   sandshifter,
   trustyRamhound,
   ribbonDancer,
+  jaxUnrelenting,
+  lucianMerciless,
+  ornnForgeGod,
+  sivirAmbitious,
+  yoneBlademaster,
+  shurelyasRequiem,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

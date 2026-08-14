@@ -3,7 +3,14 @@ import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
 import { destroyInstance } from "../src/game/combat";
+import { resolveOptionalCost } from "../src/game/moves";
+import { attachEquipment } from "../src/game/equip";
 import { makeGame, putOnBase } from "./helpers";
+import type { GameState } from "../src/game/state";
+
+function ctx(G: GameState, playerID: "0" | "1") {
+  return { G, playerID } as unknown as Parameters<typeof resolveOptionalCost>[0];
+}
 
 function moveToBattlefield(game: ReturnType<typeof makeGame>, instanceId: string, battlefieldIndex: number) {
   const instance = game.instances[instanceId];
@@ -222,5 +229,101 @@ describe("Ribbon Dancer (sfd-38): on move, give another friendly unit +1 Might t
     SpecialCaseEngine.onMove(game, getCard(dancer.cardId), dancer);
 
     expect(ally.tempMightBonus).toBe(1);
+  });
+});
+
+describe("Jax, Unrelenting (sfd-119): may pay 1 Energy to draw 1 when Equipment is attached", () => {
+  it("offers the decision on equip, and paying it draws a card", () => {
+    const game = makeGame();
+    const jax = putOnBase(game, "sfd-119", "0");
+    const gear = putOnBase(game, "sfd-161", "0"); // B.F. Sword
+
+    attachEquipment(game, getCard, gear.instanceId, jax.instanceId);
+
+    expect(game.pendingOptionalCost).not.toBeNull();
+    expect(game.pendingOptionalCost!.specialCaseId).toBe("jax-unrelenting");
+    expect(game.pendingOptionalCost!.cost).toEqual({ energy: 1 });
+
+    game.players["0"].mainDeck = ["ogn-4"];
+    game.players["0"].runePool = [{ instanceId: "e1", domain: "Fury" as const, exhausted: false }];
+    resolveOptionalCost(ctx(game, "0"), { pay: true, energyRuneIds: ["e1"] });
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Lucian, Merciless (sfd-113): readies on the first conquer each turn", () => {
+  it("readies once, then stays exhausted on a second conquer the same turn", () => {
+    const game = makeGame();
+    const lucian = putOnBase(game, "sfd-113", "0", { exhausted: true });
+
+    SpecialCaseEngine.onConquer(game, getCard(lucian.cardId), lucian, 0);
+    expect(lucian.exhausted).toBe(false);
+
+    lucian.exhausted = true;
+    SpecialCaseEngine.onConquer(game, getCard(lucian.cardId), lucian, 0);
+    expect(lucian.exhausted).toBe(true);
+  });
+});
+
+describe("Ornn, Forge God (sfd-85): +1 Might for each friendly gear", () => {
+  it("counts both attached and unattached friendly gear", () => {
+    const game = makeGame();
+    const ornn = putOnBase(game, "sfd-85", "0");
+    const baseline = computeMight(game, getCard, ornn, "none");
+
+    putOnBase(game, "gear-tactical-banner", "0");
+    const gear2 = putOnBase(game, "sfd-161", "0");
+    attachEquipment(game, getCard, gear2.instanceId, ornn.instanceId);
+
+    expect(computeMight(game, getCard, ornn, "none")).toBe(baseline + 2);
+  });
+});
+
+describe("Sivir, Ambitious (sfd-120): deal excess conquer damage to an enemy unit", () => {
+  it("deals the excess damage when it's 5 or more", () => {
+    const game = makeGame();
+    const sivir = putOnBase(game, "sfd-120", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1"); // Might 2
+
+    SpecialCaseEngine.onConquer(game, getCard(sivir.cardId), sivir, 5);
+
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+  });
+
+  it("does nothing below the 5-excess threshold", () => {
+    const game = makeGame();
+    const sivir = putOnBase(game, "sfd-120", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onConquer(game, getCard(sivir.cardId), sivir, 4);
+
+    expect(game.instances[enemy.instanceId]).toBeDefined();
+  });
+});
+
+describe("Yone, Blademaster (sfd-116): conquering an open battlefield hits an enemy in base", () => {
+  it("deals Might damage to the first enemy unit in base when excess damage is 0", () => {
+    const game = makeGame();
+    const yone = putOnBase(game, "sfd-116", "0");
+    const enemyInBase = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+
+    SpecialCaseEngine.onConquer(game, getCard(yone.cardId), yone, 0);
+
+    expect(game.instances[enemyInBase.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Shurelya's Requiem (sfd-192): on play, ready your units", () => {
+  it("readies all friendly units and champions, not gear", () => {
+    const game = makeGame();
+    const requiem = putOnBase(game, "sfd-192", "0");
+    const unit = putOnBase(game, "unit-plain-footman", "0", { exhausted: true });
+    const gear = putOnBase(game, "gear-tactical-banner", "0", { exhausted: true });
+
+    SpecialCaseEngine.onPlay(game, getCard(requiem.cardId), requiem);
+
+    expect(unit.exhausted).toBe(false);
+    expect(gear.exhausted).toBe(true);
   });
 });

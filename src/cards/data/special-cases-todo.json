@@ -2352,14 +2352,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nEach Equipment in your hand has [Quick-Draw]. (It gains [Reaction]. When you play it, attach it to a unit you control.)"
   },
   {
-    "id": "sfd-119",
-    "name": "Jax, Unrelenting",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When you attach an Equipment to me, you may pay 1 Energy to draw 1.",
-    "fullText": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nWhen you attach an Equipment to me, you may pay 1 Energy to draw 1."
-  },
-  {
     "id": "ven-68",
     "name": "Jayce, Brilliant Inventor",
     "set": "VEN",
@@ -2774,14 +2766,6 @@
     "type": "champion",
     "residualText": "When I attack, deal damage equal to my  to an enemy unit here.",
     "fullText": "[Assault] (+1 Might while I'm an attacker.)\nWhen I attack, deal damage equal to my [Assault] to an enemy unit here."
-  },
-  {
-    "id": "sfd-113",
-    "name": "Lucian, Merciless",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "The first time I conquer each turn, ready me.",
-    "fullText": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nThe first time I conquer each turn, ready me."
   },
   {
     "id": "ven-6",
@@ -3254,14 +3238,6 @@
     "type": "champion",
     "residualText": "When you play me or when I hold, look at the top 4 cards of your Main Deck. You may reveal a gear from among them and draw it. Then recycle the rest.",
     "fullText": "When you play me or when I hold, look at the top 4 cards of your Main Deck. You may reveal a gear from among them and draw it. Then recycle the rest."
-  },
-  {
-    "id": "sfd-85",
-    "name": "Ornn, Forge God",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "I have +1 Might for each friendly gear.",
-    "fullText": "[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)\n[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nI have +1 Might for each friendly gear."
   },
   {
     "id": "ven-53",
@@ -4208,14 +4184,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nDraw 1 for each of your [Mighty] units. (A unit is Mighty while it has 5+ Might.)"
   },
   {
-    "id": "sfd-192",
-    "name": "Shurelya's Requiem",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "When you play this, ready your units.",
-    "fullText": "[Unique] (Your deck can have only 1 card with this name.)\n[Equip] Rune (Rune: Attach this to a unit you control.)\nWhen you play this, ready your units."
-  },
-  {
     "id": "ven-140",
     "name": "Shuriken Flip",
     "set": "VEN",
@@ -4254,14 +4222,6 @@
     "type": "spell",
     "residualText": "Deal 4 to a unit at a battlefield. If you control 7 or more runes, deal 7 to it instead. When it dies this turn, channel 1 rune exhausted.",
     "fullText": "Deal 4 to a unit at a battlefield. If you control 7 or more runes, deal 7 to it instead. When it dies this turn, channel 1 rune exhausted."
-  },
-  {
-    "id": "sfd-120",
-    "name": "Sivir, Ambitious",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I conquer after an attack, if you assigned 5 or more excess damage to enemy units, you may deal that much to an enemy unit.",
-    "fullText": "[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or Ability.)\nWhen I conquer after an attack, if you assigned 5 or more excess damage to enemy units, you may deal that much to an enemy unit."
   },
   {
     "id": "sfd-143",
@@ -5326,14 +5286,6 @@
     "type": "unit",
     "residualText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \" Kill this, Exhaust:  Rune.\")",
     "fullText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
-  },
-  {
-    "id": "sfd-116",
-    "name": "Yone, Blademaster",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I conquer an open battlefield, deal damage equal to my Might to an enemy unit in a base.",
-    "fullText": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nWhen I conquer an open battlefield, deal damage equal to my Might to an enemy unit in a base."
   },
   {
     "id": "sfd-233",
