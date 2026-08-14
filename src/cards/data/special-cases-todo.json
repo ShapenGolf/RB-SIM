@@ -920,14 +920,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell that costs no more than 4 Energy and no more than Rune."
   },
   {
-    "id": "unl-111",
-    "name": "Determined Sentry",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I can't move to base.",
-    "fullText": "I can't move to base."
-  },
-  {
     "id": "unl-79",
     "name": "Diana, Lunari",
     "set": "UNL",
@@ -1190,14 +1182,6 @@
     "type": "unit",
     "residualText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name.",
     "fullText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name."
-  },
-  {
-    "id": "ogn-168",
-    "name": "Fight or Flight",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Move a unit from a battlefield to its base.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nMove a unit from a battlefield to its base."
   },
   {
     "id": "sfd-110",
@@ -2294,14 +2278,6 @@
     "type": "unit",
     "residualText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1.",
     "fullText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1."
-  },
-  {
-    "id": "sfd-14",
-    "name": "Minotaur Reckoner",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "Units can't move to base.",
-    "fullText": "Units can't move to base."
   },
   {
     "id": "unl-200",
@@ -3766,14 +3742,6 @@
     "type": "champion",
     "residualText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base.",
     "fullText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base."
-  },
-  {
-    "id": "ogn-295",
-    "name": "Vilemaw's Lair",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "Units can't move from here to base.",
-    "fullText": "Units can't move from here to base."
   },
   {
     "id": "unl-226",

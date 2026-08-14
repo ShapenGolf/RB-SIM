@@ -354,6 +354,10 @@ import { squareUp } from "./square-up";
 import { shadowAssassin } from "./shadow-assassin";
 import { shadowbladeLurker } from "./shadowblade-lurker";
 import { appliedResearchers } from "./applied-researchers";
+import { determinedSentry } from "./determined-sentry";
+import { minotaurReckoner } from "./minotaur-reckoner";
+import { vilemawsLair } from "./vilemaws-lair";
+import { fightOrFlight } from "./fight-or-flight";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -708,6 +712,10 @@ const handlers: SpecialCaseHandler[] = [
   shadowAssassin,
   shadowbladeLurker,
   appliedResearchers,
+  determinedSentry,
+  minotaurReckoner,
+  vilemawsLair,
+  fightOrFlight,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1135,6 +1143,28 @@ export const SpecialCaseEngine = {
 
   preventsSelfReady: (game: GameState, card: Card, instance: CardInstance): boolean =>
     Boolean(getSpecialCaseHandler(card)?.preventsSelfReady?.(ctxFor(game, card, instance))),
+
+  /** True if any in-play instance (self-restriction or ambient) prevents `target` from moving to base. */
+  preventsMoveToBase: (game: GameState, getCard: (id: string) => Card, target: CardInstance): boolean => {
+    for (const sourceInstance of Object.values(game.instances)) {
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      if (handler?.preventsMoveToBase?.(ctxFor(game, sourceCard, sourceInstance), target)) return true;
+    }
+    return false;
+  },
+
+  /** True if the Battlefield `target` currently sits at blocks moving to base from here. */
+  blocksMoveToBaseFromBattlefield: (game: GameState, getCard: (id: string) => Card, target: CardInstance): boolean => {
+    if (target.zone !== "battlefield" || target.battlefieldIndex === null) return false;
+    const slot = game.battlefields[target.battlefieldIndex];
+    const card = getCard(slot.cardId);
+    return Boolean(
+      getSpecialCaseHandler(card)?.blocksUnitsMovedToBaseFromHere?.(
+        ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, target.controller, target.battlefieldIndex)),
+      ),
+    );
+  },
 
   /** Extra spell damage from the Battlefield `targetInstance` is currently sitting at. */
   spellDamageBonusFromBattlefield: (

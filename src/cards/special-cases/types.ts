@@ -396,4 +396,16 @@ export interface SpecialCaseHandler {
 
   /** True if this instance can't be readied during its controller's Awaken step (e.g. Maduli the Gatekeeper: "I can't be readied."). Checked in turnFlow.ts runAwaken. */
   preventsSelfReady?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * True if this instance's presence — a self-restriction (e.g. Determined Sentry: "I can't move
+   * to base", checked via `targetInstance.instanceId === ctx.instance.instanceId`) or an ambient
+   * one affecting every unit (e.g. Minotaur Reckoner: "Units can't move to base", ignoring
+   * `targetInstance`) — stops `targetInstance` from moving to its base. Checked against every
+   * in-play instance, see cards/special-cases/move-helpers.ts `moveInstanceToBase`.
+   */
+  preventsMoveToBase?(ctx: SpecialCaseContext, targetInstance: CardInstance): boolean;
+
+  /** Battlefield-only: true if units can't move from here to base (e.g. Vilemaw's Lair: "Units can't move from here to base."). */
+  blocksUnitsMovedToBaseFromHere?(ctx: SpecialCaseContext): boolean;
 }
