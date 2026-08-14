@@ -808,14 +808,6 @@
     "fullText": "[Repeat] \u2014 1 Energy / Rune / 1 EnergyRune (You may pay each additional cost to repeat this spell's effect.)\nChoose one you haven't already chosen \u2014Draw 1.Deal 2 to a unit at a battlefield.Deal 3 to a unit at a base.Give a unit at a battlefield -4 Might this turn."
   },
   {
-    "id": "unl-196",
-    "name": "Daisy!",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I enter ready.\nReduce my cost by 1 Energy for each of the following tags among your units \u2014 Bird, Cat, Dog, and Poro.\nWhen I attack while your units have all 4 tags,  an enemy unit here. (It doesn't deal combat damage this turn.)",
-    "fullText": "I enter ready.\nReduce my cost by 1 Energy for each of the following tags among your units \u2014 Bird, Cat, Dog, and Poro.\nWhen I attack while your units have all 4 tags, [Stun] an enemy unit here. (It doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "ven-79",
     "name": "Dame the Despoiler",
     "set": "VEN",
@@ -2512,14 +2504,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 2 to a unit at a battlefield. If you control a facedown card, deal 4 to it instead."
   },
   {
-    "id": "unl-198",
-    "name": "Moonfall",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a battlefield where you have units. You may move up to one enemy unit to that battlefield. Then give enemy units there -2 Might this turn.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a battlefield where you have units. You may move up to one enemy unit to that battlefield. Then give enemy units there -2 Might this turn."
-  },
-  {
     "id": "ven-17",
     "name": "Morgana, Vindictive",
     "set": "VEN",
@@ -3342,14 +3326,6 @@
     "type": "unit",
     "residualText": "I have  and . (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
-  },
-  {
-    "id": "unl-194",
-    "name": "Shadow",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If you play me to a battlefield, I enter ready.\n 1 EnergyRune, Exhaust:  an enemy unit attacking here. (It doesn't deal combat damage this turn.)",
-    "fullText": "If you play me to a battlefield, I enter ready.\n[Action][>] 1 EnergyRune, Exhaust: [Stun] an enemy unit attacking here. (It doesn't deal combat damage this turn.)"
   },
   {
     "id": "ven-13",

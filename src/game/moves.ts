@@ -43,13 +43,6 @@ export function resolvePlayedCard(
     }
   } else {
     const isUnit = card.type === "unit" || card.type === "champion";
-    const entersReady =
-      (payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
-      SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance) ||
-      SpecialCaseEngine.selfEntersReady(G, card, instance) ||
-      (isUnit && (player.nextUnitEntersReady || player.unitsEnterReadyThisTurn));
-    if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
-    instance.exhausted = !entersReady;
     if (ambushBattlefieldIndex !== undefined) {
       instance.zone = "battlefield";
       instance.battlefieldIndex = ambushBattlefieldIndex;
@@ -57,6 +50,13 @@ export function resolvePlayedCard(
     } else {
       player.base.push(instance.instanceId);
     }
+    const entersReady =
+      (payAdditionalCost && KeywordEngine.entersReadyIfCostPaid(G, card, instance)) ||
+      SpecialCaseEngine.othersEnterReadyFor(G, getCard, instance) ||
+      SpecialCaseEngine.selfEntersReady(G, card, instance) ||
+      (isUnit && (player.nextUnitEntersReady || player.unitsEnterReadyThisTurn));
+    if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
+    instance.exhausted = !entersReady;
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
     fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);

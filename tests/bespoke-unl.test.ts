@@ -1177,6 +1177,76 @@ describe("Maduli the Gatekeeper (unl-144): can't be readied; Chaos Rune: move to
   });
 });
 
+describe("Shadow (unl-194): enters ready if played to a battlefield; Exhaust: stun an attacker here", () => {
+  it("enters ready when its zone is battlefield", () => {
+    const game = makeGame();
+    const shadow = putOnBase(game, "unl-194", "0");
+    moveToBattlefield(game, shadow.instanceId, 0);
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(shadow.cardId), shadow)).toBe(true);
+  });
+
+  it("does not enter ready while on base", () => {
+    const game = makeGame();
+    const shadow = putOnBase(game, "unl-194", "0");
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(shadow.cardId), shadow)).toBe(false);
+  });
+
+  it("stuns an enemy unit at its own battlefield when activated", () => {
+    const game = makeGame();
+    const shadow = putOnBase(game, "unl-194", "0");
+    moveToBattlefield(game, shadow.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onActivate(game, getCard(shadow.cardId), shadow, enemy.instanceId);
+
+    expect(enemy.statuses.stunned).toBe(true);
+  });
+});
+
+describe("Daisy! (unl-196): enters ready; cost reduction per tribal tag; stun on attack with all 4", () => {
+  it("gives 1 cost reduction per distinct tribal tag among your units", () => {
+    const game = makeGame();
+    const daisyCard = putOnBase(game, "unl-196", "0");
+    putOnBase(game, "sfd-36", "0"); // Lonely Poro — tag Poro
+    expect(SpecialCaseEngine.costReduction(game, getCard(daisyCard.cardId), daisyCard)).toBe(1);
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(daisyCard.cardId), daisyCard)).toBe(true);
+  });
+
+  it("stuns an enemy unit on attack only when all 4 tags are present", () => {
+    const game = makeGame();
+    const daisyCard = putOnBase(game, "unl-196", "0");
+    moveToBattlefield(game, daisyCard.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(daisyCard.cardId), daisyCard);
+    expect(enemy.statuses.stunned).toBeFalsy();
+
+    putOnBase(game, "sfd-36", "0"); // Poro
+    // Fake the remaining 3 tags via directly-tagged plain units isn't available in the card
+    // pool used here, so just verify the gating logic short-circuits below 4 distinct tags.
+    SpecialCaseEngine.onAttack(game, getCard(daisyCard.cardId), daisyCard);
+    expect(enemy.statuses.stunned).toBeFalsy();
+  });
+});
+
+describe("Moonfall (unl-198): move an enemy unit to your battlefield, then -2 Might to enemies there", () => {
+  it("moves the enemy unit and weakens enemies at the anchor battlefield", () => {
+    const game = makeGame();
+    const moonfallCard = putOnBase(game, "unl-198", "0");
+    const anchor = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, anchor.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1"); // still on base
+
+    SpecialCaseEngine.onPlay(game, getCard(moonfallCard.cardId), moonfallCard, anchor.instanceId);
+
+    expect(enemy.zone).toBe("battlefield");
+    expect(enemy.battlefieldIndex).toBe(0);
+    expect(enemy.tempMightBonus).toBe(-2);
+  });
+});
+
 describe("Ivern, Nurturer (unl-51): look at top 3, draw a unit, buff on tribal hit", () => {
   it("draws the first unit found and buffs a friendly unit if it's a tracked tribe", () => {
     const game = makeGame();

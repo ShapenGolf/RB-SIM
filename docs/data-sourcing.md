@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **312 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **315 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,16 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **472 von 1019 Karten (~46%) vollständig spielbar.**
-- **547 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **475 von 1019 Karten (~47%) vollständig spielbar.**
+- **544 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **Bugfix in `resolvePlayedCard` (moves.ts):** die Platzierung eines gespielten
+  Units/Champions (Basis vs. Battlefield) geschah bisher NACH der
+  `selfEntersReady`-Auswertung, sodass ein Handler nie `ctx.instance.zone`
+  zuverlässig prüfen konnte, um "wenn zu einem Battlefield gespielt" zu
+  erkennen. Jetzt wird zuerst platziert, danach ausgewertet — ermöglicht z.B.
+  Shadow: "If you play me to a battlefield, I enter ready." Kein bestehender
+  Handler hing vom alten Timing ab (geprüft), also reine Erweiterung ohne
+  Verhaltensänderung für bereits implementierte Karten.
 - **Zwei weitere kleine wiederverwendbare Hooks:** `preventsCombatDamage`
   (SpecialCase-Pendant zum bestehenden Keyword-Hook, z.B. Galio,
   Indefatigable: "I don't deal combat damage."); `preventsSelfReady`, jetzt in

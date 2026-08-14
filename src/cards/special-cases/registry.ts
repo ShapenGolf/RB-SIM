@@ -309,6 +309,9 @@ import { galioIndefatigable } from "./galio-indefatigable";
 import { shardOfUndoing } from "./shard-of-undoing";
 import { theRuination } from "./the-ruination";
 import { maduliTheGatekeeper } from "./maduli-the-gatekeeper";
+import { shadow } from "./shadow";
+import { daisy } from "./daisy";
+import { moonfall } from "./moonfall";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -618,6 +621,9 @@ const handlers: SpecialCaseHandler[] = [
   shardOfUndoing,
   theRuination,
   maduliTheGatekeeper,
+  shadow,
+  daisy,
+  moonfall,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
