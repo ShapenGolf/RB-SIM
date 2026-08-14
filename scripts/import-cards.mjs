@@ -145,6 +145,10 @@ function cardType(rawCardType) {
   return baseType;
 }
 
+function isSignature(rawCardType) {
+  return (rawCardType.superType ?? []).some((s) => s.id === "signature");
+}
+
 function canonicalGroupKey(item) {
   // Alt-art / showcase variants share a collector number with a letter suffix (e.g. "121a").
   // Group by the numeric part + set so we keep exactly one printing per unique game card.
@@ -209,6 +213,7 @@ for (const item of groups.values()) {
     keywords,
     tags: item.tags?.tags ?? [],
     imageUrl: item.cardImage?.url || undefined,
+    isSignature: isSignature(item.cardType) || undefined,
     sourceNote: `Imported from the official Riftbound card gallery (playriftbound.com), set ${item.set.value.label}, ${item.publicCode}.`,
   };
   // Note: specialCaseId is NOT assigned here. It's kept in

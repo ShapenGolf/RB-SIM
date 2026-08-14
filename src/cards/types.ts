@@ -56,6 +56,13 @@ export interface Card {
    */
   imageUrl?: string;
   /**
+   * True for Signature cards (`cardType.superType` id "signature" in the raw gallery data) —
+   * see docs/deck-building-rules.md. Deck-building rule: at most 3 Signature cards total per
+   * deck (summed across all names, not 3-per-name), and a Signature card can never be a Chosen
+   * Champion even if its tags match the Legend's.
+   */
+  isSignature?: boolean;
+  /**
    * When set, this card has unique text beyond what the generic keyword
    * engine covers. The id links to a handler in `src/cards/special-cases/`.
    * Cards with unresolved unique text but no handler yet are still playable
