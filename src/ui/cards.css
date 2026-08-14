@@ -323,16 +323,16 @@ body {
   justify-content: center;
 }
 
-/* Hover-to-zoom preview: fixed + centered so it always reads clearly, regardless of where the
-   card sits (including inside a horizontally-scrolling hand strip). */
+/* Hover-to-zoom preview: fixed in a corner (not centered) so it never covers the card's own
+   add/remove controls or the rest of the grid underneath it — a dead-center overlay made it
+   impossible to click "+" on a card you were still hovering to read. Anchored bottom-right,
+   clear of the left-aligned deck-builder/board content. */
 .rb-card-zoom {
   display: none;
   position: fixed;
-  inset: 0;
+  right: 16px;
+  bottom: 16px;
   z-index: 50;
-  background: rgba(0, 0, 0, 0.6);
-  align-items: center;
-  justify-content: center;
   pointer-events: none;
 }
 .rb-card-wrap:hover .rb-card-zoom {
@@ -639,21 +639,87 @@ body {
   max-width: 1200px;
   margin: 0 auto;
 }
-.rb-db-columns {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
 .rb-db-panel {
-  flex: 1;
   min-width: 260px;
   background: var(--bg-panel);
   border: 1px solid #23262f;
   border-radius: 10px;
   padding: 12px;
 }
-.rb-db-panel-wide {
-  flex: 2;
+
+.rb-db-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  background: var(--bg-panel);
+  border: 1px solid #23262f;
+  border-radius: 8px;
+}
+.rb-db-summary b {
+  color: var(--text-main);
+}
+
+.rb-db-wizard-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.rb-db-wizard-tab {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #3f3f46;
+  background: #1f2229;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.rb-db-wizard-tab:hover:not(:disabled) {
+  color: var(--text-main);
+}
+.rb-db-wizard-tab.active {
+  background: #14532d;
+  border-color: #22c55e;
+  color: #bbf7d0;
+}
+.rb-db-wizard-tab:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.rb-db-wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #23262f;
+}
+.rb-db-wizard-nav button {
+  font-size: 12px;
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: 1px solid #4b5563;
+  background: #1f2937;
+  color: var(--text-main);
+  cursor: pointer;
+}
+.rb-db-wizard-nav button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.rb-db-legend-grid .rb-card {
+  width: 96px;
+}
+.rb-db-legend-name {
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.2;
+  color: var(--text-dim);
 }
 .rb-db-select,
 .rb-db-search {

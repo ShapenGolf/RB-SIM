@@ -28,7 +28,18 @@ const ALL_BATTLEFIELDS = ALL_CARDS.filter((c) => c.type === "battlefield").sort(
 const MAIN_DECK_TYPES: CardType[] = ["unit", "champion", "gear", "spell"];
 type MainFilter = "all" | CardType;
 
+const STEPS = [
+  { key: "legend", label: "1. Legend" },
+  { key: "main", label: "2. Main Deck" },
+  { key: "runes", label: "3. Runen" },
+  { key: "battlefields", label: "4. Battlefields" },
+  { key: "champion", label: "5. Champion" },
+  { key: "save", label: "6. Speichern" },
+] as const;
+type StepKey = (typeof STEPS)[number]["key"];
+
 export function DeckBuilder({ onExit }: { onExit: () => void }) {
+  const [step, setStep] = useState<StepKey>("legend");
   const [legendId, setLegendId] = useState<string | null>(null);
   const [mainDeck, setMainDeck] = useState<string[]>([]);
   const [chosenChampionId, setChosenChampionId] = useState<string | null>(null);
@@ -37,6 +48,7 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
   const [deckName, setDeckName] = useState("");
   const [editingDeckId, setEditingDeckId] = useState<string | null>(null);
   const [savedDecks, setSavedDecks] = useState<SavedDeck[]>(() => listSavedDecks());
+  const [legendSearch, setLegendSearch] = useState("");
   const [search, setSearch] = useState("");
   const [mainFilter, setMainFilter] = useState<MainFilter>("all");
   const [bfSearch, setBfSearch] = useState("");
@@ -53,9 +65,15 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
   }
 
   function pickLegend(id: string) {
-    setLegendId(id || null);
+    if (id === legendId) return;
+    setLegendId(id);
     resetDeck();
   }
+
+  const filteredLegends = useMemo(() => {
+    const q = legendSearch.trim().toLowerCase();
+    return q === "" ? ALL_LEGENDS : ALL_LEGENDS.filter((c) => c.name.toLowerCase().includes(q));
+  }, [legendSearch]);
 
   const eligibleMainCards = useMemo(() => {
     if (!legend) return [];
@@ -170,6 +188,7 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     setBattlefields(saved.deck.battlefields);
     setDeckName(saved.name);
     setEditingDeckId(saved.id);
+    setStep("legend");
   }
   function handleDelete(id: string) {
     deleteDeck(id);
@@ -184,6 +203,13 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     resetDeck();
     setDeckName("");
     setEditingDeckId(null);
+    setStep("legend");
+  }
+
+  const stepIndex = STEPS.findIndex((s) => s.key === step);
+  function goStep(delta: number) {
+    const next = STEPS[stepIndex + delta];
+    if (next) setStep(next.key);
   }
 
   return (
@@ -196,203 +222,263 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
         </div>
       </div>
 
-      <div className="rb-db-columns">
-        <div className="rb-db-panel">
-          <div className="rb-section-label">Legend</div>
-          <select className="rb-db-select" value={legendId ?? ""} onChange={(e) => pickLegend(e.target.value)}>
-            <option value="">— Legend wählen —</option>
-            {ALL_LEGENDS.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name} ({c.domains.join("/")})
-              </option>
-            ))}
-          </select>
-
-          {legend && (
-            <>
-              <div className="rb-section-label">
-                Chosen Champion
-                <span className="rb-count">{chosenChampionId ? "gewählt" : "offen"}</span>
-              </div>
-              <select
-                className="rb-db-select"
-                value={chosenChampionId ?? ""}
-                onChange={(e) => setChosenChampionId(e.target.value || null)}
-                disabled={championOptions.length === 0}
-              >
-                <option value="">
-                  {championOptions.length === 0 ? "— erst passenden Champion ins Main Deck legen —" : "— Champion wählen —"}
-                </option>
-                {championOptions.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-
-              <div className="rb-section-label">
-                Rune Deck
-                <span className="rb-count">{runeDeck.length}/12</span>
-              </div>
-              <div className="rb-db-rune-list">
-                {eligibleRunes.map((c) => (
-                  <div key={c.id} className="rb-db-rune-row">
-                    <span>{c.name}</span>
-                    <div className="rb-db-stepper">
-                      <button onClick={() => removeRuneCopy(c.id)} disabled={(runeDeckCounts.get(c.id) ?? 0) === 0}>
-                        −
-                      </button>
-                      <b>{runeDeckCounts.get(c.id) ?? 0}</b>
-                      <button onClick={() => addRuneCopy(c.id)} disabled={runeDeck.length >= 12}>
-                        +
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="rb-section-label">
-                Battlefields
-                <span className="rb-count">{battlefields.length}/3</span>
-              </div>
-              <input
-                className="rb-db-search"
-                placeholder="Battlefield suchen…"
-                value={bfSearch}
-                onChange={(e) => setBfSearch(e.target.value)}
-              />
-              <div className="rb-db-card-grid rb-db-battlefield-grid">
-                {filteredBattlefields.slice(0, 30).map((c) => (
-                  <CardFace
-                    key={c.id}
-                    card={c}
-                    size="sm"
-                    selected={battlefields.includes(c.id)}
-                    onClick={() => toggleBattlefield(c.id)}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-
-          {savedDecks.length > 0 && (
-            <>
-              <div className="rb-section-label">Gespeicherte Decks</div>
-              <div className="rb-db-saved-list">
-                {savedDecks.map((d) => (
-                  <div key={d.id} className="rb-db-saved-row">
-                    <span>{d.name}</span>
-                    <div className="rb-toolbar">
-                      <button onClick={() => handleLoad(d)}>Laden</button>
-                      <button onClick={() => handleDelete(d.id)}>Löschen</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+      {legend && (
+        <div className="rb-db-summary">
+          <span>
+            <b>{legend.name}</b> ({legendDomains.join("/")})
+          </span>
+          <span>Main Deck: {mainDeck.length}/40+</span>
+          <span>Runen: {runeDeck.length}/12</span>
+          <span>Battlefields: {battlefields.length}/3</span>
+          <span>Champion: {chosenChampionId ? getCard(chosenChampionId).name : "offen"}</span>
         </div>
+      )}
 
-        <div className="rb-db-panel rb-db-panel-wide">
-          {!legend ? (
-            <p className="rb-db-hint">Wähle zuerst eine Legend, um Karten für dein Main Deck zu sehen.</p>
-          ) : (
-            <>
-              <div className="rb-section-label">
-                Main Deck
-                <span className="rb-count">{mainDeck.length}/40+</span>
-              </div>
-              <div className="rb-db-card-grid rb-db-maindeck-grid">
-                {[...mainDeckCounts.entries()].map(([id, count]) => {
-                  const c = getCard(id);
-                  return (
-                    <CardFace
-                      key={id}
-                      card={c}
-                      size="sm"
-                      footer={
-                        <div className="rb-db-stepper">
-                          <button onClick={() => removeMainCopy(id)}>−</button>
-                          <b>{count}</b>
-                          <button onClick={() => addMainCopy(c)} disabled={(mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}>
-                            +
-                          </button>
-                        </div>
-                      }
-                    />
-                  );
-                })}
-                {mainDeck.length === 0 && <p className="rb-db-hint">Noch keine Karten gewählt.</p>}
-              </div>
+      <div className="rb-db-wizard-tabs">
+        {STEPS.map((s) => (
+          <button
+            key={s.key}
+            className={`rb-db-wizard-tab${s.key === step ? " active" : ""}`}
+            onClick={() => setStep(s.key)}
+            disabled={s.key !== "legend" && !legend}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
 
-              <div className="rb-section-label" style={{ marginTop: 18 }}>
-                Karten durchsuchen
-              </div>
-              <div className="rb-toolbar" style={{ marginBottom: 6 }}>
-                {(["all", "unit", "champion", "gear", "spell"] as MainFilter[]).map((f) => (
-                  <button
-                    key={f}
-                    onClick={() => setMainFilter(f)}
-                    style={f === mainFilter ? { color: "#fff", borderColor: "#fff" } : undefined}
-                  >
-                    {f}
-                  </button>
-                ))}
-              </div>
-              <input
-                className="rb-db-search"
-                placeholder="Kartenname suchen…"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <div className="rb-db-card-grid rb-db-browse-grid">
-                {eligibleMainCards.map((c) => (
+      <div className="rb-db-panel">
+        {step === "legend" && (
+          <>
+            <div className="rb-section-label">Legend wählen</div>
+            <input
+              className="rb-db-search"
+              placeholder="Legend suchen…"
+              value={legendSearch}
+              onChange={(e) => setLegendSearch(e.target.value)}
+            />
+            <div className="rb-db-card-grid rb-db-legend-grid">
+              {filteredLegends.slice(0, 60).map((c) => (
+                <CardFace
+                  key={c.id}
+                  card={c}
+                  size="sm"
+                  selected={c.id === legendId}
+                  onClick={() => pickLegend(c.id)}
+                  footer={<div className="rb-db-legend-name">{c.name}</div>}
+                />
+              ))}
+            </div>
+
+            {savedDecks.length > 0 && (
+              <>
+                <div className="rb-section-label" style={{ marginTop: 18 }}>
+                  Gespeicherte Decks
+                </div>
+                <div className="rb-db-saved-list">
+                  {savedDecks.map((d) => (
+                    <div key={d.id} className="rb-db-saved-row">
+                      <span>{d.name}</span>
+                      <div className="rb-toolbar">
+                        <button onClick={() => handleLoad(d)}>Laden</button>
+                        <button onClick={() => handleDelete(d.id)}>Löschen</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </>
+        )}
+
+        {step === "main" && legend && (
+          <>
+            <div className="rb-section-label">
+              Main Deck
+              <span className="rb-count">{mainDeck.length}/40+</span>
+            </div>
+            <div className="rb-db-card-grid rb-db-maindeck-grid">
+              {[...mainDeckCounts.entries()].map(([id, count]) => {
+                const c = getCard(id);
+                return (
                   <CardFace
-                    key={c.id}
+                    key={id}
                     card={c}
                     size="sm"
                     footer={
                       <div className="rb-db-stepper">
-                        <span>{mainDeckNameCounts.get(c.name) ?? 0}x</span>
+                        <button onClick={() => removeMainCopy(id)}>−</button>
+                        <b>{count}</b>
                         <button onClick={() => addMainCopy(c)} disabled={(mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}>
                           +
                         </button>
                       </div>
                     }
                   />
+                );
+              })}
+              {mainDeck.length === 0 && <p className="rb-db-hint">Noch keine Karten gewählt.</p>}
+            </div>
+
+            <div className="rb-section-label" style={{ marginTop: 18 }}>
+              Karten durchsuchen
+            </div>
+            <div className="rb-toolbar" style={{ marginBottom: 6 }}>
+              {(["all", "unit", "champion", "gear", "spell"] as MainFilter[]).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setMainFilter(f)}
+                  style={f === mainFilter ? { color: "#fff", borderColor: "#fff" } : undefined}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+            <input
+              className="rb-db-search"
+              placeholder="Kartenname suchen…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div className="rb-db-card-grid rb-db-browse-grid">
+              {eligibleMainCards.map((c) => (
+                <CardFace
+                  key={c.id}
+                  card={c}
+                  size="sm"
+                  footer={
+                    <div className="rb-db-stepper">
+                      <span>{mainDeckNameCounts.get(c.name) ?? 0}x</span>
+                      <button onClick={() => addMainCopy(c)} disabled={(mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}>
+                        +
+                      </button>
+                    </div>
+                  }
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {step === "runes" && legend && (
+          <>
+            <div className="rb-section-label">
+              Rune Deck
+              <span className="rb-count">{runeDeck.length}/12</span>
+            </div>
+            <div className="rb-db-rune-list">
+              {eligibleRunes.map((c) => (
+                <div key={c.id} className="rb-db-rune-row">
+                  <span>{c.name}</span>
+                  <div className="rb-db-stepper">
+                    <button onClick={() => removeRuneCopy(c.id)} disabled={(runeDeckCounts.get(c.id) ?? 0) === 0}>
+                      −
+                    </button>
+                    <b>{runeDeckCounts.get(c.id) ?? 0}</b>
+                    <button onClick={() => addRuneCopy(c.id)} disabled={runeDeck.length >= 12}>
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {step === "battlefields" && legend && (
+          <>
+            <div className="rb-section-label">
+              Battlefields
+              <span className="rb-count">{battlefields.length}/3</span>
+            </div>
+            <input
+              className="rb-db-search"
+              placeholder="Battlefield suchen…"
+              value={bfSearch}
+              onChange={(e) => setBfSearch(e.target.value)}
+            />
+            <div className="rb-db-card-grid rb-db-battlefield-grid">
+              {filteredBattlefields.slice(0, 30).map((c) => (
+                <CardFace
+                  key={c.id}
+                  card={c}
+                  size="sm"
+                  selected={battlefields.includes(c.id)}
+                  onClick={() => toggleBattlefield(c.id)}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {step === "champion" && legend && (
+          <>
+            <div className="rb-section-label">
+              Chosen Champion
+              <span className="rb-count">{chosenChampionId ? "gewählt" : "offen"}</span>
+            </div>
+            {championOptions.length === 0 ? (
+              <p className="rb-db-hint">
+                Noch kein passender Champion im Main Deck. Geh zu Schritt 2 und füge einen Champion hinzu, dessen Tag zu{" "}
+                {legend.name} passt.
+              </p>
+            ) : (
+              <div className="rb-db-card-grid">
+                {championOptions.map((c) => (
+                  <CardFace
+                    key={c.id}
+                    card={c}
+                    size="sm"
+                    selected={c.id === chosenChampionId}
+                    onClick={() => setChosenChampionId(c.id)}
+                    footer={<div className="rb-db-legend-name">{c.name}</div>}
+                  />
                 ))}
               </div>
+            )}
+          </>
+        )}
 
-              <div className="rb-section-label" style={{ marginTop: 18 }}>
-                Legalität
+        {step === "save" && legend && (
+          <>
+            <div className="rb-section-label">Legalität</div>
+            {issues.length === 0 ? (
+              <div className="rb-callout" style={{ borderColor: "#22c55e" }}>
+                Dieses Deck ist legal.
               </div>
-              {issues.length === 0 ? (
-                <div className="rb-callout" style={{ borderColor: "#22c55e" }}>
-                  Dieses Deck ist legal.
-                </div>
-              ) : (
-                <div className="rb-callout warn">
-                  <ul className="rb-db-issue-list">
-                    {issues.map((issue, i) => (
-                      <li key={i}>{issue.message}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            ) : (
+              <div className="rb-callout warn">
+                <ul className="rb-db-issue-list">
+                  {issues.map((issue, i) => (
+                    <li key={i}>{issue.message}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-              <div className="rb-db-save-row">
-                <input
-                  className="rb-db-search"
-                  placeholder="Deckname"
-                  value={deckName}
-                  onChange={(e) => setDeckName(e.target.value)}
-                />
-                <button className="rb-end-turn" onClick={handleSave} disabled={issues.length > 0}>
-                  Deck speichern
-                </button>
-              </div>
-            </>
-          )}
+            <div className="rb-db-save-row">
+              <input
+                className="rb-db-search"
+                placeholder="Deckname"
+                value={deckName}
+                onChange={(e) => setDeckName(e.target.value)}
+              />
+              <button className="rb-end-turn" onClick={handleSave} disabled={issues.length > 0}>
+                Deck speichern
+              </button>
+            </div>
+          </>
+        )}
+
+        {step !== "legend" && !legend && <p className="rb-db-hint">Wähle zuerst eine Legend (Schritt 1).</p>}
+
+        <div className="rb-db-wizard-nav">
+          <button onClick={() => goStep(-1)} disabled={stepIndex === 0}>
+            ← Zurück
+          </button>
+          <button onClick={() => goStep(1)} disabled={stepIndex === STEPS.length - 1 || !legend}>
+            Weiter →
+          </button>
         </div>
       </div>
     </div>
