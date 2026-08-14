@@ -93,23 +93,30 @@ export function CardFace({
             )}
           </div>
         )}
+      </div>
 
-        {/* Enlarged, readable preview shown on hover — see cards.css .rb-card-wrap:hover .rb-card-zoom */}
-        <div className="rb-card-zoom" style={cssVars}>
-          <div className="rb-card-zoom-inner">
-            {card.imageUrl ? (
-              <img src={card.imageUrl} alt={card.name} />
-            ) : (
-              <div className="rb-card-zoom-placeholder">
-                <p className="rb-card-zoom-name">{card.name}</p>
-                <p className="rb-card-zoom-type">
-                  {card.type}
-                  {card.tags && card.tags.length > 0 ? ` · ${card.tags.join(", ")}` : ""}
-                </p>
-                <p className="rb-card-zoom-text">{card.text}</p>
-              </div>
-            )}
-          </div>
+      {/*
+        Enlarged, readable preview shown on hover — see cards.css .rb-card-wrap:hover .rb-card-zoom.
+        Deliberately a SIBLING of .rb-card, not nested inside it: .rb-card gets a `transform` on
+        its own :hover (the lift effect), and a transformed ancestor becomes the containing block
+        for any position:fixed descendant — which would re-anchor this zoom to the tiny card box
+        and clip it via .rb-card's overflow:hidden, making it invisible while hovering the card
+        art itself (it only "worked" while hovering the footer, outside .rb-card).
+      */}
+      <div className="rb-card-zoom" style={cssVars}>
+        <div className="rb-card-zoom-inner">
+          {card.imageUrl ? (
+            <img src={card.imageUrl} alt={card.name} />
+          ) : (
+            <div className="rb-card-zoom-placeholder">
+              <p className="rb-card-zoom-name">{card.name}</p>
+              <p className="rb-card-zoom-type">
+                {card.type}
+                {card.tags && card.tags.length > 0 ? ` · ${card.tags.join(", ")}` : ""}
+              </p>
+              <p className="rb-card-zoom-text">{card.text}</p>
+            </div>
+          )}
         </div>
       </div>
 
