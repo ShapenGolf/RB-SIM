@@ -29,3 +29,29 @@ export function battlefieldPseudoInstance(
     pendingSurviveCombatXP: 0,
   };
 }
+
+/**
+ * A Legend has no Might/damage/combat participation and isn't stored in `game.instances` — this
+ * fabricates a throwaway CardInstance so its ability (activatedAbilityCost/onActivate) and any
+ * static-aura hooks can reuse the standard SpecialCaseContext shape. `exhausted` mirrors the
+ * real PlayerState.legend.exhausted (the only mutable field that actually matters for a Legend)
+ * so activateLegendAbility's generic cost-paying code can read/write it normally.
+ */
+export function legendPseudoInstance(cardId: string, controller: PlayerId, exhausted: boolean): CardInstance {
+  return {
+    instanceId: `legend-pseudo-${cardId}`,
+    cardId,
+    controller,
+    zone: "championZone",
+    battlefieldIndex: null,
+    damage: 0,
+    exhausted,
+    statuses: {},
+    xp: 0,
+    tempMightBonus: 0,
+    grantedThisTurn: [],
+    equipment: [],
+    attachedTo: null,
+    pendingSurviveCombatXP: 0,
+  };
+}

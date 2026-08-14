@@ -18,6 +18,8 @@ export function runAwaken(game: GameState, player: PlayerId): void {
     instance.exhausted = false;
   }
   for (const rune of game.players[player].runePool) rune.exhausted = false;
+  const legend = game.players[player].legend;
+  if (legend) legend.exhausted = false;
 }
 
 /** Kills every instance `player` controls with the Temporary status, before scoring (see Last Stand, Fading Memories, and various Temporary tokens). */

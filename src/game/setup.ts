@@ -71,6 +71,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     banishment: [],
     base: [],
     runePool: [],
+    legend: null,
     points: 0,
     playedMainDeckCardThisTurn: false,
     xp: 0,
@@ -98,7 +99,7 @@ function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerState {
   const runeDeck = shuffle(
     deck.runeDeck.map((cardId) => ({ instanceId: nextInstanceId(), domain: getCard(cardId).domains[0], exhausted: false })),
   );
-  return { ...emptyPlayerState(id), mainDeck, hand, runeDeck };
+  return { ...emptyPlayerState(id), mainDeck, hand, runeDeck, legend: { cardId: deck.legendId, exhausted: false } };
 }
 
 function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {

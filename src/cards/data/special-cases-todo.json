@@ -1528,22 +1528,6 @@
     "fullText": "[Empower] 4 EnergyCalm Rune (4 EnergyCalm Rune: Empower this. Use only if not Empowered.)\nOpponents' spells cost 1 Energy more. If this is [Empowered], they cost 1 EnergyRune more instead."
   },
   {
-    "id": "ogn-308",
-    "name": "Herald of the Arcane",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Play a 1 Might Recruit unit token.",
-    "fullText": "1 Energy, Exhaust: Play a 1 Might Recruit unit token."
-  },
-  {
-    "id": "ogn-265",
-    "name": "Herald of the Arcane",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Play a 1 Might Recruit unit token.",
-    "fullText": "1 Energy, Exhaust: Play a 1 Might Recruit unit token."
-  },
-  {
     "id": "sfd-111",
     "name": "Here to Help",
     "set": "SFD",

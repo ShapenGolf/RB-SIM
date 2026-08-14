@@ -50,6 +50,18 @@ export interface RuneInstance {
   exhausted: boolean;
 }
 
+/**
+ * A player's Legend, in play for the whole game (see cards/deckValidation.ts DeckList.legendId).
+ * No Might/damage/combat participation — just an exhaust-gated ability source, reusing the
+ * SpecialCaseHandler activatedAbilityCost/onActivate hooks via a pseudo CardInstance (see
+ * game/pseudoInstance.ts legendPseudoInstance) rather than a full game.instances entry.
+ * Null when the game was set up via the domain-cycling MVP fallback (no real DeckList known).
+ */
+export interface LegendState {
+  cardId: string;
+  exhausted: boolean;
+}
+
 export interface PlayerState {
   id: PlayerId;
   mainDeck: string[];
@@ -60,6 +72,7 @@ export interface PlayerState {
   base: string[];
   runeDeck: RuneInstance[];
   runePool: RuneInstance[];
+  legend: LegendState | null;
   points: number;
   /** Set true once a non-Rune "Main Deck" card has been played this turn (used by Legion). */
   playedMainDeckCardThisTurn: boolean;

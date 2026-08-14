@@ -8,6 +8,7 @@ import { createInstance } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
 import { attachEquipment } from "./equip";
+import { legendPseudoInstance } from "./pseudoInstance";
 import type { Card } from "../cards/types";
 import type { CardInstance, GameState, PlayerState } from "./state";
 
@@ -336,6 +337,73 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   }
   instance.xp -= cost.spendXP ?? 0;
   if (cost.killSelf) destroyInstance(G, getCard, instance.instanceId);
+
+  if (card.activatedAbility) {
+    runTemplatedActions(G, getCard, instance, card.activatedAbility.actions, args.targetInstanceId);
+  } else {
+    SpecialCaseEngine.onActivate(G, card, instance, args.targetInstanceId);
+  }
+  return undefined;
+};
+
+export interface ActivateLegendAbilityArgs {
+  energyRuneIds: string[];
+  powerRuneId?: string;
+  targetInstanceId?: string;
+}
+
+/**
+ * Activates the controller's Legend ability ("Cost, Exhaust: Effect"). Mirrors activateAbility,
+ * but the Legend has no CardInstance of its own — see game/pseudoInstance.ts legendPseudoInstance
+ * — so cost-paying mutates PlayerState.legend.exhausted directly instead of an instances[] entry.
+ */
+export const activateLegendAbility: MoveFn<GameState> = ({ G, playerID }, args: ActivateLegendAbilityArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  const legend = player.legend;
+  if (!legend) return INVALID_MOVE;
+
+  const card = getCard(legend.cardId);
+  const instance = legendPseudoInstance(legend.cardId, player.id, legend.exhausted);
+  const cost = card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(card);
+  if (!cost) return INVALID_MOVE;
+  // A Legend has no persistent xp/buffed/instance to spend or kill — these cost components don't
+  // apply here (no current Legend special case uses them; guarded rather than silently ignored).
+  if (cost.spendXP || cost.killSelf || cost.spendBuff) return INVALID_MOVE;
+  if (cost.exhaustSelf && legend.exhausted) return INVALID_MOVE;
+  if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
+  if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
+  if (player.trash.length < (cost.recycleFromTrash ?? 0)) return INVALID_MOVE;
+  if (player.hand.length < (cost.discardCount ?? 0)) return INVALID_MOVE;
+
+  const seen = new Set<string>();
+  for (const runeId of args.energyRuneIds) {
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune || rune.exhausted || seen.has(runeId)) return INVALID_MOVE;
+    seen.add(runeId);
+  }
+  if (args.powerRuneId) {
+    if (seen.has(args.powerRuneId)) return INVALID_MOVE;
+    const rune = player.runePool.find((r) => r.instanceId === args.powerRuneId);
+    if (!rune || rune.domain !== cost.runeDomain) return INVALID_MOVE;
+  }
+
+  for (const runeId of args.energyRuneIds) {
+    player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  if (args.powerRuneId) {
+    const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
+    const [rune] = player.runePool.splice(idx, 1);
+    player.runeDeck.push(rune);
+  }
+  if (cost.exhaustSelf) legend.exhausted = true;
+  for (let i = 0; i < (cost.recycleFromTrash ?? 0); i += 1) {
+    const recycled = player.trash.shift();
+    if (recycled) player.mainDeck.push(recycled);
+  }
+  for (let i = 0; i < (cost.discardCount ?? 0); i += 1) {
+    const discarded = player.hand.shift();
+    if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
+  }
 
   if (card.activatedAbility) {
     runTemplatedActions(G, getCard, instance, card.activatedAbility.actions, args.targetInstanceId);
