@@ -44,6 +44,7 @@ function InstanceChip({
       {card.might !== null ? ` (${card.might + instance.tempMightBonus}M)` : ""}
       {instance.exhausted ? " ⟳" : ""}
       {instance.statuses.stunned ? " 💫" : ""}
+      {instance.equipment.length > 0 ? ` 🗡×${instance.equipment.length}` : ""}
     </button>
   );
 }
@@ -56,6 +57,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     ambushBattlefieldIndex?: number;
   } | null>(null);
   const [pendingAbility, setPendingAbility] = useState<{ instanceId: string } | null>(null);
+  const [pendingEquip, setPendingEquip] = useState<{ gearInstanceId: string } | null>(null);
 
   const me = playerID as PlayerId | null;
   const canAct = isActive && me !== null && ctx.currentPlayer === me;
@@ -83,6 +85,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       xp: 0,
       tempMightBonus: 0,
       grantedThisTurn: [],
+      equipment: [],
+      attachedTo: null,
     };
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, payAdditionalCost);
     if (!payment) {
@@ -118,6 +122,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       xp: 0,
       tempMightBonus: 0,
       grantedThisTurn: [],
+      equipment: [],
+      attachedTo: null,
     };
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, pendingTarget.payAdditionalCost);
     if (!payment) return;
@@ -184,6 +190,43 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       targetInstanceId,
     });
     setPendingAbility(null);
+  }
+
+  function computeEquipPayment(cost: { energy: number; runeDomain?: import("../cards/types").Domain }) {
+    const powerRune = cost.runeDomain ? player.runePool.find((r) => !r.exhausted && r.domain === cost.runeDomain) : undefined;
+    if (cost.runeDomain && !powerRune) return null;
+    const readyRunes = player.runePool.filter((r) => !r.exhausted && r.instanceId !== powerRune?.instanceId);
+    if (readyRunes.length < cost.energy) return null;
+    return {
+      energyRuneIds: readyRunes.slice(0, cost.energy).map((r) => r.instanceId),
+      powerRuneId: powerRune?.instanceId,
+    };
+  }
+
+  function startEquip(gearInstanceId: string) {
+    const gear = G.instances[gearInstanceId];
+    const cost = getCard(gear.cardId).equipCost;
+    if (!cost) return;
+    if (!computeEquipPayment(cost)) {
+      window.alert("Nicht genug Runen, um diese Ausrüstung anzulegen.");
+      return;
+    }
+    setPendingEquip({ gearInstanceId });
+  }
+
+  function confirmEquipTarget(targetInstanceId: string) {
+    if (!pendingEquip) return;
+    const gear = G.instances[pendingEquip.gearInstanceId];
+    const cost = getCard(gear.cardId).equipCost;
+    if (!cost) return;
+    const payment = computeEquipPayment(cost);
+    if (!payment) return;
+    moves.equipGear({
+      gearInstanceId: pendingEquip.gearInstanceId,
+      targetInstanceId,
+      ...payment,
+    });
+    setPendingEquip(null);
   }
 
   function payOptionalCost() {
@@ -278,6 +321,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             xp: 0,
             tempMightBonus: 0,
             grantedThisTurn: [],
+            equipment: [],
+            attachedTo: null,
           };
           const ambushBattlefields = isChampion
             ? G.battlefields.map((_slot, i) => ({ index: i }))
@@ -380,6 +425,25 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         </section>
       )}
 
+      {pendingEquip && (
+        <section style={{ border: "2px solid #34d399", padding: 8, margin: "8px 0" }}>
+          <strong>An welche Einheit anlegen?</strong>
+          <div>
+            {Object.values(G.instances)
+              .filter(
+                (i) =>
+                  i.controller === me &&
+                  (i.zone === "base" || i.zone === "battlefield") &&
+                  (getCard(i.cardId).type === "unit" || getCard(i.cardId).type === "champion"),
+              )
+              .map((i) => (
+                <InstanceChip key={i.instanceId} instance={i} onClick={() => confirmEquipTarget(i.instanceId)} />
+              ))}
+          </div>
+          <button onClick={() => setPendingEquip(null)}>Abbrechen</button>
+        </section>
+      )}
+
       <section>
         <h3>Base</h3>
         {player.base.map((id) => {
@@ -393,6 +457,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                 selected={isUnit ? attackMode?.selected.has(id) : undefined}
                 onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
               />
+              {canAct && card.equipCost && (
+                <button style={{ fontSize: 11 }} onClick={() => startEquip(id)}>
+                  Anlegen (E{card.equipCost.energy}{card.equipCost.runeDomain ? `+${card.equipCost.runeDomain}` : ""})
+                </button>
+              )}
               {canAct &&
                 abilityCostFor(card) &&
                 (!abilityCostFor(card)!.exhaustSelf || !instance.exhausted) && (

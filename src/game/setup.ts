@@ -147,6 +147,8 @@ export function createInstance(game: GameState, cardId: string, controller: Play
     xp: 0,
     tempMightBonus: 0,
     grantedThisTurn: [],
+    equipment: [],
+    attachedTo: null,
   };
   game.instances[instance.instanceId] = instance;
   return instance;

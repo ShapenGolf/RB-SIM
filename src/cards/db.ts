@@ -1,4 +1,4 @@
-import type { Card, CardDatabase } from "./types";
+import type { Card, CardDatabase, Domain } from "./types";
 import type { ActivatedAbility, TemplatedEffect } from "./templatedEffects";
 import starterSetData from "./data/starter-set.json";
 import tokensData from "./data/tokens.json";
@@ -29,12 +29,35 @@ const activatedAbilities = activatedAbilitiesData as Record<string, ActivatedAbi
 // src/cards/data/special-cases-todo.json for what's still unassigned.
 const specialCaseAssignments = specialCaseAssignmentsData as Record<string, string>;
 
+const RUNE_DOMAINS: Domain[] = ["Fury", "Calm", "Mind", "Body", "Chaos", "Order"];
+
+/**
+ * Parses the "equip" keyword's `grantedText` (the cost to attach an Equipment gear to a unit)
+ * for the two common shapes: "<Domain> Rune" and "N Energy<Domain> Rune". Anything else (a bare
+ * domain-less "Rune", or text with an additional non-Rune cost like "Kill a friendly unit") is
+ * left unmatched — those Equipment cards need a hand-written special case instead. See
+ * cards/types.ts `Card.equipCost`.
+ */
+function parseEquipCost(grantedText: string): { energy: number; runeDomain?: Domain } | undefined {
+  const domainPattern = RUNE_DOMAINS.join("|");
+  const withEnergy = grantedText.match(new RegExp(`^(\\d+) Energy(${domainPattern}) Rune$`));
+  if (withEnergy) return { energy: Number(withEnergy[1]), runeDomain: withEnergy[2] as Domain };
+  const runeOnly = grantedText.match(new RegExp(`^(${domainPattern}) Rune$`));
+  if (runeOnly) return { energy: 0, runeDomain: runeOnly[1] as Domain };
+  return undefined;
+}
+
 export const cardDatabase: CardDatabase = Object.fromEntries(
   [...officialCatalog, ...starterSet, ...tokens].map((card) => {
     const extras: Partial<Card> = {};
     if (templatedEffects[card.id]) extras.templatedEffect = templatedEffects[card.id];
     if (activatedAbilities[card.id]) extras.activatedAbility = activatedAbilities[card.id];
     if (specialCaseAssignments[card.id]) extras.specialCaseId = specialCaseAssignments[card.id];
+    const equipKeyword = card.keywords.find((k) => k.keyword === "equip");
+    if (equipKeyword?.grantedText) {
+      const cost = parseEquipCost(equipKeyword.grantedText);
+      if (cost) extras.equipCost = cost;
+    }
     return [card.id, Object.keys(extras).length > 0 ? { ...card, ...extras } : card];
   }),
 );

@@ -36,6 +36,10 @@ export interface CardInstance {
    * KeywordEngine exactly like printed keywords (see registry.ts `contextsFor`). Reset at Awaken.
    */
   grantedThisTurn: KeywordInstance[];
+  /** instanceIds of Equipment gear currently attached to this unit/champion (see game/equip.ts). Empty for non-unit instances and for gear that isn't itself Equipment. */
+  equipment: string[];
+  /** For an Equipment gear instance: the unit/champion instanceId it's attached to, or null if unattached (sitting in base normally). Always null for non-Equipment cards. */
+  attachedTo: string | null;
 }
 
 export interface RuneInstance {

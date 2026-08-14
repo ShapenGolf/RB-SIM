@@ -12,6 +12,7 @@ import { legionHandler } from "./handlers/legion";
 import { shieldHandler } from "./handlers/shield";
 import { deathknellHandler } from "./handlers/deathknell";
 import { visionHandler } from "./handlers/vision";
+import { weaponmasterHandler } from "./handlers/weaponmaster";
 
 const handlers: KeywordHandler[] = [
   stunHandler,
@@ -25,6 +26,7 @@ const handlers: KeywordHandler[] = [
   shieldHandler,
   deathknellHandler,
   visionHandler,
+  weaponmasterHandler,
 ];
 
 const registry = new Map<string, KeywordHandler>(handlers.map((h) => [h.name, h]));

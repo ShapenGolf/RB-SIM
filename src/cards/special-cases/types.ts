@@ -276,4 +276,12 @@ export interface SpecialCaseHandler {
    * `dealSpellDamage` — distinct from the one-shot `nextSpellBonusDamage` PlayerState flag.
    */
   staticSpellDamageBonus?(ctx: SpecialCaseContext): number;
+
+  /**
+   * Called on the WEARER when an Equipment gear is attached to it, from any source — the
+   * player-initiated `equipGear` move or a card effect (Weaponmaster, Rell's attack trigger,
+   * etc.) — see game/equip.ts `attachEquipment`, the sole attach chokepoint. `gearInstance` is
+   * the Equipment that was just attached.
+   */
+  onEquip?(ctx: SpecialCaseContext, gearInstance: CardInstance): void;
 }

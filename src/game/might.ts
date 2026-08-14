@@ -16,7 +16,15 @@ export function computeMight(
   // "Buff" is Riftbound's own term for a single, non-stacking permanent +1 Might counter
   // (a unit either has one or doesn't — "if it doesn't have a buff, it gets a +1 Might buff").
   const buffBonus = instance.statuses.buffed ? 1 : 0;
-  let total = (card.might ?? 0) + instance.tempMightBonus + buffBonus;
+  // Sum of attached Equipment's own `might` field, which (per current import data) is null/0
+  // for every Equipment card we have — see cards/db.ts and docs/data-sourcing.md. Wired here so
+  // any future data fix (or a hand-written Equipment special case using staticMightModifier)
+  // is picked up automatically without touching this function again.
+  const equipmentBonus = instance.equipment.reduce((sum, gearId) => {
+    const gear = game.instances[gearId];
+    return sum + (gear ? getCard(gear.cardId).might ?? 0 : 0);
+  }, 0);
+  let total = (card.might ?? 0) + instance.tempMightBonus + buffBonus + equipmentBonus;
 
   total += SpecialCaseEngine.staticMightModifier(game, card, instance);
   total += SpecialCaseEngine.staticMightModifierFromEnemies(game, getCard, instance);

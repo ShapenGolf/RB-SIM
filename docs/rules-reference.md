@@ -106,7 +106,7 @@ Häufigkeit = Anzahl Vorkommen im Kartentext über alle 5 Sets.
 | **Empowered** | 70 | ✅ (Status-Tracking) | "Solange ich Empowered bin, erhalte ich [Text]." Granted Text ist immer kartenspezifisch (Special Case). |
 | **Hidden** | 61 | ⬜ noch kein Handler | Verdeckt spielbar, später aufdeckbar. |
 | **Deflect [X]** | 59 | ✅ | Gegner muss X zusätzliche Rune(n) zahlen/recyceln, um mich als Ziel zu wählen. |
-| **Equip** | 53 | ⬜ noch kein Handler | Gear/Ausrüstung wird an eine Unit angehängt. |
+| **Equip** | 53 | ✅ (Teilweise, ~32/53) | Gear/Ausrüstung wird an eine Unit angehängt — eigener `equipGear`-Move (moves.ts) + `Card.equipCost` (db.ts, geparst aus dem Equip-Keyword-Text für die gängigen "<Domain> Rune"/"N Energy+<Domain> Rune"-Muster). Kosten mit Zusatzklausel ("— Order Rune, Kill a friendly unit" etc.) bleiben unbehandelt, brauchen eigenen Special Case. Der Might-Bonus angehängter Ausrüstung wird summiert (`might.ts`), ist aber laut aktuellen Importdaten für alle 40 Equipment-Karten `null`/0 — vermutlich eine Importer-Lücke, nicht verifizierbar ohne Netzwerkzugriff. |
 | **Empower [Kosten]** | 53 | ⬜ noch kein Handler | Aktivierte Fähigkeit: Kosten zahlen → Empowered-Status erhalten (nur falls noch nicht empowered). |
 | **Ganking** | 52 | ✅ (Move-Regel) | Kann von Battlefield zu Battlefield ziehen (Bewegungs-Keyword) — direkt in `attackBattlefield` (moves.ts) umgesetzt, kein separater Handler nötig. |
 | **Add** | 50 | ⬜ noch kein Handler | Im Kontext von Ressourcen-Effekten ("[Add] that much Rune"). |
@@ -118,7 +118,7 @@ Häufigkeit = Anzahl Vorkommen im Kartentext über alle 5 Sets.
 | **Assault [+X]** | 23 | ✅ | +X Might solange ich Attacker bin. |
 | **Ambush** | 23 | ✅ (Zieleinstellung + Move-Regel) | Darf als Reaction direkt auf ein Battlefield gespielt werden, wo man **bereits eigene** Units hat (nicht Gegner-Units — frühere Version dieser Zeile hatte das vertauscht). `ambushBattlefieldIndex` in `playCard` (moves.ts), UI-Button in Board.tsx. Reaction-Timing bleibt wie bei allen Reaction-Karten vereinfacht (kein echtes Chain-System). |
 | **Shield [X]** | 21 | ✅ | +X Might solange ich verteidige. |
-| **Weaponmaster** | 20 | ⬜ noch kein Handler | Zusatzkosten-Muster ähnlich Equip, kartenspezifisch. |
+| **Weaponmaster** | 20 | ✅ (Vereinfacht) | "Beim Spielen darfst du eine deiner Equipment-Karten für Rune weniger an mich anhängen." Handler in `keywords/handlers/weaponmaster.ts`: nimmt immer die erste gefundene Equipment (keine Auswahl-UI) und behandelt die Kostenreduktion als vollständig kostenlos. Karten mit zusätzlichem Text über Weaponmaster hinaus (z.B. Akshan) brauchen weiterhin einen eigenen Special Case dafür. |
 | **Stun** | 18 | ✅ (Status-Check) | Verursacht diesen Zug keinen Kampfschaden. Wird i.d.R. von einer anderen Karte verhängt, nicht selbst getragen. |
 | **Flow [Kosten]** | 18 | ⬜ noch kein Handler | Darf gegen Kosten aus dem Trash gespielt werden, danach banished. |
 | **Legion** | 15 | ✅ (Conditional-Check) | Aktiv, wenn diesen Zug bereits eine andere Main-Deck-Karte gespielt wurde. Granted Text immer Special Case. |

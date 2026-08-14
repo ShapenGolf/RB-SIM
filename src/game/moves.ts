@@ -7,6 +7,7 @@ import { resolveCombat, destroyInstance } from "./combat";
 import { createInstance } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
+import { attachEquipment } from "./equip";
 import type { Card } from "../cards/types";
 import type { CardInstance, GameState, PlayerState } from "./state";
 
@@ -318,6 +319,55 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   } else {
     SpecialCaseEngine.onActivate(G, card, instance, args.targetInstanceId);
   }
+  return undefined;
+};
+
+export interface EquipGearArgs {
+  gearInstanceId: string;
+  targetInstanceId: string;
+  energyRuneIds: string[];
+  powerRuneId?: string;
+}
+
+/** Pays an Equipment gear's [Equip] cost and attaches it to a friendly unit/champion (see game/equip.ts). */
+export const equipGear: MoveFn<GameState> = ({ G, playerID }, args: EquipGearArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  const gear = G.instances[args.gearInstanceId];
+  if (!gear || gear.controller !== player.id) return INVALID_MOVE;
+  const card = getCard(gear.cardId);
+  const cost = card.equipCost;
+  if (!cost) return INVALID_MOVE;
+
+  const target = G.instances[args.targetInstanceId];
+  if (!target || target.controller !== player.id) return INVALID_MOVE;
+  const targetType = getCard(target.cardId).type;
+  if (targetType !== "unit" && targetType !== "champion") return INVALID_MOVE;
+
+  if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
+  if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
+
+  const seen = new Set<string>();
+  for (const runeId of args.energyRuneIds) {
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune || rune.exhausted || seen.has(runeId)) return INVALID_MOVE;
+    seen.add(runeId);
+  }
+  if (args.powerRuneId) {
+    if (seen.has(args.powerRuneId)) return INVALID_MOVE;
+    const rune = player.runePool.find((r) => r.instanceId === args.powerRuneId);
+    if (!rune || rune.exhausted || rune.domain !== cost.runeDomain) return INVALID_MOVE;
+  }
+
+  for (const runeId of args.energyRuneIds) {
+    player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  if (args.powerRuneId) {
+    const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
+    const [rune] = player.runePool.splice(idx, 1);
+    player.runeDeck.push(rune);
+  }
+
+  attachEquipment(G, getCard, args.gearInstanceId, args.targetInstanceId);
   return undefined;
 };
 

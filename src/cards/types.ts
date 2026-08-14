@@ -66,6 +66,14 @@ export interface Card {
   /** Auto-matched "[Cost,] Exhaust: Effect" activated ability, see scripts/match-activated-abilities.mjs. */
   activatedAbility?: ActivatedAbility;
   /**
+   * Auto-matched cost for Equipment's "[Equip] <cost>" keyword — pay this to attach the gear to
+   * a unit you control (see game/equip.ts `equipGear`). Computed in cards/db.ts for the common
+   * "<Domain> Rune" / "N Energy+<Domain> Rune" patterns; Equipment with a non-Energy/Rune
+   * additional cost (e.g. "— Order Rune, Kill a friendly unit") is left unset and needs its own
+   * special case, same spirit as `activatedAbilityCost` vs `activatedAbility`.
+   */
+  equipCost?: { energy: number; runeDomain?: Domain };
+  /**
    * Provenance note for this data entry. Real cards researched via web
    * search are cited here; cards without a confirmed official source are
    * marked "unverified" and exist only to exercise the keyword engine.

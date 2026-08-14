@@ -420,6 +420,11 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onMove?.(ctxFor(game, card, instance));
   },
 
+  /** `instance` is the wearer; `gearInstance` is the Equipment just attached to it. */
+  onEquip: (game: GameState, card: Card, instance: CardInstance, gearInstance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onEquip?.(ctxFor(game, card, instance), gearInstance);
+  },
+
   onHold: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onHold?.(ctxFor(game, card, instance));
   },

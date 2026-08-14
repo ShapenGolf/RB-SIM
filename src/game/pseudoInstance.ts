@@ -24,5 +24,7 @@ export function battlefieldPseudoInstance(
     xp: 0,
     tempMightBonus: 0,
     grantedThisTurn: [],
+    equipment: [],
+    attachedTo: null,
   };
 }
