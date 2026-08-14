@@ -195,6 +195,27 @@ import { ornnForgeGod } from "./ornn-forge-god";
 import { sivirAmbitious } from "./sivir-ambitious";
 import { yoneBlademaster } from "./yone-blademaster";
 import { shurelyasRequiem } from "./shurelyas-requiem";
+import { batteringRam } from "./battering-ram";
+import { dunebreaker } from "./dunebreaker";
+import { lucianGunslinger } from "./lucian-gunslinger";
+import { guardianOfThePassage } from "./guardian-of-the-passage";
+import { lonelyPoro } from "./lonely-poro";
+import { apprenticeSmith } from "./apprentice-smith";
+import { legionQuartermaster } from "./legion-quartermaster";
+import { ornnBlacksmith } from "./ornn-blacksmith";
+import { bubbleBot } from "./bubble-bot";
+import { dropboarder } from "./dropboarder";
+import { pickpocket } from "./pickpocket";
+import { productionSurge } from "./production-surge";
+import { cardSharp } from "./card-sharp";
+import { jayceManOfProgress } from "./jayce-man-of-progress";
+import { rumbleScrapper } from "./rumble-scrapper";
+import { buhruCaptain } from "./buhru-captain";
+import { dauntlessVanguard } from "./dauntless-vanguard";
+import { direwing } from "./direwing";
+import { seaMonkey } from "./sea-monkey";
+import { blastCorpsCadet } from "./blast-corps-cadet";
+import { frostcoatCub } from "./frostcoat-cub";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -390,6 +411,27 @@ const handlers: SpecialCaseHandler[] = [
   sivirAmbitious,
   yoneBlademaster,
   shurelyasRequiem,
+  batteringRam,
+  dunebreaker,
+  lucianGunslinger,
+  guardianOfThePassage,
+  lonelyPoro,
+  apprenticeSmith,
+  legionQuartermaster,
+  ornnBlacksmith,
+  bubbleBot,
+  dropboarder,
+  pickpocket,
+  productionSurge,
+  cardSharp,
+  jayceManOfProgress,
+  rumbleScrapper,
+  buhruCaptain,
+  dauntlessVanguard,
+  direwing,
+  seaMonkey,
+  blastCorpsCadet,
+  frostcoatCub,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -436,6 +478,10 @@ export const SpecialCaseEngine = {
   onEquip: (game: GameState, card: Card, instance: CardInstance, gearInstance: CardInstance) => {
     getSpecialCaseHandler(card)?.onEquip?.(ctxFor(game, card, instance), gearInstance);
   },
+
+  /** `undefined` means no handler offers a "pay extra for a bonus effect" option at all — distinct from a handler that offers one for 0 Energy (e.g. Frostcoat Cub, whose whole additional cost is a Domain Rune we don't charge). */
+  additionalPlayCostEnergy: (game: GameState, card: Card, instance: CardInstance): number | undefined =>
+    getSpecialCaseHandler(card)?.additionalPlayCostEnergy?.(ctxFor(game, card, instance)),
 
   onHold: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onHold?.(ctxFor(game, card, instance));

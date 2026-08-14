@@ -38,7 +38,8 @@ export function computeAutoPayment(
   }
 
   const additionalEnergy = payAdditionalCost
-    ? KeywordEngine.additionalPlayCostEnergy(game, card, instance)
+    ? KeywordEngine.additionalPlayCostEnergy(game, card, instance) +
+      (SpecialCaseEngine.additionalPlayCostEnergy(game, card, instance) ?? 0)
     : 0;
   const discardCostConfig = payAdditionalCost
     ? SpecialCaseEngine.additionalCostDiscardForReduction(card)

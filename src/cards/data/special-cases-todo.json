@@ -208,14 +208,6 @@
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], [Predict 2]. (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n[Empowered][>] I have +1 Might."
   },
   {
-    "id": "sfd-41",
-    "name": "Apprentice Smith",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move, reveal the top card of your Main Deck. If it's a gear, draw it. Otherwise, recycle it.",
-    "fullText": "When I move, reveal the top card of your Main Deck. If it's a gear, draw it. Otherwise, recycle it."
-  },
-  {
     "id": "unl-117",
     "name": "Arachnoid Horror",
     "set": "UNL",
@@ -424,14 +416,6 @@
     "fullText": "4 Energy, Exhaust: Play a ready 3 Might Sprite unit token with [Temporary]. This ability costs 1 Energy less for each friendly unit with [Temporary]."
   },
   {
-    "id": "sfd-12",
-    "name": "Battering Ram",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "I cost 1 Energy less for each card you've played this turn, to a minimum of 1 Energy.",
-    "fullText": "I cost 1 Energy less for each card you've played this turn, to a minimum of 1 Energy."
-  },
-  {
     "id": "sfd-203",
     "name": "Battle Mistress",
     "set": "SFD",
@@ -526,14 +510,6 @@
     "type": "gear",
     "residualText": "When you play this, you may move an enemy unit.\nWhen you move an enemy unit, you may exhaust this to  it. (It doesn't deal combat damage this turn.)",
     "fullText": "When you play this, you may move an enemy unit.\nWhen you move an enemy unit, you may exhaust this to [Stun] it. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "sfd-13",
-    "name": "Blast Corps Cadet",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "You may pay 1 EnergyFury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit at a battlefield.",
-    "fullText": "You may pay 1 EnergyFury Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, deal 2 to a unit at a battlefield."
   },
   {
     "id": "ogn-57",
@@ -656,28 +632,12 @@
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "sfd-62",
-    "name": "Bubble Bot",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, ready another friendly Mech.",
-    "fullText": "When you play me, ready another friendly Mech."
-  },
-  {
     "id": "unl-4",
     "name": "Prepared Neophyte",
     "set": "UNL",
     "type": "unit",
     "residualText": "If you've spent 4 Energy or more to play a spell this turn, I have +4 Might.",
     "fullText": "If you've spent 4 Energy or more to play a spell this turn, I have +4 Might."
-  },
-  {
-    "id": "sfd-91",
-    "name": "Buhru Captain",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, you may draw 1 or buff me. (To buff a unit, give it a +1 Might buff if it doesn't already have one.)",
-    "fullText": "When you play me, you may draw 1 or buff me. (To buff a unit, give it a +1 Might buff if it doesn't already have one.)"
   },
   {
     "id": "ogn-268",
@@ -734,14 +694,6 @@
     "type": "spell",
     "residualText": "Look at the top 2 cards of your Main Deck. Draw one and recycle the other.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
-  },
-  {
-    "id": "sfd-81",
-    "name": "Card Sharp",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, you and each opponent may play a Gold gear token exhausted. For each opponent who did, you play a Gold gear token exhausted.",
-    "fullText": "When you play me, you and each opponent may play a Gold gear token exhausted. For each opponent who did, you play a Gold gear token exhausted."
   },
   {
     "id": "unl-153",
@@ -1008,14 +960,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 1 EnergyRune (You may pay the additional cost to repeat this spell's effect.)\nGive your Mechs +1 Might this turn."
   },
   {
-    "id": "sfd-236",
-    "name": "Darius, Executioner",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "\u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
-    "fullText": "[Legion] \u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here."
-  },
-  {
     "id": "ogs-17",
     "name": "Dark Child - Starter",
     "set": "OGS",
@@ -1038,14 +982,6 @@
     "type": "legend",
     "residualText": "Exhaust:  \u2014  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "sfd-93",
-    "name": "Dauntless Vanguard",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "You may play me to an occupied enemy battlefield.",
-    "fullText": "You may play me to an occupied enemy battlefield."
   },
   {
     "id": "unl-73",
@@ -1200,14 +1136,6 @@
     "fullText": "When a showdown begins here, you may pay 1 Energy. If you do, [Predict], then reveal the top card of your Main Deck. If it's a spell, draw it. (To Predict, look at the top card of your Main Deck. You may recycle it.)"
   },
   {
-    "id": "sfd-94",
-    "name": "Direwing",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "I enter ready if you control another Dragon.",
-    "fullText": "I enter ready if you control another Dragon."
-  },
-  {
     "id": "ven-117",
     "name": "Disciple of Shen",
     "set": "VEN",
@@ -1320,36 +1248,12 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nThe first time I win a combat each turn, you score 1 point.\nWhen I die in combat, choose an opponent. They score 1 point."
   },
   {
-    "id": "ven-172",
-    "name": "Draven, Showboat",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "My Might is increased by your points.",
-    "fullText": "My Might is increased by your points."
-  },
-  {
     "id": "sfd-20",
     "name": "Draven, Vanquisher",
     "set": "SFD",
     "type": "champion",
     "residualText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn.",
     "fullText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn."
-  },
-  {
-    "id": "sfd-72",
-    "name": "Dropboarder",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, if you control two or more gear, ready me.",
-    "fullText": "When you play me, if you control two or more gear, ready me."
-  },
-  {
-    "id": "sfd-27",
-    "name": "Dunebreaker",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "If you have two or fewer cards in your hand, I enter ready.\nWhen I hold, draw 2.",
-    "fullText": "If you have two or fewer cards in your hand, I enter ready.\nWhen I hold, draw 2."
   },
   {
     "id": "unl-209",
@@ -1728,14 +1632,6 @@
     "fullText": "When you play me, play a 1 Might Bird unit token with [Deflect] here. (Opponents must pay Rune to choose it with a spell or ability.)"
   },
   {
-    "id": "sfd-67",
-    "name": "Frostcoat Cub",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "You may pay Mind Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, give a unit -2 Might this turn.",
-    "fullText": "You may pay Mind Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, give a unit -2 Might this turn."
-  },
-  {
     "id": "ven-32",
     "name": "Frostcoat Mother",
     "set": "VEN",
@@ -1926,14 +1822,6 @@
     "type": "unit",
     "residualText": "12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n I have  and . (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
     "fullText": "[Empower] 12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
-  },
-  {
-    "id": "sfd-35",
-    "name": "Guardian of the Passage",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I hold, you may return a unit or gear from your trash to your hand.",
-    "fullText": "When I hold, you may return a unit or gear from your trash to your hand."
   },
   {
     "id": "sfd-154",
@@ -2368,14 +2256,6 @@
     "fullText": "When I become ready, choose one to give me this turn \u2014[Assault 2] (+2 Might while I'm an attacker.)[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "sfd-84",
-    "name": "Jayce, Man of Progress",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When you play me, you may kill a friendly gear. If you do, you may play a gear with Energy cost no more than 7 Energy from hand this turn, ignoring its Energy cost. (You must still pay its Power cost.)",
-    "fullText": "When you play me, you may kill a friendly gear. If you do, you may play a gear with Energy cost no more than 7 Energy from hand this turn, ignoring its Energy cost. (You must still pay its Power cost.)"
-  },
-  {
     "id": "ven-175",
     "name": "Jayce, Man of Progress",
     "set": "VEN",
@@ -2648,14 +2528,6 @@
     "fullText": "[Empower] \u2014 1 Energy or Body Rune (Pay either cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might."
   },
   {
-    "id": "sfd-44",
-    "name": "Legion Quartermaster",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "As an additional cost to play me, return a friendly gear to its owner's hand.",
-    "fullText": "As an additional cost to play me, return a friendly gear to its owner's hand."
-  },
-  {
     "id": "ven-184",
     "name": "Leona, Determined",
     "set": "VEN",
@@ -2694,14 +2566,6 @@
     "type": "spell",
     "residualText": "Counter a spell. Its controller can't play spells this turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell. Its controller can't play spells this turn."
-  },
-  {
-    "id": "sfd-36",
-    "name": "Lonely Poro",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "\u2014 If I died alone, draw 1. (When I die, get the effect. I'm alone if there are no other friendly units here.)",
-    "fullText": "[Deathknell] \u2014 If I died alone, draw 1. (When I die, get the effect. I'm alone if there are no other friendly units here.)"
   },
   {
     "id": "unl-221",
@@ -2758,14 +2622,6 @@
     "type": "unit",
     "residualText": "When you defend at a battlefield, you may move me there.",
     "fullText": "When you defend at a battlefield, you may move me there."
-  },
-  {
-    "id": "sfd-28",
-    "name": "Lucian, Gunslinger",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I attack, deal damage equal to my  to an enemy unit here.",
-    "fullText": "[Assault] (+1 Might while I'm an attacker.)\nWhen I attack, deal damage equal to my [Assault] to an enemy unit here."
   },
   {
     "id": "ven-6",
@@ -3232,14 +3088,6 @@
     "fullText": "While you control this battlefield, the first friendly non-token gear played each turn costs 1 Energy less."
   },
   {
-    "id": "sfd-58",
-    "name": "Ornn, Blacksmith",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When you play me or when I hold, look at the top 4 cards of your Main Deck. You may reveal a gear from among them and draw it. Then recycle the rest.",
-    "fullText": "When you play me or when I hold, look at the top 4 cards of your Main Deck. You may reveal a gear from among them and draw it. Then recycle the rest."
-  },
-  {
     "id": "ven-53",
     "name": "Otterpus",
     "set": "VEN",
@@ -3320,14 +3168,6 @@
     "fullText": "[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nFriendly units have [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)"
   },
   {
-    "id": "sfd-74",
-    "name": "Pickpocket",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, you may kill a gear with Energy cost no more than 1 Energy. If you do, play a Gold gear token exhausted.",
-    "fullText": "When you play me, you may kill a gear with Energy cost no more than 1 Energy. If you do, play a Gold gear token exhausted."
-  },
-  {
     "id": "sfd-23",
     "name": "Piercing Light",
     "set": "SFD",
@@ -3382,14 +3222,6 @@
     "type": "unit",
     "residualText": "I cost 1 Energy less for each gear you control.",
     "fullText": "I cost 1 Energy less for each gear you control.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)"
-  },
-  {
-    "id": "unl-222",
-    "name": "Plundering Poro",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I conquer, play a Gold gear token exhausted.",
-    "fullText": "When I conquer, play a Gold gear token exhausted."
   },
   {
     "id": "unl-178",
@@ -3454,14 +3286,6 @@
     "type": "legend",
     "residualText": "Exhaust:  \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
     "fullText": "Exhaust: [Reaction] \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."
-  },
-  {
-    "id": "sfd-76",
-    "name": "Production Surge",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "This costs 2 Energy less if you control a Mech.\nPlay a 3 Might Mech unit token to your base.\nDraw 1.",
-    "fullText": "This costs 2 Energy less if you control a Mech.\nPlay a 3 Might Mech unit token to your base.\nDraw 1."
   },
   {
     "id": "ven-82",
@@ -3896,14 +3720,6 @@
     "fullText": "Your Mechs each have [Assault]. (+1 Might while we're attackers.)\nWhen I conquer, you may recycle another friendly unit to play a Mech from your trash. Reduce its Energy cost by the Might of the unit you recycled."
   },
   {
-    "id": "sfd-89",
-    "name": "Rumble, Scrapper",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "Your Mechs have +1 Might (including me).\nWhen I hold, play a 3 Might Mech unit token to your base.",
-    "fullText": "Your Mechs have +1 Might (including me).\nWhen I hold, play a 3 Might Mech unit token to your base."
-  },
-  {
     "id": "ven-8",
     "name": "Ruthless Strike",
     "set": "VEN",
@@ -4008,14 +3824,6 @@
     "fullText": "(Units with 0 Might can conquer and hold.)\nWhen you play me, draw 1.\n[Deathknell][>] Choose an opponent. They reveal their hand. You can look at their facedown cards this turn. Gain 1 XP. (When I die, get the effects.)"
   },
   {
-    "id": "sfd-98",
-    "name": "Sea Monkey",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, buff me. (Give me a +1 Might buff if I don't already have one.)",
-    "fullText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, buff me. (Give me a +1 Might buff if I don't already have one.)"
-  },
-  {
     "id": "sfd-217",
     "name": "Seat of Power",
     "set": "SFD",
@@ -4030,14 +3838,6 @@
     "type": "unit",
     "residualText": "I have  and . (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
-  },
-  {
-    "id": "sfd-232",
-    "name": "Sett, Brawler",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I'm played and when I conquer, buff me. (If I don't have a buff, I get a +1 Might buff.)\nSpend my buff: Give me +4 Might this turn.",
-    "fullText": "When I'm played and when I conquer, buff me. (If I don't have a buff, I get a +1 Might buff.)\nSpend my buff: Give me +4 Might this turn."
   },
   {
     "id": "unl-194",
@@ -4960,14 +4760,6 @@
     "fullText": "When you hold here, your non-token units cost 1 Energy more to play this turn."
   },
   {
-    "id": "sfd-223",
-    "name": "Vayne, Hunter",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "If an opponent controls a battlefield, I enter ready.\nWhen I conquer, you may pay 1 Energy to return me to my owner's hand.",
-    "fullText": "[Assault 3] (+3 Might while I'm an attacker.)\nIf an opponent controls a battlefield, I enter ready.\nWhen I conquer, you may pay 1 Energy to return me to my owner's hand."
-  },
-  {
     "id": "sfd-221",
     "name": "Veiled Temple",
     "set": "SFD",
@@ -5286,14 +5078,6 @@
     "type": "unit",
     "residualText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \" Kill this, Exhaust:  Rune.\")",
     "fullText": "When I conquer, if you assigned 3 or more excess damage, play two Gold gear tokens exhausted. (They have \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
-  },
-  {
-    "id": "sfd-233",
-    "name": "Yone, Blademaster",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I conquer an open battlefield, deal damage equal to my Might to an enemy unit in a base.",
-    "fullText": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for Rune less, even if it's already attached.)\nWhen I conquer an open battlefield, deal damage equal to my Might to an enemy unit in a base."
   },
   {
     "id": "unl-56",

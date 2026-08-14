@@ -27,6 +27,7 @@ export function resolvePlayedCard(
   payAdditionalCost: boolean,
   ambushBattlefieldIndex?: number,
 ): void {
+  instance.statuses.paidAdditionalCostThisTurn = payAdditionalCost;
   if (card.type === "spell") {
     if (player.nextSpellCostReduction > 0) player.nextSpellCostReduction = 0;
     KeywordEngine.fireOnPlay(G, card, instance);
@@ -110,7 +111,8 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   }
 
   const additionalEnergy = args.payAdditionalCost
-    ? KeywordEngine.additionalPlayCostEnergy(G, card, instance)
+    ? KeywordEngine.additionalPlayCostEnergy(G, card, instance) +
+      (SpecialCaseEngine.additionalPlayCostEnergy(G, card, instance) ?? 0)
     : 0;
   const discardCostConfig = args.payAdditionalCost
     ? SpecialCaseEngine.additionalCostDiscardForReduction(card)

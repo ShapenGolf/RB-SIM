@@ -307,6 +307,21 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const card = getCard(cardId);
           const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
           const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
+          const bonusEffectEnergy = SpecialCaseEngine.additionalPlayCostEnergy(G, card, {
+            instanceId: "preview",
+            cardId,
+            controller: me!,
+            zone: "base",
+            battlefieldIndex: null,
+            damage: 0,
+            exhausted: false,
+            statuses: {},
+            xp: 0,
+            tempMightBonus: 0,
+            grantedThisTurn: [],
+            equipment: [],
+            attachedTo: null,
+          });
           const isChampion = card.type === "champion";
           const enemyId: PlayerId = me === "0" ? "1" : "0";
           const ambushDummyInstance: CardInstance = {
@@ -363,6 +378,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                   {discardCostConfig && (
                     <button style={{ marginLeft: 6 }} onClick={() => playCardAuto(idx, true)}>
                       Spielen (discard {discardCostConfig.discardCount}, -{discardCostConfig.energyReduction}E)
+                    </button>
+                  )}
+                  {bonusEffectEnergy !== undefined && (
+                    <button style={{ marginLeft: 6 }} onClick={() => playCardAuto(idx, true)}>
+                      Spielen (+{bonusEffectEnergy}E für Bonus-Effekt)
                     </button>
                   )}
                   {ambushBattlefields.map((b) => (

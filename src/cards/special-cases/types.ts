@@ -284,4 +284,17 @@ export interface SpecialCaseHandler {
    * the Equipment that was just attached.
    */
   onEquip?(ctx: SpecialCaseContext, gearInstance: CardInstance): void;
+
+  /**
+   * Extra Energy that may optionally be paid to play this card, for a bonus effect on top of
+   * the normal play (e.g. Sea Monkey: "You may pay 1 Energy as an additional cost to play me.
+   * When you play me, if you paid the additional cost, buff me."). Opted into via the existing
+   * `payAdditionalCost` play flag (same as Accelerate/discard-reduction) — read the outcome via
+   * `ctx.instance.statuses.paidAdditionalCostThisTurn` inside `onPlay`. Same spirit as
+   * `KeywordHandler.additionalPlayCostEnergy` but for cards without a dedicated keyword;
+   * summed with it in moves.ts/ui/autoPay.ts, not mutually exclusive. Simplification consistent
+   * with Accelerate: only the Energy component is charged, any Domain-Rune part of the printed
+   * cost is not (see docs/data-sourcing.md).
+   */
+  additionalPlayCostEnergy?(ctx: SpecialCaseContext): number;
 }
