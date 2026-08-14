@@ -224,14 +224,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nBanish a friendly unit, then its owner plays it, ignoring its cost. Deal 3 to an enemy unit at a battlefield. Banish this."
   },
   {
-    "id": "unl-1",
-    "name": "Arena Kingpin",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I enter ready.\nExhaust: Give a unit +3 Might this turn.",
-    "fullText": "I enter ready.\nExhaust: Give a unit +3 Might this turn."
-  },
-  {
     "id": "unl-169",
     "name": "Ashe, Focused",
     "set": "UNL",
@@ -336,14 +328,6 @@
     "fullText": "1 EnergyOrder Rune, Exhaust: Kill a friendly unit. Look at the top 5 cards of your Main Deck. You may banish a unit from among them that has Might up to 1 more than the killed unit and play it, ignoring its cost. Then recycle the rest."
   },
   {
-    "id": "unl-151",
-    "name": "Bandle Soldier",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I enter ready. (While you have 3+ XP, get the effect.)",
-    "fullText": "[Level 3][>] I enter ready. (While you have 3+ XP, get the effect.)"
-  },
-  {
     "id": "ogn-278",
     "name": "Bandle Tree",
     "set": "OGN",
@@ -446,14 +430,6 @@
     "type": "unit",
     "residualText": "When you play a card from face down, play a Gold gear token exhausted.",
     "fullText": "When you play a card from face down, play a Gold gear token exhausted."
-  },
-  {
-    "id": "unl-152",
-    "name": "Black Rose Dignitary",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Channel 1 rune exhausted. (When I die, get the effect.)",
-    "fullText": "[Assault] (+1 Might while I'm an attacker.)\n[Deathknell][>] Channel 1 rune exhausted. (When I die, get the effect.)"
   },
   {
     "id": "sfd-246",
@@ -672,14 +648,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
   },
   {
-    "id": "unl-153",
-    "name": "Carrion Dredger",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Play a 1 Might Bird unit token with  to your base. (When I die, get the effect. Opponents must pay Rune to choose a  unit with a spell or ability.)",
-    "fullText": "[Deathknell][>] Play a 1 Might Bird unit token with [Deflect] to your base. (When I die, get the effect. Opponents must pay Rune to choose a [Deflect] unit with a spell or ability.)"
-  },
-  {
     "id": "ven-90",
     "name": "Cataclysmic Duel",
     "set": "VEN",
@@ -774,14 +742,6 @@
     "type": "unit",
     "residualText": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.",
     "fullText": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "unl-91",
-    "name": "Concentrate",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Draw 2.\n This costs 2 Energy less. (While you have 6+ XP, get the effect.)\n This costs 4 Energy less instead.",
-    "fullText": "Draw 2.\n[Level 6][>] This costs 2 Energy less. (While you have 6+ XP, get the effect.)\n[Level 11][>] This costs 4 Energy less instead."
   },
   {
     "id": "unl-140",
@@ -1632,14 +1592,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nEach Equipment attached to me gives double its base Might bonus."
   },
   {
-    "id": "unl-94",
-    "name": "Gemhand Hunter",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I have +1 Might. (While you have 6+ XP, get the effect.)",
-    "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\n[Level 6][>] I have +1 Might. (While you have 6+ XP, get the effect.)"
-  },
-  {
     "id": "unl-104",
     "name": "Gentle Gemdragon",
     "set": "UNL",
@@ -1790,14 +1742,6 @@
     "type": "unit",
     "residualText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, banish a card from any trash to give a unit  this turn. (+2 Might while it's an attacker.)",
     "fullText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, banish a card from any trash to give a unit [Assault 2] this turn. (+2 Might while it's an attacker.)"
-  },
-  {
-    "id": "unl-75",
-    "name": "Gustwalker",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I have +1 Might and . (While you have 3+ XP, get the effect. A  unit can move from battlefield to battlefield.)",
-    "fullText": "[Hunt 2] (When I conquer or hold, gain 2 XP.)\n[Level 3][>] I have +1 Might and [Ganking]. (While you have 3+ XP, get the effect. A [Ganking] unit can move from battlefield to battlefield.)"
   },
   {
     "id": "unl-88",
@@ -2456,14 +2400,6 @@
     "fullText": "[Backline] (I must be assigned combat damage last.)\nYour [Temporary] effects at my battlefield don't trigger."
   },
   {
-    "id": "unl-172",
-    "name": "LeBlanc, Fragmented",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "Draw 1. If it's your Beginning Phase, draw 2 instead. (When I die, get the effect.)",
-    "fullText": "[Assault] (+1 Might while I'm an attacker.)\n[Deathknell][>] Draw 1. If it's your Beginning Phase, draw 2 instead. (When I die, get the effect.)"
-  },
-  {
     "id": "ven-74",
     "name": "Legion Marauder",
     "set": "VEN",
@@ -2552,14 +2488,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. Double all damage that would be dealt to it this turn."
   },
   {
-    "id": "unl-156",
-    "name": "Loyal Poro",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If I didn't die alone, draw 1. (When I die, get the effect. I wasn't alone if there were other friendly units here.)",
-    "fullText": "[Deathknell][>] If I didn't die alone, draw 1. (When I die, get the effect. I wasn't alone if there were other friendly units here.)"
-  },
-  {
     "id": "sfd-126",
     "name": "Loyal Pup",
     "set": "SFD",
@@ -2646,22 +2574,6 @@
     "type": "unit",
     "residualText": "When you discard me, you may pay 1 Energy to give a friendly unit +2 Might this turn.",
     "fullText": "When you discard me, you may pay 1 Energy to give a friendly unit +2 Might this turn."
-  },
-  {
-    "id": "unl-113",
-    "name": "Master Yi, Tempered",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "I have  and . (While you have 6+ XP, opponents must pay Rune to choose me with a spell or ability and I can move from battlefield to battlefield.)",
-    "fullText": "[Hunt 2] (When I conquer or hold, gain 2 XP.)\n[Level 6][>] I have [Deflect] and [Ganking]. (While you have 6+ XP, opponents must pay Rune to choose me with a spell or ability and I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "unl-59",
-    "name": "Master Yi, Unstoppable",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "I cost 2 EnergyCalm Rune less. (While you have 3+ XP, get the effect.)\n I cost 4 EnergyCalm RuneCalm Rune less instead.\n I cost 6 EnergyCalm RuneCalm RuneCalm Rune less instead.\n I can't be chosen by enemy spells and abilities.",
-    "fullText": "[Level 3][>] I cost 2 EnergyCalm Rune less. (While you have 3+ XP, get the effect.)\n[Level 6][>] I cost 4 EnergyCalm RuneCalm Rune less instead.\n[Level 11][>] I cost 6 EnergyCalm RuneCalm RuneCalm Rune less instead.\n[Level 16][>] I can't be chosen by enemy spells and abilities."
   },
   {
     "id": "ven-191",
@@ -2846,14 +2758,6 @@
     "type": "champion",
     "residualText": "When you play me, deal damage to a unit equal to the damage marked on it.",
     "fullText": "[Ambush]\nWhen you play me, deal damage to a unit equal to the damage marked on it."
-  },
-  {
-    "id": "unl-47",
-    "name": "Mosstomper",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I have +1 Might and . (While you have 3+ XP, get the effect. Opponents must pay Rune to choose a  unit with a spell or ability.)",
-    "fullText": "[Hunt 2] (When I conquer or hold, gain 2 XP.)\n[Level 3][>] I have +1 Might and [Deflect]. (While you have 3+ XP, get the effect. Opponents must pay Rune to choose a [Deflect] unit with a spell or ability.)"
   },
   {
     "id": "ven-28",
@@ -3504,14 +3408,6 @@
     "fullText": "When I move to a battlefield, look at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.\n[Deathknell][>] Play a unit from your hand to your base, ignoring its Energy cost. (When I die, get the effect. You must still pay its Power cost.)"
   },
   {
-    "id": "unl-15",
-    "name": "Right of Conquest",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Draw 1, then draw 1 for each battlefield you or allies control.",
-    "fullText": "Draw 1, then draw 1 for each battlefield you or allies control."
-  },
-  {
     "id": "sfd-206",
     "name": "Riposte",
     "set": "SFD",
@@ -3664,14 +3560,6 @@
     "fullText": "Each spell that chooses one or more units here that are friendly to it costs Rune less."
   },
   {
-    "id": "unl-16",
-    "name": "Scorchclaw",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I have +1 Might and enter ready. (While you have 3+ XP, get the effect.)",
-    "fullText": "[Hunt 2] (When I conquer or hold, gain 2 XP.)\n[Level 3][>] I have +1 Might and enter ready. (While you have 3+ XP, get the effect.)"
-  },
-  {
     "id": "unl-234",
     "name": "Scorn of the Moon",
     "set": "UNL",
@@ -3686,14 +3574,6 @@
     "type": "legend",
     "residualText": "Exhaust:  1 Energy. Spend this Energy only during showdowns. (Abilities that add resources can't be reacted to.)",
     "fullText": "[Reaction][>] Exhaust: [Add] 1 Energy. Spend this Energy only during showdowns. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "unl-157",
-    "name": "Scrutinizing Sergeant",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, gain 1 XP for each friendly unit.",
-    "fullText": "When you play me, gain 1 XP for each friendly unit."
   },
   {
     "id": "unl-136",
@@ -3928,14 +3808,6 @@
     "fullText": "Move an enemy unit.\n[Level 6][>] [Stun] an enemy unit. (While you have 6+ XP, get the effect. A stunned unit doesn't deal combat damage this turn.)"
   },
   {
-    "id": "unl-7",
-    "name": "Smite",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Deal 3 to a unit at a battlefield. If it would die this turn, banish it instead.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 3 to a unit at a battlefield. If it would die this turn, banish it instead."
-  },
-  {
     "id": "unl-83",
     "name": "Smoke and Mirrors",
     "set": "UNL",
@@ -3968,22 +3840,6 @@
     "fullText": "I must be assigned combat damage last.\nIf another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it. (Send it to base. This isn't a move.)"
   },
   {
-    "id": "unl-159",
-    "name": "Soul Harvest",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Kill a unit at a battlefield with 3 Might or less.",
-    "fullText": "Kill a unit at a battlefield with 3 Might or less."
-  },
-  {
-    "id": "unl-77",
-    "name": "Soul Shepherd",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Your token units have +1 Might.",
-    "fullText": "Your token units have +1 Might."
-  },
-  {
     "id": "ven-195",
     "name": "Soul's Reflection",
     "set": "VEN",
@@ -3998,14 +3854,6 @@
     "type": "legend",
     "residualText": "When you empower something else, empower me. (I become Empowered if I'm not already.)\nDisempower me, Exhaust: Give a unit at a battlefield -2 Might this turn.",
     "fullText": "When you empower something else, empower me. (I become Empowered if I'm not already.)\nDisempower me, Exhaust: Give a unit at a battlefield -2 Might this turn."
-  },
-  {
-    "id": "unl-68",
-    "name": "Spectral Centaur",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When another friendly unit dies, give me +2 Might this turn.",
-    "fullText": "When another friendly unit dies, give me +2 Might this turn."
   },
   {
     "id": "ven-97",
@@ -4024,14 +3872,6 @@
     "fullText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1."
   },
   {
-    "id": "unl-69",
-    "name": "Sprite Burst",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Play two ready 3 Might Sprite unit tokens with . (Kill each at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "Play two ready 3 Might Sprite unit tokens with [Temporary]. (Kill each at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
     "id": "ogn-94",
     "name": "Sprite Call",
     "set": "OGN",
@@ -4046,14 +3886,6 @@
     "type": "gear",
     "residualText": "When you play this, play a ready 3 Might Sprite unit token with  to your base.\n Repeat this gear's play effect. (When this dies, get the effect.)",
     "fullText": "[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nWhen you play this, play a ready 3 Might Sprite unit token with [Temporary] to your base.\n[Deathknell][>] Repeat this gear's play effect. (When this dies, get the effect.)"
-  },
-  {
-    "id": "unl-84",
-    "name": "Sprite Queen",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me or at the start of your Beginning Phase, play a ready 3 Might Sprite unit token with  to your base. (Kill them at the start of their controller's next Beginning Phase, before scoring.)",
-    "fullText": "When you play me or at the start of your Beginning Phase, play a ready 3 Might Sprite unit token with [Temporary] to your base. (Kill them at the start of their controller's next Beginning Phase, before scoring.)"
   },
   {
     "id": "unl-17",
@@ -4110,14 +3942,6 @@
     "type": "unit",
     "residualText": "Spells with  you play from your trash cost 2 Energy less, to a minimum of 1 Energy.",
     "fullText": "Spells with [Flow] you play from your trash cost 2 Energy less, to a minimum of 1 Energy."
-  },
-  {
-    "id": "unl-167",
-    "name": "Starhound",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, return a Bird, Cat, Dog, or Poro from your trash to your hand.",
-    "fullText": "When you play me, return a Bird, Cat, Dog, or Poro from your trash to your hand."
   },
   {
     "id": "ogn-177",
@@ -4238,14 +4062,6 @@
     "type": "unit",
     "residualText": "When I become , you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost.",
     "fullText": "[Empower] 2 EnergyChaos Rune (2 EnergyChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost."
-  },
-  {
-    "id": "unl-98",
-    "name": "Targonian Visionary",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I have +4 Might. (While you have 11+ XP, get the effect.)",
-    "fullText": "[Level 11][>] I have +4 Might. (While you have 11+ XP, get the effect.)"
   },
   {
     "id": "sfd-230",
@@ -4440,14 +4256,6 @@
     "fullText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location."
   },
   {
-    "id": "unl-70",
-    "name": "Turn to Dust",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a gear . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "Give a gear [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
     "id": "ven-20",
     "name": "Twilight Reveler",
     "set": "VEN",
@@ -4560,14 +4368,6 @@
     "fullText": "When a player plays a unit here, they may pay 1 Energy to [Buff] it. (Give it a +1 Might buff if it doesn't have one.)"
   },
   {
-    "id": "unl-10",
-    "name": "Vault Breaker",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a unit  and  this turn. (+2 Might while it's an attacker. It can move from battlefield to battlefield.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a unit [Assault 2] and [Ganking] this turn. (+2 Might while it's an attacker. It can move from battlefield to battlefield.)"
-  },
-  {
     "id": "unl-219",
     "name": "Vaults of Helia",
     "set": "UNL",
@@ -4622,14 +4422,6 @@
     "type": "champion",
     "residualText": "When I attack,  an enemy unit here. (It doesn't deal combat damage this turn.)",
     "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I attack, [Stun] an enemy unit here. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "unl-129",
-    "name": "Vicious Snapjaws",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When another friendly unit dies, gain 1 XP.",
-    "fullText": "When another friendly unit dies, gain 1 XP."
   },
   {
     "id": "ven-176",

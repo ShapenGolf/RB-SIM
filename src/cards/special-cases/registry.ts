@@ -242,6 +242,32 @@ import { fizzTrickster } from "./fizz-trickster";
 import { ezrealProdigy } from "./ezreal-prodigy";
 import { zaunPunk } from "./zaun-punk";
 import { xinZhaoVigilant } from "./xin-zhao-vigilant";
+import { arenaKingpin } from "./arena-kingpin";
+import { smite } from "./smite";
+import { vaultBreaker } from "./vault-breaker";
+import { rightOfConquest } from "./right-of-conquest";
+import { scorchclaw } from "./scorchclaw";
+import { gustwalker } from "./gustwalker";
+import { gemhandHunter } from "./gemhand-hunter";
+import { targonianVisionary } from "./targonian-visionary";
+import { bandleSoldier } from "./bandle-soldier";
+import { masterYiUnstoppable } from "./master-yi-unstoppable";
+import { concentrate } from "./concentrate";
+import { mosstomper } from "./mosstomper";
+import { masterYiTempered } from "./master-yi-tempered";
+import { spriteBurst } from "./sprite-burst";
+import { turnToDust } from "./turn-to-dust";
+import { spriteQueen } from "./sprite-queen";
+import { soulHarvest } from "./soul-harvest";
+import { soulShepherd } from "./soul-shepherd";
+import { viciousSnapjaws } from "./vicious-snapjaws";
+import { spectralCentaur } from "./spectral-centaur";
+import { blackRoseDignitary } from "./black-rose-dignitary";
+import { carrionDredger } from "./carrion-dredger";
+import { loyalPoro } from "./loyal-poro";
+import { scrutinizingSergeant } from "./scrutinizing-sergeant";
+import { starhound } from "./starhound";
+import { leblancFragmented } from "./leblanc-fragmented";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -484,6 +510,32 @@ const handlers: SpecialCaseHandler[] = [
   ezrealProdigy,
   zaunPunk,
   xinZhaoVigilant,
+  arenaKingpin,
+  smite,
+  vaultBreaker,
+  rightOfConquest,
+  scorchclaw,
+  gustwalker,
+  gemhandHunter,
+  targonianVisionary,
+  bandleSoldier,
+  masterYiUnstoppable,
+  concentrate,
+  mosstomper,
+  masterYiTempered,
+  spriteBurst,
+  turnToDust,
+  spriteQueen,
+  soulHarvest,
+  soulShepherd,
+  viciousSnapjaws,
+  spectralCentaur,
+  blackRoseDignitary,
+  carrionDredger,
+  loyalPoro,
+  scrutinizingSergeant,
+  starhound,
+  leblancFragmented,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
