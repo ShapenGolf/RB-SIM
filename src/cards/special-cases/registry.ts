@@ -298,6 +298,10 @@ import { spriteFountain } from "./sprite-fountain";
 import { hweiBroodingPainter } from "./hwei-brooding-painter";
 import { gutterPalace } from "./gutter-palace";
 import { leblancEverywhere } from "./leblanc-everywhere";
+import { crowdFavorite } from "./crowd-favorite";
+import { poppyParagon } from "./poppy-paragon";
+import { crescentGuardian } from "./crescent-guardian";
+import { megatusk } from "./megatusk";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -596,6 +600,10 @@ const handlers: SpecialCaseHandler[] = [
   hweiBroodingPainter,
   gutterPalace,
   leblancEverywhere,
+  crowdFavorite,
+  poppyParagon,
+  crescentGuardian,
+  megatusk,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

@@ -71,6 +71,7 @@ export interface ActivatedAbility {
     spendBuff?: boolean;
     killSelf?: boolean;
     discardCount?: number;
+    spendXP?: number;
   };
   actions: TemplatedAction[];
 }

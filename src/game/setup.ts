@@ -89,6 +89,7 @@ function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
     readyRunesAtEndOfTurn: 0,
     turnsTaken: 0,
     friendlyUnitDiedDuringBeginningThisTurn: false,
+    playedSpellThisTurn: false,
   };
 }
 

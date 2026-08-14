@@ -87,6 +87,8 @@ export interface PlayerState {
   turnsTaken: number;
   /** Set true if a unit this player controls died while game.turnPhase === "beginning" during this player's own Beginning step. Reset at the start of runTurnStart, before Beginning runs (unlike most "ThisTurn" flags, which reset after), so it survives through this player's own Main Phase for effects like Shadow Watcher: "If a friendly unit died during your Beginning Phase this turn, I enter ready." */
   friendlyUnitDiedDuringBeginningThisTurn: boolean;
+  /** Set true once this player has played a spell card this turn, e.g. for "if you've played a spell this turn, ..." effects like Crescent Guardian. Reset at Awaken. */
+  playedSpellThisTurn: boolean;
 }
 
 export interface BattlefieldSlot {

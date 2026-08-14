@@ -1,10 +1,17 @@
 import { describe, it, expect } from "vitest";
+import { INVALID_MOVE } from "boardgame.io/core";
 import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
 import { destroyInstance, resolveCombat } from "../src/game/combat";
 import { runBeginning } from "../src/game/turnFlow";
+import { activateAbility, playCard } from "../src/game/moves";
 import { makeGame, putOnBase } from "./helpers";
+import type { GameState } from "../src/game/state";
+
+function ctx(G: GameState, playerID: "0" | "1") {
+  return { G, playerID } as unknown as Parameters<typeof activateAbility>[0];
+}
 
 function moveToBattlefield(game: ReturnType<typeof makeGame>, instanceId: string, battlefieldIndex: number) {
   const instance = game.instances[instanceId];
@@ -909,6 +916,120 @@ describe("LeBlanc, Everywhere at Once (unl-90): [Backline] Temporary effects at 
     runBeginning(game, "0");
 
     expect(game.instances[sprite.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Crowd Favorite (unl-102): [Hunt] Spend 2 XP: Buff me", () => {
+  it("buffs itself when activated", () => {
+    const game = makeGame();
+    const favorite = putOnBase(game, "unl-102", "0");
+    favorite.xp = 2;
+    SpecialCaseEngine.onActivate(game, getCard(favorite.cardId), favorite);
+    expect(favorite.statuses.buffed).toBe(true);
+  });
+
+  it("enforces the spendXP cost through the real activateAbility move", () => {
+    const game = makeGame();
+    const favorite = putOnBase(game, "unl-102", "0", { exhausted: false });
+    favorite.xp = 1; // not enough
+
+    const blocked = activateAbility(ctx(game, "0"), { instanceId: favorite.instanceId, energyRuneIds: [] });
+    expect(blocked).toBe(INVALID_MOVE);
+    expect(favorite.statuses.buffed).toBeFalsy();
+
+    favorite.xp = 2;
+    const ok = activateAbility(ctx(game, "0"), { instanceId: favorite.instanceId, energyRuneIds: [] });
+    expect(ok).toBeUndefined();
+    expect(favorite.xp).toBe(0);
+    expect(favorite.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Enthralling Protector reprint (unl-162): shares the Crowd Favorite handler", () => {
+  it("buffs itself when activated", () => {
+    const game = makeGame();
+    const protector = putOnBase(game, "unl-162", "0");
+    protector.xp = 2;
+    SpecialCaseEngine.onActivate(game, getCard(protector.cardId), protector);
+    expect(protector.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Poppy, Paragon (unl-116): ready + gain 3 XP if an opponent is within 3 of Victory Score", () => {
+  it("readies and grants XP when the opponent is close to winning", () => {
+    const game = makeGame();
+    game.players["1"].points = 6; // Victory Score 8, within 3
+    const poppy = putOnBase(game, "unl-116", "0");
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(poppy.cardId), poppy)).toBe(true);
+    SpecialCaseEngine.onPlay(game, getCard(poppy.cardId), poppy);
+    expect(game.players["0"].xp).toBe(3);
+  });
+
+  it("does nothing when the opponent is far from winning", () => {
+    const game = makeGame();
+    game.players["1"].points = 1;
+    const poppy = putOnBase(game, "unl-116", "0");
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(poppy.cardId), poppy)).toBe(false);
+    SpecialCaseEngine.onPlay(game, getCard(poppy.cardId), poppy);
+    expect(game.players["0"].xp).toBe(0);
+  });
+});
+
+describe("Crescent Guardian (unl-122): enters ready if a spell was played this turn and the additional cost was paid", () => {
+  it("enters ready when both conditions hold", () => {
+    const game = makeGame();
+    game.players["0"].playedSpellThisTurn = true;
+    const guardian = putOnBase(game, "unl-122", "0");
+    guardian.statuses.paidAdditionalCostThisTurn = true;
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(guardian.cardId), guardian)).toBe(true);
+  });
+
+  it("does not enter ready if no spell was played this turn", () => {
+    const game = makeGame();
+    const guardian = putOnBase(game, "unl-122", "0");
+    guardian.statuses.paidAdditionalCostThisTurn = true;
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(guardian.cardId), guardian)).toBe(false);
+  });
+
+  it("playedSpellThisTurn is actually set by the real playCard move", () => {
+    const game = makeGame();
+    game.players["0"].hand = ["ogn-5"]; // Disintegrate, a spell, Energy 4
+    game.players["0"].runePool = Array.from({ length: 4 }, (_, i) => ({
+      instanceId: `r${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+    expect(game.players["0"].playedSpellThisTurn).toBe(false);
+
+    playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["r0", "r1", "r2", "r3"],
+      powerRuneIds: [],
+      targetInstanceId: target.instanceId,
+    });
+
+    expect(game.players["0"].playedSpellThisTurn).toBe(true);
+  });
+});
+
+describe("Megatusk (unl-126): Spend 3 XP: give your units here Ganking this turn", () => {
+  it("grants Ganking to every friendly unit at its battlefield", () => {
+    const game = makeGame();
+    const megatusk = putOnBase(game, "unl-126", "0");
+    megatusk.xp = 3;
+    moveToBattlefield(game, megatusk.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onActivate(game, getCard(megatusk.cardId), megatusk);
+
+    expect(megatusk.grantedThisTurn).toContainEqual({ keyword: "ganking" });
+    expect(ally.grantedThisTurn).toContainEqual({ keyword: "ganking" });
+    expect(enemy.grantedThisTurn).toEqual([]);
   });
 });
 

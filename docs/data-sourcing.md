@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **300 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **305 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,8 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **460 von 1019 Karten (~45%) vollständig spielbar.**
-- **559 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **465 von 1019 Karten (~46%) vollständig spielbar.**
+- **554 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - **Zwei neue wiederverwendbare Cost-/Trigger-Bausteine:** ein
   `discardCount`-Feld für bespoke Activated Abilities ("Discard N, Exhaust:
   Effekt", z.B. Gutter Palace — zahlt über die bestehende
@@ -162,6 +162,13 @@ Schritte:
   `killTemporaryInstances` jetzt vor jeder Temporary-Kill-Sweep abfragt (z.B.
   LeBlanc, Everywhere at Once: "Your [Temporary] effects at my battlefield
   don't trigger.").
+- **Drittes Cost-Bauteil, `spendXP`:** bespoke Activated Abilities können jetzt
+  auch "Spend N XP: Effekt" kosten (z.B. Crowd Favorite, Megatusk) — zahlt aus
+  `CardInstance.xp` (dem Hunt/Level-Pool der Karte selbst, nicht dem
+  Spieler-XP-Pool). Neuer `PlayerState.playedSpellThisTurn`-Flag für Crescent
+  Guardian: "If you've played a spell this turn, ...". Ein weiterer Reprint
+  per Textvergleich gefunden: Enthralling Protector (unl-162) = Crowd
+  Favorite (unl-102), identischer Fließtext.
 - **Nebenbefund/Bugfix beim Weiterscannen:** `GameState.turnPhase` wurde beim
   Setup einmalig auf `"main"` gesetzt und danach nie wieder aktualisiert —
   effektiv totes Feld, das die Beginning/Awaken/Channel/Draw-Phasen nie

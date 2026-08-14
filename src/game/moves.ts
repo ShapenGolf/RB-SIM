@@ -29,6 +29,7 @@ export function resolvePlayedCard(
 ): void {
   instance.statuses.paidAdditionalCostThisTurn = payAdditionalCost;
   if (card.type === "spell") {
+    player.playedSpellThisTurn = true;
     if (player.nextSpellCostReduction > 0) player.nextSpellCostReduction = 0;
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
@@ -289,6 +290,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
   if (player.trash.length < (cost.recycleFromTrash ?? 0)) return INVALID_MOVE;
   if (player.hand.length < (cost.discardCount ?? 0)) return INVALID_MOVE;
+  if (instance.xp < (cost.spendXP ?? 0)) return INVALID_MOVE;
   if (cost.spendBuff && !instance.statuses.buffed) return INVALID_MOVE;
 
   const seen = new Set<string>();
@@ -321,6 +323,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
     const discarded = player.hand.shift();
     if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
   }
+  instance.xp -= cost.spendXP ?? 0;
   if (cost.killSelf) destroyInstance(G, getCard, instance.instanceId);
 
   if (card.activatedAbility) {

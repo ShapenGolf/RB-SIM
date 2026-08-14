@@ -776,22 +776,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. The next time that unit would be dealt damage this turn, prevent it. Draw 1."
   },
   {
-    "id": "unl-122",
-    "name": "Crescent Guardian",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If you've played a spell this turn, you may pay Chaos Rune as an additional cost to play me. If you do, I enter ready.",
-    "fullText": "If you've played a spell this turn, you may pay Chaos Rune as an additional cost to play me. If you do, I enter ready."
-  },
-  {
-    "id": "unl-102",
-    "name": "Crowd Favorite",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Spend 2 XP:  me. (Give me a +1 Might buff if I don't have one.)",
-    "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nSpend 2 XP: [Buff] me. (Give me a +1 Might buff if I don't have one.)"
-  },
-  {
     "id": "ven-39",
     "name": "Crumbling Sands",
     "set": "VEN",
@@ -1214,14 +1198,6 @@
     "type": "gear",
     "residualText": "Exhaust:  \u2014  1 Energy. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "unl-162",
-    "name": "Enthralling Protector",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Spend 2 XP:  me. (Give me a +1 Might buff if I don't have one.)",
-    "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nSpend 2 XP: [Buff] me. (Give me a +1 Might buff if I don't have one.)"
   },
   {
     "id": "ven-124",
@@ -2472,14 +2448,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nAs an additional cost to play this, you may exhaust a friendly unit. If you do, draw 2. Otherwise, draw 1."
   },
   {
-    "id": "unl-126",
-    "name": "Megatusk",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Spend 3 XP: Give your units here  this turn. (We can move from battlefield to battlefield.)",
-    "fullText": "Spend 3 XP: Give your units here [Ganking] this turn. (We can move from battlefield to battlefield.)"
-  },
-  {
     "id": "ven-188",
     "name": "Mel, Defiant Soul",
     "set": "VEN",
@@ -2886,14 +2854,6 @@
     "type": "champion",
     "residualText": "You may spend 3 XP as an additional cost to play me. If you do, I cost 3 Energy less.",
     "fullText": "You may spend 3 XP as an additional cost to play me. If you do, I cost 3 Energy less.\n[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\n[Tank] (I must be assigned combat damage first.)"
-  },
-  {
-    "id": "unl-116",
-    "name": "Poppy, Paragon",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When you play me, if an opponent's score is within 3 points of the Victory Score, ready me and gain 3 XP.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen you play me, if an opponent's score is within 3 points of the Victory Score, ready me and gain 3 XP."
   },
   {
     "id": "sfd-214",

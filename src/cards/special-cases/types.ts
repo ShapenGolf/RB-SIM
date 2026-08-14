@@ -176,6 +176,8 @@ export interface SpecialCaseHandler {
     killSelf?: boolean;
     /** "Discard N" as part of this ability's cost (e.g. Gutter Palace: "Discard 1, Exhaust: ..."). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand via discardCardToTrash. */
     discardCount?: number;
+    /** "Spend N XP" as part of this ability's cost (e.g. Crowd Favorite: "Spend 2 XP: [Buff] me."), paid from this instance's own CardInstance.xp counter (Hunt/Level pool), not the controller's player-level XP. */
+    spendXP?: number;
   };
 
   /** Set when the bespoke activated ability needs a player-chosen target. */
