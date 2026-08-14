@@ -342,6 +342,11 @@ import { pridestalker } from "./pridestalker";
 import { thrillOfTheHunt } from "./thrill-of-the-hunt";
 import { bloodharborRipper } from "./bloodharbor-ripper";
 import { wujuMaster } from "./wuju-master";
+import { iterativeDesign } from "./iterative-design";
+import { desertsCall } from "./deserts-call";
+import { kinkouTemple } from "./kinkou-temple";
+import { bloodRush } from "./blood-rush";
+import { twilightReveler } from "./twilight-reveler";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -684,6 +689,11 @@ const handlers: SpecialCaseHandler[] = [
   thrillOfTheHunt,
   bloodharborRipper,
   wujuMaster,
+  iterativeDesign,
+  desertsCall,
+  kinkouTemple,
+  bloodRush,
+  twilightReveler,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

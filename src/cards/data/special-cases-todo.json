@@ -464,14 +464,6 @@
     "fullText": "When you play a unit, you may pay 1 Energy to gain 1 XP.\nSpend 3 XP, Exhaust: Ready a unit."
   },
   {
-    "id": "sfd-3",
-    "name": "Blood Rush",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Give a unit . (+2 Might while it's an attacker.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 2]. (+2 Might while it's an attacker.)"
-  },
-  {
     "id": "unl-228",
     "name": "Bloodharbor Ripper",
     "set": "UNL",
@@ -934,14 +926,6 @@
     "type": "spell",
     "residualText": "Counter a spell that costs no more than 4 Energy and no more than Rune.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell that costs no more than 4 Energy and no more than Rune."
-  },
-  {
-    "id": "sfd-31",
-    "name": "Desert's Call",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Play a 2 Might Sand Soldier unit token.",
-    "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nPlay a 2 Might Sand Soldier unit token."
   },
   {
     "id": "unl-111",
@@ -1808,14 +1792,6 @@
     "fullText": "Your spells that choose me cost 1 Energy or Rune less."
   },
   {
-    "id": "ven-51",
-    "name": "Iterative Design",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Play a 3 Might Mech unit token.",
-    "fullText": "Play a 3 Might Mech unit token.\n[Flow] 2 EnergyMind Rune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "unl-177",
     "name": "Ivern, Friend to All",
     "set": "UNL",
@@ -2070,14 +2046,6 @@
     "type": "unit",
     "residualText": "I have +1 Might and . (I can move from battlefield to battlefield.)",
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might and [Ganking]. (I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ven-159",
-    "name": "Kinkou Temple",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "Units here with  have +1 Might.",
-    "fullText": "Units here with [Tank] have +1 Might."
   },
   {
     "id": "ogn-150",
@@ -3718,14 +3686,6 @@
     "type": "spell",
     "residualText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location.",
     "fullText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location."
-  },
-  {
-    "id": "ven-20",
-    "name": "Twilight Reveler",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I attack, ready another friendly unit.",
-    "fullText": "When I attack, ready another friendly unit."
   },
   {
     "id": "ven-31",
