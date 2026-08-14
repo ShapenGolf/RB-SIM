@@ -472,14 +472,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 2]. (+2 Might while it's an attacker.)"
   },
   {
-    "id": "unl-185",
-    "name": "Bloodharbor Ripper",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Return a friendly unit at a battlefield to its owner's hand. Play a Gold gear token exhausted. (It has \" Kill this, Exhaust:  Rune.\")",
-    "fullText": "1 Energy, Exhaust: Return a friendly unit at a battlefield to its owner's hand. Play a Gold gear token exhausted. (It has \"[Reaction][>] Kill this, Exhaust: [Add] Rune.\")"
-  },
-  {
     "id": "unl-228",
     "name": "Bloodharbor Ripper",
     "set": "UNL",
@@ -1816,14 +1808,6 @@
     "fullText": "Your spells that choose me cost 1 Energy or Rune less."
   },
   {
-    "id": "unl-112",
-    "name": "Irresistible Faefolk",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, you may move an enemy unit to that battlefield.",
-    "fullText": "When I move to a battlefield, you may move an enemy unit to that battlefield."
-  },
-  {
     "id": "ven-51",
     "name": "Iterative Design",
     "set": "VEN",
@@ -2696,36 +2680,12 @@
     "fullText": "I cost 1 Energy less for each gear you control.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)"
   },
   {
-    "id": "unl-178",
-    "name": "Poppy, Defender of the Meek",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "You may spend 3 XP as an additional cost to play me. If you do, I cost 3 Energy less.",
-    "fullText": "You may spend 3 XP as an additional cost to play me. If you do, I cost 3 Energy less.\n[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\n[Tank] (I must be assigned combat damage first.)"
-  },
-  {
     "id": "sfd-214",
     "name": "Power Nexus",
     "set": "SFD",
     "type": "battlefield",
     "residualText": "When you hold here, you may pay RuneRuneRuneRune to score 1 point.",
     "fullText": "When you hold here, you may pay RuneRuneRuneRune to score 1 point."
-  },
-  {
-    "id": "unl-227",
-    "name": "Pridestalker",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you play a unit, give a unit +1 Might this turn.",
-    "fullText": "When you play a unit, give a unit +1 Might this turn."
-  },
-  {
-    "id": "unl-183",
-    "name": "Pridestalker",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you play a unit, give a unit +1 Might this turn.",
-    "fullText": "When you play a unit, give a unit +1 Might this turn."
   },
   {
     "id": "sfd-75",
@@ -3704,14 +3664,6 @@
     "fullText": "When combat starts here, the attacker and defender each [Add] 1 Energy."
   },
   {
-    "id": "unl-184",
-    "name": "Thrill of the Hunt",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Banish a friendly unit, then its owner plays it to any battlefield, ignoring its cost.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nBanish a friendly unit, then its owner plays it to any battlefield, ignoring its cost."
-  },
-  {
     "id": "sfd-40",
     "name": "Thwonk!",
     "set": "SFD",
@@ -3904,14 +3856,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n2 EnergyFury Rune: Double my Might this turn."
   },
   {
-    "id": "unl-176",
-    "name": "Vi, Peacekeeper",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I attack,  an enemy unit here. (It doesn't deal combat damage this turn.)",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen I attack, [Stun] an enemy unit here. (It doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "ven-176",
     "name": "Viktor, Innovator",
     "set": "VEN",
@@ -4102,14 +4046,6 @@
     "type": "legend",
     "residualText": "Your units have +1 Might.\n Your units enter ready.",
     "fullText": "[Level 6][>] Your units have +1 Might.\n[Level 11][>] Your units enter ready."
-  },
-  {
-    "id": "unl-191",
-    "name": "Wuju Master",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "Your units have +1 Might. (While you have 6+ XP, get the effect.)\n Your units enter ready.",
-    "fullText": "[Level 6][>] Your units have +1 Might. (While you have 6+ XP, get the effect.)\n[Level 11][>] Your units enter ready."
   },
   {
     "id": "sfd-235",

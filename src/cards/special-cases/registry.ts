@@ -335,6 +335,13 @@ import { khazixMutatingHorror } from "./khazix-mutating-horror";
 import { pykeReturned } from "./pyke-returned";
 import { grimResolve } from "./grim-resolve";
 import { stareDown } from "./stare-down";
+import { irresistibleFaefolk } from "./irresistible-faefolk";
+import { viPeacekeeper } from "./vi-peacekeeper";
+import { poppyDefenderOfTheMeek } from "./poppy-defender-of-the-meek";
+import { pridestalker } from "./pridestalker";
+import { thrillOfTheHunt } from "./thrill-of-the-hunt";
+import { bloodharborRipper } from "./bloodharbor-ripper";
+import { wujuMaster } from "./wuju-master";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -670,6 +677,13 @@ const handlers: SpecialCaseHandler[] = [
   pykeReturned,
   grimResolve,
   stareDown,
+  irresistibleFaefolk,
+  viPeacekeeper,
+  poppyDefenderOfTheMeek,
+  pridestalker,
+  thrillOfTheHunt,
+  bloodharborRipper,
+  wujuMaster,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -733,6 +747,8 @@ export const SpecialCaseEngine = {
 
   additionalCostDiscardForReduction: (card: Card) =>
     getSpecialCaseHandler(card)?.additionalCostDiscardForReduction,
+
+  additionalCostXPForReduction: (card: Card) => getSpecialCaseHandler(card)?.additionalCostXPForReduction,
 
   costReduction: (game: GameState, card: Card, instance: CardInstance): number =>
     getSpecialCaseHandler(card)?.costReduction?.(ctxFor(game, card, instance)) ?? 0,

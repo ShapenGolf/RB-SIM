@@ -157,6 +157,15 @@ export interface SpecialCaseHandler {
   readonly additionalCostDiscardForReduction?: { discardCount: number; energyReduction: number };
 
   /**
+   * Optional "spend N of your (player-level) XP as an additional cost" cost reduction, paid via
+   * the existing `payAdditionalCost` play flag — same spirit as `additionalCostDiscardForReduction`
+   * but spending the controller's XP pool (Hunt/Level currency) instead of hand cards (e.g.
+   * Poppy, Defender of the Meek: "You may spend 3 XP as an additional cost to play me. If you
+   * do, I cost 3 Energy less.").
+   */
+  readonly additionalCostXPForReduction?: { xpCost: number; energyReduction: number };
+
+  /**
    * Always-evaluated Energy cost reduction for playing this card itself (e.g. Legion:
    * "I cost 2 Energy less" once another card has already been played this turn). Unlike
    * `additionalCostDiscardForReduction`, this isn't gated behind an opt-in additional cost.

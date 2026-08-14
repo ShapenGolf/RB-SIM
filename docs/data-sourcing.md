@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **338 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **346 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,20 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **498 von 1019 Karten (~49%) vollständig spielbar.**
-- **521 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **506 von 1019 Karten (~50%) vollständig spielbar.**
+- **513 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **Neues `additionalCostXPForReduction`-Cost-Bauteil** (Pendant zu
+  `additionalCostDiscardForReduction`, aber zahlt aus dem Spieler-XP-Pool
+  statt der Hand — Poppy, Defender of the Meek: "You may spend 3 XP as an
+  additional cost to play me. If you do, I cost 3 Energy less.").
+- **Hinweis zu drei Karten dieser Runde (Pridestalker, Bloodharbor Ripper,
+  Wuju Master):** alle drei sind Kartentyp `legend` — die Legend-Zone ist
+  laut früherem Fund weiterhin nicht ins Spielgeschehen verdrahtet
+  (`buildMainDeck` schließt Legends vom Deckbau aus, kein Legend-Slot). Ihre
+  Sonderfall-Handler sind trotzdem korrekt implementiert und einzeln
+  testbar — sie greifen einfach erst, sobald die Legend-Zone selbst gebaut
+  wird. Ein weiterer Reprint per Textvergleich gefunden: die zweite
+  "Pridestalker"-Karte (unl-227) teilt sich denselben Handler wie unl-183.
 - **`CardInstance.pendingSurviveCombatXP`** neu: XP, die eine andere Karte
   einer beliebigen Einheit "this turn" verspricht, falls sie eine Combat
   überlebt (Grim Resolve: "When it wins a combat this turn, gain 2 XP.") —

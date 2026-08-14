@@ -1736,6 +1736,143 @@ describe("Stare Down (unl-107): move weaker enemy units at the anchor battlefiel
   });
 });
 
+describe("Irresistible Faefolk (unl-112): on move to a battlefield, drag an enemy unit there too", () => {
+  it("moves an enemy unit from elsewhere to the destination battlefield", () => {
+    const game = makeGame();
+    const faefolk = putOnBase(game, "unl-112", "0");
+    moveToBattlefield(game, faefolk.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1"); // still on base
+
+    SpecialCaseEngine.onMove(game, getCard(faefolk.cardId), faefolk);
+
+    expect(enemy.zone).toBe("battlefield");
+    expect(enemy.battlefieldIndex).toBe(0);
+  });
+});
+
+describe("Vi, Peacekeeper (unl-176): [Ambush] stun an enemy unit on attack", () => {
+  it("stuns the enemy at its battlefield", () => {
+    const game = makeGame();
+    const vi = putOnBase(game, "unl-176", "0");
+    moveToBattlefield(game, vi.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAttack(game, getCard(vi.cardId), vi);
+
+    expect(enemy.statuses.stunned).toBe(true);
+  });
+});
+
+describe("Poppy, Defender of the Meek (unl-178): spend 3 XP as an additional cost to cost 3 less", () => {
+  it("reduces the cost through the real playCard move when the player opts in and can afford it", () => {
+    const game = makeGame();
+    game.players["0"].xp = 3;
+    game.players["0"].hand = ["unl-178"]; // Energy 6 + 1 Order Rune, reduced to Energy 3 + 1 Order Rune
+    game.players["0"].runePool = [
+      { instanceId: "e0", domain: "Fury", exhausted: false },
+      { instanceId: "e1", domain: "Fury", exhausted: false },
+      { instanceId: "e2", domain: "Fury", exhausted: false },
+      { instanceId: "p0", domain: "Order", exhausted: false },
+    ];
+
+    playCard(ctx(game, "0"), {
+      handIndex: 0,
+      energyRuneIds: ["e0", "e1", "e2"],
+      powerRuneIds: ["p0"],
+      payAdditionalCost: true,
+    });
+
+    expect(game.players["0"].xp).toBe(0);
+    const played = game.players["0"].base.find((id) => game.instances[id].cardId === "unl-178");
+    expect(played).toBeDefined();
+  });
+});
+
+describe("Pridestalker (unl-183): when you play a unit, give a unit +1 Might this turn", () => {
+  it("buffs the first friendly unit found", () => {
+    const game = makeGame();
+    const pridestalker = putOnBase(game, "unl-183", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard("unit-plain-footman"), 1);
+
+    expect(ally.tempMightBonus).toBe(1);
+    void pridestalker;
+  });
+});
+
+describe("Pridestalker reprint (unl-227): shares the unl-183 handler", () => {
+  it("buffs the first friendly unit found", () => {
+    const game = makeGame();
+    putOnBase(game, "unl-227", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard("unit-plain-footman"), 1);
+    expect(ally.tempMightBonus).toBe(1);
+  });
+});
+
+describe("Thrill of the Hunt (unl-184): banish a friendly unit, replay it ignoring cost", () => {
+  it("removes the original and creates a new instance for the owner", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-184", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["0"].banishment).toContain("unit-plain-footman");
+    const replayed = game.players["0"].base.find(
+      (id) => game.instances[id].cardId === "unit-plain-footman" && id !== target.instanceId,
+    );
+    expect(replayed).toBeDefined();
+  });
+});
+
+describe("Bloodharbor Ripper (unl-185): 1 Energy, Exhaust: bounce a friendly unit, play a Gold token", () => {
+  it("returns the target to hand and plays an exhausted Gold token", () => {
+    const game = makeGame();
+    const ripper = putOnBase(game, "unl-185", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, target.instanceId, 0);
+
+    SpecialCaseEngine.onActivate(game, getCard(ripper.cardId), ripper, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("unit-plain-footman");
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokenId).toBeDefined();
+    expect(game.instances[tokenId!].exhausted).toBe(true);
+  });
+});
+
+describe("Wuju Master (unl-191): [Level 6] your units +1 Might, [Level 11] your units enter ready", () => {
+  it("buffs itself and allies at 6+ XP", () => {
+    const game = makeGame();
+    game.players["0"].xp = 6;
+    const wuju = putOnBase(game, "unl-191", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+
+    expect(SpecialCaseEngine.staticMightModifier(game, getCard(wuju.cardId), wuju)).toBe(1);
+    expect(computeMight(game, getCard, ally, "none")).toBe(3); // 2 base + 1 aura
+  });
+
+  it("makes newly played units enter ready at 11+ XP", () => {
+    const game = makeGame();
+    game.players["0"].xp = 11;
+    const wuju = putOnBase(game, "unl-191", "0");
+    const newUnit = putOnBase(game, "unit-plain-footman", "0");
+    expect(SpecialCaseEngine.othersEnterReadyFor(game, getCard, newUnit)).toBe(true);
+    void wuju;
+  });
+
+  it("gives nothing below the thresholds", () => {
+    const game = makeGame();
+    const wuju = putOnBase(game, "unl-191", "0");
+    expect(SpecialCaseEngine.staticMightModifier(game, getCard(wuju.cardId), wuju)).toBe(0);
+  });
+});
+
 describe("Ivern, Nurturer (unl-51): look at top 3, draw a unit, buff on tribal hit", () => {
   it("draws the first unit found and buffs a friendly unit if it's a tracked tribe", () => {
     const game = makeGame();

@@ -125,6 +125,9 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     discardCostConfig && player.hand.length > discardCostConfig.discardCount,
   );
   const discardReduction = canPayDiscardCost ? discardCostConfig!.energyReduction : 0;
+  const xpCostConfig = args.payAdditionalCost ? SpecialCaseEngine.additionalCostXPForReduction(card) : undefined;
+  const canPayXPCost = Boolean(xpCostConfig && player.xp >= xpCostConfig.xpCost);
+  const xpReduction = canPayXPCost ? xpCostConfig!.energyReduction : 0;
   const selfCostReduction = SpecialCaseEngine.costReduction(G, card, instance);
   const allyCostReduction = SpecialCaseEngine.costReductionFromAllies(G, getCard, instance, card);
   const nextSpellReduction = card.type === "spell" ? player.nextSpellCostReduction : 0;
@@ -133,6 +136,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     (card.energyCost ?? 0) +
       additionalEnergy -
       discardReduction -
+      xpReduction -
       selfCostReduction -
       allyCostReduction -
       nextSpellReduction,
@@ -186,6 +190,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
       if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
     }
   }
+  if (canPayXPCost) player.xp -= xpCostConfig!.xpCost;
 
   resolvePlayedCard(
     G,
