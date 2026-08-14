@@ -130,7 +130,7 @@ Häufigkeit = Anzahl Vorkommen im Kartentext über alle 5 Sets.
 | **Backline** | 6 | ⬜ noch kein Handler | "Muss zuletzt Kampfschaden zugewiesen bekommen" (Gegenstück zu Tank). |
 | **Predict** | 5 | ⬜ noch kein Handler (Teil von Vision) | Oberste Deck-Karte ansehen, optional recyceln (unten einordnen). |
 | **Unique** | 3 | ⬜ noch kein Handler | Deckbau-Regel: nur 1 Kopie mit diesem Namen pro Deck (kein Laufzeit-Verhalten). |
-| **Level [N]** | 1 | ✅ (Wert nur geparst) | Teil des XP/Level-Systems; Effekt bei Erreichen von N XP ist immer kartenspezifisch. |
+| **Level [N]** | ~30 | ✅ (Wert geparst, Effekt pro Karte) | Teil des XP/Level-Systems; Effekt bei Erreichen von N XP ist immer kartenspezifisch (`ctx.game.players[...].xp >= N`, analog zu `hasConditionalGanking`). Karten, die Level-abhängig **Deflect** gewähren, bekommen bisher nur ihren übrigen Effekt (z.B. Might) — Deflect hat noch keinen Conditional-Override-Mechanismus wie Ganking. |
 
 ✅ = generischer Handler existiert in `src/keywords/handlers/`. ⬜ = im echten
 Kartentext gefunden und von der Import-Pipeline korrekt erkannt/geparst, aber
