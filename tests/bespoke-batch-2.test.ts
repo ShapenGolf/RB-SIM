@@ -89,3 +89,75 @@ describe("Twilight Reveler (ven-20)", () => {
     expect(ally.exhausted).toBe(false);
   });
 });
+
+describe("Eclipse Dragon (ven-16)", () => {
+  it("draws a card on move when the controller has 4 or fewer runes", () => {
+    const game = makeGame();
+    game.players["0"].mainDeck = ["unit-plain-footman"];
+    const dragon = putOnBase(game, "ven-16", "0");
+    const card = getCard(dragon.cardId);
+
+    SpecialCaseEngine.onMove(game, card, dragon);
+
+    expect(game.players["0"].hand).toEqual(["unit-plain-footman"]);
+  });
+
+  it("doesn't draw when the controller has more than 4 runes", () => {
+    const game = makeGame();
+    game.players["0"].mainDeck = ["unit-plain-footman"];
+    game.players["0"].runePool = Array.from({ length: 5 }, (_, i) => ({
+      instanceId: `rune-${i}`,
+      domain: "Fury" as const,
+      exhausted: false,
+    }));
+    const dragon = putOnBase(game, "ven-16", "0");
+    const card = getCard(dragon.cardId);
+
+    SpecialCaseEngine.onMove(game, card, dragon);
+
+    expect(game.players["0"].hand).toEqual([]);
+  });
+});
+
+describe("Hidden Blade (ogn-213)", () => {
+  it("kills a unit at a battlefield and draws 2 for its controller", () => {
+    const game = makeGame();
+    game.players["1"].mainDeck = ["unit-plain-footman", "unit-plain-guard"];
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    target.zone = "battlefield";
+    target.battlefieldIndex = 0;
+    game.battlefields[0].units["1"].push(target.instanceId);
+    const spell = putOnBase(game, "ogn-213", "0");
+    const card = getCard(spell.cardId);
+
+    SpecialCaseEngine.onPlay(game, card, spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["1"].hand).toEqual(["unit-plain-footman", "unit-plain-guard"]);
+  });
+
+  it("does nothing if the target isn't at a battlefield", () => {
+    const game = makeGame();
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    const spell = putOnBase(game, "ogn-213", "0");
+    const card = getCard(spell.cardId);
+
+    SpecialCaseEngine.onPlay(game, card, spell, target.instanceId);
+
+    expect(game.instances[target.instanceId]).toBeDefined();
+  });
+});
+
+describe("Reluctant Leader (ven-121)", () => {
+  it("gains +2 Might when another unit is played, but not from its own play", () => {
+    const game = makeGame();
+    const leader = putOnBase(game, "ven-121", "0");
+    const leaderCard = getCard(leader.cardId);
+
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", leaderCard, 1);
+    expect(leader.tempMightBonus).toBe(0);
+
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard("unit-plain-footman"), 2);
+    expect(leader.tempMightBonus).toBe(2);
+  });
+});

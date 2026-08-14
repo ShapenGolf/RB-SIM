@@ -1056,14 +1056,6 @@
     "fullText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn."
   },
   {
-    "id": "ven-16",
-    "name": "Eclipse Dragon",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I move, if you control 4 or fewer runes, draw 1.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\nWhen I move, if you control 4 or fewer runes, draw 1."
-  },
-  {
     "id": "sfd-139",
     "name": "Edge of Night",
     "set": "SFD",
@@ -1662,14 +1654,6 @@
     "type": "gear",
     "residualText": "This enters exhausted.\nExhaust: Empower another gear. (It becomes Empowered if it's not already.)",
     "fullText": "This enters exhausted.\nExhaust: Empower another gear. (It becomes Empowered if it's not already.)"
-  },
-  {
-    "id": "ogn-213",
-    "name": "Hidden Blade",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Kill a unit at a battlefield. Its controller draws 2.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nKill a unit at a battlefield. Its controller draws 2."
   },
   {
     "id": "ogs-20",
@@ -2862,14 +2846,6 @@
     "type": "legend",
     "residualText": "When you play a  unit, you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)",
     "fullText": "When you play a [Mighty] unit, you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
-    "id": "ven-121",
-    "name": "Reluctant Leader",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When you play another unit, give me +2 Might this turn.",
-    "fullText": "When you play another unit, give me +2 Might this turn."
   },
   {
     "id": "sfd-88",

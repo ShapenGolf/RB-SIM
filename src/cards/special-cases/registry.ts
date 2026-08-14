@@ -347,6 +347,9 @@ import { desertsCall } from "./deserts-call";
 import { kinkouTemple } from "./kinkou-temple";
 import { bloodRush } from "./blood-rush";
 import { twilightReveler } from "./twilight-reveler";
+import { eclipseDragon } from "./eclipse-dragon";
+import { hiddenBlade } from "./hidden-blade";
+import { reluctantLeader } from "./reluctant-leader";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -694,6 +697,9 @@ const handlers: SpecialCaseHandler[] = [
   kinkouTemple,
   bloodRush,
   twilightReveler,
+  eclipseDragon,
+  hiddenBlade,
+  reluctantLeader,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
