@@ -87,6 +87,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       grantedThisTurn: [],
       equipment: [],
       attachedTo: null,
+      pendingSurviveCombatXP: 0,
     };
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, payAdditionalCost);
     if (!payment) {
@@ -124,6 +125,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       grantedThisTurn: [],
       equipment: [],
       attachedTo: null,
+      pendingSurviveCombatXP: 0,
     };
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, pendingTarget.payAdditionalCost);
     if (!payment) return;
@@ -321,6 +323,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             grantedThisTurn: [],
             equipment: [],
             attachedTo: null,
+            pendingSurviveCombatXP: 0,
           });
           const isChampion = card.type === "champion";
           const enemyId: PlayerId = me === "0" ? "1" : "0";
@@ -338,6 +341,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             grantedThisTurn: [],
             equipment: [],
             attachedTo: null,
+            pendingSurviveCombatXP: 0,
           };
           const ambushBattlefields = isChampion
             ? G.battlefields.map((_slot, i) => ({ index: i }))

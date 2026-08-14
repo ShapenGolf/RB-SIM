@@ -1504,14 +1504,6 @@
     "fullText": "When you conquer or hold, you may exhaust me to replace that battlefield with a Brush battlefield token."
   },
   {
-    "id": "unl-95",
-    "name": "Grim Resolve",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a friendly unit +3 Might this turn. When it wins a combat this turn, gain 2 XP.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a friendly unit +3 Might this turn. When it wins a combat this turn, gain 2 XP."
-  },
-  {
     "id": "ven-50",
     "name": "Grumpy Rockbear",
     "set": "VEN",
@@ -3486,14 +3478,6 @@
     "type": "spell",
     "residualText": "Return a friendly unit and an enemy unit to their owners' hands.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nReturn a friendly unit and an enemy unit to their owners' hands."
-  },
-  {
-    "id": "unl-107",
-    "name": "Stare Down",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a friendly unit and a battlefield. Move all enemy units at that battlefield with less Might than the chosen unit to their base. Gain 1 XP.",
-    "fullText": "Choose a friendly unit and a battlefield. Move all enemy units at that battlefield with less Might than the chosen unit to their base. Gain 1 XP."
   },
   {
     "id": "ven-98",

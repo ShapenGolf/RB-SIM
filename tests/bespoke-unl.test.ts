@@ -1690,6 +1690,52 @@ describe("Pyke, Returned (unl-145): [Backline] once per turn, play a Gold token 
   });
 });
 
+describe("Grim Resolve (unl-95): +3 Might this turn, gain 2 XP if it wins a combat this turn", () => {
+  it("grants the XP when the buffed unit survives a real Showdown", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-95", "0");
+    const target = putOnBase(game, "unit-plain-guard", "0"); // Might 1
+    moveToBattlefield(game, target.instanceId, 0);
+    const weakEnemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1, dies to the buffed 4 Might
+    moveToBattlefield(game, weakEnemy.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    expect(target.tempMightBonus).toBe(3);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.instances[target.instanceId]).toBeDefined();
+    expect(game.players["0"].xp).toBe(2);
+  });
+
+  it("does not grant XP if the unit never enters combat this turn", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-95", "0");
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    expect(game.players["0"].xp).toBe(0);
+  });
+});
+
+describe("Stare Down (unl-107): move weaker enemy units at the anchor battlefield to base, gain 1 XP", () => {
+  it("moves only enemies weaker than the anchor unit", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-107", "0");
+    const anchor = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    moveToBattlefield(game, anchor.instanceId, 0);
+    const weakEnemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, weakEnemy.instanceId, 0);
+    const strongEnemy = putOnBase(game, "unit-plain-footman", "1"); // Might 2, not weaker
+    moveToBattlefield(game, strongEnemy.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, anchor.instanceId);
+
+    expect(weakEnemy.zone).toBe("base");
+    expect(strongEnemy.zone).toBe("battlefield");
+    expect(game.players["0"].xp).toBe(1);
+  });
+});
+
 describe("Ivern, Nurturer (unl-51): look at top 3, draw a unit, buff on tribal hit", () => {
   it("draws the first unit found and buffs a friendly unit if it's a tracked tribe", () => {
     const game = makeGame();

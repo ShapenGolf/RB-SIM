@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **336 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **338 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,14 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **496 von 1019 Karten (~49%) vollständig spielbar.**
-- **523 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **498 von 1019 Karten (~49%) vollständig spielbar.**
+- **521 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **`CardInstance.pendingSurviveCombatXP`** neu: XP, die eine andere Karte
+  einer beliebigen Einheit "this turn" verspricht, falls sie eine Combat
+  überlebt (Grim Resolve: "When it wins a combat this turn, gain 2 XP.") —
+  ausgezahlt und zurückgesetzt direkt in `resolveCombat`s neuer
+  Survivor-Schleife (siehe `onSurviveCombat` aus der letzten Runde), auch für
+  Einheiten ohne eigenen `specialCaseId`.
 - **Drei weitere kleine Hooks:** `onSurviveCombat` (feuert auf jede
   überlebende Einheit nach einem echten Showdown — vorher war "eine Combat
   gewinnen" als Ereignis nicht klar definierbar, Nidalees Reminder-Text "I

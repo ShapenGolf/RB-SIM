@@ -333,6 +333,8 @@ import { nidaleeCatForm } from "./nidalee-cat-form";
 import { rengarTrophyHunter } from "./rengar-trophy-hunter";
 import { khazixMutatingHorror } from "./khazix-mutating-horror";
 import { pykeReturned } from "./pyke-returned";
+import { grimResolve } from "./grim-resolve";
+import { stareDown } from "./stare-down";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -666,6 +668,8 @@ const handlers: SpecialCaseHandler[] = [
   rengarTrophyHunter,
   khazixMutatingHorror,
   pykeReturned,
+  grimResolve,
+  stareDown,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

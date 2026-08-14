@@ -257,6 +257,10 @@ export function resolveCombat(
     if (!instance) continue;
     const survivorCard = getCard(instance.cardId);
     if (survivorCard.specialCaseId) SpecialCaseEngine.onSurviveCombat(game, survivorCard, instance);
+    if (instance.pendingSurviveCombatXP > 0) {
+      game.players[instance.controller].xp += instance.pendingSurviveCombatXP;
+      instance.pendingSurviveCombatXP = 0;
+    }
   }
 
   const attackerSurvivors = slot.units[attacker].length;

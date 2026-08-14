@@ -38,6 +38,8 @@ export interface CardInstance {
   grantedThisTurn: KeywordInstance[];
   /** instanceIds of Equipment gear currently attached to this unit/champion (see game/equip.ts). Empty for non-unit instances and for gear that isn't itself Equipment. */
   equipment: string[];
+  /** XP the controller gains if this instance survives ("wins") a Showdown this turn, e.g. Grim Resolve: "When it wins a combat this turn, gain 2 XP." Granted by another card's effect rather than this instance's own printed text, so it's a plain number rather than a keyword grant. Consumed (and reset to 0) the moment it pays out in game/combat.ts resolveCombat, and also reset at Awaken. */
+  pendingSurviveCombatXP: number;
   /** For an Equipment gear instance: the unit/champion instanceId it's attached to, or null if unattached (sitting in base normally). Always null for non-Equipment cards. */
   attachedTo: string | null;
 }

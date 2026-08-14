@@ -26,5 +26,6 @@ export function battlefieldPseudoInstance(
     grantedThisTurn: [],
     equipment: [],
     attachedTo: null,
+    pendingSurviveCombatXP: 0,
   };
 }
