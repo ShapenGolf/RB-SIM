@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **184 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **190 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -128,12 +128,26 @@ Schritte:
   Kategorien konzentriert (Hidden, Dual-Target, Move-Zähler,
   X-Kosten-Sprüche, Gegner-Entscheidungen, Tod-Ersatzeffekte, fehlende
   Champion Zone) — Spiritforged (SFD) läuft jetzt, ebenfalls der Reihe
-  nach. SFD führt zusätzlich das **[Repeat]-Keyword** (24 Karten, noch
-  nicht generisch implementiert) und ein **Equipment/[Weaponmaster]**-
-  System ein, die beide noch als eigene Bausteine fehlen — größere
-  neue Einzelmechaniken, ähnlich wie Hidden bei Origins.
-- Macht **344 von 1019 Karten (~34%) vollständig spielbar.**
-- **675 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+  nach.
+- **Equipment (Equip) und Weaponmaster neu implementiert:** eigenes
+  Anlege-System (`CardInstance.equipment`/`attachedTo`,
+  `game/equip.ts` `attachEquipment`, `equipGear`-Move, `Card.equipCost`
+  aus dem Equip-Keyword-Text geparst für die gängigen Kostenmuster).
+  Nebenbefund dabei: 34 der 40 SFD-Equipment-Karten galten bereits vor
+  dieser Änderung als "generisch abgedeckt" (Equip war als Keyword
+  erkannt, hatte aber keinen Handler) — sie waren also die ganze Zeit
+  über lautlos wirkungslos, zählten aber schon zur generischen
+  Abdeckungszahl mit. Jetzt funktionieren sie tatsächlich, ohne dass
+  sich die Abdeckungszahl dadurch ändert. Offen bleibt weiterhin: der
+  Equip-Kosten-Parser deckt nur "<Domain> Rune"/"N Energy+<Domain>
+  Rune" ab (~32 von 53 Equip-Karten setübergreifend), Karten mit
+  Zusatzklausel (z.B. "— Order Rune, Kill a friendly unit") brauchen
+  eigene Sonderfälle; der Might-Bonus angehängter Ausrüstung ist laut
+  Importdaten für alle Equipment-Karten `null`/0 (vermutlich
+  Importer-Lücke). Das **[Repeat]-Keyword** (24 Karten) ist weiterhin
+  nicht generisch implementiert — größere offene Einzelmechanik.
+- Macht **350 von 1019 Karten (~34%) vollständig spielbar.**
+- **669 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - Einige Karten sind bewusst zurückgestellt statt implementiert, weil sie
   fehlende Engine-Mechaniken brauchen würden (dokumentiert statt stillschweigend
   übersprungen): Gegner-Entscheidungen ("unless"), Tod-Ersatzeffekte, ein
