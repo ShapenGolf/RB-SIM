@@ -232,14 +232,6 @@
     "fullText": "I enter ready.\nExhaust: Give a unit +3 Might this turn."
   },
   {
-    "id": "sfd-198",
-    "name": "Arise!",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Play a 2 Might Sand Soldier unit token for each Equipment you control. Then ready two of them.",
-    "fullText": "Play a 2 Might Sand Soldier unit token for each Equipment you control. Then ready two of them."
-  },
-  {
     "id": "unl-169",
     "name": "Ashe, Focused",
     "set": "UNL",
@@ -1318,14 +1310,6 @@
     "type": "legend",
     "residualText": "Sand Soldiers you play have . (When they're played, you may  one of your Equipment to them for Rune less.)\n1 Energy, Exhaust: Play a 2 Might Sand Soldier unit token to your base. Use only if you've played an Equipment this turn.",
     "fullText": "Sand Soldiers you play have [Weaponmaster]. (When they're played, you may [Equip] one of your Equipment to them for Rune less.)\n1 Energy, Exhaust: Play a 2 Might Sand Soldier unit token to your base. Use only if you've played an Equipment this turn."
-  },
-  {
-    "id": "sfd-207",
-    "name": "Emperor's Dais",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you conquer here, you may pay 1 Energy and return a unit you control here to its owner's hand. If you do, play a 2 Might Sand Soldier unit token here.",
-    "fullText": "When you conquer here, you may pay 1 Energy and return a unit you control here to its owner's hand. If you do, play a 2 Might Sand Soldier unit token here."
   },
   {
     "id": "sfd-43",
@@ -2832,14 +2816,6 @@
     "fullText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1."
   },
   {
-    "id": "sfd-212",
-    "name": "Minefield",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you conquer here, put the top 2 cards of your Main Deck into your trash.",
-    "fullText": "When you conquer here, put the top 2 cards of your Main Deck into your trash."
-  },
-  {
     "id": "sfd-14",
     "name": "Minotaur Reckoner",
     "set": "SFD",
@@ -3070,14 +3046,6 @@
     "type": "unit",
     "residualText": "I can't be played on your first, second, or third turns.",
     "fullText": "I can't be played on your first, second, or third turns."
-  },
-  {
-    "id": "sfd-204",
-    "name": "On the Hunt",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Ready your units.",
-    "fullText": "Ready your units."
   },
   {
     "id": "sfd-213",
@@ -3408,14 +3376,6 @@
     "fullText": "As you play this, you may pay Body Rune as an additional cost.\nChoose a friendly unit and an enemy unit. If you paid the additional cost, give the friendly unit +2 Might this turn. They deal damage equal to their Mights to each other."
   },
   {
-    "id": "sfd-215",
-    "name": "Ravenbloom Conservatory",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you defend here, reveal the top card of your Main Deck. If it's a spell, put it in your hand. Otherwise, recycle it.",
-    "fullText": "When you defend here, reveal the top card of your Main Deck. If it's a spell, put it in your hand. Otherwise, recycle it."
-  },
-  {
     "id": "ven-102",
     "name": "Ravenbloom Prefect",
     "set": "VEN",
@@ -3502,14 +3462,6 @@
     "type": "unit",
     "residualText": "When you play another unit, give me +2 Might this turn.",
     "fullText": "When you play another unit, give me +2 Might this turn."
-  },
-  {
-    "id": "sfd-171",
-    "name": "Renata Glasc, Industrialist",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "Your tokens enter ready.",
-    "fullText": "Your tokens enter ready."
   },
   {
     "id": "sfd-88",
@@ -3656,14 +3608,6 @@
     "fullText": "[Repeat] 4 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect, and may make different choices.)\nChoose one \u2014Deal 4 to a unit in a base.Kill a gear."
   },
   {
-    "id": "sfd-216",
-    "name": "Rockfall Path",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "Units can't be played here.",
-    "fullText": "Units can't be played here."
-  },
-  {
     "id": "ven-189",
     "name": "Rogue Assassin",
     "set": "VEN",
@@ -3686,14 +3630,6 @@
     "type": "unit",
     "residualText": "When you play me, ready or exhaust a legend.",
     "fullText": "When you play me, ready or exhaust a legend."
-  },
-  {
-    "id": "sfd-157",
-    "name": "Royal Guard",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, play a 2 Might Sand Soldier unit token here.",
-    "fullText": "When you play me, play a 2 Might Sand Soldier unit token here."
   },
   {
     "id": "sfd-105",
@@ -3822,14 +3758,6 @@
     "type": "unit",
     "residualText": "(Units with 0 Might can conquer and hold.)\nWhen you play me, draw 1.\n Choose an opponent. They reveal their hand. You can look at their facedown cards this turn. Gain 1 XP. (When I die, get the effects.)",
     "fullText": "(Units with 0 Might can conquer and hold.)\nWhen you play me, draw 1.\n[Deathknell][>] Choose an opponent. They reveal their hand. You can look at their facedown cards this turn. Gain 1 XP. (When I die, get the effects.)"
-  },
-  {
-    "id": "sfd-217",
-    "name": "Seat of Power",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you conquer here, draw 1 for each other battlefield you or allies control..",
-    "fullText": "When you conquer here, draw 1 for each other battlefield you or allies control.."
   },
   {
     "id": "ven-30",
@@ -4280,14 +4208,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nWhen an opponent scores, draw 1."
   },
   {
-    "id": "sfd-218",
-    "name": "Sunken Temple",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you conquer here with one or more  units, you may pay 1 Energy to draw 1. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "When you conquer here with one or more [Mighty] units, you may pay 1 Energy to draw 1. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
     "id": "ogn-252",
     "name": "Super Mega Death Rocket!",
     "set": "OGN",
@@ -4472,14 +4392,6 @@
     "fullText": "As you play this, name a tag. (For example, Miss Fortune, Demacia, and Poro are tags.)\nExhaust: Give a unit with the named tag -2 Might this turn."
   },
   {
-    "id": "sfd-219",
-    "name": "The Papertree",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you hold here, each player channels 1 rune exhausted.",
-    "fullText": "When you hold here, each player channels 1 rune exhausted."
-  },
-  {
     "id": "unl-180",
     "name": "The Ruination",
     "set": "UNL",
@@ -4576,14 +4488,6 @@
     "fullText": "When you conquer here, if you assigned 3 or more excess damage, play a 1 Might Bird unit token with [Deflect]."
   },
   {
-    "id": "sfd-220",
-    "name": "Treasure Hoard",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you conquer here, you may pay 1 Energy to play a Gold gear token exhausted.",
-    "fullText": "When you conquer here, you may pay 1 Energy to play a Gold gear token exhausted."
-  },
-  {
     "id": "unl-48",
     "name": "Trevor Snoozebottom",
     "set": "UNL",
@@ -4598,14 +4502,6 @@
     "type": "spell",
     "residualText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location.",
     "fullText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location."
-  },
-  {
-    "id": "sfd-174",
-    "name": "Trove Golem",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, play four Gold gear tokens exhausted.",
-    "fullText": "When you play me, play four Gold gear tokens exhausted."
   },
   {
     "id": "unl-70",
@@ -4704,14 +4600,6 @@
     "fullText": "Discard 1, Exhaust: Choose a friendly unit. The next time it dies this turn, you may pay Fury Rune to recall it exhausted instead. (Send it to base. This isn't a move.)"
   },
   {
-    "id": "sfd-167",
-    "name": "Unsung Hero",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "\u2014 If I was , draw 2. (When I die, get the effect. I'm Mighty while I have 5+ Might.)",
-    "fullText": "[Deathknell] \u2014 If I was [Mighty], draw 2. (When I die, get the effect. I'm Mighty while I have 5+ Might.)"
-  },
-  {
     "id": "ogn-145",
     "name": "Unyielding Spirit",
     "set": "OGN",
@@ -4736,14 +4624,6 @@
     "fullText": "When a player plays a unit here, they may pay 1 Energy to [Buff] it. (Give it a +1 Might buff if it doesn't have one.)"
   },
   {
-    "id": "sfd-168",
-    "name": "Vanguard Armory",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Exhaust: Play three 1 Might Recruit unit tokens. (You may play them to different locations.)",
-    "fullText": "Exhaust: Play three 1 Might Recruit unit tokens. (You may play them to different locations.)"
-  },
-  {
     "id": "unl-10",
     "name": "Vault Breaker",
     "set": "UNL",
@@ -4758,14 +4638,6 @@
     "type": "battlefield",
     "residualText": "When you hold here, your non-token units cost 1 Energy more to play this turn.",
     "fullText": "When you hold here, your non-token units cost 1 Energy more to play this turn."
-  },
-  {
-    "id": "sfd-221",
-    "name": "Veiled Temple",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you conquer here, you may ready a friendly gear. If it's an Equipment, you may detach it.",
-    "fullText": "When you conquer here, you may ready a friendly gear. If it's an Equipment, you may detach it."
   },
   {
     "id": "unl-150",

@@ -90,6 +90,8 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
     const slot = G.battlefields[args.ambushBattlefieldIndex];
     if (!slot) return INVALID_MOVE;
+    if (SpecialCaseEngine.blocksUnitsPlayedHere(G, getCard, args.ambushBattlefieldIndex, player.id))
+      return INVALID_MOVE;
     // Champions may always choose a Battlefield destination, approximating the real Champion
     // Zone rules (see docs/rules-reference.md) this engine doesn't otherwise model. Units need
     // one of three specific permissions matching where they'd land: Ambush (own units already

@@ -2,9 +2,10 @@ import { describe, it, expect } from "vitest";
 import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
-import { destroyInstance } from "../src/game/combat";
+import { destroyInstance, resolveCombat } from "../src/game/combat";
 import { resolveOptionalCost, playCard } from "../src/game/moves";
 import { attachEquipment } from "../src/game/equip";
+import { runBeginning } from "../src/game/turnFlow";
 import { makeGame, putOnBase } from "./helpers";
 import type { GameState } from "../src/game/state";
 
@@ -704,5 +705,255 @@ describe("Frostcoat Cub (sfd-67): pay Mind Rune (charged as 0 Energy) to weaken 
     const game = makeGame();
     const cub = putOnBase(game, "sfd-67", "0");
     expect(SpecialCaseEngine.additionalPlayCostEnergy(game, getCard(cub.cardId), cub)).toBe(0);
+  });
+});
+
+describe("Royal Guard (sfd-157): on play, play a Sand Soldier token here", () => {
+  it("plays a 2-Might Sand Soldier token at the same location", () => {
+    const game = makeGame();
+    const guard = putOnBase(game, "sfd-157", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(guard.cardId), guard);
+
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-sand-soldier-2");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("Unsung Hero (sfd-167): Deathknell draws 2 if it was Mighty", () => {
+  it("draws 2 when Might is 5 or more", () => {
+    const game = makeGame();
+    const hero = putOnBase(game, "sfd-167", "0");
+    hero.tempMightBonus = 5;
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5"];
+
+    destroyInstance(game, getCard, hero.instanceId);
+
+    expect(game.players["0"].hand).toEqual(["ogn-4", "ogn-5"]);
+  });
+
+  it("does not draw when not Mighty", () => {
+    const game = makeGame();
+    const hero = putOnBase(game, "sfd-167", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    destroyInstance(game, getCard, hero.instanceId);
+
+    expect(game.players["0"].hand).toEqual([]);
+  });
+});
+
+describe("Vanguard Armory (sfd-168): Exhaust, play three Recruit tokens", () => {
+  it("plays three 1-Might Recruit tokens", () => {
+    const game = makeGame();
+    const armory = putOnBase(game, "sfd-168", "0");
+
+    SpecialCaseEngine.onActivate(game, getCard(armory.cardId), armory);
+
+    const tokenIds = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-recruit");
+    expect(tokenIds).toHaveLength(3);
+  });
+});
+
+describe("Trove Golem (sfd-174): on play, play four Gold gear tokens exhausted", () => {
+  it("plays four exhausted Gold tokens", () => {
+    const game = makeGame();
+    const golem = putOnBase(game, "sfd-174", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(golem.cardId), golem);
+
+    const tokenIds = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokenIds).toHaveLength(4);
+    expect(tokenIds.every((id) => game.instances[id].exhausted)).toBe(true);
+  });
+});
+
+describe("On the Hunt (sfd-204): ready your units", () => {
+  it("readies friendly units and champions, not gear", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "sfd-204", "0");
+    const unit = putOnBase(game, "unit-plain-footman", "0", { exhausted: true });
+    const gear = putOnBase(game, "gear-tactical-banner", "0", { exhausted: true });
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    expect(unit.exhausted).toBe(false);
+    expect(gear.exhausted).toBe(true);
+  });
+});
+
+describe("Arise! (sfd-198): play a Sand Soldier per Equipment controlled, ready two", () => {
+  it("plays one token per Equipment and readies up to two of them", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "sfd-198", "0");
+    putOnBase(game, "sfd-161", "0"); // B.F. Sword, an Equipment
+    putOnBase(game, "unl-19", "0"); // Blighted Battleaxe, an Equipment
+    putOnBase(game, "gear-tactical-banner", "0"); // not Equipment (no equipCost)
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell);
+
+    const tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-sand-soldier-2");
+    expect(tokens).toHaveLength(2);
+    expect(tokens.filter((id) => !game.instances[id].exhausted)).toHaveLength(2);
+  });
+});
+
+describe("Renata Glasc, Industrialist (sfd-171): your tokens enter ready", () => {
+  it("plays a token ready via playTokenHere while Renata is in play", () => {
+    const game = makeGame();
+    putOnBase(game, "sfd-171", "0");
+    const royalGuard = putOnBase(game, "sfd-157", "0");
+
+    SpecialCaseEngine.onPlay(game, getCard(royalGuard.cardId), royalGuard);
+
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-sand-soldier-2");
+    expect(tokenId).toBeDefined();
+    expect(game.instances[tokenId!].exhausted).toBe(false);
+  });
+
+  it("does not affect non-token units", () => {
+    const game = makeGame();
+    putOnBase(game, "sfd-171", "0");
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+    expect(SpecialCaseEngine.othersEnterReadyFor(game, getCard, unit)).toBe(false);
+  });
+});
+
+describe("Emperor's Dais (sfd-207): on conquer, return a unit here for a Sand Soldier token", () => {
+  it("returns the conquering unit and plays a token at the battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-207", units: { "0": [], "1": [] }, controller: null };
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.instances[attacker.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("unit-plain-footman");
+    const tokenId = game.battlefields[0].units["0"].find((id) => game.instances[id].cardId === "token-sand-soldier-2");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("Minefield (sfd-212): on conquer, mill 2 cards to trash", () => {
+  it("puts the top 2 Main Deck cards into trash", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-212", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5"];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.players["0"].trash).toEqual(["ogn-4", "ogn-5"]);
+  });
+});
+
+describe("Ravenbloom Conservatory (sfd-215): on defend, reveal top card — spell to hand, else recycle", () => {
+  it("draws a revealed spell", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-215", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].mainDeck = ["ogn-5"]; // Disintegrate, a spell
+    const attacker = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, attacker.instanceId, 0);
+    const defender = putOnBase(game, "unit-plain-guard", "0");
+    moveToBattlefield(game, defender.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "1");
+
+    expect(game.players["0"].hand).toContain("ogn-5");
+  });
+});
+
+describe("Rockfall Path (sfd-216): blocks units from being played here", () => {
+  it("rejects an Ambush play to this battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-216", units: { "0": [], "1": [] }, controller: null };
+    expect(SpecialCaseEngine.blocksUnitsPlayedHere(game, getCard, 0, "0")).toBe(true);
+  });
+});
+
+describe("Seat of Power (sfd-217): on conquer, draw 1 per other controlled battlefield", () => {
+  it("draws once per other battlefield already controlled", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-217", units: { "0": [], "1": [] }, controller: null };
+    game.battlefields[1].controller = "0";
+    game.players["0"].mainDeck = ["ogn-4"];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Sunken Temple (sfd-218): on conquer with a Mighty unit, draw 1", () => {
+  it("draws when a conquering unit has 5+ Might", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-218", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].mainDeck = ["ogn-4"];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    attacker.tempMightBonus = 3; // Might 2 -> 5
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+
+  it("does not draw without a Mighty unit", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-218", units: { "0": [], "1": [] }, controller: null };
+    game.players["0"].mainDeck = ["ogn-4"];
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(game.players["0"].hand).not.toContain("ogn-4");
+  });
+});
+
+describe("The Papertree (sfd-219): on hold, each player channels 1 rune exhausted", () => {
+  it("gives both players an exhausted rune", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-219", units: { "0": [], "1": [] }, controller: "0" };
+    game.players["0"].runeDeck = [{ instanceId: "r0", domain: "Fury" as const, exhausted: false }];
+    game.players["1"].runeDeck = [{ instanceId: "r1", domain: "Mind" as const, exhausted: false }];
+
+    runBeginning(game, "0");
+
+    expect(game.players["0"].runePool).toContainEqual({ instanceId: "r0", domain: "Fury", exhausted: true });
+    expect(game.players["1"].runePool).toContainEqual({ instanceId: "r1", domain: "Mind", exhausted: true });
+  });
+});
+
+describe("Treasure Hoard (sfd-220): on conquer, play a Gold gear token exhausted", () => {
+  it("plays an exhausted Gold token", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-220", units: { "0": [], "1": [] }, controller: null };
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-gold-gear");
+    expect(tokenId).toBeDefined();
+    expect(game.instances[tokenId!].exhausted).toBe(true);
+  });
+});
+
+describe("Veiled Temple (sfd-221): on conquer, ready a friendly gear", () => {
+  it("readies the first exhausted friendly gear", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-221", units: { "0": [], "1": [] }, controller: null };
+    const gear = putOnBase(game, "gear-tactical-banner", "0", { exhausted: true });
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, attacker.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    expect(gear.exhausted).toBe(false);
   });
 });

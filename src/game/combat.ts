@@ -146,6 +146,7 @@ function conquerBattlefield(
       game,
       battlefieldCard,
       battlefieldPseudoInstance(slot.cardId, newController, battlefieldIndex),
+      slot.units[newController],
     );
   }
 }

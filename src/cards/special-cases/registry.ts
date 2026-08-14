@@ -216,6 +216,22 @@ import { direwing } from "./direwing";
 import { seaMonkey } from "./sea-monkey";
 import { blastCorpsCadet } from "./blast-corps-cadet";
 import { frostcoatCub } from "./frostcoat-cub";
+import { royalGuard } from "./royal-guard";
+import { unsungHero } from "./unsung-hero";
+import { vanguardArmory } from "./vanguard-armory";
+import { troveGolem } from "./trove-golem";
+import { onTheHunt } from "./on-the-hunt";
+import { arise } from "./arise";
+import { renataGlascIndustrialist } from "./renata-glasc-industrialist";
+import { emperorsDais } from "./emperors-dais";
+import { minefield } from "./minefield";
+import { ravenbloomConservatory } from "./ravenbloom-conservatory";
+import { rockfallPath } from "./rockfall-path";
+import { seatOfPower } from "./seat-of-power";
+import { sunkenTemple } from "./sunken-temple";
+import { thePapertree } from "./the-papertree";
+import { treasureHoard } from "./treasure-hoard";
+import { veiledTemple } from "./veiled-temple";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -432,6 +448,22 @@ const handlers: SpecialCaseHandler[] = [
   seaMonkey,
   blastCorpsCadet,
   frostcoatCub,
+  royalGuard,
+  unsungHero,
+  vanguardArmory,
+  troveGolem,
+  onTheHunt,
+  arise,
+  renataGlascIndustrialist,
+  emperorsDais,
+  minefield,
+  ravenbloomConservatory,
+  rockfallPath,
+  seatOfPower,
+  sunkenTemple,
+  thePapertree,
+  treasureHoard,
+  veiledTemple,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -645,8 +677,8 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onBeginning?.(ctxFor(game, card, instance));
   },
 
-  onConquerHere: (game: GameState, card: Card, instance: CardInstance) => {
-    getSpecialCaseHandler(card)?.onConquerHere?.(ctxFor(game, card, instance));
+  onConquerHere: (game: GameState, card: Card, instance: CardInstance, conqueringUnitIds: string[]) => {
+    getSpecialCaseHandler(card)?.onConquerHere?.(ctxFor(game, card, instance), conqueringUnitIds);
   },
 
   onDefendHere: (game: GameState, card: Card, instance: CardInstance, defenderIds: string[]) => {
@@ -711,6 +743,22 @@ export const SpecialCaseEngine = {
     return (
       getSpecialCaseHandler(card)?.grantsGankingToUnitsHere?.(
         ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, instance.controller, instance.battlefieldIndex)),
+      ) ?? false
+    );
+  },
+
+  /** True if the Battlefield at `battlefieldIndex` blocks units/champions from being played directly to it. */
+  blocksUnitsPlayedHere: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    battlefieldIndex: number,
+    controller: PlayerId,
+  ): boolean => {
+    const slot = game.battlefields[battlefieldIndex];
+    const card = getCard(slot.cardId);
+    return (
+      getSpecialCaseHandler(card)?.blocksUnitsPlayedHere?.(
+        ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, controller, battlefieldIndex)),
       ) ?? false
     );
   },
@@ -844,7 +892,7 @@ export const SpecialCaseEngine = {
       if (sourceInstance.controller !== newInstance.controller) continue;
       const sourceCard = getCard(sourceInstance.cardId);
       const handler = getSpecialCaseHandler(sourceCard);
-      if (handler?.othersEnterReady?.(ctxFor(game, sourceCard, sourceInstance))) return true;
+      if (handler?.othersEnterReady?.(ctxFor(game, sourceCard, sourceInstance), newInstance)) return true;
     }
     return false;
   },

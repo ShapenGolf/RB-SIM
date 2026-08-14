@@ -86,8 +86,13 @@ export interface SpecialCaseHandler {
   /** Conditional self Might modifier while defending, on top of any printed Shield. */
   defendingMightModifier?(ctx: SpecialCaseContext): number;
 
-  /** True if, while this is in play, other friendly units entering play should enter ready instead of exhausted. */
-  othersEnterReady?(ctx: SpecialCaseContext): boolean;
+  /**
+   * True if, while this is in play, other friendly units entering play should enter ready
+   * instead of exhausted. `newInstance` is the card actually entering play, for handlers that
+   * only care about a subset of it (e.g. Renata Glasc, Industrialist: "Your tokens enter
+   * ready.", checked via `newInstance.cardId`'s setCode/tags).
+   */
+  othersEnterReady?(ctx: SpecialCaseContext, newInstance: CardInstance): boolean;
 
   /** Conditional self "enters ready instead of exhausted" check, evaluated when this card itself is played (e.g. "If an opponent's score is within 3 of the Victory Score, I enter ready"). */
   selfEntersReady?(ctx: SpecialCaseContext): boolean;
@@ -219,8 +224,10 @@ export interface SpecialCaseHandler {
    * control/points/per-unit onConquer effects resolve (e.g. Sigil of the Storm: "When you
    * conquer here, recycle one of your runes."). `ctx.instance` is a pseudo-instance (see
    * game/pseudoInstance.ts) since Battlefields have no CardInstance of their own.
+   * `conqueringUnitIds` are the instanceIds of the conquering side's committed units still
+   * sitting at this Battlefield (e.g. Sunken Temple: "...with one or more [Mighty] units...").
    */
-  onConquerHere?(ctx: SpecialCaseContext): void;
+  onConquerHere?(ctx: SpecialCaseContext, conqueringUnitIds: string[]): void;
 
   /**
    * Battlefield-only: called once per Battlefield in play, for a player's very first Beginning
@@ -297,4 +304,12 @@ export interface SpecialCaseHandler {
    * cost is not (see docs/data-sourcing.md).
    */
   additionalPlayCostEnergy?(ctx: SpecialCaseContext): number;
+
+  /**
+   * Battlefield-only: true if units/champions can't be played directly to this Battlefield at
+   * all (e.g. Rockfall Path: "Units can't be played here."), overriding every other play-
+   * destination permission (Ambush, enemy-occupied grants, open-battlefield grants). Checked in
+   * game/moves.ts `playCard` for the chosen `ambushBattlefieldIndex`.
+   */
+  blocksUnitsPlayedHere?(ctx: SpecialCaseContext): boolean;
 }
