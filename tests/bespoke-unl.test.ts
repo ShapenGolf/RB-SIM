@@ -1247,6 +1247,90 @@ describe("Moonfall (unl-198): move an enemy unit to your battlefield, then -2 Mi
   });
 });
 
+describe("Isolate (unl-124): move an enemy unit to its base, draw if it leaves an enemy alone there", () => {
+  it("draws when exactly one enemy remains at the battlefield", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-124", "0");
+    const moved = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, moved.instanceId, 0);
+    const remaining = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, remaining.instanceId, 0);
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, moved.instanceId);
+
+    expect(moved.zone).toBe("base");
+    expect(game.players["1"].base).toContain(moved.instanceId);
+    expect(game.players["0"].hand).toEqual(["ogn-4"]);
+  });
+
+  it("does not draw when the battlefield ends up empty of enemies", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-124", "0");
+    const moved = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, moved.instanceId, 0);
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, moved.instanceId);
+
+    expect(game.players["0"].hand).toEqual([]);
+  });
+});
+
+describe("Heroic Charge (unl-155): +1 Might to a friendly unit and stun an enemy at its location", () => {
+  it("buffs the target and stuns the enemy there", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-155", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, ally.instanceId);
+
+    expect(ally.tempMightBonus).toBe(1);
+    expect(enemy.statuses.stunned).toBe(true);
+  });
+});
+
+describe("Vex, Apathetic (unl-150): [Deflect] stuns and locks down enemy units played to my battlefield", () => {
+  it("stuns and blocks moving a unit the opponent plays while Vex is there", () => {
+    const game = makeGame();
+    const vex = putOnBase(game, "unl-150", "0");
+    moveToBattlefield(game, vex.instanceId, 0);
+    const played = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onEnemyCardPlayed(game, getCard, "1", getCard(played.cardId), played);
+
+    expect(played.statuses.stunned).toBe(true);
+    expect(played.statuses.cantMoveThisTurn).toBe(true);
+  });
+
+  it("is wired through the real playCard move", () => {
+    const game = makeGame();
+    const vex = putOnBase(game, "unl-150", "0");
+    moveToBattlefield(game, vex.instanceId, 0);
+    game.players["1"].hand = ["unit-plain-footman"];
+    game.players["1"].runePool = [{ instanceId: "r0", domain: "Fury", exhausted: false }];
+
+    playCard(ctx(game, "1"), { handIndex: 0, energyRuneIds: ["r0"], powerRuneIds: [] });
+
+    const newInstanceId = game.players["1"].base.find((id) => game.instances[id].cardId === "unit-plain-footman");
+    expect(game.instances[newInstanceId!].statuses.stunned).toBe(true);
+  });
+
+  it("does not trigger while Vex isn't at a battlefield", () => {
+    const game = makeGame();
+    const vex = putOnBase(game, "unl-150", "0"); // still on base
+    const played = putOnBase(game, "unit-plain-footman", "1");
+    void vex;
+
+    SpecialCaseEngine.onEnemyCardPlayed(game, getCard, "1", getCard(played.cardId), played);
+
+    expect(played.statuses.stunned).toBeFalsy();
+  });
+});
+
 describe("Ivern, Nurturer (unl-51): look at top 3, draw a unit, buff on tribal hit", () => {
   it("draws the first unit found and buffs a friendly unit if it's a tracked tribe", () => {
     const game = makeGame();

@@ -312,6 +312,9 @@ import { maduliTheGatekeeper } from "./maduli-the-gatekeeper";
 import { shadow } from "./shadow";
 import { daisy } from "./daisy";
 import { moonfall } from "./moonfall";
+import { isolate } from "./isolate";
+import { heroicCharge } from "./heroic-charge";
+import { vexApathetic } from "./vex-apathetic";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -624,6 +627,9 @@ const handlers: SpecialCaseHandler[] = [
   shadow,
   daisy,
   moonfall,
+  isolate,
+  heroicCharge,
+  vexApathetic,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -753,6 +759,23 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onAllyCardPlayed?.(ctxFor(game, card, instance), playedCard, playCountThisTurn);
+    }
+  },
+
+  /** Broadcasts a just-played card to every board instance the OPPONENT of `player` owns, for onEnemyCardPlayed hooks (e.g. Vex, Apathetic). */
+  onEnemyCardPlayed: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    player: PlayerId,
+    playedCard: Card,
+    playedInstance: CardInstance,
+  ) => {
+    const opponentId: PlayerId = player === "0" ? "1" : "0";
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== opponentId) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onEnemyCardPlayed?.(ctxFor(game, card, instance), playedCard, playedInstance);
     }
   },
 

@@ -65,6 +65,7 @@ export function resolvePlayedCard(
   player.playedMainDeckCardThisTurn = true;
   player.cardsPlayedThisTurn += 1;
   SpecialCaseEngine.onAllyCardPlayed(G, getCard, player.id, card, player.cardsPlayedThisTurn);
+  SpecialCaseEngine.onEnemyCardPlayed(G, getCard, player.id, card, instance);
 }
 
 export interface PlayCardArgs {
@@ -210,6 +211,7 @@ export const attackBattlefield: MoveFn<GameState> = (
   for (const instanceId of args.unitInstanceIds) {
     const instance = G.instances[instanceId];
     if (!instance || instance.controller !== player.id || instance.exhausted) return INVALID_MOVE;
+    if (instance.statuses.cantMoveThisTurn) return INVALID_MOVE;
     const card = getCard(instance.cardId);
     if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
     const movingFromAnotherBattlefield =

@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **315 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **318 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,15 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **475 von 1019 Karten (~47%) vollständig spielbar.**
-- **544 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **478 von 1019 Karten (~47%) vollständig spielbar.**
+- **541 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **Neuer `onEnemyCardPlayed`-Broadcast** (Gegenstück zu `onAllyCardPlayed`,
+  gefeuert an das Board des GEGNERS des gerade spielenden Spielers, z.B. Vex,
+  Apathetic: "When an opponent plays a unit while I'm at a battlefield,
+  [Stun] it."). Dabei auch `CardInstance.statuses.cantMoveThisTurn` neu
+  verdrahtet — `attackBattlefield` in `moves.ts` lehnt jetzt Ganking-Züge für
+  so markierte Einheiten ab (folgt der bestehenden "ThisTurn"-Auto-Clear-
+  Konvention).
 - **Bugfix in `resolvePlayedCard` (moves.ts):** die Platzierung eines gespielten
   Units/Champions (Basis vs. Battlefield) geschah bisher NACH der
   `selfEntersReady`-Auswertung, sodass ein Handler nie `ctx.instance.zone`

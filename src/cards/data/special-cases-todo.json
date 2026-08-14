@@ -1720,14 +1720,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nYou may play a unit from hand to a battlefield you control, reducing its cost by 3 Energy."
   },
   {
-    "id": "unl-155",
-    "name": "Heroic Charge",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a friendly unit +1 Might this turn and  an enemy unit at its location. (A stunned unit doesn't deal combat damage this turn.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a friendly unit +1 Might this turn and [Stun] an enemy unit at its location. (A stunned unit doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "sfd-83",
     "name": "Hextech Anomaly",
     "set": "SFD",
@@ -1886,14 +1878,6 @@
     "type": "unit",
     "residualText": "When I move to a battlefield, you may move an enemy unit to that battlefield.",
     "fullText": "When I move to a battlefield, you may move an enemy unit to that battlefield."
-  },
-  {
-    "id": "unl-124",
-    "name": "Isolate",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Move an enemy unit from a battlefield to its base. Then, if there's an enemy unit alone at that battlefield, draw 1.",
-    "fullText": "Move an enemy unit from a battlefield to its base. Then, if there's an enemy unit alone at that battlefield, draw 1."
   },
   {
     "id": "ven-51",
@@ -4030,14 +4014,6 @@
     "type": "battlefield",
     "residualText": "When you hold here, your non-token units cost 1 Energy more to play this turn.",
     "fullText": "When you hold here, your non-token units cost 1 Energy more to play this turn."
-  },
-  {
-    "id": "unl-150",
-    "name": "Vex, Apathetic",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When an opponent plays a unit while I'm at a battlefield,  it. They can't move it this turn. (It doesn't deal combat damage this turn.)",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen an opponent plays a unit while I'm at a battlefield, [Stun] it. They can't move it this turn. (It doesn't deal combat damage this turn.)"
   },
   {
     "id": "sfd-146",

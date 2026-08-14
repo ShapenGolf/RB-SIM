@@ -111,6 +111,15 @@ export interface SpecialCaseHandler {
    */
   onAllyCardPlayed?(ctx: SpecialCaseContext, playedCard: Card, playCountThisTurn: number): void;
 
+  /**
+   * Broadcast to every board instance the OPPONENT of the player who just played a card owns
+   * (e.g. Vex, Apathetic: "When an opponent plays a unit while I'm at a battlefield, [Stun]
+   * it."). `playedInstance` is the just-created instance — for a spell, it has already been
+   * removed from `game.instances` by the time this fires, though the object reference itself is
+   * still valid (only relevant to handlers that check `playedCard.type` first).
+   */
+  onEnemyCardPlayed?(ctx: SpecialCaseContext, playedCard: Card, playedInstance: CardInstance): void;
+
   /** Broadcast to every board instance the controller owns whenever THAT PLAYER stuns an enemy unit (see cards/special-cases/stun.ts `applyStun`). */
   onAllyStun?(ctx: SpecialCaseContext, stunnedInstance: CardInstance): void;
 
