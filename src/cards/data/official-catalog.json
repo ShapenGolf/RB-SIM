@@ -11146,7 +11146,12 @@
     "powerCost": [],
     "might": null,
     "text": "Equip Body Rune (Body Rune: Attach this to a unit you control.)",
-    "keywords": [],
+    "keywords": [
+      {
+        "keyword": "equip",
+        "grantedText": "Body Rune"
+      }
+    ],
     "tags": [
       "Equipment"
     ],

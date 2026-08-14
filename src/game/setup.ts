@@ -154,6 +154,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     nextInstanceSeq: 0,
     pendingOptionalCost: null,
     extraTurnFor: null,
+    anyUnitDiedThisTurn: false,
   };
 }
 

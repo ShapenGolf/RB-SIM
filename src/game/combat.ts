@@ -151,6 +151,7 @@ export function destroyInstance(game: GameState, getCard: (id: string) => Card, 
   delete game.instances[instanceId];
 
   if (card.type === "unit" || card.type === "champion") {
+    game.anyUnitDiedThisTurn = true;
     SpecialCaseEngine.onAllyUnitDied(game, getCard, instance.controller, instance);
     game.players[otherPlayer(instance.controller)].enemyUnitDiedThisTurn = true;
     if (game.turnPhase === "beginning") {

@@ -864,14 +864,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nIgnore [Deflect] while paying this spell's cost.\nGive an enemy Body (Body Rune) unit -5 Might this turn."
   },
   {
-    "id": "ven-15",
-    "name": "Decree of Rage",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "This can't be countered.\nDeal 4 to an enemy Calm (Calm Rune) unit.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nThis can't be countered.\nDeal 4 to an enemy Calm (Calm Rune) unit."
-  },
-  {
     "id": "ven-85",
     "name": "Decree of Strength",
     "set": "VEN",
@@ -1166,14 +1158,6 @@
     "type": "unit",
     "residualText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name.",
     "fullText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name."
-  },
-  {
-    "id": "sfd-110",
-    "name": "Fiora, Peerless",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I attack or defend one on one, double my Might this combat.",
-    "fullText": "When I attack or defend one on one, double my Might this combat."
   },
   {
     "id": "sfd-180",
@@ -1750,14 +1734,6 @@
     "type": "unit",
     "residualText": "When you choose me with a spell, draw 1.",
     "fullText": "When you choose me with a spell, draw 1."
-  },
-  {
-    "id": "ven-73",
-    "name": "Jagged Cutlass",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "Equip Body Rune (Body Rune: Attach this to a unit you control.)",
-    "fullText": "Equip Body Rune (Body Rune: Attach this to a unit you control.)"
   },
   {
     "id": "sfd-53",
@@ -3566,14 +3542,6 @@
     "type": "unit",
     "residualText": "When you play me from face down, you may empower something here. Disempower it at end of turn.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me from face down, you may empower something here. Disempower it at end of turn."
-  },
-  {
-    "id": "unl-8",
-    "name": "Towering Pairofant",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If a unit died this turn, I enter ready.",
-    "fullText": "[Assault] (+1 Might while I'm an attacker.)\nIf a unit died this turn, I enter ready."
   },
   {
     "id": "unl-54",

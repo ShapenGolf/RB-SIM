@@ -132,4 +132,6 @@ export interface GameState {
   pendingOptionalCost: PendingOptionalCost | null;
   /** Set by "take a turn after this one" effects (e.g. Time Warp) — game.ts's turn.order.next reads this to repeat the same player instead of alternating, then clears it in onBegin once consumed. */
   extraTurnFor: PlayerId | null;
+  /** True once any unit/champion (either player's) has died this turn, e.g. Towering Pairofant: "If a unit died this turn, I enter ready." Set in combat.ts destroyInstance, reset in turnFlow.ts runTurnStart — global, not per-player, unlike PlayerState.enemyUnitDiedThisTurn. */
+  anyUnitDiedThisTurn: boolean;
 }
