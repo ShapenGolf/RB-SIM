@@ -350,6 +350,10 @@ import { twilightReveler } from "./twilight-reveler";
 import { eclipseDragon } from "./eclipse-dragon";
 import { hiddenBlade } from "./hidden-blade";
 import { reluctantLeader } from "./reluctant-leader";
+import { squareUp } from "./square-up";
+import { shadowAssassin } from "./shadow-assassin";
+import { shadowbladeLurker } from "./shadowblade-lurker";
+import { appliedResearchers } from "./applied-researchers";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -700,6 +704,10 @@ const handlers: SpecialCaseHandler[] = [
   eclipseDragon,
   hiddenBlade,
   reluctantLeader,
+  squareUp,
+  shadowAssassin,
+  shadowbladeLurker,
+  appliedResearchers,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

@@ -161,3 +161,57 @@ describe("Reluctant Leader (ven-121)", () => {
     expect(leader.tempMightBonus).toBe(2);
   });
 });
+
+describe("Square Up (unl-17)", () => {
+  it("grants the target Assault 4 this turn", () => {
+    const game = makeGame();
+    const target = putOnBase(game, "unit-plain-footman", "0");
+    const spell = putOnBase(game, "unl-17", "0");
+    const card = getCard(spell.cardId);
+
+    SpecialCaseEngine.onPlay(game, card, spell, target.instanceId);
+
+    expect(target.grantedThisTurn).toContainEqual({ keyword: "assault", value: 4 });
+  });
+});
+
+describe("Shadow Assassin (ven-13)", () => {
+  it("enters ready only if a card with its own name is in the controller's trash", () => {
+    const game = makeGame();
+    const assassin = putOnBase(game, "ven-13", "0");
+    const card = getCard(assassin.cardId);
+
+    expect(SpecialCaseEngine.selfEntersReady(game, card, assassin)).toBe(false);
+
+    game.players["0"].trash.push(assassin.cardId);
+    expect(SpecialCaseEngine.selfEntersReady(game, card, assassin)).toBe(true);
+  });
+});
+
+describe("Shadowblade Lurker (ven-96)", () => {
+  it("reduces its own cost by 2 for each copy of its name in the controller's trash, floored at 0", () => {
+    const game = makeGame();
+    const lurker = putOnBase(game, "ven-96", "0");
+    const card = getCard(lurker.cardId);
+    const baseCost = card.energyCost ?? 0;
+
+    expect(SpecialCaseEngine.costReduction(game, card, lurker)).toBe(0);
+
+    game.players["0"].trash.push(lurker.cardId, lurker.cardId, lurker.cardId, lurker.cardId);
+    expect(SpecialCaseEngine.costReduction(game, card, lurker)).toBe(baseCost);
+  });
+});
+
+describe("Applied Researchers (ven-55)", () => {
+  it("reduces an ally's spell cost by 1 only while Empowered", () => {
+    const game = makeGame();
+    const researchers = putOnBase(game, "ven-55", "0");
+    const spell = putOnBase(game, "spell-dangerous-duo", "0");
+    const spellCard = getCard(spell.cardId);
+
+    expect(SpecialCaseEngine.costReductionFromAllies(game, getCard, spell, spellCard)).toBe(0);
+
+    researchers.statuses.empowered = true;
+    expect(SpecialCaseEngine.costReductionFromAllies(game, getCard, spell, spellCard)).toBe(1);
+  });
+});

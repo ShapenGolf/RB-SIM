@@ -176,14 +176,6 @@
     "fullText": "When you attach an Equipment to me, choose one that hasn't been chosen this turn \u2014Ready 2 runes.Channel 1 rune exhausted.Buff a friendly unit."
   },
   {
-    "id": "ven-55",
-    "name": "Applied Researchers",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "Your spells cost 1 EnergyRune less, to a minimum of 1 Energy.",
-    "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] Your spells cost 1 EnergyRune less, to a minimum of 1 Energy."
-  },
-  {
     "id": "ven-47",
     "name": "Apprentice Mage",
     "set": "VEN",
@@ -3096,14 +3088,6 @@
     "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
   },
   {
-    "id": "ven-13",
-    "name": "Shadow Assassin",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I enter ready if you have a card with my name in your trash.",
-    "fullText": "I enter ready if you have a card with my name in your trash."
-  },
-  {
     "id": "ven-148",
     "name": "Shadow Dash",
     "set": "VEN",
@@ -3134,14 +3118,6 @@
     "type": "battlefield",
     "residualText": "When you hold here, [Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)",
     "fullText": "When you hold here, [Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)"
-  },
-  {
-    "id": "ven-96",
-    "name": "Shadowblade Lurker",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I cost 2 Energy less for each card with my name in your trash.",
-    "fullText": "I cost 2 Energy less for each card with my name in your trash."
   },
   {
     "id": "ven-103",
@@ -3342,14 +3318,6 @@
     "type": "spell",
     "residualText": "Play a ready 3 Might Sprite unit token with . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nPlay a ready 3 Might Sprite unit token with [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
-    "id": "unl-17",
-    "name": "Square Up",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Give a unit  this turn. (+4 Might while it's an attacker.)",
-    "fullText": "[Repeat] \u2014 Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn. (+4 Might while it's an attacker.)"
   },
   {
     "id": "unl-166",
