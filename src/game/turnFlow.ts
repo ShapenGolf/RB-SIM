@@ -56,6 +56,12 @@ export function runBeginning(game: GameState, player: PlayerId): void {
     });
   }
 
+  game.battlefields.forEach((slot, index) => {
+    const card = getCard(slot.cardId);
+    if (!card.specialCaseId) return;
+    SpecialCaseEngine.onEveryBeginningPhase(game, card, battlefieldPseudoInstance(slot.cardId, player, index));
+  });
+
   const winScore = WIN_SCORE + SpecialCaseEngine.winScoreBonus(game, getCard);
   if (game.players[player].points >= winScore) game.winner = player;
 }

@@ -76,7 +76,7 @@ export function dealDistributedDamage(
   getCard: (id: string) => Card,
   targetInstanceIds: string[],
   totalDamage: number,
-): void {
+): string[] {
   let remaining = totalDamage;
   const destroyed: string[] = [];
   for (const targetInstanceId of targetInstanceIds) {
@@ -90,6 +90,7 @@ export function dealDistributedDamage(
     if (target.damage >= hp) destroyed.push(targetInstanceId);
   }
   for (const id of destroyed) destroyInstance(game, getCard, id);
+  return destroyed;
 }
 
 export function destroyInstance(game: GameState, getCard: (id: string) => Card, instanceId: string): void {
@@ -147,6 +148,7 @@ function conquerBattlefield(
       battlefieldCard,
       battlefieldPseudoInstance(slot.cardId, newController, battlefieldIndex),
       slot.units[newController],
+      excessDamage,
     );
   }
 }

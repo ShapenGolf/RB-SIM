@@ -268,6 +268,24 @@ import { loyalPoro } from "./loyal-poro";
 import { scrutinizingSergeant } from "./scrutinizing-sergeant";
 import { starhound } from "./starhound";
 import { leblancFragmented } from "./leblanc-fragmented";
+import { friskyHunter } from "./frisky-hunter";
+import { fateWeaver } from "./fate-weaver";
+import { ruinedRex } from "./ruined-rex";
+import { petalPixie } from "./petal-pixie";
+import { kinkouInitiate } from "./kinkou-initiate";
+import { gentleGemdragon } from "./gentle-gemdragon";
+import { elderDragon } from "./elder-dragon";
+import { bewitchingSpirit } from "./bewitching-spirit";
+import { walkingRoost } from "./walking-roost";
+import { anglerBeast } from "./angler-beast";
+import { crimsonPigeons } from "./crimson-pigeons";
+import { riftHerald } from "./rift-herald";
+import { deathFromBelow } from "./death-from-below";
+import { alphaStrike } from "./alpha-strike";
+import { keepersVerdict } from "./keepers-verdict";
+import { duskRoseLab } from "./dusk-rose-lab";
+import { frozenFortress } from "./frozen-fortress";
+import { trappingGrounds } from "./trapping-grounds";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -536,6 +554,24 @@ const handlers: SpecialCaseHandler[] = [
   scrutinizingSergeant,
   starhound,
   leblancFragmented,
+  friskyHunter,
+  fateWeaver,
+  ruinedRex,
+  petalPixie,
+  kinkouInitiate,
+  gentleGemdragon,
+  elderDragon,
+  bewitchingSpirit,
+  walkingRoost,
+  anglerBeast,
+  crimsonPigeons,
+  riftHerald,
+  deathFromBelow,
+  alphaStrike,
+  keepersVerdict,
+  duskRoseLab,
+  frozenFortress,
+  trappingGrounds,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -749,8 +785,14 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onBeginning?.(ctxFor(game, card, instance));
   },
 
-  onConquerHere: (game: GameState, card: Card, instance: CardInstance, conqueringUnitIds: string[]) => {
-    getSpecialCaseHandler(card)?.onConquerHere?.(ctxFor(game, card, instance), conqueringUnitIds);
+  onConquerHere: (
+    game: GameState,
+    card: Card,
+    instance: CardInstance,
+    conqueringUnitIds: string[],
+    excessDamage: number,
+  ) => {
+    getSpecialCaseHandler(card)?.onConquerHere?.(ctxFor(game, card, instance), conqueringUnitIds, excessDamage);
   },
 
   onDefendHere: (game: GameState, card: Card, instance: CardInstance, defenderIds: string[]) => {
@@ -772,6 +814,10 @@ export const SpecialCaseEngine = {
 
   onFirstBeginningPhase: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onFirstBeginningPhase?.(ctxFor(game, card, instance));
+  },
+
+  onEveryBeginningPhase: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onEveryBeginningPhase?.(ctxFor(game, card, instance));
   },
 
   /** Sums every in-play Battlefield's `winScoreIncrease`, regardless of controller. */

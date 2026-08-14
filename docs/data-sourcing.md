@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **269 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **288 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,13 +152,27 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **429 von 1019 Karten (~42%) vollständig spielbar.**
-- **590 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **448 von 1019 Karten (~44%) vollständig spielbar.**
+- **571 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
 - Spiritforged wird pausiert (Rest dominiert von [Repeat]), Unleashed
   läuft jetzt der Reihe nach — führt das **[Level N]-Keyword** ein
   (XP-Schwellenwert, war bereits als Keyword erkannt aber unbehandelt,
   jetzt analog zum bestehenden `hasConditionalGanking`-Override-Muster
   behandelt).
+- **Zweite Unleashed-Runde (19 weitere Karten):** neue Infrastruktur dabei
+  entstanden — `blocksScoringHere`/`blocksOpponentScoring`-Hooks für
+  Battlefields, die das Punkten am Beginning-Step verhindern (z.B. Forgotten
+  Monument: "kann nicht vor der dritten Runde punkten", dafür neuer
+  `PlayerState.turnsTaken`-Zähler); `onConquerHere` um einen
+  `excessDamage`-Parameter erweitert (z.B. Trapping Grounds: Bird-Token bei
+  3+ überschüssigem Kampfschaden); neuer `onEveryBeginningPhase`-Hook für
+  Battlefields, der bei jedem Spieler-Beginning feuert (nicht nur beim
+  ersten); `dealDistributedDamage` gibt jetzt die zerstörten Instanz-IDs
+  zurück (für Alpha Strike: "1 XP pro getöteter Einheit"). Dabei zwei weitere
+  Bracket-Text-Fehlzuordnungen gefunden und gefixt (Sprite Queen, Petal
+  Pixie — Erinnerungstext beschreibt erzeugte Tokens/andere Einheiten, wurde
+  aber der Karte selbst als Keyword zugeordnet, siehe Kommentare in den
+  jeweiligen `special-cases/*.ts`-Dateien).
 - Einige Karten sind bewusst zurückgestellt statt implementiert, weil sie
   fehlende Engine-Mechaniken brauchen würden (dokumentiert statt stillschweigend
   übersprungen): Gegner-Entscheidungen ("unless"), Tod-Ersatzeffekte, ein

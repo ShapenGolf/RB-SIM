@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { getCard } from "../src/cards/db";
 import { SpecialCaseEngine } from "../src/cards/special-cases/registry";
 import { computeMight } from "../src/game/might";
-import { destroyInstance } from "../src/game/combat";
+import { destroyInstance, resolveCombat } from "../src/game/combat";
 import { runBeginning } from "../src/game/turnFlow";
 import { makeGame, putOnBase } from "./helpers";
 
@@ -375,5 +375,280 @@ describe("LeBlanc, Fragmented (unl-172): Deathknell draws 1 (2 during Beginning 
     game.turnPhase = "beginning";
     destroyInstance(game, getCard, leblanc.instanceId);
     expect(game.players["0"].hand).toEqual(["ogn-4", "ogn-5"]);
+  });
+});
+
+describe("Frisky Hunter (unl-33): on play, play a Bird token with Deflect here", () => {
+  it("plays the token at the same location", () => {
+    const game = makeGame();
+    const hunter = putOnBase(game, "unl-33", "0");
+    SpecialCaseEngine.onPlay(game, getCard(hunter.cardId), hunter);
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-bird-deflect");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("Fate Weaver (unl-64): look at top 4, take a 4+ Energy spell", () => {
+  it("takes the first eligible spell and recycles the rest", () => {
+    const game = makeGame();
+    const weaver = putOnBase(game, "unl-64", "0");
+    game.players["0"].mainDeck = ["ogn-4", "ogn-5", "unit-plain-guard", "ogn-11"]; // ogn-5 Disintegrate costs 4
+    SpecialCaseEngine.onPlay(game, getCard(weaver.cardId), weaver);
+    expect(game.players["0"].hand).toEqual(["ogn-5"]);
+  });
+});
+
+describe("Ruined Rex (unl-67): Deathknell deals 4 to an enemy unit", () => {
+  it("kills a weak enemy unit", () => {
+    const game = makeGame();
+    const rex = putOnBase(game, "unl-67", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    destroyInstance(game, getCard, rex.instanceId);
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Petal Pixie (unl-76): +1 Might per Temporary friendly unit at my battlefield", () => {
+  it("counts only Temporary allies at the same location", () => {
+    const game = makeGame();
+    const pixie = putOnBase(game, "unl-76", "0");
+    moveToBattlefield(game, pixie.instanceId, 0);
+    const baseline = getCard(pixie.cardId).might!;
+    expect(computeMight(game, getCard, pixie, "none")).toBe(baseline);
+
+    const sprite = putOnBase(game, "token-sprite-temporary", "0");
+    moveToBattlefield(game, sprite.instanceId, 0);
+    expect(computeMight(game, getCard, pixie, "none")).toBe(baseline + 1);
+  });
+});
+
+describe("Kinkou Initiate (unl-97): draw 1 if other units have total Might 5+", () => {
+  it("draws when the threshold is met", () => {
+    const game = makeGame();
+    const initiate = putOnBase(game, "unl-97", "0");
+    const ally = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    ally.tempMightBonus = 3; // total 5
+    game.players["0"].mainDeck = ["ogn-4"];
+    SpecialCaseEngine.onPlay(game, getCard(initiate.cardId), initiate);
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+
+  it("does not draw below the threshold", () => {
+    const game = makeGame();
+    const initiate = putOnBase(game, "unl-97", "0");
+    putOnBase(game, "unit-plain-guard", "0"); // Might 1
+    game.players["0"].mainDeck = ["ogn-4"];
+    SpecialCaseEngine.onPlay(game, getCard(initiate.cardId), initiate);
+    expect(game.players["0"].hand).not.toContain("ogn-4");
+  });
+});
+
+describe("Gentle Gemdragon (unl-104): ready up to 2 runes when it or another Dragon is played", () => {
+  it("readies exhausted runes on its own play", () => {
+    const game = makeGame();
+    const dragon = putOnBase(game, "unl-104", "0");
+    game.players["0"].runePool = [
+      { instanceId: "r1", domain: "Fury" as const, exhausted: true },
+      { instanceId: "r2", domain: "Mind" as const, exhausted: true },
+      { instanceId: "r3", domain: "Body" as const, exhausted: true },
+    ];
+    SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard(dragon.cardId), 1);
+    const readyCount = game.players["0"].runePool.filter((r) => !r.exhausted).length;
+    expect(readyCount).toBe(2);
+  });
+});
+
+describe("Elder Dragon (unl-118): on play, deal 1 to an enemy at each battlefield", () => {
+  it("hits an enemy unit at each battlefield with an enemy present", () => {
+    const game = makeGame();
+    const dragon = putOnBase(game, "unl-118", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy.instanceId, 0);
+    SpecialCaseEngine.onPlay(game, getCard(dragon.cardId), dragon);
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Bewitching Spirit (unl-121): on play, opponent discards 1", () => {
+  it("discards the front of the opponent's hand", () => {
+    const game = makeGame();
+    const spirit = putOnBase(game, "unl-121", "0");
+    game.players["1"].hand = ["ogn-4"];
+    SpecialCaseEngine.onPlay(game, getCard(spirit.cardId), spirit);
+    expect(game.players["1"].trash).toContain("ogn-4");
+    expect(game.players["1"].hand).toEqual([]);
+  });
+});
+
+describe("Walking Roost (unl-130): on play, opponent plays a Bird token with Deflect", () => {
+  it("plays the token into the opponent's base", () => {
+    const game = makeGame();
+    const roost = putOnBase(game, "unl-130", "0");
+    SpecialCaseEngine.onPlay(game, getCard(roost.cardId), roost);
+    const tokenId = game.players["1"].base.find((id) => game.instances[id].cardId === "token-bird-deflect");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("Angler Beast (unl-132): return all units with 2 Might or less to hand", () => {
+  it("returns weak units on both sides, leaves strong ones", () => {
+    const game = makeGame();
+    const beast = putOnBase(game, "unl-132", "0");
+    const weak = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    const strong = putOnBase(game, "unit-plain-footman", "1"); // Might 2
+    strong.tempMightBonus = 5; // Might 7, survives
+    SpecialCaseEngine.onPlay(game, getCard(beast.cardId), beast);
+    expect(game.instances[weak.instanceId]).toBeUndefined();
+    expect(game.players["1"].hand).toContain("unit-plain-guard");
+    expect(game.instances[strong.instanceId]).toBeDefined();
+  });
+});
+
+describe("Crimson Pigeons (unl-154): +2 Might while attacking with another unit", () => {
+  it("gets the bonus only when another friendly unit shares its battlefield", () => {
+    const game = makeGame();
+    const pigeons = putOnBase(game, "unl-154", "0");
+    moveToBattlefield(game, pigeons.instanceId, 0);
+    const baseline = getCard(pigeons.cardId).might!;
+    expect(computeMight(game, getCard, pigeons, "attacking")).toBe(baseline);
+
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+    expect(computeMight(game, getCard, pigeons, "attacking")).toBe(baseline + 2);
+  });
+});
+
+describe("Rift Herald (unl-179): on move, look-and-draw a unit; Deathknell plays one from hand free", () => {
+  it("draws a revealed unit on move", () => {
+    const game = makeGame();
+    const herald = putOnBase(game, "unl-179", "0", { exhausted: false });
+    game.players["0"].mainDeck = ["unit-plain-guard"];
+    SpecialCaseEngine.onMove(game, getCard(herald.cardId), herald);
+    expect(game.players["0"].hand).toContain("unit-plain-guard");
+  });
+
+  it("plays a unit from hand for free on Deathknell", () => {
+    const game = makeGame();
+    const herald = putOnBase(game, "unl-179", "0");
+    game.players["0"].hand = ["unit-plain-guard"];
+    destroyInstance(game, getCard, herald.instanceId);
+    const newInstanceId = game.players["0"].base.find((id) => game.instances[id].cardId === "unit-plain-guard");
+    expect(newInstanceId).toBeDefined();
+  });
+});
+
+describe("Death from Below (unl-186): kill a unit at a battlefield", () => {
+  it("kills the target", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-186", "0");
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    expect(game.instances[target.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Alpha Strike (unl-192): split a friendly unit's Might among enemies, gain XP per kill", () => {
+  it("kills weak enemies and gains XP", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-192", "0");
+    const source = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    const enemy1 = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy1.instanceId, 0);
+    const enemy2 = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, enemy2.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, source.instanceId);
+
+    expect(game.instances[enemy1.instanceId]).toBeUndefined();
+    expect(game.instances[enemy2.instanceId]).toBeUndefined();
+    expect(game.players["0"].xp).toBe(2);
+  });
+});
+
+describe("Keeper's Verdict (unl-204): put an enemy unit on the bottom of their deck", () => {
+  it("removes the target and pushes it to the owner's Main Deck", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "unl-204", "0");
+    const target = putOnBase(game, "unit-plain-guard", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, target.instanceId);
+    expect(game.instances[target.instanceId]).toBeUndefined();
+    expect(game.players["1"].mainDeck).toContain("unit-plain-guard");
+  });
+});
+
+describe("Dusk Rose Lab (unl-209): may kill a unit here to draw 1, each Beginning Phase", () => {
+  it("kills the first friendly unit here and draws 1", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "unl-209", units: { "0": [], "1": [] }, controller: null };
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, unit.instanceId, 0);
+    game.players["0"].mainDeck = ["ogn-4"];
+
+    runBeginning(game, "0");
+
+    expect(game.instances[unit.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("ogn-4");
+  });
+});
+
+describe("Frozen Fortress (unl-212): deal 1 to each unit here, every Beginning Phase", () => {
+  it("hits units on both sides at this battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "unl-212", units: { "0": [], "1": [] }, controller: null };
+    const mine = putOnBase(game, "unit-plain-guard", "0"); // Might 1
+    moveToBattlefield(game, mine.instanceId, 0);
+    const theirs = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, theirs.instanceId, 0);
+
+    runBeginning(game, "0");
+
+    expect(game.instances[mine.instanceId]).toBeUndefined();
+    expect(game.instances[theirs.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Trapping Grounds (unl-217): conquering with 3+ excess damage plays a Bird token", () => {
+  it("plays the token when excess damage meets the threshold", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "unl-217", units: { "0": [], "1": [] }, controller: null };
+    const attacker = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    attacker.tempMightBonus = 5; // Might 7
+    moveToBattlefield(game, attacker.instanceId, 0);
+    const defender = putOnBase(game, "unit-plain-footman", "1"); // Might 2 (toughness 2)
+    moveToBattlefield(game, defender.instanceId, 0);
+
+    // 7 attacking Might vs 2 toughness defender: 5 excess damage, defender dies, attacker (toughness 7) survives the 2 damage swung back.
+    resolveCombat(game, getCard, 0, "0");
+
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-bird-deflect");
+    expect(tokenId).toBeDefined();
+  });
+
+  it("does not play the token below the threshold", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "unl-217", units: { "0": [], "1": [] }, controller: null };
+    const attacker = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    attacker.tempMightBonus = 2; // Might 4
+    moveToBattlefield(game, attacker.instanceId, 0);
+    const defender = putOnBase(game, "unit-plain-footman", "1"); // Might 2 (toughness 2)
+    moveToBattlefield(game, defender.instanceId, 0);
+
+    // 4 attacking Might vs 2 toughness defender: 2 excess damage (below the 3 threshold), defender still dies.
+    resolveCombat(game, getCard, 0, "0");
+
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-bird-deflect");
+    expect(tokenId).toBeUndefined();
+  });
+});
+
+describe("Lonely Poro reprint (unl-221): Deathknell draws 1 if it died alone", () => {
+  it("shares the sfd/ogn Lonely Poro handler", () => {
+    const game = makeGame();
+    const poro = putOnBase(game, "unl-221", "0");
+    game.players["0"].mainDeck = ["ogn-4"];
+    destroyInstance(game, getCard, poro.instanceId);
+    expect(game.players["0"].hand).toContain("ogn-4");
   });
 });

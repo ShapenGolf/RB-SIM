@@ -226,8 +226,11 @@ export interface SpecialCaseHandler {
    * game/pseudoInstance.ts) since Battlefields have no CardInstance of their own.
    * `conqueringUnitIds` are the instanceIds of the conquering side's committed units still
    * sitting at this Battlefield (e.g. Sunken Temple: "...with one or more [Mighty] units...").
+   * `excessDamage` is the attacking side's unassignable leftover combat damage this Showdown
+   * (0 if conquered with no defenders present — see combat.ts `assignDamage`), e.g. Trapping
+   * Grounds: "...if you assigned 3 or more excess damage...".
    */
-  onConquerHere?(ctx: SpecialCaseContext, conqueringUnitIds: string[]): void;
+  onConquerHere?(ctx: SpecialCaseContext, conqueringUnitIds: string[], excessDamage: number): void;
 
   /**
    * Battlefield-only: called once per Battlefield in play, for a player's very first Beginning
@@ -237,6 +240,14 @@ export interface SpecialCaseHandler {
    * this is (not necessarily this Battlefield's controller).
    */
   onFirstBeginningPhase?(ctx: SpecialCaseContext): void;
+
+  /**
+   * Battlefield-only: called once per Battlefield in play, at the start of EVERY player's
+   * Beginning Phase, regardless of who controls that Battlefield (e.g. Frozen Fortress: "At the
+   * start of each player's Beginning Phase, deal 1 to each unit here."). Unlike
+   * `onFirstBeginningPhase`, this fires every turn, not just the player's first.
+   */
+  onEveryBeginningPhase?(ctx: SpecialCaseContext): void;
 
   /**
    * Battlefield-only: how many extra points this Battlefield's mere presence in play adds to
