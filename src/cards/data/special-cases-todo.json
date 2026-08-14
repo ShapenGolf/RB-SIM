@@ -608,14 +608,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a friendly unit and an enemy unit. They deal damage equal to their Mights to each other."
   },
   {
-    "id": "ven-5",
-    "name": "Forsaken Baccai",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "If you control fewer runes than an opponent at the start of your Beginning Phase, give me +1 Might this turn.",
-    "fullText": "If you control fewer runes than an opponent at the start of your Beginning Phase, give me +1 Might this turn."
-  },
-  {
     "id": "sfd-249",
     "name": "Chem-Baroness",
     "set": "SFD",
@@ -702,14 +694,6 @@
     "type": "unit",
     "residualText": "When I move to a battlefield, play three 1 Might Recruit unit tokens here.",
     "fullText": "[Accelerate] (You may pay 1 EnergyOrder Rune as an additional cost to have me enter ready.)\nWhen I move to a battlefield, play three 1 Might Recruit unit tokens here."
-  },
-  {
-    "id": "sfd-123",
-    "name": "Corrupt Enforcer",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, discard 1.\nWhen I win a combat, draw 1.",
-    "fullText": "When I move to a battlefield, discard 1.\nWhen I win a combat, draw 1."
   },
   {
     "id": "ven-91",
@@ -862,14 +846,6 @@
     "type": "spell",
     "residualText": "Ignore  while paying this spell's cost.\nGive an enemy Body (Body Rune) unit -5 Might this turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nIgnore [Deflect] while paying this spell's cost.\nGive an enemy Body (Body Rune) unit -5 Might this turn."
-  },
-  {
-    "id": "ven-85",
-    "name": "Decree of Strength",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose an opponent. They reveal their hand and you choose a Mind (Mind Rune) card from it. They recycle that card.",
-    "fullText": "Choose an opponent. They reveal their hand and you choose a Mind (Mind Rune) card from it. They recycle that card."
   },
   {
     "id": "ven-194",

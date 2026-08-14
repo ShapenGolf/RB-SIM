@@ -364,6 +364,9 @@ import { plazaGuardian } from "./plaza-guardian";
 import { decreeOfRage } from "./decree-of-rage";
 import { fioraPeerless } from "./fiora-peerless";
 import { toweringPairofant } from "./towering-pairofant";
+import { forsakenBaccai } from "./forsaken-baccai";
+import { decreeOfStrength } from "./decree-of-strength";
+import { corruptEnforcer } from "./corrupt-enforcer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -728,6 +731,9 @@ const handlers: SpecialCaseHandler[] = [
   decreeOfRage,
   fioraPeerless,
   toweringPairofant,
+  forsakenBaccai,
+  decreeOfStrength,
+  corruptEnforcer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
