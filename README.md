@@ -8,6 +8,13 @@ Privates Projekt — kein offizielles Riot-Produkt.
 MVP-Architektur, lokal spielbar (Hotseat, ein Browser-Tab, zwei Panels).
 Online-Multiplayer noch nicht aktiviert.
 
+**Visuelles UI (neu):** Karten werden jetzt als echte Kartenbilder gerendert
+(`src/ui/CardFace.tsx`, `src/ui/cards.css`) statt als Text-Listen — Domain-
+farbiger Rahmen, Kosten-/Might-/Power-Badges, Seltenheits-Indikator,
+offizielle Artworks direkt von Riots CDN (`Card.imageUrl`, siehe
+`docs/data-sourcing.md`). Das rohe boardgame.io-Debug-Panel ist standardmäßig
+aus (`src/ui/client.ts`).
+
 **Kartendatenbank: vollständig importiert**, alle 5 bisher erschienenen Sets
 (1019 Karten: Origins, Proving Grounds, Spiritforged, Unleashed, Vendetta) —
 siehe [`docs/data-sourcing.md`](docs/data-sourcing.md). Spielbarkeits-Stand

@@ -1,14 +1,15 @@
 import { RiftboundClient } from "./client";
+import "./cards.css";
 
 const MATCH_ID = "local-hotseat";
 
 export function App() {
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#000" }}>
-      <div style={{ flex: 1, borderRight: "2px solid #333" }}>
+    <div className="rb-app">
+      <div className="rb-panel">
         <RiftboundClient playerID="0" matchID={MATCH_ID} />
       </div>
-      <div style={{ flex: 1 }}>
+      <div className="rb-panel">
         <RiftboundClient playerID="1" matchID={MATCH_ID} />
       </div>
     </div>

@@ -1,5 +1,37 @@
 # Kartendaten-Beschaffung
 
+## Bild-URLs (2026-08-14)
+
+Der Nutzer hat die rohe Card-Gallery-JSON erneut hochgeladen; sie liegt jetzt
+dauerhaft im Repo unter `scripts/data/raw-card-gallery.json` (3,2 MB, damit
+künftige Re-Imports — neue Sets, Datenkorrekturen — nicht wieder einen
+manuellen Upload brauchen). Jede Karte im rohen Datensatz hat ein
+`cardImage.url`-Feld, das direkt auf Riots CDN zeigt
+(`cmsassets.rgpub.io/sanity/images/...`). `scripts/import-cards.mjs` liest
+das jetzt mit aus (`Card.imageUrl`, `src/cards/types.ts`).
+
+**Wichtig:** Diese URLs werden vom Browser der Spieler geladen, nicht von
+dieser Codebase — funktioniert also unabhängig von der Netzwerksperre, die
+den automatisierten Import selbst verhindert hat (s.u.). Für Karten ohne
+Bild (synthetische Tokens) zeigt die UI einen gestylten Platzhalter
+(`src/ui/CardFace.tsx`).
+
+Nebenbefund: der Rohdatensatz liefert auch echte Domain-/Rarity-Farbwerte
+(`domain.values[].icon.colors`, `rarity.value.icon.colors`) — daraus wurde
+die Kartenrahmen-Palette in `src/ui/cards.css` abgeleitet (Fury=Rot,
+Calm=Grün, Mind=Blau, Body=Ocker/Braun, Order=Gold, Chaos=Lila), statt sie
+zu raten.
+
+Da der Enrichment-Schritt (nur `imageUrl` pro Karte ergänzen) getrennt vom
+vollen Re-Import-Pipeline lief: **`special-cases-todo.json` wurde NICHT neu
+generiert.** Ein voller Lauf von `import-cards.mjs` würde die Todo-Liste
+stur aus dem Rohtext neu ableiten, ohne die bereits in
+`special-case-assignments.json` erledigten Karten abzuziehen — das würde den
+gesamten Implementierungs-Fortschritt aus der Todo-Liste "zurücksetzen"
+(nicht die eigentlichen Handler, aber die Buchführung). Für reine
+Daten-Ergänzungen (wie Bild-URLs) lieber gezielt nur das neue Feld pro Karte
+mergen, wie hier geschehen, statt die ganze Pipeline neu laufen zu lassen.
+
 ## Status (aktualisiert 2026-08-13)
 
 **Import abgeschlossen.** Der Nutzer hat die offizielle Card-Gallery-JSON

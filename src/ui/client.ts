@@ -14,5 +14,7 @@ export const RiftboundClient = Client({
   game: RiftboundGame,
   board: Board,
   multiplayer: Local(),
-  debug: true,
+  // The raw boardgame.io debug panel (move log, state tree) is a dev tool, not part of the
+  // player-facing board — see src/ui/CardFace.tsx / cards.css for the actual UI.
+  debug: false,
 });

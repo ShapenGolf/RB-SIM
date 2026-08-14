@@ -1,0 +1,504 @@
+/* Riftbound Simulator — card + board visual design.
+   Domain colors are a thematic approximation (red/blue/violet/green/gold/magenta) since we
+   don't have Riot's official palette on file — swap these once/if we do. */
+
+:root {
+  /* Derived from Riot's own domain icon color swatches (card-gallery data) — each domain's
+     "secondary" (light accent) hue, saturated up into a usable card-frame color. */
+  --domain-fury: #dc2626; /* swatch EDD6FF-family: red */
+  --domain-fury-dark: #5b1414;
+  --domain-calm: #16a34a; /* swatch E0FFD6-family: green */
+  --domain-calm-dark: #14361f;
+  --domain-mind: #2563eb; /* swatch D6F0FF-family: blue */
+  --domain-mind-dark: #17284a;
+  --domain-body: #c2793a; /* swatch F9EADC-family: tan/amber */
+  --domain-body-dark: #4a2f16;
+  --domain-order: #f5b942; /* swatch FFF7D6-family: gold */
+  --domain-order-dark: #5c4415;
+  --domain-chaos: #a855f7; /* swatch EDD6FF-family: purple */
+  --domain-chaos-dark: #33215e;
+  --domain-colorless: #9ca3af;
+  --domain-colorless-dark: #374151;
+
+  /* Riot's own rarity swatch primaries. */
+  --rarity-common: #a4b8aa;
+  --rarity-uncommon: #41b4b8;
+  --rarity-rare: #b881a9;
+  --rarity-epic: #b8794c;
+  --rarity-showcase: #b89d3b;
+  --rarity-legendary: #fbbf24;
+
+  --bg-app: #0a0b0f;
+  --bg-panel: #12141b;
+  --bg-panel-alt: #181b24;
+  --text-main: #f1f2f4;
+  --text-dim: #9aa0ac;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.rb-app {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-app);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--text-main);
+}
+
+.rb-panel {
+  flex: 1;
+  min-width: 0;
+  border-right: 1px solid #23262f;
+}
+.rb-panel:last-child {
+  border-right: none;
+}
+
+.rb-board {
+  padding: 12px 16px 20px;
+  min-height: 100%;
+}
+
+.rb-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--bg-panel);
+  border: 1px solid #23262f;
+  margin-bottom: 10px;
+}
+.rb-topbar h2 {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+}
+.rb-topbar .rb-status {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.rb-scoreline {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.rb-scoreline b {
+  color: var(--text-main);
+}
+.rb-turn-pill {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #1f2937;
+  border: 1px solid #374151;
+}
+.rb-turn-pill.active {
+  background: #14532d;
+  border-color: #22c55e;
+  color: #bbf7d0;
+}
+
+.rb-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin: 14px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rb-section-label .rb-count {
+  background: #1f2937;
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 10px;
+}
+
+.rb-rune-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.rb-rune {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid #3f3f46;
+  background: #1f2229;
+  color: var(--text-dim);
+}
+.rb-rune.ready {
+  color: #fff;
+  border-color: currentColor;
+}
+
+/* ---- Card frame ---- */
+
+.rb-card {
+  --dom: var(--domain-colorless);
+  --dom-dark: var(--domain-colorless-dark);
+  --rarity-color: var(--rarity-common);
+  position: relative;
+  width: 132px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  box-shadow:
+    0 0 0 2px var(--rarity-color),
+    0 3px 8px rgba(0, 0, 0, 0.5);
+  background:
+    linear-gradient(160deg, var(--dom) 0%, var(--dom-dark) 55%, #0c0d10 100%);
+  overflow: hidden;
+  cursor: default;
+  text-align: left;
+  color: #fff;
+  font-family: inherit;
+  padding: 0;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  flex-shrink: 0;
+}
+.rb-card.rb-card-sm {
+  width: 92px;
+}
+.rb-card.rb-clickable {
+  cursor: pointer;
+}
+.rb-card.rb-clickable:hover {
+  transform: translateY(-4px);
+}
+.rb-card.rb-selected {
+  box-shadow:
+    0 0 0 3px #4ade80,
+    0 3px 10px rgba(0, 0, 0, 0.6);
+}
+.rb-card.rb-exhausted {
+  filter: grayscale(0.55) brightness(0.72);
+}
+.rb-card.rb-stunned {
+  filter: grayscale(0.3) brightness(0.85) hue-rotate(200deg);
+}
+
+.rb-card-art {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rb-card-art-placeholder {
+  font-size: 22px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.22);
+  text-align: center;
+  padding: 4px;
+  line-height: 1.1;
+}
+
+.rb-card-cost {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f3f4f6, #6b7280 70%);
+  color: #111;
+  font-weight: 800;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+.rb-card-power {
+  position: absolute;
+  top: 4px;
+  left: 26px;
+  display: flex;
+  gap: 2px;
+  z-index: 2;
+}
+.rb-card-power-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.rb-card-rarity-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rarity-color);
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+.rb-card-body {
+  padding: 5px 6px 6px;
+}
+.rb-card-name {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 2px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.rb-card-type {
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 3px;
+}
+.rb-card-text {
+  font-size: 8.5px;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 5px;
+  padding: 4px 5px;
+  max-height: 72px;
+  overflow-y: auto;
+}
+.rb-card-text b.rb-kw {
+  color: #fde68a;
+  font-weight: 700;
+}
+
+.rb-card-might {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: 6px;
+  background: radial-gradient(circle at 35% 30%, #fecaca, #7f1d1d 75%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+.rb-card-might.buffed {
+  background: radial-gradient(circle at 35% 30%, #fde68a, #92400e 75%);
+}
+
+.rb-card-badges {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  display: flex;
+  gap: 2px;
+  z-index: 2;
+}
+.rb-badge {
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rb-card-footer {
+  padding: 4px 6px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.rb-card-footer button {
+  font-size: 10px;
+  padding: 3px 4px;
+  border-radius: 5px;
+  border: 1px solid #4b5563;
+  background: #1f2937;
+  color: #f1f2f4;
+  cursor: pointer;
+}
+.rb-card-footer button:hover {
+  background: #374151;
+}
+
+/* ---- Board zones ---- */
+
+.rb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.rb-battlefields {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.rb-battlefield {
+  flex: 1;
+  min-width: 220px;
+  background: var(--bg-panel);
+  border: 1px solid #23262f;
+  border-radius: 10px;
+  padding: 8px;
+}
+.rb-battlefield-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.rb-battlefield-name {
+  font-size: 12px;
+  font-weight: 700;
+}
+.rb-battlefield-control {
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #1f2937;
+  color: var(--text-dim);
+}
+.rb-battlefield-control.mine {
+  background: #14532d;
+  color: #bbf7d0;
+}
+.rb-battlefield-control.theirs {
+  background: #5b1414;
+  color: #fecaca;
+}
+.rb-battlefield-side-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin: 4px 0 2px;
+}
+.rb-battlefield-units {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 40px;
+  align-items: flex-start;
+}
+.rb-battlefield button.rb-attack-here {
+  margin-top: 6px;
+  width: 100%;
+  font-size: 11px;
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #4ade80;
+  background: #14532d;
+  color: #bbf7d0;
+  cursor: pointer;
+}
+
+.rb-hand-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  align-items: flex-start;
+}
+
+.rb-callout {
+  border-radius: 10px;
+  padding: 10px;
+  margin: 8px 0;
+  background: var(--bg-panel-alt);
+}
+.rb-callout.warn {
+  border: 1px solid #fbbf24;
+}
+.rb-callout.info {
+  border: 1px solid #38bdf8;
+}
+.rb-callout.equip {
+  border: 1px solid #34d399;
+}
+.rb-callout.optional {
+  border: 1px solid #a78bfa;
+}
+.rb-callout-title {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.rb-callout-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.rb-callout button.cancel {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #6b7280;
+  background: transparent;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.rb-end-turn {
+  margin-top: 14px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(160deg, #f59e0b, #92400e);
+  color: #1a1200;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.rb-end-turn:hover {
+  filter: brightness(1.08);
+}
+
+.rb-toolbar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.rb-toolbar button {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #3f3f46;
+  background: #1f2229;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.rb-toolbar button:hover {
+  color: var(--text-main);
+}

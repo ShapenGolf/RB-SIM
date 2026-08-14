@@ -6,47 +6,26 @@ import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
 import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
+import { CardFace } from "./CardFace";
+import "./cards.css";
 
-function keywordSummary(cardId: string): string {
-  const card = getCard(cardId);
-  if (card.keywords.length === 0) return "";
-  return card.keywords.map((k) => (k.value !== undefined ? `${k.keyword} ${k.value}` : k.keyword)).join(", ");
-}
-
-function InstanceChip({
-  instance,
-  onClick,
-  selected,
-}: {
-  instance: CardInstance;
-  onClick?: () => void;
-  selected?: boolean;
-}) {
-  const card = getCard(instance.cardId);
-  return (
-    <button
-      onClick={onClick}
-      disabled={!onClick}
-      style={{
-        border: selected ? "2px solid #4ade80" : "1px solid #555",
-        borderRadius: 6,
-        padding: "4px 8px",
-        margin: 2,
-        background: instance.exhausted ? "#2a2a2a" : "#1f2937",
-        color: "#eee",
-        cursor: onClick ? "pointer" : "default",
-        opacity: instance.statuses.stunned ? 0.5 : 1,
-        fontSize: 12,
-      }}
-      title={card.text}
-    >
-      {card.name}
-      {card.might !== null ? ` (${card.might + instance.tempMightBonus}M)` : ""}
-      {instance.exhausted ? " ⟳" : ""}
-      {instance.statuses.stunned ? " 💫" : ""}
-      {instance.equipment.length > 0 ? ` 🗡×${instance.equipment.length}` : ""}
-    </button>
-  );
+function blankInstance(cardId: string, controller: PlayerId): CardInstance {
+  return {
+    instanceId: "preview",
+    cardId,
+    controller,
+    zone: "base",
+    battlefieldIndex: null,
+    damage: 0,
+    exhausted: false,
+    statuses: {},
+    xp: 0,
+    tempMightBonus: 0,
+    grantedThisTurn: [],
+    equipment: [],
+    attachedTo: null,
+    pendingSurviveCombatXP: 0,
+  };
 }
 
 export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameState>) {
@@ -63,9 +42,15 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   const canAct = isActive && me !== null && ctx.currentPlayer === me;
 
   if (ctx.gameover) {
-    return <div style={{ padding: 24 }}>Spiel vorbei — Sieger: Spieler {ctx.gameover.winner}</div>;
+    return (
+      <div className="rb-board">
+        <div className="rb-topbar">
+          <h2>Spiel vorbei — Sieger: Spieler {ctx.gameover.winner}</h2>
+        </div>
+      </div>
+    );
   }
-  if (!me) return <div>Kein Spieler zugewiesen.</div>;
+  if (!me) return <div className="rb-board">Kein Spieler zugewiesen.</div>;
 
   const player = G.players[me];
   const opponentId: PlayerId = me === "0" ? "1" : "0";
@@ -73,22 +58,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   function playCardAuto(handIndex: number, payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
     const cardId = player.hand[handIndex];
     const card = getCard(cardId);
-    const dummyInstance: CardInstance = {
-      instanceId: "preview",
-      cardId,
-      controller: me!,
-      zone: "base",
-      battlefieldIndex: null,
-      damage: 0,
-      exhausted: false,
-      statuses: {},
-      xp: 0,
-      tempMightBonus: 0,
-      grantedThisTurn: [],
-      equipment: [],
-      attachedTo: null,
-      pendingSurviveCombatXP: 0,
-    };
+    const dummyInstance = blankInstance(cardId, me!);
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, payAdditionalCost);
     if (!payment) {
       window.alert("Nicht genug Runen, um diese Karte zu bezahlen.");
@@ -111,22 +81,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     if (!pendingTarget) return;
     const cardId = player.hand[pendingTarget.handIndex];
     const card = getCard(cardId);
-    const dummyInstance: CardInstance = {
-      instanceId: "preview",
-      cardId,
-      controller: me!,
-      zone: "base",
-      battlefieldIndex: null,
-      damage: 0,
-      exhausted: false,
-      statuses: {},
-      xp: 0,
-      tempMightBonus: 0,
-      grantedThisTurn: [],
-      equipment: [],
-      attachedTo: null,
-      pendingSurviveCombatXP: 0,
-    };
+    const dummyInstance = blankInstance(cardId, me!);
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, pendingTarget.payAdditionalCost);
     if (!payment) return;
     moves.playCard({
@@ -275,184 +230,87 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setAttackMode(null);
   }
 
-  return (
-    <div style={{ fontFamily: "system-ui, sans-serif", color: "#eee", background: "#111", padding: 16, minHeight: "100%" }}>
-      <h2 style={{ margin: 0 }}>Spieler {me} {canAct ? "(am Zug)" : "(wartet)"}</h2>
-      <p style={{ opacity: 0.7, margin: "4px 0" }}>
-        Zug {ctx.turn} · Phase: {G.turnPhase} · Punkte: Du {player.points} — Gegner {G.players[opponentId].points} ·
-        XP: {player.xp}
-      </p>
+  function targetPicker(onPick: (id: string) => void) {
+    return (
+      <div className="rb-callout-targets">
+        {Object.values(G.instances)
+          .filter((i) => i.zone === "base" || i.zone === "battlefield")
+          .map((i) => (
+            <CardFace key={i.instanceId} card={getCard(i.cardId)} instance={i} size="sm" onClick={() => onPick(i.instanceId)} />
+          ))}
+      </div>
+    );
+  }
 
-      <section>
-        <h3>Rune Pool</h3>
+  return (
+    <div className="rb-board">
+      <div className="rb-topbar">
+        <div>
+          <h2>Spieler {me}</h2>
+          <div className="rb-status">
+            Zug {ctx.turn} · Phase: {G.turnPhase}
+          </div>
+        </div>
+        <div className="rb-scoreline">
+          <span>
+            Punkte: <b>{player.points}</b> — Gegner <b>{G.players[opponentId].points}</b>
+          </span>
+          <span>
+            XP: <b>{player.xp}</b>
+          </span>
+        </div>
+        <div className={`rb-turn-pill${canAct ? " active" : ""}`}>{canAct ? "Am Zug" : "Wartet"}</div>
+      </div>
+
+      <div className="rb-section-label">
+        Rune Pool <span className="rb-count">{player.runePool.length}</span>
+      </div>
+      <div className="rb-rune-strip">
         {player.runePool.map((r) => (
-          <span
-            key={r.instanceId}
-            style={{
-              display: "inline-block",
-              margin: 2,
-              padding: "2px 6px",
-              borderRadius: 4,
-              fontSize: 11,
-              background: r.exhausted ? "#333" : "#374151",
-              border: "1px solid #555",
-            }}
-          >
-            {r.domain}{r.exhausted ? " (ex)" : ""}
+          <span key={r.instanceId} className={`rb-rune${r.exhausted ? "" : " ready"}`}>
+            {r.domain}
+            {r.exhausted ? " · ex" : ""}
           </span>
         ))}
-      </section>
-
-      <section>
-        <h3>Hand ({player.hand.length})</h3>
-        {player.hand.map((cardId, idx) => {
-          const card = getCard(cardId);
-          const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
-          const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
-          const bonusEffectEnergy = SpecialCaseEngine.additionalPlayCostEnergy(G, card, {
-            instanceId: "preview",
-            cardId,
-            controller: me!,
-            zone: "base",
-            battlefieldIndex: null,
-            damage: 0,
-            exhausted: false,
-            statuses: {},
-            xp: 0,
-            tempMightBonus: 0,
-            grantedThisTurn: [],
-            equipment: [],
-            attachedTo: null,
-            pendingSurviveCombatXP: 0,
-          });
-          const isChampion = card.type === "champion";
-          const enemyId: PlayerId = me === "0" ? "1" : "0";
-          const ambushDummyInstance: CardInstance = {
-            instanceId: "preview",
-            cardId,
-            controller: me!,
-            zone: "base",
-            battlefieldIndex: null,
-            damage: 0,
-            exhausted: false,
-            statuses: {},
-            xp: 0,
-            tempMightBonus: 0,
-            grantedThisTurn: [],
-            equipment: [],
-            attachedTo: null,
-            pendingSurviveCombatXP: 0,
-          };
-          const ambushBattlefields = isChampion
-            ? G.battlefields.map((_slot, i) => ({ index: i }))
-            : card.type === "unit"
-              ? G.battlefields
-                  .map((slot, i) => ({
-                    index: i,
-                    ownOccupied: slot.units[me].length > 0,
-                    enemyOccupied: slot.units[enemyId].length > 0,
-                  }))
-                  .filter(
-                    (b) =>
-                      (b.ownOccupied && KeywordEngine.hasKeyword(card, "ambush")) ||
-                      (b.enemyOccupied &&
-                        SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, ambushDummyInstance)) ||
-                      (!b.ownOccupied &&
-                        !b.enemyOccupied &&
-                        (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, ambushDummyInstance) ||
-                          SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, ambushDummyInstance))),
-                  )
-              : [];
-          return (
-            <div key={idx} style={{ border: "1px solid #444", borderRadius: 6, padding: 6, margin: "4px 0" }}>
-              <strong>{card.name}</strong>{" "}
-              <span style={{ opacity: 0.6, fontSize: 12 }}>
-                [{card.type}] E{card.energyCost ?? "-"} {card.powerCost.map((p) => `${p.domain[0]}${p.amount}`).join(" ")}
-                {card.might !== null ? ` · ${card.might}M` : ""}
-              </span>
-              <div style={{ fontSize: 12, opacity: 0.8 }}>{keywordSummary(cardId) || card.text}</div>
-              {canAct && (
-                <div style={{ marginTop: 4 }}>
-                  <button onClick={() => playCardAuto(idx, false)}>Spielen</button>
-                  {hasAccelerate && (
-                    <button style={{ marginLeft: 6 }} onClick={() => playCardAuto(idx, true)}>
-                      Spielen (+Accelerate)
-                    </button>
-                  )}
-                  {discardCostConfig && (
-                    <button style={{ marginLeft: 6 }} onClick={() => playCardAuto(idx, true)}>
-                      Spielen (discard {discardCostConfig.discardCount}, -{discardCostConfig.energyReduction}E)
-                    </button>
-                  )}
-                  {bonusEffectEnergy !== undefined && (
-                    <button style={{ marginLeft: 6 }} onClick={() => playCardAuto(idx, true)}>
-                      Spielen (+{bonusEffectEnergy}E für Bonus-Effekt)
-                    </button>
-                  )}
-                  {ambushBattlefields.map((b) => (
-                    <button
-                      key={b.index}
-                      style={{ marginLeft: 6 }}
-                      onClick={() => playCardAuto(idx, false, b.index)}
-                    >
-                      Spielen ({isChampion ? "zu" : "Ambush →"} Battlefield {b.index + 1})
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </section>
+      </div>
 
       {pendingTarget && (
-        <section style={{ border: "2px solid #fbbf24", padding: 8, margin: "8px 0" }}>
-          <strong>Ziel wählen:</strong>
-          <div>
-            {Object.values(G.instances)
-              .filter((i) => i.zone === "base" || i.zone === "battlefield")
-              .map((i) => (
-                <InstanceChip key={i.instanceId} instance={i} onClick={() => confirmTarget(i.instanceId)} />
-              ))}
-          </div>
-          <button onClick={() => setPendingTarget(null)}>Abbrechen</button>
-        </section>
+        <div className="rb-callout warn">
+          <div className="rb-callout-title">Ziel wählen</div>
+          {targetPicker(confirmTarget)}
+          <button className="cancel" onClick={() => setPendingTarget(null)}>
+            Abbrechen
+          </button>
+        </div>
       )}
 
       {G.pendingOptionalCost && G.pendingOptionalCost.playerId === me && (
-        <section style={{ border: "2px solid #a78bfa", padding: 8, margin: "8px 0" }}>
-          <strong>Optionale Kosten zahlen?</strong>{" "}
-          <span style={{ fontSize: 12, opacity: 0.8 }}>
-            ({G.pendingOptionalCost.cost.energy} Energy
+        <div className="rb-callout optional">
+          <div className="rb-callout-title">
+            Optionale Kosten zahlen? ({G.pendingOptionalCost.cost.energy} Energy
             {G.pendingOptionalCost.cost.runeDomain ? ` + ${G.pendingOptionalCost.cost.runeDomain} Rune` : ""})
-          </span>
-          <div style={{ marginTop: 4 }}>
-            <button onClick={payOptionalCost}>Bezahlen</button>
-            <button style={{ marginLeft: 6 }} onClick={declineOptionalCost}>
-              Ablehnen
-            </button>
           </div>
-        </section>
+          <button onClick={payOptionalCost}>Bezahlen</button>
+          <button className="cancel" style={{ marginLeft: 6 }} onClick={declineOptionalCost}>
+            Ablehnen
+          </button>
+        </div>
       )}
 
       {pendingAbility && (
-        <section style={{ border: "2px solid #38bdf8", padding: 8, margin: "8px 0" }}>
-          <strong>Ziel für Fähigkeit wählen:</strong>
-          <div>
-            {Object.values(G.instances)
-              .filter((i) => i.zone === "base" || i.zone === "battlefield")
-              .map((i) => (
-                <InstanceChip key={i.instanceId} instance={i} onClick={() => confirmAbilityTarget(i.instanceId)} />
-              ))}
-          </div>
-          <button onClick={() => setPendingAbility(null)}>Abbrechen</button>
-        </section>
+        <div className="rb-callout info">
+          <div className="rb-callout-title">Ziel für Fähigkeit wählen</div>
+          {targetPicker(confirmAbilityTarget)}
+          <button className="cancel" onClick={() => setPendingAbility(null)}>
+            Abbrechen
+          </button>
+        </div>
       )}
 
       {pendingEquip && (
-        <section style={{ border: "2px solid #34d399", padding: 8, margin: "8px 0" }}>
-          <strong>An welche Einheit anlegen?</strong>
-          <div>
+        <div className="rb-callout equip">
+          <div className="rb-callout-title">An welche Einheit anlegen?</div>
+          <div className="rb-callout-targets">
             {Object.values(G.instances)
               .filter(
                 (i) =>
@@ -461,69 +319,164 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                   (getCard(i.cardId).type === "unit" || getCard(i.cardId).type === "champion"),
               )
               .map((i) => (
-                <InstanceChip key={i.instanceId} instance={i} onClick={() => confirmEquipTarget(i.instanceId)} />
+                <CardFace
+                  key={i.instanceId}
+                  card={getCard(i.cardId)}
+                  instance={i}
+                  size="sm"
+                  onClick={() => confirmEquipTarget(i.instanceId)}
+                />
               ))}
           </div>
-          <button onClick={() => setPendingEquip(null)}>Abbrechen</button>
-        </section>
+          <button className="cancel" onClick={() => setPendingEquip(null)}>
+            Abbrechen
+          </button>
+        </div>
       )}
 
-      <section>
-        <h3>Base</h3>
+      <div className="rb-section-label">
+        Battlefields
+      </div>
+      <div className="rb-battlefields">
+        {G.battlefields.map((slot, idx) => {
+          const controlClass =
+            slot.controller === null ? "" : slot.controller === me ? " mine" : " theirs";
+          return (
+            <div key={idx} className="rb-battlefield">
+              <div className="rb-battlefield-header">
+                <span className="rb-battlefield-name">{getCard(slot.cardId).name}</span>
+                <span className={`rb-battlefield-control${controlClass}`}>
+                  {slot.controller === null ? "frei" : slot.controller === me ? "du" : "Gegner"}
+                </span>
+              </div>
+
+              <div className="rb-battlefield-side-label">Du</div>
+              <div className="rb-battlefield-units">
+                {slot.units[me].map((id) => (
+                  <CardFace key={id} card={getCard(G.instances[id].cardId)} instance={G.instances[id]} size="sm" />
+                ))}
+              </div>
+
+              <div className="rb-battlefield-side-label">Gegner</div>
+              <div className="rb-battlefield-units">
+                {slot.units[opponentId].map((id) => (
+                  <CardFace key={id} card={getCard(G.instances[id].cardId)} instance={G.instances[id]} size="sm" />
+                ))}
+              </div>
+
+              {canAct && attackMode && attackMode.selected.size > 0 && (
+                <button className="rb-attack-here" onClick={() => launchAttack(idx)}>
+                  Hierhin angreifen
+                </button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="rb-section-label">
+        Base <span className="rb-count">{player.base.length}</span>
+      </div>
+      <div className="rb-row">
         {player.base.map((id) => {
           const instance = G.instances[id];
           const card = getCard(instance.cardId);
           const isUnit = card.type === "unit" || card.type === "champion";
+          const ability = abilityCostFor(card);
+          const canActivate = ability && (!ability.exhaustSelf || !instance.exhausted);
           return (
-            <div key={id} style={{ display: "inline-block" }}>
-              <InstanceChip
-                instance={instance}
-                selected={isUnit ? attackMode?.selected.has(id) : undefined}
-                onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
-              />
-              {canAct && card.equipCost && (
-                <button style={{ fontSize: 11 }} onClick={() => startEquip(id)}>
-                  Anlegen (E{card.equipCost.energy}{card.equipCost.runeDomain ? `+${card.equipCost.runeDomain}` : ""})
-                </button>
-              )}
-              {canAct &&
-                abilityCostFor(card) &&
-                (!abilityCostFor(card)!.exhaustSelf || !instance.exhausted) && (
-                  <button style={{ fontSize: 11 }} onClick={() => activateAbilityAuto(id)}>
-                    Aktivieren (E{abilityCostFor(card)!.energy})
-                  </button>
-                )}
-            </div>
+            <CardFace
+              key={id}
+              card={card}
+              instance={instance}
+              size="sm"
+              selected={isUnit ? attackMode?.selected.has(id) : undefined}
+              onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
+              footer={
+                canAct && (card.equipCost || canActivate) ? (
+                  <>
+                    {card.equipCost && (
+                      <button onClick={() => startEquip(id)}>
+                        Anlegen E{card.equipCost.energy}
+                        {card.equipCost.runeDomain ? `+${card.equipCost.runeDomain}` : ""}
+                      </button>
+                    )}
+                    {canActivate && (
+                      <button onClick={() => activateAbilityAuto(id)}>Aktivieren E{ability!.energy}</button>
+                    )}
+                  </>
+                ) : undefined
+              }
+            />
           );
         })}
-      </section>
+      </div>
 
-      <section>
-        <h3>Battlefields</h3>
-        <div style={{ display: "flex", gap: 16 }}>
-          {G.battlefields.map((slot, idx) => (
-            <div key={idx} style={{ border: "1px solid #444", borderRadius: 6, padding: 8, flex: 1 }}>
-              <div>
-                <strong>{getCard(slot.cardId).name}</strong> — Kontrolle:{" "}
-                {slot.controller === null ? "niemand" : `Spieler ${slot.controller}`}
-              </div>
-              <div>Du: {slot.units[me].map((id) => <InstanceChip key={id} instance={G.instances[id]} />)}</div>
-              <div>
-                Gegner:{" "}
-                {slot.units[opponentId].map((id) => <InstanceChip key={id} instance={G.instances[id]} />)}
-              </div>
-              {canAct && attackMode && attackMode.selected.size > 0 && (
-                <button onClick={() => launchAttack(idx)}>Hierhin angreifen</button>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      <div className="rb-section-label">
+        Hand <span className="rb-count">{player.hand.length}</span>
+      </div>
+      <div className="rb-hand-strip">
+        {player.hand.map((cardId, idx) => {
+          const card = getCard(cardId);
+          const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
+          const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
+          const dummyInstance = blankInstance(cardId, me!);
+          const bonusEffectEnergy = SpecialCaseEngine.additionalPlayCostEnergy(G, card, dummyInstance);
+          const isChampion = card.type === "champion";
+          const ambushBattlefields = isChampion
+            ? G.battlefields.map((_slot, i) => ({ index: i }))
+            : card.type === "unit"
+              ? G.battlefields
+                  .map((slot, i) => ({
+                    index: i,
+                    ownOccupied: slot.units[me].length > 0,
+                    enemyOccupied: slot.units[opponentId].length > 0,
+                  }))
+                  .filter(
+                    (b) =>
+                      (b.ownOccupied && KeywordEngine.hasKeyword(card, "ambush")) ||
+                      (b.enemyOccupied &&
+                        SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, dummyInstance)) ||
+                      (!b.ownOccupied &&
+                        !b.enemyOccupied &&
+                        (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, dummyInstance) ||
+                          SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, dummyInstance))),
+                  )
+              : [];
+          return (
+            <CardFace
+              key={idx}
+              card={card}
+              footer={
+                canAct ? (
+                  <>
+                    <button onClick={() => playCardAuto(idx, false)}>Spielen</button>
+                    {hasAccelerate && <button onClick={() => playCardAuto(idx, true)}>+Accelerate</button>}
+                    {discardCostConfig && (
+                      <button onClick={() => playCardAuto(idx, true)}>
+                        Discard {discardCostConfig.discardCount} (-{discardCostConfig.energyReduction}E)
+                      </button>
+                    )}
+                    {bonusEffectEnergy !== undefined && (
+                      <button onClick={() => playCardAuto(idx, true)}>+{bonusEffectEnergy}E Bonus</button>
+                    )}
+                    {ambushBattlefields.map((b) => (
+                      <button key={b.index} onClick={() => playCardAuto(idx, false, b.index)}>
+                        {isChampion ? "Zu" : "Ambush →"} Battlefield {b.index + 1}
+                      </button>
+                    ))}
+                  </>
+                ) : undefined
+              }
+            />
+          );
+        })}
+      </div>
 
       {canAct && (
-        <section style={{ marginTop: 12 }}>
-          <button onClick={() => moves.endTurn()}>Zug beenden</button>
-        </section>
+        <button className="rb-end-turn" onClick={() => moves.endTurn()}>
+          Zug beenden
+        </button>
       )}
     </div>
   );

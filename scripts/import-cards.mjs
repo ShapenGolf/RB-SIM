@@ -208,6 +208,7 @@ for (const item of groups.values()) {
     text: plainText.replace(/\[>\]/g, "").trim(),
     keywords,
     tags: item.tags?.tags ?? [],
+    imageUrl: item.cardImage?.url || undefined,
     sourceNote: `Imported from the official Riftbound card gallery (playriftbound.com), set ${item.set.value.label}, ${item.publicCode}.`,
   };
   // Note: specialCaseId is NOT assigned here. It's kept in

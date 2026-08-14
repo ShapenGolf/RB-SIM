@@ -49,6 +49,13 @@ export interface Card {
   keywords: KeywordInstance[];
   tags?: string[];
   /**
+   * Official card art URL (Riot's CDN), when known — see docs/data-sourcing.md. Rendered
+   * directly by the client's own browser (never fetched by this codebase/tooling), so it's safe
+   * to hotlink. Absent for synthetic tokens and for any card imported before this field existed;
+   * the UI falls back to a styled placeholder when it's missing.
+   */
+  imageUrl?: string;
+  /**
    * When set, this card has unique text beyond what the generic keyword
    * engine covers. The id links to a handler in `src/cards/special-cases/`.
    * Cards with unresolved unique text but no handler yet are still playable
