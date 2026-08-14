@@ -368,6 +368,9 @@ import { forsakenBaccai } from "./forsaken-baccai";
 import { decreeOfStrength } from "./decree-of-strength";
 import { corruptEnforcer } from "./corrupt-enforcer";
 import { heraldOfTheArcane } from "./herald-of-the-arcane";
+import { bountyHunter } from "./bounty-hunter";
+import { eyeOfTwilight } from "./eye-of-twilight";
+import { defenderOfTomorrow } from "./defender-of-tomorrow";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -736,6 +739,9 @@ const handlers: SpecialCaseHandler[] = [
   decreeOfStrength,
   corruptEnforcer,
   heraldOfTheArcane,
+  bountyHunter,
+  eyeOfTwilight,
+  defenderOfTomorrow,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

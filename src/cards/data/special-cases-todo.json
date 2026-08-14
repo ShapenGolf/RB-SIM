@@ -456,14 +456,6 @@
     "fullText": "When you play a unit, you may pay 1 Energy to gain 1 XP.\nSpend 3 XP, Exhaust: Ready a unit."
   },
   {
-    "id": "unl-228",
-    "name": "Bloodharbor Ripper",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Return a friendly unit at a battlefield to its owner's hand. Play a Gold gear token exhausted.",
-    "fullText": "1 Energy, Exhaust: Return a friendly unit at a battlefield to its owner's hand. Play a Gold gear token exhausted."
-  },
-  {
     "id": "unl-87",
     "name": "Blue Sentinel",
     "set": "UNL",
@@ -502,22 +494,6 @@
     "type": "gear",
     "residualText": "At the start of your Main Phase, you may kill 3 other friendly units and/or gear to score 1 point.",
     "fullText": "At the start of your Main Phase, you may kill 3 other friendly units and/or gear to score 1 point."
-  },
-  {
-    "id": "ogn-309",
-    "name": "Bounty Hunter",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "Exhaust: Give a unit  this turn. (It can move from battlefield to battlefield.)",
-    "fullText": "Exhaust: Give a unit [Ganking] this turn. (It can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ogn-267",
-    "name": "Bounty Hunter",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "Exhaust: Give a unit  this turn. (It can move from battlefield to battlefield.)",
-    "fullText": "Exhaust: Give a unit [Ganking] this turn. (It can move from battlefield to battlefield.)"
   },
   {
     "id": "sfd-71",
@@ -848,22 +824,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nIgnore [Deflect] while paying this spell's cost.\nGive an enemy Body (Body Rune) unit -5 Might this turn."
   },
   {
-    "id": "ven-194",
-    "name": "Defender of Tomorrow",
-    "set": "VEN",
-    "type": "legend",
-    "residualText": "2 EnergyRuneRune\n1 Energy, Exhaust: Ready a gear.\n 1 Energy, Exhaust: Ready 2 gear.",
-    "fullText": "[Empower] 2 EnergyRuneRune\n1 Energy, Exhaust: Ready a gear.\n[Empowered][>] 1 Energy, Exhaust: Ready 2 gear."
-  },
-  {
-    "id": "ven-149",
-    "name": "Defender of Tomorrow",
-    "set": "VEN",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Ready a gear.\n 1 Energy, Exhaust: Ready 2 gear.",
-    "fullText": "[Empower] 2 EnergyRuneRune (2 EnergyRuneRune: Empower me. Use only if not Empowered.)\n1 Energy, Exhaust: Ready a gear.\n[Empowered][>] 1 Energy, Exhaust: Ready 2 gear."
-  },
-  {
     "id": "sfd-196",
     "name": "Defiant Dance",
     "set": "SFD",
@@ -1078,22 +1038,6 @@
     "type": "spell",
     "residualText": "an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\n[Stun] an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "ven-147",
-    "name": "Eye of Twilight",
-    "set": "VEN",
-    "type": "legend",
-    "residualText": "Exhaust: Give a friendly unit  this turn. (It must be assigned combat damage first.)",
-    "fullText": "[Action][>] Exhaust: Give a friendly unit [Tank] this turn. (It must be assigned combat damage first.)"
-  },
-  {
-    "id": "ven-193",
-    "name": "Eye of Twilight",
-    "set": "VEN",
-    "type": "legend",
-    "residualText": "Exhaust: Give a friendly unit  this turn.",
-    "fullText": "[Action][>] Exhaust: Give a friendly unit [Tank] this turn."
   },
   {
     "id": "sfd-82",
