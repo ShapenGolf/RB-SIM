@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **288 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **295 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,20 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **448 von 1019 Karten (~44%) vollständig spielbar.**
-- **571 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **455 von 1019 Karten (~45%) vollständig spielbar.**
+- **564 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **Nebenbefund/Bugfix beim Weiterscannen:** `GameState.turnPhase` wurde beim
+  Setup einmalig auf `"main"` gesetzt und danach nie wieder aktualisiert —
+  effektiv totes Feld, das die Beginning/Awaken/Channel/Draw-Phasen nie
+  wirklich markierte. Betraf bereits zwei bestehende Karten stillschweigend
+  (LeBlanc, Fragmented's "ziehe 2 statt 1 während der Beginning Phase" hat nie
+  gegriffen; Ambush's `grantsReactionTiming`-Hook war dadurch immer `true`,
+  wird aber an keiner Stelle im Movecode tatsächlich abgefragt, also folgenlos
+  geblieben). Jetzt in `turnFlow.ts` an jedem Phasenübergang korrekt gesetzt.
+  Neuer `PlayerState.friendlyUnitDiedDuringBeginningThisTurn`-Flag (gesetzt in
+  `combat.ts` `destroyInstance`) baut direkt darauf auf, für Shadow Watcher:
+  "Wenn eine verbündete Einheit während meiner Beginning Phase gestorben ist,
+  betrete ich bereit."
 - Spiritforged wird pausiert (Rest dominiert von [Repeat]), Unleashed
   läuft jetzt der Reihe nach — führt das **[Level N]-Keyword** ein
   (XP-Schwellenwert, war bereits als Keyword erkannt aber unbehandelt,

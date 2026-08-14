@@ -10,6 +10,7 @@ export const WIN_SCORE = 8;
 
 /** Awaken: all exhausted instances/runes controlled by `player` become ready. */
 export function runAwaken(game: GameState, player: PlayerId): void {
+  game.turnPhase = "awaken";
   for (const instance of Object.values(game.instances)) {
     if (instance.controller === player) instance.exhausted = false;
   }
@@ -26,6 +27,7 @@ function killTemporaryInstances(game: GameState, player: PlayerId): void {
 
 /** Beginning: kill Temporary units, score 1 point per Battlefield controlled, then fire Hold triggers (Hunt + Battlefield hold effects). */
 export function runBeginning(game: GameState, player: PlayerId): void {
+  game.turnPhase = "beginning";
   killTemporaryInstances(game, player);
   for (const instance of Object.values(game.instances)) {
     if (instance.controller !== player) continue;
@@ -68,6 +70,7 @@ export function runBeginning(game: GameState, player: PlayerId): void {
 
 /** Channel: draw Runes from the Rune Deck into the Rune Pool (2, or 3 for player "1"'s very first turn). */
 export function runChannel(game: GameState, player: PlayerId): void {
+  game.turnPhase = "channel";
   const state = game.players[player];
   const amount =
     player === "1" && !state.hasTakenFirstTurn
@@ -81,6 +84,7 @@ export function runChannel(game: GameState, player: PlayerId): void {
 
 /** Draw: draw 1 card from the Main Deck. */
 export function runDraw(game: GameState, player: PlayerId): void {
+  game.turnPhase = "draw";
   const state = game.players[player];
   const card = state.mainDeck.shift();
   if (card) state.hand.push(card);
@@ -89,10 +93,12 @@ export function runDraw(game: GameState, player: PlayerId): void {
 /** Runs the full Awaken -> Beginning -> Channel -> Draw sequence for the player whose turn is starting. */
 export function runTurnStart(game: GameState, player: PlayerId): void {
   game.players[player].turnsTaken += 1;
+  game.players[player].friendlyUnitDiedDuringBeginningThisTurn = false;
   runAwaken(game, player);
   runBeginning(game, player);
   runChannel(game, player);
   runDraw(game, player);
+  game.turnPhase = "main";
   game.players[player].playedMainDeckCardThisTurn = false;
   game.players[player].discardedCardThisTurn = false;
   game.players[player].cardsPlayedThisTurn = 0;

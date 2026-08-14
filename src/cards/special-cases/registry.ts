@@ -286,6 +286,13 @@ import { keepersVerdict } from "./keepers-verdict";
 import { duskRoseLab } from "./dusk-rose-lab";
 import { frozenFortress } from "./frozen-fortress";
 import { trappingGrounds } from "./trapping-grounds";
+import { xerathFreed } from "./xerath-freed";
+import { monch } from "./monch";
+import { shadowWatcher } from "./shadow-watcher";
+import { enthusiasticPromoter } from "./enthusiastic-promoter";
+import { trevorSnoozebottom } from "./trevor-snoozebottom";
+import { vexMocking } from "./vex-mocking";
+import { ivernNurturer } from "./ivern-nurturer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -572,6 +579,13 @@ const handlers: SpecialCaseHandler[] = [
   duskRoseLab,
   frozenFortress,
   trappingGrounds,
+  xerathFreed,
+  monch,
+  shadowWatcher,
+  enthusiasticPromoter,
+  trevorSnoozebottom,
+  vexMocking,
+  ivernNurturer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

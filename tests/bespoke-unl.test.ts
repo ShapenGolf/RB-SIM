@@ -652,3 +652,157 @@ describe("Lonely Poro reprint (unl-221): Deathknell draws 1 if it died alone", (
     expect(game.players["0"].hand).toContain("ogn-4");
   });
 });
+
+describe("Xerath, Freed (unl-26): Fury Rune, Exhaust: deal 3 to a unit, only at a battlefield", () => {
+  it("deals 3 damage while at a battlefield", () => {
+    const game = makeGame();
+    const xerath = putOnBase(game, "unl-26", "0");
+    moveToBattlefield(game, xerath.instanceId, 0);
+    const target = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onActivate(game, getCard(xerath.cardId), xerath, target.instanceId);
+
+    expect(target.damage).toBe(3);
+  });
+
+  it("does nothing while not at a battlefield", () => {
+    const game = makeGame();
+    const xerath = putOnBase(game, "unl-26", "0"); // still on base
+    const target = putOnBase(game, "unit-plain-footman", "1");
+
+    SpecialCaseEngine.onActivate(game, getCard(xerath.cardId), xerath, target.instanceId);
+
+    expect(target.damage).toBe(0);
+  });
+});
+
+describe("Monch (unl-35): cost reduction + enters ready if an opponent controls a stunned unit", () => {
+  it("costs 2 less and enters ready when the opponent has a stunned unit", () => {
+    const game = makeGame();
+    const stunned = putOnBase(game, "unit-plain-footman", "1");
+    stunned.statuses.stunned = true;
+    const monch = putOnBase(game, "unl-35", "0");
+
+    expect(SpecialCaseEngine.costReduction(game, getCard(monch.cardId), monch)).toBe(2);
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(monch.cardId), monch)).toBe(true);
+  });
+
+  it("gives no reduction and doesn't enter ready otherwise", () => {
+    const game = makeGame();
+    const monch = putOnBase(game, "unl-35", "0");
+
+    expect(SpecialCaseEngine.costReduction(game, getCard(monch.cardId), monch)).toBe(0);
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(monch.cardId), monch)).toBe(false);
+  });
+});
+
+describe("Shadow Watcher (unl-37): enters ready if a friendly unit died during my Beginning Phase this turn", () => {
+  it("enters ready when a friendly unit died during Beginning Phase", () => {
+    const game = makeGame();
+    game.players["0"].friendlyUnitDiedDuringBeginningThisTurn = true;
+    const watcher = putOnBase(game, "unl-37", "0");
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(watcher.cardId), watcher)).toBe(true);
+  });
+
+  it("does not enter ready otherwise", () => {
+    const game = makeGame();
+    const watcher = putOnBase(game, "unl-37", "0");
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(watcher.cardId), watcher)).toBe(false);
+  });
+
+  it("actually sets the flag when a friendly unit dies during the real Beginning Phase", () => {
+    const game = makeGame();
+    game.turnPhase = "beginning";
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    destroyInstance(game, getCard, ally.instanceId);
+    expect(game.players["0"].friendlyUnitDiedDuringBeginningThisTurn).toBe(true);
+  });
+});
+
+describe("Enthusiastic Promoter (unl-43): [Backline] when I hold, buff all units here", () => {
+  it("buffs every unit at its battlefield, both controllers", () => {
+    const game = makeGame();
+    const promoter = putOnBase(game, "unl-43", "0");
+    moveToBattlefield(game, promoter.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onHold(game, getCard(promoter.cardId), promoter);
+
+    expect(promoter.statuses.buffed).toBe(true);
+    expect(ally.statuses.buffed).toBe(true);
+    expect(enemy.statuses.buffed).toBe(true);
+  });
+});
+
+describe("Trevor Snoozebottom (unl-48): [Shield] when I hold, play a ready 3 Might Sprite token here", () => {
+  it("plays the token at its battlefield, ready", () => {
+    const game = makeGame();
+    const trevor = putOnBase(game, "unl-48", "0");
+    moveToBattlefield(game, trevor.instanceId, 0);
+
+    SpecialCaseEngine.onHold(game, getCard(trevor.cardId), trevor);
+
+    const tokenId = game.battlefields[0].units["0"].find(
+      (id) => game.instances[id].cardId === "token-sprite-temporary",
+    );
+    expect(tokenId).toBeDefined();
+    expect(game.instances[tokenId!].exhausted).toBe(false);
+  });
+});
+
+describe("Vex, Mocking (unl-55): moves to a battlefield where I stunned an enemy unit", () => {
+  it("moves from base to the stunned unit's battlefield", () => {
+    const game = makeGame();
+    const vex = putOnBase(game, "unl-55", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, enemy.instanceId, 0);
+
+    SpecialCaseEngine.onAllyStun(game, getCard, "0", enemy);
+
+    expect(vex.zone).toBe("battlefield");
+    expect(vex.battlefieldIndex).toBe(0);
+    expect(game.battlefields[0].units["0"]).toContain(vex.instanceId);
+    expect(game.players["0"].base).not.toContain(vex.instanceId);
+  });
+
+  it("does nothing if the stunned unit isn't at a battlefield", () => {
+    const game = makeGame();
+    const vex = putOnBase(game, "unl-55", "0");
+    const enemy = putOnBase(game, "unit-plain-footman", "1"); // still on base
+
+    SpecialCaseEngine.onAllyStun(game, getCard, "0", enemy);
+
+    expect(vex.zone).toBe("base");
+  });
+});
+
+describe("Ivern, Nurturer (unl-51): look at top 3, draw a unit, buff on tribal hit", () => {
+  it("draws the first unit found and buffs a friendly unit if it's a tracked tribe", () => {
+    const game = makeGame();
+    const ivern = putOnBase(game, "unl-51", "0");
+    // unl-51 itself has tags ["Ivern", "Ionia"] (not a tracked tribe) — use it as the buff target check via a second friendly unit.
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    game.players["0"].mainDeck = ["ogn-4", "sfd-36", "ogn-5"]; // sfd-36 Lonely Poro is a unit tagged "Poro"
+
+    SpecialCaseEngine.onPlay(game, getCard(ivern.cardId), ivern);
+
+    expect(game.players["0"].hand).toContain("sfd-36");
+    expect(game.players["0"].mainDeck).toEqual(expect.arrayContaining(["ogn-4", "ogn-5"]));
+    expect(game.players["0"].mainDeck).not.toContain("sfd-36");
+    expect(ivern.statuses.buffed || ally.statuses.buffed).toBe(true);
+  });
+
+  it("recycles all 3 and doesn't draw if no unit is among them", () => {
+    const game = makeGame();
+    const ivern = putOnBase(game, "unl-51", "0");
+    game.players["0"].mainDeck = ["ogn-5", "ogn-8", "ogn-43"]; // all spells
+
+    SpecialCaseEngine.onHold(game, getCard(ivern.cardId), ivern);
+
+    expect(game.players["0"].hand).toEqual([]);
+    expect(game.players["0"].mainDeck).toHaveLength(3);
+  });
+});

@@ -85,6 +85,8 @@ export interface PlayerState {
   readyRunesAtEndOfTurn: number;
   /** Count of turns this player has started (their own turns only), 1-indexed from their first turn. Incremented in turnFlow.ts runTurnStart, e.g. for "can't score until your third turn" effects. */
   turnsTaken: number;
+  /** Set true if a unit this player controls died while game.turnPhase === "beginning" during this player's own Beginning step. Reset at the start of runTurnStart, before Beginning runs (unlike most "ThisTurn" flags, which reset after), so it survives through this player's own Main Phase for effects like Shadow Watcher: "If a friendly unit died during your Beginning Phase this turn, I enter ready." */
+  friendlyUnitDiedDuringBeginningThisTurn: boolean;
 }
 
 export interface BattlefieldSlot {

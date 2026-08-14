@@ -1232,14 +1232,6 @@
     "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nSpend 2 XP: [Buff] me. (Give me a +1 Might buff if I don't have one.)"
   },
   {
-    "id": "unl-43",
-    "name": "Enthusiastic Promoter",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I hold,  all units here. (Give each a +1 Might buff if it doesn't have one.)",
-    "fullText": "[Backline] (I must be assigned combat damage last.)\nWhen I hold, [Buff] all units here. (Give each a +1 Might buff if it doesn't have one.)"
-  },
-  {
     "id": "ven-124",
     "name": "Escaped Grayback",
     "set": "VEN",
@@ -1992,14 +1984,6 @@
     "fullText": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them \u2014 Bird, Cat, Dog, and Poro."
   },
   {
-    "id": "unl-51",
-    "name": "Ivern, Nurturer",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When you play me or when I hold, look at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest. Then if you revealed a Bird, Cat, Dog, or Poro, do this:  a friendly unit. (Give it a +1 Might buff if it doesn't have one.)",
-    "fullText": "When you play me or when I hold, look at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest. Then if you revealed a Bird, Cat, Dog, or Poro, do this: [Buff] a friendly unit. (Give it a +1 Might buff if it doesn't have one.)"
-  },
-  {
     "id": "sfd-142",
     "name": "Jae Medarda",
     "set": "SFD",
@@ -2606,14 +2590,6 @@
     "type": "gear",
     "residualText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it.",
     "fullText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it."
-  },
-  {
-    "id": "unl-35",
-    "name": "Monch",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If an opponent controls a stunned unit, I cost 2 Energy less and enter ready.",
-    "fullText": "If an opponent controls a stunned unit, I cost 2 Energy less and enter ready."
   },
   {
     "id": "unl-14",
@@ -3512,14 +3488,6 @@
     "fullText": "When you hold here, [Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)"
   },
   {
-    "id": "unl-37",
-    "name": "Shadow Watcher",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If a friendly unit died during your Beginning Phase this turn, I enter ready.",
-    "fullText": "If a friendly unit died during your Beginning Phase this turn, I enter ready."
-  },
-  {
     "id": "unl-165",
     "name": "Shadow's Call",
     "set": "UNL",
@@ -4096,14 +4064,6 @@
     "fullText": "[Assault] (+1 Might while I'm an attacker.)\nIf a unit died this turn, I enter ready."
   },
   {
-    "id": "unl-48",
-    "name": "Trevor Snoozebottom",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I hold, play a ready 3 Might Sprite unit token with  here. (Kill it at the start of its controller's next Beginning Phase, before scoring.)",
-    "fullText": "[Shield] (+1 Might while I'm a defender.)\nWhen I hold, play a ready 3 Might Sprite unit token with [Temporary] here. (Kill it at the start of its controller's next Beginning Phase, before scoring.)"
-  },
-  {
     "id": "unl-54",
     "name": "Tricksy Tentacles",
     "set": "UNL",
@@ -4246,14 +4206,6 @@
     "type": "champion",
     "residualText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more.",
     "fullText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more."
-  },
-  {
-    "id": "unl-55",
-    "name": "Vex, Mocking",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When you  an enemy unit at a battlefield, you may move me to that battlefield.",
-    "fullText": "[Shield] (+1 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nWhen you [Stun] an enemy unit at a battlefield, you may move me to that battlefield."
   },
   {
     "id": "ven-167",
@@ -4486,14 +4438,6 @@
     "type": "legend",
     "residualText": "Your units have +1 Might. (While you have 6+ XP, get the effect.)\n Your units enter ready.",
     "fullText": "[Level 6][>] Your units have +1 Might. (While you have 6+ XP, get the effect.)\n[Level 11][>] Your units enter ready."
-  },
-  {
-    "id": "unl-26",
-    "name": "Xerath, Freed",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "Fury Rune, Exhaust: Deal 3 to a unit. Use this ability only while I'm at a battlefield.",
-    "fullText": "Fury Rune, Exhaust: Deal 3 to a unit. Use this ability only while I'm at a battlefield."
   },
   {
     "id": "sfd-235",
