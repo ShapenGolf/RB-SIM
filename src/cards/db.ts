@@ -67,3 +67,16 @@ export function getCard(cardId: string): Card {
   if (!card) throw new Error(`Unknown card id: ${cardId}`);
   return card;
 }
+
+const officialCardIds = new Set(officialCatalog.map((c) => c.id));
+
+/**
+ * Real, official Riftbound cards only — excludes src/cards/data/starter-set.json's synthetic
+ * test fixtures (unverified placeholders built to exercise the keyword engine before the real
+ * catalog existed, e.g. "(Test Fixture) Plain Footman") and tokens.json's play-generated unit
+ * tokens. Use this (not `cardDatabase`) for any player-facing card listing, e.g. the deck
+ * builder — a real player should never see fixture cards when building a deck.
+ */
+export function listOfficialCards(): Card[] {
+  return Object.values(cardDatabase).filter((c) => officialCardIds.has(c.id));
+}

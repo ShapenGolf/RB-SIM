@@ -1,5 +1,6 @@
 import type { Card, Domain } from "../cards/types";
 import { cardDatabase, getCard } from "../cards/db";
+import type { DeckList } from "../cards/deckValidation";
 import type { BattlefieldSlot, CardInstance, GameState, PlayerId, PlayerState, RuneInstance } from "./state";
 
 /**
@@ -62,17 +63,13 @@ function shuffle<T>(arr: T[]): T[] {
   return copy;
 }
 
-function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
-  const mainDeck = shuffle(buildMainDeck(domains));
-  const hand = mainDeck.splice(0, STARTING_HAND_SIZE);
+/** Every PlayerState field with a fixed starting value, independent of deck contents. */
+function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" | "runeDeck"> {
   return {
     id,
-    mainDeck,
-    hand,
     trash: [],
     banishment: [],
     base: [],
-    runeDeck: shuffle(buildRuneDeck(domains)),
     runePool: [],
     points: 0,
     playedMainDeckCardThisTurn: false,
@@ -94,6 +91,22 @@ function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
   };
 }
 
+/** Builds a player from a real, validated DeckList (see cards/deckValidation.ts) instead of the domain-cycling MVP fallback. */
+function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerState {
+  const mainDeck = shuffle(deck.mainDeck);
+  const hand = mainDeck.splice(0, STARTING_HAND_SIZE);
+  const runeDeck = shuffle(
+    deck.runeDeck.map((cardId) => ({ instanceId: nextInstanceId(), domain: getCard(cardId).domains[0], exhausted: false })),
+  );
+  return { ...emptyPlayerState(id), mainDeck, hand, runeDeck };
+}
+
+function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
+  const mainDeck = shuffle(buildMainDeck(domains));
+  const hand = mainDeck.splice(0, STARTING_HAND_SIZE);
+  return { ...emptyPlayerState(id), mainDeck, hand, runeDeck: shuffle(buildRuneDeck(domains)) };
+}
+
 /** Instantiates a Battlefield card onto a shared slot (not player-owned; pregame setup only, not played via `playCard`). */
 function buildBattlefieldSlot(cardId: string): BattlefieldSlot {
   return {
@@ -107,6 +120,16 @@ export interface SetupOptions {
   player0Domains: Domain[];
   player1Domains: Domain[];
   battlefieldCardIds: [string, string];
+  /**
+   * Real, validated decks from the deck builder (see cards/deckValidation.ts and ui/DeckBuilder.tsx).
+   * When set for a player, it replaces the domain-cycling MVP fallback (`buildPlayer`) for that
+   * player; `player{0,1}Domains` is then only used as a fallback/for tests. Legend/Chosen Champion
+   * are stored on the DeckList for Domain Identity + future Legend-ability work, but aren't yet
+   * given in-game mechanical effect — the engine doesn't model Legend/Champion zones (see
+   * game/moves.ts, game/playFree.ts: Legend cards are never playable).
+   */
+  player0Deck?: DeckList;
+  player1Deck?: DeckList;
 }
 
 export const defaultSetupOptions: SetupOptions = {
@@ -117,8 +140,8 @@ export const defaultSetupOptions: SetupOptions = {
 
 export function setupGame(options: SetupOptions = defaultSetupOptions): GameState {
   const players: Record<PlayerId, PlayerState> = {
-    "0": buildPlayer("0", options.player0Domains),
-    "1": buildPlayer("1", options.player1Domains),
+    "0": options.player0Deck ? buildPlayerFromDeckList("0", options.player0Deck) : buildPlayer("0", options.player0Domains),
+    "1": options.player1Deck ? buildPlayerFromDeckList("1", options.player1Deck) : buildPlayer("1", options.player1Domains),
   };
 
   return {

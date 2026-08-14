@@ -1,5 +1,6 @@
 import type { Game } from "boardgame.io";
-import { setupGame, type SetupOptions, defaultSetupOptions } from "./setup";
+import { setupGame, type SetupOptions } from "./setup";
+import { getPendingSetupOptions } from "./pendingSetup";
 import { runTurnStart, markFirstTurnTaken } from "./turnFlow";
 import {
   playCard,
@@ -17,7 +18,9 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
   minPlayers: 2,
   maxPlayers: 2,
 
-  setup: (_context, setupData) => setupGame(setupData ?? defaultSetupOptions),
+  // `setupData` is never actually populated by the Local() transport for an on-demand match
+  // (see game/pendingSetup.ts) — read the real options from there instead.
+  setup: () => setupGame(getPendingSetupOptions()),
 
   turn: {
     onBegin: ({ G, ctx }) => {

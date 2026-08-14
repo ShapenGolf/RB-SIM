@@ -34,7 +34,8 @@ function matchesLegendTag(card: Card, legendTags: string[]): boolean {
   return legendTags.every((t) => cardTags.includes(t));
 }
 
-function copyLimitFor(card: Card): number {
+/** Max legal copies of `card` by name: 1 for [Unique] cards, MAX_COPIES_PER_NAME otherwise. Exported for the deck builder UI's add/remove controls. */
+export function copyLimitFor(card: Card): number {
   return card.keywords.some((k) => k.keyword === "unique") ? 1 : MAX_COPIES_PER_NAME;
 }
 
