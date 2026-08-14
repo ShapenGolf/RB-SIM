@@ -880,14 +880,6 @@
     "fullText": "Choose an opponent. They reveal their hand and you choose a Mind (Mind Rune) card from it. They recycle that card."
   },
   {
-    "id": "ven-131",
-    "name": "Decree of Unity",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Kill an enemy Chaos (Chaos Rune) unit or gear.",
-    "fullText": "Kill an enemy Chaos (Chaos Rune) unit or gear."
-  },
-  {
     "id": "ven-194",
     "name": "Defender of Tomorrow",
     "set": "VEN",
@@ -966,14 +958,6 @@
     "type": "spell",
     "residualText": "Look at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.",
     "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest."
-  },
-  {
-    "id": "sfd-147",
-    "name": "Downwell",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Return all units and gear to their owners' hands.",
-    "fullText": "Return all units and gear to their owners' hands."
   },
   {
     "id": "sfd-164",
@@ -2590,14 +2574,6 @@
     "type": "gear",
     "residualText": "This enters exhausted.\n \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n Exhaust:  1 Energy. If this is ,  2 Energy instead.",
     "fullText": "This enters exhausted.\n[Empower] \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction][>] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead."
-  },
-  {
-    "id": "ven-64",
-    "name": "Plaza Guardian",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I cost 1 Energy less for each gear you control.",
-    "fullText": "I cost 1 Energy less for each gear you control.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)"
   },
   {
     "id": "sfd-214",

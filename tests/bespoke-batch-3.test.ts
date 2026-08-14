@@ -83,3 +83,63 @@ describe("Fight or Flight (ogn-168)", () => {
     expect(game.players["1"].base).toContain(target.instanceId);
   });
 });
+
+describe("Decree of Unity (ven-131)", () => {
+  it("kills an enemy Chaos unit", () => {
+    const game = makeGame();
+    const chaosEnemy = putOnBase(game, "sfd-131", "1"); // Ancient Warmonger, domains: ["Chaos"]
+    const spell = putOnBase(game, "ven-131", "0");
+    const card = getCard(spell.cardId);
+
+    SpecialCaseEngine.onPlay(game, card, spell, chaosEnemy.instanceId);
+
+    expect(game.instances[chaosEnemy.instanceId]).toBeUndefined();
+  });
+
+  it("doesn't kill a non-Chaos or a friendly unit", () => {
+    const game = makeGame();
+    const nonChaosEnemy = putOnBase(game, "unit-plain-footman", "1"); // no domains
+    const friendlyChaos = putOnBase(game, "sfd-131", "0");
+    const spell = putOnBase(game, "ven-131", "0");
+    const card = getCard(spell.cardId);
+
+    SpecialCaseEngine.onPlay(game, card, spell, nonChaosEnemy.instanceId);
+    expect(game.instances[nonChaosEnemy.instanceId]).toBeDefined();
+
+    SpecialCaseEngine.onPlay(game, card, spell, friendlyChaos.instanceId);
+    expect(game.instances[friendlyChaos.instanceId]).toBeDefined();
+  });
+});
+
+describe("Downwell (sfd-147)", () => {
+  it("returns all units and gear to their owners' hands, leaving other cards alone", () => {
+    const game = makeGame();
+    const unit0 = putOnBase(game, "unit-plain-footman", "0");
+    const unit1 = putOnBattlefield(game, "unit-plain-guard", "1", 0);
+    const gear = putOnBase(game, "gear-tactical-banner", "0");
+    const spell = putOnBase(game, "sfd-147", "0");
+    const card = getCard(spell.cardId);
+
+    SpecialCaseEngine.onPlay(game, card, spell);
+
+    expect(game.instances[unit0.instanceId]).toBeUndefined();
+    expect(game.instances[unit1.instanceId]).toBeUndefined();
+    expect(game.instances[gear.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toEqual(expect.arrayContaining(["unit-plain-footman", "gear-tactical-banner"]));
+    expect(game.players["1"].hand).toContain("unit-plain-guard");
+    expect(game.battlefields[0].units["1"]).not.toContain(unit1.instanceId);
+  });
+});
+
+describe("Plaza Guardian (ven-64)", () => {
+  it("reduces its own cost by 1 per gear the controller controls", () => {
+    const game = makeGame();
+    const guardian = putOnBase(game, "ven-64", "0");
+    const card = getCard(guardian.cardId);
+
+    expect(SpecialCaseEngine.costReduction(game, card, guardian)).toBe(0);
+
+    putOnBase(game, "gear-tactical-banner", "0");
+    expect(SpecialCaseEngine.costReduction(game, card, guardian)).toBe(1);
+  });
+});

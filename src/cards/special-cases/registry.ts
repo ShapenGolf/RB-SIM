@@ -358,6 +358,9 @@ import { determinedSentry } from "./determined-sentry";
 import { minotaurReckoner } from "./minotaur-reckoner";
 import { vilemawsLair } from "./vilemaws-lair";
 import { fightOrFlight } from "./fight-or-flight";
+import { decreeOfUnity } from "./decree-of-unity";
+import { downwell } from "./downwell";
+import { plazaGuardian } from "./plaza-guardian";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -716,6 +719,9 @@ const handlers: SpecialCaseHandler[] = [
   minotaurReckoner,
   vilemawsLair,
   fightOrFlight,
+  decreeOfUnity,
+  downwell,
+  plazaGuardian,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
