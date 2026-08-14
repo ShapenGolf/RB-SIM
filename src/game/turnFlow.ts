@@ -20,7 +20,12 @@ export function runAwaken(game: GameState, player: PlayerId): void {
 /** Kills every instance `player` controls with the Temporary status, before scoring (see Last Stand, Fading Memories, and various Temporary tokens). */
 function killTemporaryInstances(game: GameState, player: PlayerId): void {
   const toKill = Object.values(game.instances)
-    .filter((i) => i.controller === player && i.statuses.temporary)
+    .filter(
+      (i) =>
+        i.controller === player &&
+        i.statuses.temporary &&
+        !SpecialCaseEngine.preventsTemporaryDeath(game, getCard, i),
+    )
     .map((i) => i.instanceId);
   for (const instanceId of toKill) destroyInstance(game, getCard, instanceId);
 }

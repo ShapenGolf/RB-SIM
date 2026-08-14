@@ -293,6 +293,11 @@ import { enthusiasticPromoter } from "./enthusiastic-promoter";
 import { trevorSnoozebottom } from "./trevor-snoozebottom";
 import { vexMocking } from "./vex-mocking";
 import { ivernNurturer } from "./ivern-nurturer";
+import { crescentStrike } from "./crescent-strike";
+import { spriteFountain } from "./sprite-fountain";
+import { hweiBroodingPainter } from "./hwei-brooding-painter";
+import { gutterPalace } from "./gutter-palace";
+import { leblancEverywhere } from "./leblanc-everywhere";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -586,6 +591,11 @@ const handlers: SpecialCaseHandler[] = [
   trevorSnoozebottom,
   vexMocking,
   ivernNurturer,
+  crescentStrike,
+  spriteFountain,
+  hweiBroodingPainter,
+  gutterPalace,
+  leblancEverywhere,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -916,6 +926,18 @@ export const SpecialCaseEngine = {
       if (instance.controller !== opponentId) continue;
       const card = getCard(instance.cardId);
       if (getSpecialCaseHandler(card)?.blocksOpponentScoring?.(ctxFor(game, card, instance))) return true;
+    }
+    return false;
+  },
+
+  /** True if any instance the doomed Temporary instance's own controller owns prevents its death this Beginning Phase (e.g. LeBlanc, Everywhere at Once). */
+  preventsTemporaryDeath: (game: GameState, getCard: (id: string) => Card, doomedInstance: CardInstance): boolean => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== doomedInstance.controller) continue;
+      const card = getCard(instance.cardId);
+      if (getSpecialCaseHandler(card)?.preventsTemporaryDeath?.(ctxFor(game, card, instance), doomedInstance)) {
+        return true;
+      }
     }
     return false;
   },

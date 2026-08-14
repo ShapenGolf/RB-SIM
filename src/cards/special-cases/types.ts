@@ -174,6 +174,8 @@ export interface SpecialCaseHandler {
     spendBuff?: boolean;
     /** "Kill this:" as the cost itself (vs. Treasure Trove-style "...Exhaust: Kill this", where killing is the EFFECT). The instance is destroyed before onActivate runs. */
     killSelf?: boolean;
+    /** "Discard N" as part of this ability's cost (e.g. Gutter Palace: "Discard 1, Exhaust: ..."). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand via discardCardToTrash. */
+    discardCount?: number;
   };
 
   /** Set when the bespoke activated ability needs a player-chosen target. */
@@ -338,4 +340,13 @@ export interface SpecialCaseHandler {
    * controls.
    */
   blocksOpponentScoring?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * True if `doomedInstance` (a Temporary instance about to be killed by the Beginning Phase's
+   * killTemporaryInstances sweep) should survive instead, because of this instance's own printed
+   * text (e.g. LeBlanc, Everywhere at Once: "Your [Temporary] effects at my battlefield don't
+   * trigger."). Checked against every OTHER instance the doomed instance's own controller owns —
+   * "Your" in the reminder text means the doomed unit's controller, matching LeBlanc's controller.
+   */
+  preventsTemporaryDeath?(ctx: SpecialCaseContext, doomedInstance: CardInstance): boolean;
 }

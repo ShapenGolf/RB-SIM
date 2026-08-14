@@ -784,14 +784,6 @@
     "fullText": "If you've played a spell this turn, you may pay Chaos Rune as an additional cost to play me. If you do, I enter ready."
   },
   {
-    "id": "unl-72",
-    "name": "Crescent Strike",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a battlefield and an enemy unit there. Deal 4 to that unit and 1 to each other enemy unit there.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a battlefield and an enemy unit there. Deal 4 to that unit and 1 to each other enemy unit there."
-  },
-  {
     "id": "unl-102",
     "name": "Crowd Favorite",
     "set": "UNL",
@@ -1648,14 +1640,6 @@
     "fullText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, banish a card from any trash to give a unit [Assault 2] this turn. (+2 Might while it's an attacker.)"
   },
   {
-    "id": "unl-88",
-    "name": "Gutter Palace",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "At the start of your Beginning Phase, if you have exactly 4 cards in hand and exactly 4 units at battlefields, you win the game.\nDiscard 1, Exhaust: Play a 1 Might Bird unit token with . (Opponents must pay Rune to choose it with a spell or ability.)",
-    "fullText": "At the start of your Beginning Phase, if you have exactly 4 cards in hand and exactly 4 units at battlefields, you win the game.\nDiscard 1, Exhaust: Play a 1 Might Bird unit token with [Deflect]. (Opponents must pay Rune to choose it with a spell or ability.)"
-  },
-  {
     "id": "ven-72",
     "name": "Guttural Roar",
     "set": "VEN",
@@ -1854,14 +1838,6 @@
     "type": "unit",
     "residualText": "Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit this turn and only once each turn.",
     "fullText": "Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit this turn and only once each turn."
-  },
-  {
-    "id": "unl-80",
-    "name": "Hwei, Brooding Painter",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I move, draw 1, then discard 1. Then, do the following based on the discarded card's type:Spell \u2014 Draw 1.Gear \u2014 Ready up to 2 runes.Unit \u2014 Give me +3 Might this turn.",
-    "fullText": "When I move, draw 1, then discard 1. Then, do the following based on the discarded card's type:Spell \u2014 Draw 1.Gear \u2014 Ready up to 2 runes.Unit \u2014 Give me +3 Might this turn."
   },
   {
     "id": "unl-50",
@@ -2270,14 +2246,6 @@
     "type": "legend",
     "residualText": "When you play a spell that costs 5 Energy or more, draw 1.",
     "fullText": "When you play a spell that costs 5 Energy or more, draw 1."
-  },
-  {
-    "id": "unl-90",
-    "name": "LeBlanc, Everywhere at Once",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "Your  effects at my battlefield don't trigger.",
-    "fullText": "[Backline] (I must be assigned combat damage last.)\nYour [Temporary] effects at my battlefield don't trigger."
   },
   {
     "id": "ven-74",
@@ -3710,14 +3678,6 @@
     "type": "spell",
     "residualText": "Play a ready 3 Might Sprite unit token with . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nPlay a ready 3 Might Sprite unit token with [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
-    "id": "unl-78",
-    "name": "Sprite Fountain",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "When you play this, play a ready 3 Might Sprite unit token with  to your base.\n Repeat this gear's play effect. (When this dies, get the effect.)",
-    "fullText": "[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nWhen you play this, play a ready 3 Might Sprite unit token with [Temporary] to your base.\n[Deathknell][>] Repeat this gear's play effect. (When this dies, get the effect.)"
   },
   {
     "id": "unl-17",

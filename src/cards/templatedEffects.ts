@@ -70,6 +70,7 @@ export interface ActivatedAbility {
     recycleFromTrash?: number;
     spendBuff?: boolean;
     killSelf?: boolean;
+    discardCount?: number;
   };
   actions: TemplatedAction[];
 }

@@ -779,6 +779,139 @@ describe("Vex, Mocking (unl-55): moves to a battlefield where I stunned an enemy
   });
 });
 
+describe("Crescent Strike (unl-72): deal 4 to a unit, 1 to each other enemy unit at its battlefield", () => {
+  it("deals 4 to the chosen target and 1 to other enemies there, not to allies", () => {
+    const game = makeGame();
+    const strike = putOnBase(game, "unl-72", "0");
+    const target = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, target.instanceId, 0);
+    const otherEnemy = putOnBase(game, "unit-plain-footman", "1");
+    moveToBattlefield(game, otherEnemy.instanceId, 0);
+    const ally = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, ally.instanceId, 0);
+
+    SpecialCaseEngine.onPlay(game, getCard(strike.cardId), strike, target.instanceId);
+
+    expect(target.damage).toBe(4);
+    expect(otherEnemy.damage).toBe(1);
+    expect(ally.damage).toBe(0);
+  });
+});
+
+describe("Sprite Fountain (unl-78): play a ready Sprite token on play, repeat on Deathknell", () => {
+  it("plays a token when played and again when destroyed", () => {
+    const game = makeGame();
+    const fountain = putOnBase(game, "unl-78", "0");
+    SpecialCaseEngine.onPlay(game, getCard(fountain.cardId), fountain);
+    let tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-sprite-temporary");
+    expect(tokens).toHaveLength(1);
+
+    destroyInstance(game, getCard, fountain.instanceId);
+    tokens = game.players["0"].base.filter((id) => game.instances[id].cardId === "token-sprite-temporary");
+    expect(tokens).toHaveLength(2);
+  });
+});
+
+describe("Hwei, Brooding Painter (unl-80): on move, draw 1 discard 1, branch on discarded type", () => {
+  it("draws an extra card if the discarded card was a spell", () => {
+    const game = makeGame();
+    const hwei = putOnBase(game, "unl-80", "0");
+    game.players["0"].hand = ["ogn-5"]; // Disintegrate, a spell — discarded first
+    game.players["0"].mainDeck = ["unit-plain-footman", "ogn-4"];
+
+    SpecialCaseEngine.onMove(game, getCard(hwei.cardId), hwei);
+
+    expect(game.players["0"].trash).toContain("ogn-5");
+    expect(game.players["0"].hand).toEqual(["unit-plain-footman", "ogn-4"]);
+  });
+
+  it("readies up to 2 runes if the discarded card was a gear", () => {
+    const game = makeGame();
+    const hwei = putOnBase(game, "unl-80", "0");
+    game.players["0"].hand = ["gear-tactical-banner"];
+    game.players["0"].mainDeck = [];
+    game.players["0"].runePool = [
+      { instanceId: "r1", domain: "Fury", exhausted: true },
+      { instanceId: "r2", domain: "Fury", exhausted: true },
+    ];
+
+    SpecialCaseEngine.onMove(game, getCard(hwei.cardId), hwei);
+
+    expect(game.players["0"].runePool.every((r) => !r.exhausted)).toBe(true);
+  });
+
+  it("gives +3 Might this turn if the discarded card was a unit", () => {
+    const game = makeGame();
+    const hwei = putOnBase(game, "unl-80", "0");
+    game.players["0"].hand = ["unit-plain-footman"];
+    game.players["0"].mainDeck = [];
+
+    SpecialCaseEngine.onMove(game, getCard(hwei.cardId), hwei);
+
+    expect(hwei.tempMightBonus).toBe(3);
+  });
+});
+
+describe("Gutter Palace (unl-88): alt win condition + discard-to-play a Bird token", () => {
+  it("wins the game with exactly 4 cards in hand and 4 units at battlefields", () => {
+    const game = makeGame();
+    const palace = putOnBase(game, "unl-88", "0");
+    game.players["0"].hand = ["ogn-4", "ogn-5", "ogn-8", "ogn-43"];
+    for (let i = 0; i < 4; i += 1) {
+      const unit = putOnBase(game, "unit-plain-footman", "0");
+      moveToBattlefield(game, unit.instanceId, i % 2);
+    }
+
+    SpecialCaseEngine.onBeginning(game, getCard(palace.cardId), palace);
+
+    expect(game.winner).toBe("0");
+  });
+
+  it("does not win with the wrong counts", () => {
+    const game = makeGame();
+    const palace = putOnBase(game, "unl-88", "0");
+    game.players["0"].hand = ["ogn-4"];
+
+    SpecialCaseEngine.onBeginning(game, getCard(palace.cardId), palace);
+
+    expect(game.winner).toBeNull();
+  });
+
+  it("plays a Bird Deflect token when activated", () => {
+    const game = makeGame();
+    const palace = putOnBase(game, "unl-88", "0");
+    SpecialCaseEngine.onActivate(game, getCard(palace.cardId), palace);
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-bird-deflect");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("LeBlanc, Everywhere at Once (unl-90): [Backline] Temporary effects at my battlefield don't trigger", () => {
+  it("prevents a friendly Temporary unit at LeBlanc's battlefield from dying at Beginning", () => {
+    const game = makeGame();
+    const leblanc = putOnBase(game, "unl-90", "0");
+    moveToBattlefield(game, leblanc.instanceId, 0);
+    const sprite = putOnBase(game, "token-sprite-temporary", "0");
+    moveToBattlefield(game, sprite.instanceId, 0);
+
+    runBeginning(game, "0");
+
+    expect(game.instances[sprite.instanceId]).toBeDefined();
+  });
+
+  it("still kills a Temporary unit at a different battlefield", () => {
+    const game = makeGame();
+    const leblanc = putOnBase(game, "unl-90", "0");
+    moveToBattlefield(game, leblanc.instanceId, 0);
+    const sprite = putOnBase(game, "token-sprite-temporary", "0");
+    moveToBattlefield(game, sprite.instanceId, 1);
+
+    runBeginning(game, "0");
+
+    expect(game.instances[sprite.instanceId]).toBeUndefined();
+  });
+});
+
 describe("Ivern, Nurturer (unl-51): look at top 3, draw a unit, buff on tribal hit", () => {
   it("draws the first unit found and buffs a friendly unit if it's a tracked tribe", () => {
     const game = makeGame();

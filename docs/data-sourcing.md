@@ -118,7 +118,7 @@ Schritte:
 - **17 Karten** automatisch als "Activated Ability" erkannt, inkl.
   Domain-Rune-Kosten (`src/cards/data/activated-abilities.json`,
   `scripts/match-activated-abilities.mjs`).
-- **295 Karten** von Hand implementiert, der Reihe nach ab Origins
+- **300 Karten** von Hand implementiert, der Reihe nach ab Origins
   Collector-Nummer 1 (`src/cards/special-cases/`, zugeordnet in
   `src/cards/data/special-case-assignments.json` — bewusst getrennt von
   `official-catalog.json`, damit ein erneuter Import diese Arbeit nie
@@ -152,8 +152,16 @@ Schritte:
   zugewiesene Karten erkennen und ohne neuen Code direkt demselben
   Handler zuordnen — 6 Treffer bisher (u.a. Vayne/Darius/Yone-Reprints
   in SFD, Draven Showboat in VEN, Plundering Poro in UNL).
-- Macht **455 von 1019 Karten (~45%) vollständig spielbar.**
-- **564 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- Macht **460 von 1019 Karten (~45%) vollständig spielbar.**
+- **559 Karten** bleiben als Sonderfall in `src/cards/data/special-cases-todo.json`.
+- **Zwei neue wiederverwendbare Cost-/Trigger-Bausteine:** ein
+  `discardCount`-Feld für bespoke Activated Abilities ("Discard N, Exhaust:
+  Effekt", z.B. Gutter Palace — zahlt über die bestehende
+  `discardCardToTrash`-Senke, kein Kartenwahl-Choice, wie beim
+  `recycleFromTrash`-Vorbild); ein `preventsTemporaryDeath`-Hook, den
+  `killTemporaryInstances` jetzt vor jeder Temporary-Kill-Sweep abfragt (z.B.
+  LeBlanc, Everywhere at Once: "Your [Temporary] effects at my battlefield
+  don't trigger.").
 - **Nebenbefund/Bugfix beim Weiterscannen:** `GameState.turnPhase` wurde beim
   Setup einmalig auf `"main"` gesetzt und danach nie wieder aktualisiert —
   effektiv totes Feld, das die Beginning/Awaken/Channel/Draw-Phasen nie
