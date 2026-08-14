@@ -232,6 +232,16 @@ import { sunkenTemple } from "./sunken-temple";
 import { thePapertree } from "./the-papertree";
 import { treasureHoard } from "./treasure-hoard";
 import { veiledTemple } from "./veiled-temple";
+import { assemblyRig } from "./assembly-rig";
+import { rellMagnetic } from "./rell-magnetic";
+import { tiannaCrownguard } from "./tianna-crownguard";
+import { forgottenMonument } from "./forgotten-monument";
+import { strikeDown } from "./strike-down";
+import { beastBelow } from "./beast-below";
+import { fizzTrickster } from "./fizz-trickster";
+import { ezrealProdigy } from "./ezreal-prodigy";
+import { zaunPunk } from "./zaun-punk";
+import { xinZhaoVigilant } from "./xin-zhao-vigilant";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -464,6 +474,16 @@ const handlers: SpecialCaseHandler[] = [
   thePapertree,
   treasureHoard,
   veiledTemple,
+  assemblyRig,
+  rellMagnetic,
+  tiannaCrownguard,
+  forgottenMonument,
+  strikeDown,
+  beastBelow,
+  fizzTrickster,
+  ezrealProdigy,
+  zaunPunk,
+  xinZhaoVigilant,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -761,6 +781,31 @@ export const SpecialCaseEngine = {
         ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, controller, battlefieldIndex)),
       ) ?? false
     );
+  },
+
+  /** True if `scoringPlayer` is blocked from scoring the point they'd otherwise get for holding the Battlefield at `battlefieldIndex`. */
+  blocksScoringFor: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    battlefieldIndex: number,
+    scoringPlayer: PlayerId,
+  ): boolean => {
+    const slot = game.battlefields[battlefieldIndex];
+    const battlefieldCard = getCard(slot.cardId);
+    if (
+      getSpecialCaseHandler(battlefieldCard)?.blocksScoringHere?.(
+        ctxFor(game, battlefieldCard, battlefieldPseudoInstance(slot.cardId, scoringPlayer, battlefieldIndex)),
+      )
+    ) {
+      return true;
+    }
+    const opponentId: PlayerId = scoringPlayer === "0" ? "1" : "0";
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== opponentId) continue;
+      const card = getCard(instance.cardId);
+      if (getSpecialCaseHandler(card)?.blocksOpponentScoring?.(ctxFor(game, card, instance))) return true;
+    }
+    return false;
   },
 
   /** Extra spell damage from the Battlefield `targetInstance` is currently sitting at. */

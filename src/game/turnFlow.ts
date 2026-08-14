@@ -32,8 +32,13 @@ export function runBeginning(game: GameState, player: PlayerId): void {
     const card = getCard(instance.cardId);
     if (card.specialCaseId) SpecialCaseEngine.onBeginning(game, card, instance);
   }
-  const controlledCount = game.battlefields.filter((b) => b.controller === player).length;
-  game.players[player].points += controlledCount;
+  let scoredPoints = 0;
+  game.battlefields.forEach((slot, index) => {
+    if (slot.controller !== player) return;
+    if (SpecialCaseEngine.blocksScoringFor(game, getCard, index, player)) return;
+    scoredPoints += 1;
+  });
+  game.players[player].points += scoredPoints;
   resolveHoldTriggers(game, getCard, player);
 
   game.battlefields.forEach((slot, index) => {
@@ -77,6 +82,7 @@ export function runDraw(game: GameState, player: PlayerId): void {
 
 /** Runs the full Awaken -> Beginning -> Channel -> Draw sequence for the player whose turn is starting. */
 export function runTurnStart(game: GameState, player: PlayerId): void {
+  game.players[player].turnsTaken += 1;
   runAwaken(game, player);
   runBeginning(game, player);
   runChannel(game, player);

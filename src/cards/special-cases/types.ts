@@ -312,4 +312,19 @@ export interface SpecialCaseHandler {
    * game/moves.ts `playCard` for the chosen `ambushBattlefieldIndex`.
    */
   blocksUnitsPlayedHere?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * Battlefield-only: true if `ctx.instance.controller` (the player attempting to score) can't
+   * score from holding this specific Battlefield right now (e.g. Forgotten Monument: "Players
+   * can't score here until their third turn.").
+   */
+  blocksScoringHere?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * True if, while this instance is in play, the OPPONENT of its controller can't score points
+   * at all, from any Battlefield (e.g. Tianna Crownguard: "While I'm at a battlefield, opponents
+   * can't score points."). Checked against every instance the scoring player's opponent
+   * controls.
+   */
+  blocksOpponentScoring?(ctx: SpecialCaseContext): boolean;
 }

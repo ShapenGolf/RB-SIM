@@ -957,3 +957,167 @@ describe("Veiled Temple (sfd-221): on conquer, ready a friendly gear", () => {
     expect(gear.exhausted).toBe(false);
   });
 });
+
+describe("Assembly Rig (sfd-19): activated ability plays a Mech token", () => {
+  it("recycles a trash card and plays a 3-Might Mech token", () => {
+    const game = makeGame();
+    const rig = putOnBase(game, "sfd-19", "0");
+    game.players["0"].trash = ["ogn-4"];
+
+    SpecialCaseEngine.onActivate(game, getCard(rig.cardId), rig);
+
+    const tokenId = game.players["0"].base.find((id) => game.instances[id].cardId === "token-mech-3");
+    expect(tokenId).toBeDefined();
+  });
+});
+
+describe("Rell, Magnetic (sfd-24): on attack, play a cheap Equipment from hand and attach it", () => {
+  it("plays the first eligible Equipment and attaches it to Rell", () => {
+    const game = makeGame();
+    const rell = putOnBase(game, "sfd-24", "0", { exhausted: false });
+    game.players["0"].hand = ["sfd-134"]; // Cull, 1 Energy Equipment
+
+    SpecialCaseEngine.onAttack(game, getCard(rell.cardId), rell);
+
+    expect(rell.equipment).toHaveLength(1);
+    expect(game.players["0"].hand).toEqual([]);
+  });
+});
+
+describe("Tianna Crownguard (sfd-60): opponents can't score while she's at a battlefield", () => {
+  it("blocks the opponent's scoring for a controlled battlefield", () => {
+    const game = makeGame();
+    game.battlefields[0].controller = "1";
+    const tianna = putOnBase(game, "sfd-60", "0");
+    moveToBattlefield(game, tianna.instanceId, 0);
+
+    expect(SpecialCaseEngine.blocksScoringFor(game, getCard, 0, "1")).toBe(true);
+  });
+
+  it("does not block her own controller's scoring", () => {
+    const game = makeGame();
+    game.battlefields[0].controller = "0";
+    const tianna = putOnBase(game, "sfd-60", "0");
+    moveToBattlefield(game, tianna.instanceId, 0);
+
+    expect(SpecialCaseEngine.blocksScoringFor(game, getCard, 0, "0")).toBe(false);
+  });
+});
+
+describe("Forgotten Monument (sfd-209): can't score here until your third turn", () => {
+  it("blocks scoring on turns 1-2 and allows it from turn 3", () => {
+    const game = makeGame();
+    game.battlefields[0] = { cardId: "sfd-209", units: { "0": [], "1": [] }, controller: "0" };
+
+    game.players["0"].turnsTaken = 2;
+    expect(SpecialCaseEngine.blocksScoringFor(game, getCard, 0, "0")).toBe(true);
+
+    game.players["0"].turnsTaken = 3;
+    expect(SpecialCaseEngine.blocksScoringFor(game, getCard, 0, "0")).toBe(false);
+  });
+});
+
+describe("Strike Down (sfd-107): equipped unit deals its Might, then detach its Equipment", () => {
+  it("deals damage and detaches the first Equipment", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "sfd-107", "0");
+    const wielder = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    const gear = putOnBase(game, "sfd-134", "0");
+    attachEquipment(game, getCard, gear.instanceId, wielder.instanceId);
+    const enemy = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, wielder.instanceId);
+
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+    expect(wielder.equipment).toEqual([]);
+    expect(gear.attachedTo).toBeNull();
+    expect(game.players["0"].base).toContain(gear.instanceId);
+  });
+
+  it("does nothing for an unequipped unit", () => {
+    const game = makeGame();
+    const spell = putOnBase(game, "sfd-107", "0");
+    const unit = putOnBase(game, "unit-plain-footman", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(spell.cardId), spell, unit.instanceId);
+
+    expect(game.instances[enemy.instanceId]).toBeDefined();
+  });
+});
+
+describe("Beast Below (sfd-132): on play, return a friendly and an enemy unit to hand", () => {
+  it("returns the first friendly (excluding self) and the first enemy unit", () => {
+    const game = makeGame();
+    const beast = putOnBase(game, "sfd-132", "0");
+    const friendly = putOnBase(game, "unit-plain-footman", "0");
+    const enemy = putOnBase(game, "unit-plain-guard", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(beast.cardId), beast);
+
+    expect(game.instances[friendly.instanceId]).toBeUndefined();
+    expect(game.instances[enemy.instanceId]).toBeUndefined();
+    expect(game.players["0"].hand).toContain("unit-plain-footman");
+    expect(game.players["1"].hand).toContain("unit-plain-guard");
+  });
+});
+
+describe("Fizz, Trickster (sfd-140): play a cheap trash spell for free, then recycle it", () => {
+  it("plays the spell and moves it to the Main Deck instead of trash", () => {
+    const game = makeGame();
+    const fizz = putOnBase(game, "sfd-140", "0");
+    game.players["0"].trash = ["ogn-4"]; // Cleave, 1 Energy spell (no target = no-op, fine for this test)
+
+    SpecialCaseEngine.onPlay(game, getCard(fizz.cardId), fizz);
+
+    expect(game.players["0"].trash).toEqual([]);
+    expect(game.players["0"].mainDeck).toContain("ogn-4");
+  });
+});
+
+describe("Ezreal, Prodigy (sfd-149): on play, discard 1 then draw 2", () => {
+  it("discards the front of hand and draws 2", () => {
+    const game = makeGame();
+    const ezreal = putOnBase(game, "sfd-149", "0");
+    game.players["0"].hand = ["ogn-4"];
+    game.players["0"].mainDeck = ["ogn-5", "ogn-11"];
+
+    SpecialCaseEngine.onPlay(game, getCard(ezreal.cardId), ezreal);
+
+    expect(game.players["0"].trash).toContain("ogn-4");
+    expect(game.players["0"].hand).toEqual(["ogn-5", "ogn-11"]);
+  });
+});
+
+describe("Zaun Punk (sfd-160): kill a friendly gear (cost) to kill an enemy gear (effect)", () => {
+  it("kills the chosen friendly gear and the first enemy gear", () => {
+    const game = makeGame();
+    const punk = putOnBase(game, "sfd-160", "0");
+    const friendlyGear = putOnBase(game, "gear-tactical-banner", "0");
+    const enemyGear = putOnBase(game, "sfd-134", "1");
+
+    SpecialCaseEngine.onPlay(game, getCard(punk.cardId), punk, friendlyGear.instanceId);
+
+    expect(game.instances[friendlyGear.instanceId]).toBeUndefined();
+    expect(game.instances[enemyGear.instanceId]).toBeUndefined();
+  });
+});
+
+describe("Xin Zhao, Vigilant (sfd-176): enters ready with 2+ other units in base", () => {
+  it("enters ready with two other friendly units in base", () => {
+    const game = makeGame();
+    putOnBase(game, "unit-plain-footman", "0");
+    putOnBase(game, "unit-plain-guard", "0");
+    const xin = putOnBase(game, "sfd-176", "0");
+
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(xin.cardId), xin)).toBe(true);
+  });
+
+  it("does not enter ready with fewer than 2 others", () => {
+    const game = makeGame();
+    putOnBase(game, "unit-plain-footman", "0");
+    const xin = putOnBase(game, "sfd-176", "0");
+
+    expect(SpecialCaseEngine.selfEntersReady(game, getCard(xin.cardId), xin)).toBe(false);
+  });
+});

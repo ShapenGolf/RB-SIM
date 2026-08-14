@@ -83,6 +83,8 @@ export interface PlayerState {
   enemyUnitDiedThisTurn: boolean;
   /** Delayed effect: this many exhausted runes in the pool are readied at the end of THIS turn (see moves.ts endTurn), e.g. Targon's Peak: "ready 2 runes at the end of this turn." Consumed by endTurn, not by Awaken. */
   readyRunesAtEndOfTurn: number;
+  /** Count of turns this player has started (their own turns only), 1-indexed from their first turn. Incremented in turnFlow.ts runTurnStart, e.g. for "can't score until your third turn" effects. */
+  turnsTaken: number;
 }
 
 export interface BattlefieldSlot {

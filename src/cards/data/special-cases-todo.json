@@ -240,14 +240,6 @@
     "fullText": "When you play me, choose an opponent. They reveal their hand. Choose a card revealed this way and banish it. When they hold, return it to their hand (even if I'm no longer on the board)."
   },
   {
-    "id": "sfd-19",
-    "name": "Assembly Rig",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "1 EnergyFury Rune, Recycle a unit from your trash, Exhaust: Play a 3 Might Mech unit token to your base.",
-    "fullText": "1 EnergyFury Rune, Recycle a unit from your trash, Exhaust: Play a 3 Might Mech unit token to your base."
-  },
-  {
     "id": "ven-44",
     "name": "Astral Heron",
     "set": "VEN",
@@ -422,14 +414,6 @@
     "type": "legend",
     "residualText": "When you recycle a rune, you may exhaust me to play a Gold gear token exhausted.\nWhen one or more enemy units die, ready me.",
     "fullText": "When you recycle a rune, you may exhaust me to play a Gold gear token exhausted.\nWhen one or more enemy units die, ready me."
-  },
-  {
-    "id": "sfd-132",
-    "name": "Beast Below",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, return another friendly unit and an enemy unit to their owners' hands.",
-    "fullText": "When you play me, return another friendly unit and an enemy unit to their owners' hands."
   },
   {
     "id": "sfd-80",
@@ -1408,14 +1392,6 @@
     "fullText": "When I attack or defend, deal damage equal to my Might to an enemy unit here.\nI don't deal combat damage.\nMind Rune: [Action] \u2014 Move me to your base."
   },
   {
-    "id": "sfd-149",
-    "name": "Ezreal, Prodigy",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When you play me, discard 1, then draw 2.\nOptional additional costs you pay cost 1 Energy or Rune less.",
-    "fullText": "When you play me, discard 1, then draw 2.\nOptional additional costs you pay cost 1 Energy or Rune less."
-  },
-  {
     "id": "ogn-220",
     "name": "Facebreaker",
     "set": "OGN",
@@ -1496,14 +1472,6 @@
     "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "sfd-140",
-    "name": "Fizz, Trickster",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When you play me, you may play a spell from your trash with Energy cost no more than 3 Energy, ignoring its Energy cost. Recycle that spell after you play it. (You must still pay its Power cost.)",
-    "fullText": "When you play me, you may play a spell from your trash with Energy cost no more than 3 Energy, ignoring its Energy cost. Recycle that spell after you play it. (You must still pay its Power cost.)"
-  },
-  {
     "id": "unl-44",
     "name": "Flurry of Feathers",
     "set": "UNL",
@@ -1542,14 +1510,6 @@
     "type": "battlefield",
     "residualText": "While you control this battlefield, when you play a spell, if you spent 4 Energy or more, . (Look at the top card of your Main Deck. You may recycle it.)",
     "fullText": "While you control this battlefield, when you play a spell, if you spent 4 Energy or more, [Predict]. (Look at the top card of your Main Deck. You may recycle it.)"
-  },
-  {
-    "id": "sfd-209",
-    "name": "Forgotten Monument",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "Players can't score here until their third turn.",
-    "fullText": "Players can't score here until their third turn."
   },
   {
     "id": "ven-108",
@@ -3448,14 +3408,6 @@
     "fullText": "When you play a [Mighty] unit, you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
   },
   {
-    "id": "sfd-24",
-    "name": "Rell, Magnetic",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I attack, you may play an Equipment with Energy cost no more than 2 Energy, ignoring its cost, and attach it to me.",
-    "fullText": "[Tank] (I must be assigned combat damage first.)\nWhen I attack, you may play an Equipment with Energy cost no more than 2 Energy, ignoring its cost, and attach it to me."
-  },
-  {
     "id": "ven-121",
     "name": "Reluctant Leader",
     "set": "VEN",
@@ -4184,14 +4136,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Empower] 7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +7 Might."
   },
   {
-    "id": "sfd-107",
-    "name": "Strike Down",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Choose an equipped friendly unit. It deals damage equal to its Might to an enemy unit. Then detach an Equipment from it.",
-    "fullText": "Choose an equipped friendly unit. It deals damage equal to its Might to an enemy unit. Then detach an Equipment from it."
-  },
-  {
     "id": "sfd-17",
     "name": "Sudden Storm",
     "set": "SFD",
@@ -4430,14 +4374,6 @@
     "type": "spell",
     "residualText": "Stun an attacking unit. (It doesn't deal combat damage this turn.)",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nStun an attacking unit. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "sfd-60",
-    "name": "Tianna Crownguard",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "While I'm at a battlefield, opponents can't score points.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhile I'm at a battlefield, opponents can't score points."
   },
   {
     "id": "ogn-199",
@@ -4920,14 +4856,6 @@
     "fullText": "Fury Rune, Exhaust: Deal 3 to a unit. Use this ability only while I'm at a battlefield."
   },
   {
-    "id": "sfd-176",
-    "name": "Xin Zhao, Vigilant",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "I enter ready if you have two or more other units in your base.",
-    "fullText": "[Tank] (I must be assigned combat damage first.)\nI enter ready if you have two or more other units in your base."
-  },
-  {
     "id": "sfd-235",
     "name": "Yasuo, Windrider",
     "set": "SFD",
@@ -4958,14 +4886,6 @@
     "type": "champion",
     "residualText": "When I attack or defend, give one of your other units here +3 Might and  this turn. (It must be assigned combat damage first.)",
     "fullText": "When I attack or defend, give one of your other units here +3 Might and [Tank] this turn. (It must be assigned combat damage first.)"
-  },
-  {
-    "id": "sfd-160",
-    "name": "Zaun Punk",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "You may kill a friendly gear as an additional cost to play me.\nWhen you play me, if you paid the additional cost, kill a gear.",
-    "fullText": "You may kill a friendly gear as an additional cost to play me.\nWhen you play me, if you paid the additional cost, kill a gear."
   },
   {
     "id": "ven-23",
