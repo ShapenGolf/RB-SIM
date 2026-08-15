@@ -384,14 +384,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Predict 5]. (Look at the top 5 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\nDraw 2."
   },
   {
-    "id": "unl-110",
-    "name": "Clash of Giants",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose two units. They deal damage equal to their Mights to each other.",
-    "fullText": "Choose two units. They deal damage equal to their Mights to each other."
-  },
-  {
     "id": "ogn-44",
     "name": "Clockwork Keeper",
     "set": "OGN",
@@ -598,14 +590,6 @@
     "type": "spell",
     "residualText": "Look at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.",
     "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest."
-  },
-  {
-    "id": "ven-116",
-    "name": "Dragon Form",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose a unit. Its base Might becomes 5 this turn.",
-    "fullText": "Choose a unit. Its base Might becomes 5 this turn.\n[Flow] 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
     "id": "ven-157",
@@ -1278,14 +1262,6 @@
     "type": "unit",
     "residualText": "As you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend.",
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
-  },
-  {
-    "id": "ven-156",
-    "name": "Lightning Rush",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.",
-    "fullText": "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.\n[Flow] 2 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
     "id": "unl-82",
@@ -2230,22 +2206,6 @@
     "type": "spell",
     "residualText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location.",
     "fullText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location."
-  },
-  {
-    "id": "ven-31",
-    "name": "Twilight Shroud",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Give a friendly unit +1 Might this turn. It can't be chosen by enemy spells and abilities this turn.",
-    "fullText": "Give a friendly unit +1 Might this turn. It can't be chosen by enemy spells and abilities this turn.\n[Flow] 2 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
-    "id": "ven-105",
-    "name": "Twilight Step",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Move a unit with 3 Might or less.",
-    "fullText": "Move a unit with 3 Might or less.\n[Flow] 4 EnergyChaos Rune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
     "id": "ogn-157",

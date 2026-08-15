@@ -519,6 +519,11 @@ import { jannaSavior } from "./janna-savior";
 import { renataGlascMastermind } from "./renata-glasc-mastermind";
 import { hallOfLegends } from "./hall-of-legends";
 import { amateurRecital } from "./amateur-recital";
+import { clashOfGiants } from "./clash-of-giants";
+import { dragonForm } from "./dragon-form";
+import { lightningRush } from "./lightning-rush";
+import { twilightShroud } from "./twilight-shroud";
+import { twilightStep } from "./twilight-step";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1038,6 +1043,11 @@ const handlers: SpecialCaseHandler[] = [
   renataGlascMastermind,
   hallOfLegends,
   amateurRecital,
+  clashOfGiants,
+  dragonForm,
+  lightningRush,
+  twilightShroud,
+  twilightStep,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
