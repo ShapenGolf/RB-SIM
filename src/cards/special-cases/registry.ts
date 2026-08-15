@@ -407,6 +407,14 @@ import { viHotheaded } from "./vi-hotheaded";
 import { toolsOfEmpire } from "./tools-of-empire";
 import { siphoningStrike } from "./siphoning-strike";
 import { ravenbloomPrefect } from "./ravenbloom-prefect";
+import { pakaaProtector } from "./pakaa-protector";
+import { perfectExecution } from "./perfect-execution";
+import { rageAmplifier } from "./rage-amplifier";
+import { sinisterPoro } from "./sinister-poro";
+import { steelPaws } from "./steel-paws";
+import { tombRaiderBarbara } from "./tomb-raider-barbara";
+import { viktorInnovator } from "./viktor-innovator";
+import { windAndGhosts } from "./wind-and-ghosts";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -814,6 +822,14 @@ const handlers: SpecialCaseHandler[] = [
   toolsOfEmpire,
   siphoningStrike,
   ravenbloomPrefect,
+  pakaaProtector,
+  perfectExecution,
+  rageAmplifier,
+  sinisterPoro,
+  steelPaws,
+  tombRaiderBarbara,
+  viktorInnovator,
+  windAndGhosts,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

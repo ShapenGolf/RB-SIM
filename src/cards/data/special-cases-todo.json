@@ -2208,14 +2208,6 @@
     "fullText": "When I defend, you may kill me to move an attacking unit to its base."
   },
   {
-    "id": "ven-33",
-    "name": "Pakaa Protector",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I move, reveal the top card of your Main Deck. If it's a unit, draw it. Otherwise, put it in your trash and give me +2 Might this turn.",
-    "fullText": "When I move, reveal the top card of your Main Deck. If it's a unit, draw it. Otherwise, put it in your trash and give me +2 Might this turn."
-  },
-  {
     "id": "ogn-71",
     "name": "Party Favors",
     "set": "OGN",
@@ -2230,14 +2222,6 @@
     "type": "unit",
     "residualText": "Play me only to a battlefield you conquered this turn. (You can't play me anywhere else.)",
     "fullText": "Play me only to a battlefield you conquered this turn. (You can't play me anywhere else.)"
-  },
-  {
-    "id": "ven-12",
-    "name": "Perfect Execution",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Ready a unit and give it  this turn. (+3 Might while it's an attacker.)",
-    "fullText": "Ready a unit and give it [Assault 3] this turn. (+3 Might while it's an attacker.)\n[Flow] 3 EnergyFury Rune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
     "id": "sfd-104",
@@ -2406,14 +2390,6 @@
     "type": "legend",
     "residualText": "When you stun one or more enemy units, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
     "fullText": "When you stun one or more enemy units, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
-    "id": "ven-18",
-    "name": "Rage Amplifier",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "Your units have +1 Might. If I'm , they have +2 Might instead.",
-    "fullText": "[Empower] 6 EnergyFury Rune (6 EnergyFury Rune: Empower this. Use only if not Empowered.)\nYour units have +1 Might. If I'm [Empowered], they have +2 Might instead."
   },
   {
     "id": "sfd-166",
@@ -2744,14 +2720,6 @@
     "fullText": "When you buff me, ready me."
   },
   {
-    "id": "unl-137",
-    "name": "Sinister Poro",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I attack, you may pay 1 Energy to move an enemy unit here to its base.",
-    "fullText": "When I attack, you may pay 1 Energy to move an enemy unit here to its base."
-  },
-  {
     "id": "ogn-266",
     "name": "Siphon Power",
     "set": "OGN",
@@ -2902,14 +2870,6 @@
     "type": "unit",
     "residualText": "When a friendly unit moves from my location, I may be moved with it.",
     "fullText": "When a friendly unit moves from my location, I may be moved with it."
-  },
-  {
-    "id": "ven-43",
-    "name": "Steel Paws",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have +7 Might.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Empower] 7 Energy (7 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +7 Might."
   },
   {
     "id": "sfd-17",
@@ -3128,14 +3088,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, you may choose a friendly unit. Move me to its location and it to my original location."
   },
   {
-    "id": "ven-37",
-    "name": "Tomb-Raider Barbara",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When you play me, if you control 7 or more runes, choose an enemy gear. If it's , disempower it. Otherwise, kill it.",
-    "fullText": "When you play me, if you control 7 or more runes, choose an enemy gear. If it's [Empowered], disempower it. Otherwise, kill it."
-  },
-  {
     "id": "ven-99",
     "name": "Tornado Warrior",
     "set": "VEN",
@@ -3254,14 +3206,6 @@
     "type": "champion",
     "residualText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more.",
     "fullText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more."
-  },
-  {
-    "id": "ven-176",
-    "name": "Viktor, Innovator",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base.",
-    "fullText": "When you play a card on an opponent's turn, play a 1 Might Recruit unit token to your base."
   },
   {
     "id": "unl-226",
@@ -3406,14 +3350,6 @@
     "type": "spell",
     "residualText": "Counter a spell.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell."
-  },
-  {
-    "id": "ven-106",
-    "name": "Wind and Ghosts",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose a unit at a battlefield. If it has 3 Might or less, banish it. Otherwise, return it to its owner's hand.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a unit at a battlefield. If it has 3 Might or less, banish it. Otherwise, return it to its owner's hand."
   },
   {
     "id": "sfd-138",
