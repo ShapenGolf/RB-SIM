@@ -632,14 +632,6 @@
     "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nIf you've spent 4 Energy or more to play a spell this turn, you may play me for Mind Rune."
   },
   {
-    "id": "ogn-112",
-    "name": "Kai'Sa, Evolutionary",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I conquer, you may play a spell from your trash with Energy cost less than your points without paying its Energy cost. Then recycle it. (You must still pay its Power cost.)",
-    "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nWhen I conquer, you may play a spell from your trash with Energy cost less than your points without paying its Energy cost. Then recycle it. (You must still pay its Power cost.)"
-  },
-  {
     "id": "sfd-237",
     "name": "Karma, Channeler",
     "set": "SFD",
@@ -694,14 +686,6 @@
     "type": "champion",
     "residualText": "If I have moved twice this turn, I don't take damage.",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nIf I have moved twice this turn, I don't take damage."
-  },
-  {
-    "id": "ven-135",
-    "name": "Kennen, Keeper of Balance",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me or I attack, you may pay 2 Energy to  a unit. (It doesn't deal combat damage this turn.)\nWhile there's a stunned enemy unit here, I have +2 Might.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me or I attack, you may pay 2 Energy to [Stun] a unit. (It doesn't deal combat damage this turn.)\nWhile there's a stunned enemy unit here, I have +2 Might."
   },
   {
     "id": "ven-180",
@@ -792,22 +776,6 @@
     "fullText": "While you control this battlefield, friendly [Repeat] costs cost 1 Energy less."
   },
   {
-    "id": "ven-120",
-    "name": "Masa, Crashing Thunder",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "You may pay Order Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost,  an enemy unit at a battlefield. (It doesn't deal combat damage this turn.)",
-    "fullText": "You may pay Order Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, [Stun] an enemy unit at a battlefield. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "ven-94",
-    "name": "Mask Mother",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When you discard me, you may pay 1 Energy to give a friendly unit +2 Might this turn.",
-    "fullText": "When you discard me, you may pay 1 Energy to give a friendly unit +2 Might this turn."
-  },
-  {
     "id": "ven-191",
     "name": "Master of Shadows",
     "set": "VEN",
@@ -840,14 +808,6 @@
     "fullText": "When you empower something else, empower me.\nDisempower me, Rune, Exhaust: Ready a unit."
   },
   {
-    "id": "ogn-48",
-    "name": "Meditation",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "As an additional cost to play this, you may exhaust a friendly unit. If you do, draw 2. Otherwise, draw 1.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nAs an additional cost to play this, you may exhaust a friendly unit. If you do, draw 2. Otherwise, draw 1."
-  },
-  {
     "id": "ven-188",
     "name": "Mel, Defiant Soul",
     "set": "VEN",
@@ -862,14 +822,6 @@
     "type": "champion",
     "residualText": "— Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become , banish an enemy unit at a battlefield with 3 Might or less.",
     "fullText": "[Empower] — Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
-  },
-  {
-    "id": "ven-52",
-    "name": "Mesmerize",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose one —Return a friendly unit to its owner's hand.Give an enemy unit -2 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one —Return a friendly unit to its owner's hand.Give an enemy unit -2 Might this turn."
   },
   {
     "id": "ogn-152",
