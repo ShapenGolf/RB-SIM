@@ -60,6 +60,10 @@ export function resolvePlayedCard(
       (isUnit && (player.nextUnitEntersReady || player.unitsEnterReadyThisTurn));
     if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
     if (isUnit && player.buffUnitsPlayedThisTurn) instance.statuses.buffed = true;
+    if (isUnit && player.nextUnitBuffed) {
+      instance.statuses.buffed = true;
+      player.nextUnitBuffed = false;
+    }
     instance.exhausted = !entersReady;
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);

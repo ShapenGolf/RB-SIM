@@ -688,22 +688,6 @@
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nIf I have moved twice this turn, I don't take damage."
   },
   {
-    "id": "ven-180",
-    "name": "Kha'Zix, Evolving Hunter",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here.",
-    "fullText": "[Hunt]\nWhen I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here."
-  },
-  {
-    "id": "unl-119",
-    "name": "Kha'Zix, Evolving Hunter",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here.",
-    "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nWhen I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here."
-  },
-  {
     "id": "ven-126",
     "name": "Ki Barrier",
     "set": "VEN",
@@ -832,14 +816,6 @@
     "fullText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it."
   },
   {
-    "id": "ven-17",
-    "name": "Morgana, Vindictive",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me, deal damage to a unit equal to the damage marked on it.",
-    "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, deal damage to a unit equal to the damage marked on it."
-  },
-  {
     "id": "ogn-101",
     "name": "Mushroom Pouch",
     "set": "OGN",
@@ -862,14 +838,6 @@
     "type": "battlefield",
     "residualText": "During showdowns here, cards with  cost Rune more to play. (Hidden cards have .)",
     "fullText": "During showdowns here, cards with [Reaction] cost Rune more to play. (Hidden cards have [Reaction].)"
-  },
-  {
-    "id": "unl-52",
-    "name": "Nami, Headstrong",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "You may pay Calm Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost,  an enemy unit. (It doesn't deal combat damage this turn.)\nWhen I hold, the next time you play a unit this turn, ready it and  it.",
-    "fullText": "You may pay Calm Rune as an additional cost to play me.\nWhen you play me, if you paid the additional cost, [Stun] an enemy unit. (It doesn't deal combat damage this turn.)\nWhen I hold, the next time you play a unit this turn, ready it and [Buff] it."
   },
   {
     "id": "ven-63",

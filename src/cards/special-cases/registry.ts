@@ -598,6 +598,8 @@ import { masaCrashingThunder } from "./masa-crashing-thunder";
 import { maskMother } from "./mask-mother";
 import { meditation } from "./meditation";
 import { mesmerize } from "./mesmerize";
+import { khaZixEvolvingHunter } from "./kha-zix-evolving-hunter";
+import { namiHeadstrong } from "./nami-headstrong";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1196,6 +1198,8 @@ const handlers: SpecialCaseHandler[] = [
   maskMother,
   meditation,
   mesmerize,
+  khaZixEvolvingHunter,
+  namiHeadstrong,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

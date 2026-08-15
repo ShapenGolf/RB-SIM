@@ -88,6 +88,8 @@ export interface PlayerState {
   cardsPlayedThisTurn: number;
   /** One-shot: the next unit/champion this player plays this turn enters ready. Consumed on use, reset at Awaken. */
   nextUnitEntersReady: boolean;
+  /** One-shot: the next unit/champion this player plays this turn is buffed (e.g. Nami, Headstrong: "the next time you play a unit this turn, ready it and [Buff] it."). Consumed on use, reset at Awaken. */
+  nextUnitBuffed: boolean;
   /** One-shot: Energy cost reduction applied to the next spell this player plays this turn. Consumed on use, reset at Awaken. */
   nextSpellCostReduction: number;
   /** One-shot: Energy cost reduction applied to the next card of ANY type this player plays this turn (e.g. Astral Heron: "your next card costs 2 Energy less"). Consumed on use, reset at Awaken. */

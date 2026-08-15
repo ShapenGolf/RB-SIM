@@ -1,17 +1,26 @@
-import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
 import { dealSpellDamage } from "../../game/spellDamage";
+import type { CardInstance } from "../../game/state";
+import type { SpecialCaseHandler } from "./types";
 
-/** [Ambush] When you play me, deal damage to a unit equal to the damage marked on it. */
+/**
+ * [Ambush] (generic keyword, already wired.)
+ * When you play me, deal damage to a unit equal to the damage marked on it.
+ *
+ * Simplification: no player choice of which unit (see docs/data-sourcing.md) — targets the most
+ * heavily damaged unit anywhere, for the biggest guaranteed impact (potentially a kill).
+ */
 export const morganaVindictive: SpecialCaseHandler = {
   cardId: "morgana-vindictive",
-  needsPlayTarget: true,
-  onPlay: (ctx, targetInstanceId) => {
-    if (!targetInstanceId) return;
-    const target = ctx.game.instances[targetInstanceId];
-    if (!target) return;
-    const amount = target.damage;
-    if (amount <= 0) return;
-    dealSpellDamage(ctx.game, getCard, targetInstanceId, amount, ctx.instance.controller);
+  onPlay: (ctx) => {
+    let mostDamaged: CardInstance | undefined;
+    for (const instance of Object.values(ctx.game.instances)) {
+      if (instance.damage <= 0) continue;
+      const t = getCard(instance.cardId).type;
+      if (t !== "unit" && t !== "champion") continue;
+      if (!mostDamaged || instance.damage > mostDamaged.damage) mostDamaged = instance;
+    }
+    if (!mostDamaged) return;
+    dealSpellDamage(ctx.game, getCard, mostDamaged.instanceId, mostDamaged.damage, ctx.instance.controller);
   },
 };
