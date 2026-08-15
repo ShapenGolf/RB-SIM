@@ -551,6 +551,13 @@ import { bushwhack } from "./bushwhack";
 import { callToBattle } from "./call-to-battle";
 import { blueSentinel } from "./blue-sentinel";
 import { bardMercurial } from "./bard-mercurial";
+import { calledShot } from "./called-shot";
+import { clairvoyance } from "./clairvoyance";
+import { clockworkKeeper } from "./clockwork-keeper";
+import { convergentMutation } from "./convergent-mutation";
+import { curtainCall } from "./curtain-call";
+import { dameTheDespoiler } from "./dame-the-despoiler";
+import { dangerZone } from "./danger-zone";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1102,6 +1109,13 @@ const handlers: SpecialCaseHandler[] = [
   callToBattle,
   blueSentinel,
   bardMercurial,
+  calledShot,
+  clairvoyance,
+  clockworkKeeper,
+  convergentMutation,
+  curtainCall,
+  dameTheDespoiler,
+  dangerZone,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

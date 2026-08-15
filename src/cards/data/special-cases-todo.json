@@ -176,44 +176,12 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nAs you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nGive a unit +3 Might this turn."
   },
   {
-    "id": "sfd-122",
-    "name": "Called Shot",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Look at the top 2 cards of your Main Deck. Draw one and recycle the other.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
-  },
-  {
-    "id": "ven-56",
-    "name": "Clairvoyance",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": ". (Look at the top 5 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\nDraw 2.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Predict 5]. (Look at the top 5 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\nDraw 2."
-  },
-  {
-    "id": "ogn-44",
-    "name": "Clockwork Keeper",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "As you play me, you may pay Calm Rune as an additional cost. If you do, draw 1.",
-    "fullText": "As you play me, you may pay Calm Rune as an additional cost. If you do, draw 1."
-  },
-  {
     "id": "ogn-231",
     "name": "Commander Ledros",
     "set": "OGN",
     "type": "unit",
     "residualText": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.",
     "fullText": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ogn-108",
-    "name": "Convergent Mutation",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Choose a friendly unit. This turn, increase its Might to the Might of another friendly unit.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. This turn, increase its Might to the Might of another friendly unit."
   },
   {
     "id": "sfd-194",
@@ -240,36 +208,12 @@
     "fullText": "When you play this, banish all units from your trash.\nExhaust: Play a unit banished with this. (You must pay its costs.)"
   },
   {
-    "id": "unl-182",
-    "name": "Curtain Call",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "— 1 Energy / Rune / 1 EnergyRune (You may pay each additional cost to repeat this spell's effect.)\nChoose one you haven't already chosen —Draw 1.Deal 2 to a unit at a battlefield.Deal 3 to a unit at a base.Give a unit at a battlefield -4 Might this turn.",
-    "fullText": "[Repeat] — 1 Energy / Rune / 1 EnergyRune (You may pay each additional cost to repeat this spell's effect.)\nChoose one you haven't already chosen —Draw 1.Deal 2 to a unit at a battlefield.Deal 3 to a unit at a base.Give a unit at a battlefield -4 Might this turn."
-  },
-  {
-    "id": "ven-79",
-    "name": "Dame the Despoiler",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I attack or defend, choose a unit here. Increase my Might to its Might this turn, then give me +1 Might this turn.",
-    "fullText": "[Empower] 5 EnergyBody Rune (5 EnergyBody Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] When I attack or defend, choose a unit here. Increase my Might to its Might this turn, then give me +1 Might this turn."
-  },
-  {
     "id": "unl-20",
     "name": "Dancing Grenade",
     "set": "UNL",
     "type": "spell",
     "residualText": "Deal 2 to a unit. Its controller may play this spell again for Rune. If they do, this deals 1 additional Bonus Damage for each time this spell has dealt damage this turn.",
     "fullText": "Deal 2 to a unit. Its controller may play this spell again for Rune. If they do, this deals 1 additional Bonus Damage for each time this spell has dealt damage this turn."
-  },
-  {
-    "id": "sfd-182",
-    "name": "Danger Zone",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Give your Mechs +1 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 1 EnergyRune (You may pay the additional cost to repeat this spell's effect.)\nGive your Mechs +1 Might this turn."
   },
   {
     "id": "ogn-299",
