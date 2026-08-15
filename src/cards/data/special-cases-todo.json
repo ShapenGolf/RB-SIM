@@ -240,14 +240,6 @@
     "fullText": "[Empower] 5 Energy. This ability costs 3 Energy less if you control 4 or fewer runes. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Assault 2]. (Opponents must pay Rune to choose me with a spell or ability. +2 Might while I'm an attacker.)"
   },
   {
-    "id": "ven-78",
-    "name": "Baccai Witherclaw",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have +2 Might.\n[>>] Channel 2 runes exhausted. (When I die while Empowered, get the effect.)",
-    "fullText": "[Empower] 1 EnergyRuneRune (1 EnergyRuneRune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might.\n[Empowered][>][>>][Deathknell][>] Channel 2 runes exhausted. (When I die while Empowered, get the effect.)"
-  },
-  {
     "id": "unl-42",
     "name": "Back Off",
     "set": "UNL",
@@ -398,14 +390,6 @@
     "type": "spell",
     "residualText": "Give a unit  and  this turn. (+3 Might while it's a defender. It must be assigned combat damage first.)",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nGive a unit [Shield 3] and [Tank] this turn. (+3 Might while it's a defender. It must be assigned combat damage first.)"
-  },
-  {
-    "id": "sfd-162",
-    "name": "Blood Money",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Kill a unit at a battlefield with 2 Might or less. If it was an enemy unit, play a Gold gear token exhausted. If it was a friendly unit, play two Gold gear tokens exhausted.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nKill a unit at a battlefield with 2 Might or less. If it was an enemy unit, play a Gold gear token exhausted. If it was a friendly unit, play two Gold gear tokens exhausted."
   },
   {
     "id": "unl-109",
@@ -1672,14 +1656,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me or I attack, you may pay 2 Energy to [Stun] a unit. (It doesn't deal combat damage this turn.)\nWhile there's a stunned enemy unit here, I have +2 Might."
   },
   {
-    "id": "ven-113",
-    "name": "Kennen, Storm of Shuriken",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me, [Burn 2]. (Put the top 2 cards of your Main Deck into your trash.)\nWhen I conquer, give a spell in your trash  equal to its cost this turn. (You may play it from your trash for its Flow cost. Then banish it.)",
-    "fullText": "When you play me, [Burn 2]. (Put the top 2 cards of your Main Deck into your trash.)\nWhen I conquer, give a spell in your trash [Flow] equal to its cost this turn. (You may play it from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "ven-180",
     "name": "Kha'Zix, Evolving Hunter",
     "set": "VEN",
@@ -1974,22 +1950,6 @@
     "type": "unit",
     "residualText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1.",
     "fullText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1."
-  },
-  {
-    "id": "unl-200",
-    "name": "Mirror Image",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a unit. Play a ready Reflection unit token to your base. It becomes a copy of that unit. Give it . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "Choose a unit. Play a ready Reflection unit token to your base. It becomes a copy of that unit. Give it [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
-    "id": "ogn-162",
-    "name": "Miss Fortune, Captain",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "The first time I move each turn, you may ready something else that's exhausted.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Ganking] (I can move from battlefield to battlefield.)\nThe first time I move each turn, you may ready something else that's exhausted."
   },
   {
     "id": "ogn-152",
@@ -2534,14 +2494,6 @@
     "type": "champion",
     "residualText": "Your Mechs each have . (+1 Might while we're attackers.)\nWhen I conquer, you may recycle another friendly unit to play a Mech from your trash. Reduce its Energy cost by the Might of the unit you recycled.",
     "fullText": "Your Mechs each have [Assault]. (+1 Might while we're attackers.)\nWhen I conquer, you may recycle another friendly unit to play a Mech from your trash. Reduce its Energy cost by the Might of the unit you recycled."
-  },
-  {
-    "id": "ven-8",
-    "name": "Ruthless Strike",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "As an additional cost to play this, you may discard 1.\nDeal 3 to a unit at a battlefield. If you paid the additional cost, deal 5 to it instead.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nAs an additional cost to play this, you may discard 1.\nDeal 3 to a unit at a battlefield. If you paid the additional cost, deal 5 to it instead."
   },
   {
     "id": "unl-173",
