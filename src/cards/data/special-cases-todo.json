@@ -280,22 +280,6 @@
     "fullText": "When you play a card from face down, play a Gold gear token exhausted."
   },
   {
-    "id": "sfd-246",
-    "name": "Blade Dancer",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you choose a friendly unit, you may exhaust me and pay Rune to ready it.\nWhen you conquer, you may pay 1 Energy to ready me.",
-    "fullText": "When you choose a friendly unit, you may exhaust me and pay Rune to ready it.\nWhen you conquer, you may pay 1 Energy to ready me."
-  },
-  {
-    "id": "sfd-195",
-    "name": "Blade Dancer",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you choose a friendly unit, you may exhaust me and pay Rune to ready it.\nWhen you conquer, you may pay 1 Energy to ready me.",
-    "fullText": "When you choose a friendly unit, you may exhaust me and pay Rune to ready it.\nWhen you conquer, you may pay 1 Energy to ready me."
-  },
-  {
     "id": "unl-133",
     "name": "Blast Cone",
     "set": "UNL",
@@ -2414,22 +2398,6 @@
     "type": "spell",
     "residualText": "Move a friendly unit, then move an enemy unit. (If they both move to a battlefield you don't control, you're the attacker.)",
     "fullText": "Move a friendly unit, then move an enemy unit. (If they both move to a battlefield you don't control, you're the attacker.)"
-  },
-  {
-    "id": "sfd-243",
-    "name": "Void Burrower",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you conquer, you may exhaust me to reveal the top 2 cards of your Main Deck. You may banish one, then play it. Recycle the rest.",
-    "fullText": "When you conquer, you may exhaust me to reveal the top 2 cards of your Main Deck. You may banish one, then play it. Recycle the rest."
-  },
-  {
-    "id": "sfd-187",
-    "name": "Void Burrower",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you conquer, you may exhaust me to reveal the top 2 cards of your Main Deck. You may play one. Then recycle the rest.",
-    "fullText": "When you conquer, you may exhaust me to reveal the top 2 cards of your Main Deck. You may play one. Then recycle the rest."
   },
   {
     "id": "sfd-10",

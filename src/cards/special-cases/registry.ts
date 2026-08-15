@@ -508,6 +508,8 @@ import { unforgiven } from "./unforgiven";
 import { bashfulBloom } from "./bashful-bloom";
 import { emperorOfTheSands } from "./emperor-of-the-sands";
 import { nineTailedFox } from "./nine-tailed-fox";
+import { voidBurrower } from "./void-burrower";
+import { bladeDancer } from "./blade-dancer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1016,6 +1018,8 @@ const handlers: SpecialCaseHandler[] = [
   bashfulBloom,
   emperorOfTheSands,
   nineTailedFox,
+  voidBurrower,
+  bladeDancer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
