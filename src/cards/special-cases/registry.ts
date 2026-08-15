@@ -486,6 +486,7 @@ import { helmOfSuppression } from "./helm-of-suppression";
 import { faeDragon } from "./fae-dragon";
 import { safetyInspector } from "./safety-inspector";
 import { skyCruiser } from "./sky-cruiser";
+import { endlessRiches } from "./endless-riches";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -972,6 +973,7 @@ const handlers: SpecialCaseHandler[] = [
   faeDragon,
   safetyInspector,
   skyCruiser,
+  endlessRiches,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1665,6 +1667,16 @@ export const SpecialCaseEngine = {
       cap = cap === undefined ? handlerCap : Math.min(cap, handlerCap);
     }
     return cap;
+  },
+
+  /** True if `player` skips their own Draw Phase because some instance they control grants that (e.g. Endless Riches). See turnFlow.ts runDraw. */
+  skipsOwnDrawPhase: (game: GameState, getCard: (cardId: string) => Card, player: PlayerId): boolean => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== player) continue;
+      const card = getCard(instance.cardId);
+      if (getSpecialCaseHandler(card)?.blocksOwnDrawPhase?.(ctxFor(game, card, instance))) return true;
+    }
+    return false;
   },
 
   /** True if `scoringPlayer` is on their first or second turn AND some in-play instance (either controller) grants the "score becomes a draw" effect (e.g. Otterpus). See turnFlow.ts runBeginning. */

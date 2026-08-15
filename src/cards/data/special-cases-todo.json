@@ -768,14 +768,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nMove any number of friendly units at a battlefield to their base."
   },
   {
-    "id": "ven-22",
-    "name": "Endless Riches",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "When you play this, banish your hand and trash, then [Burn 7].\nSkip your Draw Phase.\nYou may play cards from your trash.\nIf a card would go to your trash from anywhere other than your Main Deck, banish it instead.",
-    "fullText": "When you play this, banish your hand and trash, then [Burn 7].\nSkip your Draw Phase.\nYou may play cards from your trash.\nIf a card would go to your trash from anywhere other than your Main Deck, banish it instead."
-  },
-  {
     "id": "ogn-98",
     "name": "Energy Conduit",
     "set": "OGN",

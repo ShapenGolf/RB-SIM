@@ -105,6 +105,7 @@ export function runChannel(game: GameState, player: PlayerId): void {
 /** Draw: draw 1 card from the Main Deck. */
 export function runDraw(game: GameState, player: PlayerId): void {
   game.turnPhase = "draw";
+  if (SpecialCaseEngine.skipsOwnDrawPhase(game, getCard, player)) return;
   const state = game.players[player];
   const card = state.mainDeck.shift();
   if (card) state.hand.push(card);

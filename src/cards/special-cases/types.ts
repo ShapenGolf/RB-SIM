@@ -481,4 +481,7 @@ export interface SpecialCaseHandler {
    * turn-count gate itself is applied by the caller, not this hook.
    */
   convertsScoringToDrawOnEarlyTurns?(ctx: SpecialCaseContext): boolean;
+
+  /** True if this card's mere presence makes its OWN controller skip their Draw Phase entirely (e.g. Endless Riches: "Skip your Draw Phase."). Checked in turnFlow.ts runDraw only against instances the drawing player themself controls. */
+  blocksOwnDrawPhase?(ctx: SpecialCaseContext): boolean;
 }
