@@ -517,6 +517,8 @@ import { zileanTimeMage } from "./zilean-time-mage";
 import { illaoiProphetOfTheGreatKraken } from "./illaoi-prophet-of-the-great-kraken";
 import { jannaSavior } from "./janna-savior";
 import { renataGlascMastermind } from "./renata-glasc-mastermind";
+import { hallOfLegends } from "./hall-of-legends";
+import { amateurRecital } from "./amateur-recital";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1034,6 +1036,8 @@ const handlers: SpecialCaseHandler[] = [
   illaoiProphetOfTheGreatKraken,
   jannaSavior,
   renataGlascMastermind,
+  hallOfLegends,
+  amateurRecital,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

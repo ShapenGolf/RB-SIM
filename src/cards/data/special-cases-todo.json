@@ -64,14 +64,6 @@
     "fullText": "If a unit here would die during combat, its controller may pay RuneRuneRune to heal it, exhaust it, and recall it instead."
   },
   {
-    "id": "unl-207",
-    "name": "Amateur Recital",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "When you hold here, you may move a unit at a battlefield to its base.",
-    "fullText": "When you hold here, you may move a unit at a battlefield to its base."
-  },
-  {
     "id": "sfd-117",
     "name": "Ancient Henge",
     "set": "SFD",
@@ -910,14 +902,6 @@
     "type": "spell",
     "residualText": "Return up to two cards with  from your trash to your hand. You can hide cards ignoring costs this turn.",
     "fullText": "Return up to two cards with [Hidden] from your trash to your hand. You can hide cards ignoring costs this turn."
-  },
-  {
-    "id": "sfd-210",
-    "name": "Hall of Legends",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you conquer here, you may pay 1 Energy to ready your legend.",
-    "fullText": "When you conquer here, you may pay 1 Energy to ready your legend."
   },
   {
     "id": "ogn-281",
