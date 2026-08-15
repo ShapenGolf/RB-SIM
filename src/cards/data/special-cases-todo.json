@@ -456,14 +456,6 @@
     "fullText": "At the start of your Main Phase, you may kill 3 other friendly units and/or gear to score 1 point."
   },
   {
-    "id": "sfd-71",
-    "name": "Breakneck Mech",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "Your Mechs have  and . (Opponents must pay Rune to choose us with a spell or ability. We can move from battlefield to battlefield.)\nI enter ready if you control another Mech.",
-    "fullText": "Your Mechs have [Deflect] and [Ganking]. (Opponents must pay Rune to choose us with a spell or ability. We can move from battlefield to battlefield.)\nI enter ready if you control another Mech."
-  },
-  {
     "id": "ogn-268",
     "name": "Bullet Time",
     "set": "OGN",
@@ -606,14 +598,6 @@
     "type": "spell",
     "residualText": "Choose a friendly unit. This turn, increase its Might to the Might of another friendly unit.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. This turn, increase its Might to the Might of another friendly unit."
-  },
-  {
-    "id": "ven-91",
-    "name": "Corrupted Dragon",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "If your score is not within 3 points of the Victory Score, I enter ready.\nWhen I attack, you may move any number of enemy units here each with 5 Might or less to their base.",
-    "fullText": "If your score is not within 3 points of the Victory Score, I enter ready.\nWhen I attack, you may move any number of enemy units here each with 5 Might or less to their base."
   },
   {
     "id": "sfd-194",
@@ -862,14 +846,6 @@
     "type": "unit",
     "residualText": ". (When I die, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)",
     "fullText": "[Deathknell][>] [Predict 2]. (When I die, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)"
-  },
-  {
-    "id": "sfd-148",
-    "name": "Draven, Audacious",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "The first time I win a combat each turn, you score 1 point.\nWhen I die in combat, choose an opponent. They score 1 point.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nThe first time I win a combat each turn, you score 1 point.\nWhen I die in combat, choose an opponent. They score 1 point."
   },
   {
     "id": "sfd-20",
@@ -1542,14 +1518,6 @@
     "type": "champion",
     "residualText": "When you play me, heal your units here, then move an enemy unit from here to its base.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve, including to a battlefield you control.)\nWhen you play me, heal your units here, then move an enemy unit from here to its base."
-  },
-  {
-    "id": "sfd-103",
-    "name": "Jaull-Fish",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "I cost 2 Energy less for each of your  units. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\nI cost 2 Energy less for each of your [Mighty] units. (A unit is Mighty while it has 5+ Might.)"
   },
   {
     "id": "sfd-54",
@@ -2640,14 +2608,6 @@
     "fullText": "This enters exhausted.\nKill this, 1 Energy, Exhaust: [Predict 2], then draw 1. Gain 1 XP.  (To Predict 2, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)"
   },
   {
-    "id": "ven-30",
-    "name": "Serene Ascetic",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have  and . (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
-    "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
-  },
-  {
     "id": "ven-148",
     "name": "Shadow Dash",
     "set": "VEN",
@@ -2742,14 +2702,6 @@
     "type": "spell",
     "residualText": "Choose a unit you control and another unit you control at a different location. If at least one of them has , move each to the other's location. Draw 1.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nChoose a unit you control and another unit you control at a different location. If at least one of them has [Temporary], move each to the other's location. Draw 1."
-  },
-  {
-    "id": "ven-122",
-    "name": "Solari Sunhawk",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have +1 Might and . (Opponents must pay RuneRune to choose me with a spell or ability.)",
-    "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might and [Deflect 2]. (Opponents must pay RuneRune to choose me with a spell or ability.)"
   },
   {
     "id": "sfd-239",
@@ -3382,14 +3334,6 @@
     "type": "champion",
     "residualText": "You may discard 1 as an additional cost to play me.\nWhen you play me, if you paid the additional cost, play a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me  this turn.\")",
     "fullText": "You may discard 1 as an additional cost to play me.\nWhen you play me, if you paid the additional cost, play a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.\")"
-  },
-  {
-    "id": "ven-169",
-    "name": "Zed, From the Shadows",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "You may discard 1 as an additional cost to play me.\nWhen you play me, if you paid the additional cost, play a 0 Might Shadow Clone unit token.",
-    "fullText": "You may discard 1 as an additional cost to play me.\nWhen you play me, if you paid the additional cost, play a 0 Might Shadow Clone unit token."
   },
   {
     "id": "ven-112",

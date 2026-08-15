@@ -417,6 +417,13 @@ import { viktorInnovator } from "./viktor-innovator";
 import { windAndGhosts } from "./wind-and-ghosts";
 import { protectiveSands } from "./protective-sands";
 import { punchingPoro } from "./punching-poro";
+import { breakneckMech } from "./breakneck-mech";
+import { corruptedDragon } from "./corrupted-dragon";
+import { dravenAudacious } from "./draven-audacious";
+import { jaullFish } from "./jaull-fish";
+import { sereneAscetic } from "./serene-ascetic";
+import { solariSunhawk } from "./solari-sunhawk";
+import { zedFromTheShadows } from "./zed-from-the-shadows";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -834,6 +841,13 @@ const handlers: SpecialCaseHandler[] = [
   windAndGhosts,
   protectiveSands,
   punchingPoro,
+  breakneckMech,
+  corruptedDragon,
+  dravenAudacious,
+  jaullFish,
+  sereneAscetic,
+  solariSunhawk,
+  zedFromTheShadows,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
