@@ -81,6 +81,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     cardsPlayedThisTurn: 0,
     nextUnitEntersReady: false,
     nextSpellCostReduction: 0,
+    nextCardCostReduction: 0,
     nextSpellBonusDamage: 0,
     unitsEnterReadyThisTurn: false,
     buffUnitsPlayedThisTurn: false,

@@ -90,6 +90,8 @@ export interface PlayerState {
   nextUnitEntersReady: boolean;
   /** One-shot: Energy cost reduction applied to the next spell this player plays this turn. Consumed on use, reset at Awaken. */
   nextSpellCostReduction: number;
+  /** One-shot: Energy cost reduction applied to the next card of ANY type this player plays this turn (e.g. Astral Heron: "your next card costs 2 Energy less"). Consumed on use, reset at Awaken. */
+  nextCardCostReduction: number;
   /** One-shot: Bonus damage added to every dealSpellDamage instance of the next spell this player plays this turn (see game/spellDamage.ts). Consumed once that spell finishes resolving, reset at Awaken. */
   nextSpellBonusDamage: number;
   /** Persistent-for-the-turn (not consumed on first use, unlike nextUnitEntersReady): every unit/champion this player plays this turn enters ready. Reset at Awaken. */

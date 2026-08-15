@@ -30,6 +30,7 @@ export function resolvePlayedCard(
   ambushBattlefieldIndex?: number,
 ): void {
   instance.statuses.paidAdditionalCostThisTurn = payAdditionalCost;
+  if (player.nextCardCostReduction > 0) player.nextCardCostReduction = 0;
   if (card.type === "spell") {
     player.playedSpellThisTurn = true;
     if (player.nextSpellCostReduction > 0) player.nextSpellCostReduction = 0;
@@ -149,6 +150,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
       ? SpecialCaseEngine.costReductionIfTargeted(G, getCard, args.targetInstanceId, card, instance)
       : 0;
   const nextSpellReduction = card.type === "spell" ? player.nextSpellCostReduction : 0;
+  const nextCardReduction = player.nextCardCostReduction;
   const energyNeeded = Math.max(
     0,
     (card.energyCost ?? 0) +
@@ -159,7 +161,8 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
       selfCostReduction -
       allyCostReduction -
       targetCostReduction -
-      nextSpellReduction,
+      nextSpellReduction -
+      nextCardReduction,
   );
   if (args.energyRuneIds.length !== energyNeeded) return INVALID_MOVE;
 

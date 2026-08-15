@@ -531,6 +531,13 @@ import { melNewlyAwakened } from "./mel-newly-awakened";
 import { rumbleHotheaded } from "./rumble-hotheaded";
 import { ireliaGraceful } from "./irelia-graceful";
 import { arcaneShift } from "./arcane-shift";
+import { akshanMischievous } from "./akshan-mischievous";
+import { allayEagerAdmirer } from "./allay-eager-admirer";
+import { angleShot } from "./angle-shot";
+import { apheliosExalted } from "./aphelios-exalted";
+import { apprenticeMage } from "./apprentice-mage";
+import { astralHeron } from "./astral-heron";
+import { azirSovereign } from "./azir-sovereign";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1062,6 +1069,13 @@ const handlers: SpecialCaseHandler[] = [
   rumbleHotheaded,
   ireliaGraceful,
   arcaneShift,
+  akshanMischievous,
+  allayEagerAdmirer,
+  angleShot,
+  apheliosExalted,
+  apprenticeMage,
+  astralHeron,
+  azirSovereign,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
