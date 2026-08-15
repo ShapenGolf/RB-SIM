@@ -2152,14 +2152,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nAs an additional cost to play this, kill a friendly [Mighty] unit. (A unit is Mighty while it has 5+ Might.)\nDraw 2 and channel 1 rune exhausted."
   },
   {
-    "id": "unl-164",
-    "name": "Safety Inspector",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "You may spend 3 XP as an additional cost to play me.\nWhen you play me, each player must kill one of their units. If you paid my additional cost, you don't kill a unit this way.",
-    "fullText": "You may spend 3 XP as an additional cost to play me.\nWhen you play me, each player must kill one of their units. If you paid my additional cost, you don't kill a unit this way."
-  },
-  {
     "id": "ven-35",
     "name": "Sanction",
     "set": "VEN",
@@ -2262,14 +2254,6 @@
     "type": "champion",
     "residualText": "If you've spent at least RuneRune this turn, I have +2 Might and . (I can move from battlefield to battlefield.)",
     "fullText": "[Accelerate] (You may pay 1 EnergyChaos Rune as an additional cost to have me enter ready.)\nIf you've spent at least RuneRune this turn, I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ven-60",
-    "name": "Sky Cruiser",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "Discard a gear, 1 Energy, Exhaust: Deal 4 to a unit at a battlefield.",
-    "fullText": "Discard a gear, 1 Energy, Exhaust: Deal 4 to a unit at a battlefield."
   },
   {
     "id": "unl-83",

@@ -484,6 +484,8 @@ import { rocketBarrage } from "./rocket-barrage";
 import { piercingLight } from "./piercing-light";
 import { helmOfSuppression } from "./helm-of-suppression";
 import { faeDragon } from "./fae-dragon";
+import { safetyInspector } from "./safety-inspector";
+import { skyCruiser } from "./sky-cruiser";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -968,6 +970,8 @@ const handlers: SpecialCaseHandler[] = [
   piercingLight,
   helmOfSuppression,
   faeDragon,
+  safetyInspector,
+  skyCruiser,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
