@@ -558,6 +558,10 @@ import { convergentMutation } from "./convergent-mutation";
 import { curtainCall } from "./curtain-call";
 import { dameTheDespoiler } from "./dame-the-despoiler";
 import { dangerZone } from "./danger-zone";
+import { deathMark } from "./death-mark";
+import { deathgrip } from "./deathgrip";
+import { decreeOfInsight } from "./decree-of-insight";
+import { decreeOfFocus } from "./decree-of-focus";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1116,6 +1120,10 @@ const handlers: SpecialCaseHandler[] = [
   curtainCall,
   dameTheDespoiler,
   dangerZone,
+  deathMark,
+  deathgrip,
+  decreeOfInsight,
+  decreeOfFocus,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

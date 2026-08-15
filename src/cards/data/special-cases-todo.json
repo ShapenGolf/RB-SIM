@@ -232,22 +232,6 @@
     "fullText": "Exhaust: [Reaction] — [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "ven-144",
-    "name": "Death Mark",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)\nPlay a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me  this turn.\")",
-    "fullText": "[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)\nPlay a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.\")\n[Flow] 1 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
-    "id": "sfd-163",
-    "name": "Deathgrip",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Kill a friendly unit to give +Might equal to its Might to another friendly unit this turn. Draw 1.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nKill a friendly unit to give +Might equal to its Might to another friendly unit this turn. Draw 1."
-  },
-  {
     "id": "unl-235",
     "name": "Deceiver",
     "set": "UNL",
@@ -262,22 +246,6 @@
     "type": "legend",
     "residualText": "When you conquer or hold, you may discard 1 and exhaust me to play a ready Reflection unit token there. It becomes a copy of another unit there. Give it .",
     "fullText": "When you conquer or hold, you may discard 1 and exhaust me to play a ready Reflection unit token there. It becomes a copy of another unit there. Give it [Temporary]."
-  },
-  {
-    "id": "ven-40",
-    "name": "Decree of Focus",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose a friendly unit that's in combat with an enemy Fury (Fury Rune) unit or that's being chosen by an enemy Fury spell. Give it +4 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit that's in combat with an enemy Fury (Fury Rune) unit or that's being chosen by an enemy Fury spell. Give it +4 Might this turn."
-  },
-  {
-    "id": "ven-61",
-    "name": "Decree of Insight",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Ignore  while paying this spell's cost.\nGive an enemy Body (Body Rune) unit -5 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nIgnore [Deflect] while paying this spell's cost.\nGive an enemy Body (Body Rune) unit -5 Might this turn."
   },
   {
     "id": "sfd-196",
