@@ -57,6 +57,7 @@ export function resolvePlayedCard(
       SpecialCaseEngine.selfEntersReady(G, card, instance) ||
       (isUnit && (player.nextUnitEntersReady || player.unitsEnterReadyThisTurn));
     if (isUnit && player.nextUnitEntersReady) player.nextUnitEntersReady = false;
+    if (isUnit && player.buffUnitsPlayedThisTurn) instance.statuses.buffed = true;
     instance.exhausted = !entersReady;
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);

@@ -83,6 +83,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     nextSpellCostReduction: 0,
     nextSpellBonusDamage: 0,
     unitsEnterReadyThisTurn: false,
+    buffUnitsPlayedThisTurn: false,
     enemyUnitDiedThisTurn: false,
     readyRunesAtEndOfTurn: 0,
     turnsTaken: 0,

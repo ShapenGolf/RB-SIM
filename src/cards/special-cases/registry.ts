@@ -451,6 +451,11 @@ import { gentlemensDuel } from "./gentlemens-duel";
 import { marchingOrders } from "./marching-orders";
 import { cataclysmicDuel } from "./cataclysmic-duel";
 import { bladeTwirler } from "./blade-twirler";
+import { glascMixologist } from "./glasc-mixologist";
+import { kingsEdict } from "./kings-edict";
+import { rampage } from "./rampage";
+import { redBrambleback } from "./red-brambleback";
+import { rallyTheTroops } from "./rally-the-troops";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -902,6 +907,11 @@ const handlers: SpecialCaseHandler[] = [
   marchingOrders,
   cataclysmicDuel,
   bladeTwirler,
+  glascMixologist,
+  kingsEdict,
+  rampage,
+  redBrambleback,
+  rallyTheTroops,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

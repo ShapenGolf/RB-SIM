@@ -120,6 +120,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   game.players[player].nextSpellCostReduction = 0;
   game.players[player].nextSpellBonusDamage = 0;
   game.players[player].unitsEnterReadyThisTurn = false;
+  game.players[player].buffUnitsPlayedThisTurn = false;
   game.players[player].enemyUnitDiedThisTurn = false;
   game.players[player].playedSpellThisTurn = false;
   game.players[player].maxEnergySpentOnSpellThisTurn = 0;

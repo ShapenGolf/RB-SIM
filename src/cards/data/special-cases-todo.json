@@ -1000,14 +1000,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nEach Equipment attached to me gives double its base Might bonus."
   },
   {
-    "id": "sfd-165",
-    "name": "Glasc Mixologist",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "\u2014 You may play a unit with cost no more than 3 Energy and no more than Rune from your trash, ignoring its cost. (When I die, get the effect.)",
-    "fullText": "[Deathknell] \u2014 You may play a unit with cost no more than 3 Energy and no more than Rune from your trash, ignoring its cost. (When I die, get the effect.)"
-  },
-  {
     "id": "unl-193",
     "name": "Gloomist",
     "set": "UNL",
@@ -1566,14 +1558,6 @@
     "type": "spell",
     "residualText": "Choose a unit. Prevent the next 7 damage that would be dealt to it this turn. (Opponents can assign it extra combat damage to kill it.)",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. Prevent the next 7 damage that would be dealt to it this turn. (Opponents can assign it extra combat damage to kill it.)"
-  },
-  {
-    "id": "ogn-237",
-    "name": "King's Edict",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Starting with the next player, each other player chooses a unit you don't control that hasn't been chosen for this spell. Kill those units.",
-    "fullText": "Starting with the next player, each other player chooses a unit you don't control that hasn't been chosen for this spell. Kill those units."
   },
   {
     "id": "ogn-150",
@@ -2144,22 +2128,6 @@
     "fullText": "When you stun one or more enemy units, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
   },
   {
-    "id": "sfd-166",
-    "name": "Rally the Troops",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "When a friendly unit is played this turn, buff it. (If it doesn't have a buff, it gets a +1 Might buff.)\nDraw 1.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nWhen a friendly unit is played this turn, buff it. (If it doesn't have a buff, it gets a +1 Might buff.)\nDraw 1."
-  },
-  {
-    "id": "ven-83",
-    "name": "Rampage",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "As you play this, you may pay Body Rune as an additional cost.\nChoose a friendly unit and an enemy unit. If you paid the additional cost, give the friendly unit +2 Might this turn. They deal damage equal to their Mights to each other.",
-    "fullText": "As you play this, you may pay Body Rune as an additional cost.\nChoose a friendly unit and an enemy unit. If you paid the additional cost, give the friendly unit +2 Might this turn. They deal damage equal to their Mights to each other."
-  },
-  {
     "id": "ogn-285",
     "name": "Reaver's Row",
     "set": "OGN",
@@ -2174,14 +2142,6 @@
     "type": "spell",
     "residualText": "Choose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it."
-  },
-  {
-    "id": "unl-29",
-    "name": "Red Brambleback",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Your conquer effects for conquering here trigger an additional time.\nWhen I conquer,  a friendly unit. (Give it a +1 Might buff if it doesn't have one.)",
-    "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\nYour conquer effects for conquering here trigger an additional time.\nWhen I conquer, [Buff] a friendly unit. (Give it a +1 Might buff if it doesn't have one.)"
   },
   {
     "id": "sfd-29",

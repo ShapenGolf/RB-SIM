@@ -94,6 +94,8 @@ export interface PlayerState {
   nextSpellBonusDamage: number;
   /** Persistent-for-the-turn (not consumed on first use, unlike nextUnitEntersReady): every unit/champion this player plays this turn enters ready. Reset at Awaken. */
   unitsEnterReadyThisTurn: boolean;
+  /** Persistent-for-the-turn: every friendly unit/champion this player plays this turn is buffed (e.g. Rally the Troops: "When a friendly unit is played this turn, buff it."). Reset at Awaken. */
+  buffUnitsPlayedThisTurn: boolean;
   /** Set true whenever an ENEMY unit/champion (from this player's perspective) dies, e.g. for "if an enemy unit has died this turn, ..." effects. Reset at Awaken. */
   enemyUnitDiedThisTurn: boolean;
   /** Delayed effect: this many exhausted runes in the pool are readied at the end of THIS turn (see moves.ts endTurn), e.g. Targon's Peak: "ready 2 runes at the end of this turn." Consumed by endTurn, not by Awaken. */
