@@ -618,6 +618,11 @@ import { showOfStrength } from "./show-of-strength";
 import { shurikenFlip } from "./shuriken-flip";
 import { siphonPower } from "./siphon-power";
 import { sanction } from "./sanction";
+import { spriteCall } from "./sprite-call";
+import { starCrossed } from "./star-crossed";
+import { spiderling } from "./spiderling";
+import { smokeAndMirrors } from "./smoke-and-mirrors";
+import { standUnited } from "./stand-united";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1236,6 +1241,11 @@ const handlers: SpecialCaseHandler[] = [
   shurikenFlip,
   siphonPower,
   sanction,
+  spriteCall,
+  starCrossed,
+  spiderling,
+  smokeAndMirrors,
+  standUnited,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

@@ -1088,14 +1088,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyChaos Rune as an additional cost to have me enter ready.)\nIf you've spent at least RuneRune this turn, I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "unl-83",
-    "name": "Smoke and Mirrors",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a unit you control and another unit you control at a different location. If at least one of them has , move each to the other's location. Draw 1.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nChoose a unit you control and another unit you control at a different location. If at least one of them has [Temporary], move each to the other's location. Draw 1."
-  },
-  {
     "id": "sfd-239",
     "name": "Soraka, Wanderer",
     "set": "SFD",
@@ -1128,28 +1120,12 @@
     "fullText": "When you empower something else, empower me. (I become Empowered if I'm not already.)\nDisempower me, Exhaust: Give a unit at a battlefield -2 Might this turn."
   },
   {
-    "id": "ven-97",
-    "name": "Spiderling",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have +1 Might for each other unit you control here with my name.\nYour deck can have any number of cards named Spiderling.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nI have +1 Might for each other unit you control here with my name.\nYour deck can have any number of cards named Spiderling."
-  },
-  {
     "id": "sfd-144",
     "name": "Spirit Wheel",
     "set": "SFD",
     "type": "gear",
     "residualText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1.",
     "fullText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1."
-  },
-  {
-    "id": "ogn-94",
-    "name": "Sprite Call",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Play a ready 3 Might Sprite unit token with . (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nPlay a ready 3 Might Sprite unit token with [Temporary]. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
   },
   {
     "id": "unl-166",
@@ -1160,28 +1136,12 @@
     "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nAs an additional cost to play me, kill a Bird, Cat, Dog, or Poro you control. You may play me to its battlefield (even if you don't have other units there)."
   },
   {
-    "id": "ogn-53",
-    "name": "Stand United",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Buff a friendly unit. Buffs give an additional +1 Might to friendly units this turn. (To buff a unit, give it a +1 Might buff if it doesn't already have one.)",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nBuff a friendly unit. Buffs give an additional +1 Might to friendly units this turn. (To buff a unit, give it a +1 Might buff if it doesn't already have one.)"
-  },
-  {
     "id": "unl-215",
     "name": "Star Spring",
     "set": "UNL",
     "type": "battlefield",
     "residualText": "The first time a player plays a non-token unit here each turn, they may move another unit they control here to its base.",
     "fullText": "The first time a player plays a non-token unit here each turn, they may move another unit they control here to its base."
-  },
-  {
-    "id": "unl-128",
-    "name": "Star-Crossed",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Return a friendly unit and an enemy unit to their owners' hands.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nReturn a friendly unit and an enemy unit to their owners' hands."
   },
   {
     "id": "ven-98",
