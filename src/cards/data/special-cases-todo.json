@@ -480,14 +480,6 @@
     "fullText": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "unl-140",
-    "name": "Conscription",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "You may spend 5 XP as an additional cost to play this.\nChoose an enemy unit at a battlefield with 3 Might or less. If you paid the additional cost, choose any enemy unit at a battlefield instead. Take control of it, exhaust it, and recall it.",
-    "fullText": "You may spend 5 XP as an additional cost to play this.\nChoose an enemy unit at a battlefield with 3 Might or less. If you paid the additional cost, choose any enemy unit at a battlefield instead. Take control of it, exhaust it, and recall it."
-  },
-  {
     "id": "ogn-108",
     "name": "Convergent Mutation",
     "set": "OGN",
@@ -1136,14 +1128,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nCounter a spell unless its controller pays 2 Energy."
   },
   {
-    "id": "sfd-137",
-    "name": "Harpoon Squad",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move from a battlefield, give me +2 Might this turn.",
-    "fullText": "When I move from a battlefield, give me +2 Might this turn."
-  },
-  {
     "id": "ven-197",
     "name": "Heart of the Tempest",
     "set": "VEN",
@@ -1446,14 +1430,6 @@
     "type": "champion",
     "residualText": "When you hide a card, ready me.\nWhen you play a card from face down, deal 2 to an enemy unit.",
     "fullText": "When you hide a card, ready me.\nWhen you play a card from face down, deal 2 to an enemy unit."
-  },
-  {
-    "id": "sfd-112",
-    "name": "Kato the Arm",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, give a friendly unit my keywords and +Might equal to my Might this turn.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nWhen I move to a battlefield, give a friendly unit my keywords and +Might equal to my Might this turn."
   },
   {
     "id": "ven-134",

@@ -471,6 +471,9 @@ import { consumingCurse } from "./consuming-curse";
 import { legionMarauder } from "./legion-marauder";
 import { mournfulWitness } from "./mournful-witness";
 import { superMegaDeathRocket } from "./super-mega-death-rocket";
+import { harpoonSquad } from "./harpoon-squad";
+import { katoTheArm } from "./kato-the-arm";
+import { conscription } from "./conscription";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -942,6 +945,9 @@ const handlers: SpecialCaseHandler[] = [
   legionMarauder,
   mournfulWitness,
   superMegaDeathRocket,
+  harpoonSquad,
+  katoTheArm,
+  conscription,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -999,6 +1005,10 @@ export const SpecialCaseEngine = {
 
   onEndOfTurn: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onEndOfTurn?.(ctxFor(game, card, instance));
+  },
+
+  onMoveFromBattlefield: (game: GameState, card: Card, instance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onMoveFromBattlefield?.(ctxFor(game, card, instance));
   },
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,
