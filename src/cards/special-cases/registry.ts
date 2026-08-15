@@ -530,6 +530,7 @@ import { renektonBrute } from "./renekton-brute";
 import { melNewlyAwakened } from "./mel-newly-awakened";
 import { rumbleHotheaded } from "./rumble-hotheaded";
 import { ireliaGraceful } from "./irelia-graceful";
+import { arcaneShift } from "./arcane-shift";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1060,6 +1061,7 @@ const handlers: SpecialCaseHandler[] = [
   melNewlyAwakened,
   rumbleHotheaded,
   ireliaGraceful,
+  arcaneShift,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

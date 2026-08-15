@@ -104,14 +104,6 @@
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], [Predict 2]. (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n[Empowered][>] I have +1 Might."
   },
   {
-    "id": "sfd-200",
-    "name": "Arcane Shift",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Banish a friendly unit, then its owner plays it, ignoring its cost. Deal 3 to an enemy unit at a battlefield. Banish this.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nBanish a friendly unit, then its owner plays it, ignoring its cost. Deal 3 to an enemy unit at a battlefield. Banish this."
-  },
-  {
     "id": "unl-169",
     "name": "Ashe, Focused",
     "set": "UNL",
