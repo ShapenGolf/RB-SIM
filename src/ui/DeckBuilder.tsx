@@ -48,6 +48,9 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
   const [deckName, setDeckName] = useState("");
   const [editingDeckId, setEditingDeckId] = useState<string | null>(null);
   const [savedDecks, setSavedDecks] = useState<SavedDeck[]>(() => listSavedDecks());
+  // Transient "gespeichert" confirmation — the save button itself gives no feedback otherwise,
+  // which made a successful save look like nothing happened.
+  const [justSavedName, setJustSavedName] = useState<string | null>(null);
   const [legendSearch, setLegendSearch] = useState("");
   const [search, setSearch] = useState("");
   const [mainFilter, setMainFilter] = useState<MainFilter>("all");
@@ -195,9 +198,11 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
   function handleSave() {
     if (!legendId) return;
     const id = editingDeckId ?? `deck-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    saveDeck({ id, name: deckName.trim() || "Unbenanntes Deck", deck: deckList });
+    const name = deckName.trim() || "Unbenanntes Deck";
+    saveDeck({ id, name, deck: deckList });
     setEditingDeckId(id);
     setSavedDecks(listSavedDecks());
+    setJustSavedName(name);
   }
   function handleLoad(saved: SavedDeck) {
     setLegendId(saved.deck.legendId || null);
@@ -207,6 +212,7 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     setBattlefields(saved.deck.battlefields);
     setDeckName(saved.name);
     setEditingDeckId(saved.id);
+    setJustSavedName(null);
     setStep("legend");
   }
   function handleDelete(id: string) {
@@ -222,6 +228,7 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     resetDeck();
     setDeckName("");
     setEditingDeckId(null);
+    setJustSavedName(null);
     setStep("legend");
   }
 
@@ -499,12 +506,27 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
                 className="rb-db-search"
                 placeholder="Deckname"
                 value={deckName}
-                onChange={(e) => setDeckName(e.target.value)}
+                onChange={(e) => {
+                  setDeckName(e.target.value);
+                  setJustSavedName(null);
+                }}
               />
               <button className="rb-end-turn" onClick={handleSave} disabled={issues.length > 0}>
                 Deck speichern
               </button>
             </div>
+            {justSavedName && (
+              <div className="rb-callout" style={{ borderColor: "#22c55e" }}>
+                ✓ "{justSavedName}" gespeichert — liegt lokal in diesem Browser (kein Account, kein Download nötig).
+              </div>
+            )}
+            <p className="rb-db-hint">
+              Gespeicherte Decks landen im lokalen Speicher deines Browsers (localStorage), an dein Gerät gebunden —
+              kein Account, kein Login. Sie verschwinden nur, wenn du Browserdaten für diese Seite löschst, und sind
+              nicht automatisch auf einem anderen Gerät sichtbar. Für ein lokales Spiel (beide Spieler am selben
+              Bildschirm, es gibt noch keinen KI-Gegner) brauchst du zwei gespeicherte, legale Decks — bau also am
+              besten gleich ein zweites.
+            </p>
           </>
         )}
 
