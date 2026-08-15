@@ -1712,14 +1712,6 @@
     "fullText": "When you conquer, if you have 4+ units at that battlefield, draw 2."
   },
   {
-    "id": "ven-111",
-    "name": "Minah Swiftfoot",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1.",
-    "fullText": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1."
-  },
-  {
     "id": "ogn-152",
     "name": "Mistfall",
     "set": "OGN",
@@ -1870,14 +1862,6 @@
     "type": "gear",
     "residualText": "Friendly units have . (Opponents must pay Rune to choose them with a spell or ability.)",
     "fullText": "[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nFriendly units have [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)"
-  },
-  {
-    "id": "sfd-23",
-    "name": "Piercing Light",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Deal 2 to a unit at a battlefield, then deal 2 to up to one other unit.",
-    "fullText": "[Repeat] 2 EnergyFury Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 2 to a unit at a battlefield, then deal 2 to up to one other unit."
   },
   {
     "id": "ven-161",
@@ -2142,14 +2126,6 @@
     "type": "battlefield",
     "residualText": "costs of your units here cost 1 Energy or Rune less.",
     "fullText": "[Empower] costs of your units here cost 1 Energy or Rune less."
-  },
-  {
-    "id": "sfd-77",
-    "name": "Rocket Barrage",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "4 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect, and may make different choices.)\nChoose one \u2014Deal 4 to a unit in a base.Kill a gear.",
-    "fullText": "[Repeat] 4 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect, and may make different choices.)\nChoose one \u2014Deal 4 to a unit in a base.Kill a gear."
   },
   {
     "id": "ven-189",
