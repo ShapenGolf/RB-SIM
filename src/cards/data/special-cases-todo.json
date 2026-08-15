@@ -2470,13 +2470,5 @@
     "type": "gear",
     "residualText": "The next time a friendly unit would die, kill this instead. Recall that unit exhausted. (Send it to base. This isn't a move.)",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nThe next time a friendly unit would die, kill this instead. Recall that unit exhausted. (Send it to base. This isn't a move.)"
-  },
-  {
-    "id": "unl-86",
-    "name": "Zilean, Time Mage",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "Once each turn, if you would play a token unit while I'm at a battlefield, you may play that token and an additional copy of it instead.",
-    "fullText": "Once each turn, if you would play a token unit while I'm at a battlefield, you may play that token and an additional copy of it instead."
   }
 ]

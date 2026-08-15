@@ -513,6 +513,7 @@ import { bladeDancer } from "./blade-dancer";
 import { akaliSilent } from "./akali-silent";
 import { akaliDeadlyWeapon } from "./akali-deadly-weapon";
 import { dravenVanquisher } from "./draven-vanquisher";
+import { zileanTimeMage } from "./zilean-time-mage";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1026,6 +1027,7 @@ const handlers: SpecialCaseHandler[] = [
   akaliSilent,
   akaliDeadlyWeapon,
   dravenVanquisher,
+  zileanTimeMage,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
