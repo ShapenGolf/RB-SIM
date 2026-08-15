@@ -538,6 +538,11 @@ import { apheliosExalted } from "./aphelios-exalted";
 import { apprenticeMage } from "./apprentice-mage";
 import { astralHeron } from "./astral-heron";
 import { azirSovereign } from "./azir-sovereign";
+import { blastCone } from "./blast-cone";
+import { block } from "./block";
+import { bellowsBreath } from "./bellows-breath";
+import { avaAchiever } from "./ava-achiever";
+import { baronNashor } from "./baron-nashor";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1076,6 +1081,11 @@ const handlers: SpecialCaseHandler[] = [
   apprenticeMage,
   astralHeron,
   azirSovereign,
+  blastCone,
+  block,
+  bellowsBreath,
+  avaAchiever,
+  baronNashor,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

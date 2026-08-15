@@ -72,14 +72,6 @@
     "fullText": "You may kill a friendly unit as an additional cost to play me. If you do, I cost 1 Energy less for each Energy it costs and Order Rune less for each Power it costs.\n[Ganking] (I can move from battlefield to battlefield.)\nWhen I attack, the defender must kill one of their units here."
   },
   {
-    "id": "ogn-107",
-    "name": "Ava Achiever",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When I attack, you may pay Mind Rune to play a card with  from your hand here, ignoring its cost.",
-    "fullText": "When I attack, you may pay Mind Rune to play a card with [Hidden] from your hand here, ignoring its cost."
-  },
-  {
     "id": "sfd-50",
     "name": "Azir, Ascendant",
     "set": "SFD",
@@ -136,22 +128,6 @@
     "fullText": "You may exhaust your legend as an additional cost to play me.\nWhen you play me, if you paid the additional cost, move any number of your units to an open battlefield."
   },
   {
-    "id": "unl-147",
-    "name": "Baron Nashor",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "As you play me, add the Baron Pit battlefield token to the board if it's not there already. If you do, I enter there. (It has \"Units can move here from anywhere.\")\nI can't be chosen by enemy spells and abilities.\nOther friendly units have +2 Might.",
-    "fullText": "As you play me, add the Baron Pit battlefield token to the board if it's not there already. If you do, I enter there. (It has \"Units can move here from anywhere.\")\nI can't be chosen by enemy spells and abilities.\nOther friendly units have +2 Might."
-  },
-  {
-    "id": "unl-238",
-    "name": "Baron Nashor",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "As you play me, add the Baron Pit battlefield token to the board if it's not there already. If you do, I enter there.\nI can't be chosen by enemy spells and abilities.\nOther friendly units have +2 Might.",
-    "fullText": "As you play me, add the Baron Pit battlefield token to the board if it's not there already. If you do, I enter there.\nI can't be chosen by enemy spells and abilities.\nOther friendly units have +2 Might."
-  },
-  {
     "id": "sfd-203",
     "name": "Battle Mistress",
     "set": "SFD",
@@ -168,36 +144,12 @@
     "fullText": "When you recycle a rune, you may exhaust me to play a Gold gear token exhausted.\nWhen one or more enemy units die, ready me."
   },
   {
-    "id": "sfd-80",
-    "name": "Bellows Breath",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Deal 1 to up to three units at the same location.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 1 to up to three units at the same location."
-  },
-  {
     "id": "sfd-121",
     "name": "Black Market Broker",
     "set": "SFD",
     "type": "unit",
     "residualText": "When you play a card from face down, play a Gold gear token exhausted.",
     "fullText": "When you play a card from face down, play a Gold gear token exhausted."
-  },
-  {
-    "id": "unl-133",
-    "name": "Blast Cone",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "When you play this, you may move an enemy unit.\nWhen you move an enemy unit, you may exhaust this to  it. (It doesn't deal combat damage this turn.)",
-    "fullText": "When you play this, you may move an enemy unit.\nWhen you move an enemy unit, you may exhaust this to [Stun] it. (It doesn't deal combat damage this turn.)"
-  },
-  {
-    "id": "ogn-57",
-    "name": "Block",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Give a unit  and  this turn. (+3 Might while it's a defender. It must be assigned combat damage first.)",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nGive a unit [Shield 3] and [Tank] this turn. (+3 Might while it's a defender. It must be assigned combat damage first.)"
   },
   {
     "id": "unl-109",
