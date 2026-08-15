@@ -95,6 +95,7 @@ function assignDamage(
     const hp = toughness(game, getCard, instanceId, role);
     const hit = Math.min(remaining, hp);
     instance.damage += hit;
+    if (hit > 0) instance.statuses.tookDamageThisTurn = true;
     remaining -= hit;
   }
   return Math.max(0, remaining);
@@ -121,6 +122,7 @@ export function dealDistributedDamage(
     const hp = computeMight(game, getCard, target, "none");
     const hit = Math.min(remaining, hp);
     target.damage += hit;
+    if (hit > 0) target.statuses.tookDamageThisTurn = true;
     remaining -= hit;
     if (target.damage >= hp) destroyed.push(targetInstanceId);
   }

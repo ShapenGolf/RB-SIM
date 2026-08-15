@@ -391,6 +391,10 @@ import { aurokGeneral } from "./aurok-general";
 import { dragUnder } from "./drag-under";
 import { faePorter } from "./fae-porter";
 import { imposingChallenger } from "./imposing-challenger";
+import { forbiddingWaste } from "./forbidding-waste";
+import { affectionatePoro } from "./affectionate-poro";
+import { kinkouLifeblade } from "./kinkou-lifeblade";
+import { chemtechCask } from "./chemtech-cask";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -782,6 +786,10 @@ const handlers: SpecialCaseHandler[] = [
   dragUnder,
   faePorter,
   imposingChallenger,
+  forbiddingWaste,
+  affectionatePoro,
+  kinkouLifeblade,
+  chemtechCask,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

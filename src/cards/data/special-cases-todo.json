@@ -24,14 +24,6 @@
     "fullText": "Ready up to 4 units, gear, and/or runes."
   },
   {
-    "id": "ven-24",
-    "name": "Affectionate Poro",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When a combat that I was in ends, if I haven't been dealt damage this turn, draw 1.",
-    "fullText": "When a combat that I was in ends, if I haven't been dealt damage this turn, draw 1."
-  },
-  {
     "id": "sfd-1",
     "name": "Against the Odds",
     "set": "SFD",
@@ -560,14 +552,6 @@
     "fullText": "When you or an ally hold, you may exhaust me to play a Gold gear token exhausted.\nWhile your score is within 3 points of the Victory Score, your Gold [Add] an additional 1 Energy."
   },
   {
-    "id": "sfd-63",
-    "name": "Chemtech Cask",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "When you play a spell on an opponent's turn, you may exhaust me to play a Gold gear token exhausted.",
-    "fullText": "When you play a spell on an opponent's turn, you may exhaust me to play a Gold gear token exhausted."
-  },
-  {
     "id": "ven-56",
     "name": "Clairvoyance",
     "set": "VEN",
@@ -1046,14 +1030,6 @@
     "type": "spell",
     "residualText": "Choose one \u2014Counter a spell.Play four 1 Might Bird unit tokens with . (Opponents must pay Rune to choose them with a spell or ability.)",
     "fullText": "[Reaction]\nChoose one \u2014Counter a spell.Play four 1 Might Bird unit tokens with [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)"
-  },
-  {
-    "id": "unl-210",
-    "name": "Forbidding Waste",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "While a unit here is defending alone, it has -2 Might. (It's alone if there are no other friendly units here.)",
-    "fullText": "While a unit here is defending alone, it has -2 Might. (It's alone if there are no other friendly units here.)"
   },
   {
     "id": "sfd-65",
@@ -1776,14 +1752,6 @@
     "fullText": "Starting with the next player, each other player chooses a unit you don't control that hasn't been chosen for this spell. Kill those units."
   },
   {
-    "id": "ven-93",
-    "name": "Kinkou Lifeblade",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have +1 Might and . (I can move from battlefield to battlefield.)",
-    "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might and [Ganking]. (I can move from battlefield to battlefield.)"
-  },
-  {
     "id": "ogn-150",
     "name": "Kraken Hunter",
     "set": "OGN",
@@ -1806,14 +1774,6 @@
     "type": "unit",
     "residualText": "\u2014 1 Energy or Body Rune (Pay either cost: Empower me. Use only if not Empowered.)\n I have +1 Might.",
     "fullText": "[Empower] \u2014 1 Energy or Body Rune (Pay either cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might."
-  },
-  {
-    "id": "ven-184",
-    "name": "Leona, Determined",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I attack, stun an enemy unit here.",
-    "fullText": "[Shield]\nWhen I attack, stun an enemy unit here."
   },
   {
     "id": "ven-156",
