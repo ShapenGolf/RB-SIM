@@ -1072,22 +1072,6 @@
     "fullText": "When I attack, you may pay 1 Energy to give a unit here -1 Might this turn."
   },
   {
-    "id": "ven-182",
-    "name": "Illaoi, Prophet of the Great Kraken",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me or when I score, play a 1 Energy Might Tentacle unit token from Bilgewater.\nI have +1 Might for each token unit you control.",
-    "fullText": "When you play me or when I score, play a 1 Energy Might Tentacle unit token from Bilgewater.\nI have +1 Might for each token unit you control."
-  },
-  {
-    "id": "ven-109",
-    "name": "Illaoi, Prophet of the Great Kraken",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me or when I score, play a 1 Energy Might Tentacle unit token from Bilgewater.\nI have +1 Might for each token unit you control.",
-    "fullText": "When you play me or when I score, play a 1 Energy Might Tentacle unit token from Bilgewater.\nI have +1 Might for each token unit you control."
-  },
-  {
     "id": "ogn-221",
     "name": "Imperial Decree",
     "set": "OGN",
