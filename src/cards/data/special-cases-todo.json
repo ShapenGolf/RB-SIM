@@ -120,14 +120,6 @@
     "fullText": "[Empower] 1 EnergyOrder RuneOrder Rune\n[Empowered][>] I have [Assault 2].\n[Empowered][>] When I attack, kill an enemy unit here with less Might than me."
   },
   {
-    "id": "ven-84",
-    "name": "Ambessa, The Wolf",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "I have +3 Might and can't be dealt damage unless I'm in combat.",
-    "fullText": "[Empower] 3 EnergyBody Rune (3 EnergyBody Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +3 Might and can't be dealt damage unless I'm in combat."
-  },
-  {
     "id": "sfd-117",
     "name": "Ancient Henge",
     "set": "SFD",
@@ -1016,14 +1008,6 @@
     "fullText": "While you control this battlefield, when you play a spell, if you spent 4 Energy or more, [Predict]. (Look at the top card of your Main Deck. You may recycle it.)"
   },
   {
-    "id": "ven-108",
-    "name": "Forgotten Relic",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "When you play this or at the start of your Beginning Phase, [Burn 1]. When you burn a unit this way, do this: Give a friendly unit +Might equal to the burned card's Might this turn. (To Burn 1, put the top card of your Main Deck into your trash.)",
-    "fullText": "When you play this or at the start of your Beginning Phase, [Burn 1]. When you burn a unit this way, do this: Give a friendly unit +Might equal to the burned card's Might this turn. (To Burn 1, put the top card of your Main Deck into your trash.)"
-  },
-  {
     "id": "unl-45",
     "name": "Forgotten Signpost",
     "set": "UNL",
@@ -1776,14 +1760,6 @@
     "fullText": "When you defend at a battlefield, you may move me there."
   },
   {
-    "id": "ven-6",
-    "name": "Oasis Raider",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "If you control fewer runes than an opponent at the start of your Beginning Phase, give me +2 Might and  this turn. (I can move from battlefield to battlefield.)",
-    "fullText": "If you control fewer runes than an opponent at the start of your Beginning Phase, give me +2 Might and [Ganking] this turn. (I can move from battlefield to battlefield.)"
-  },
-  {
     "id": "ogs-14",
     "name": "Lux, Crownguard",
     "set": "OGS",
@@ -2062,14 +2038,6 @@
     "type": "spell",
     "residualText": "Counter an enemy spell or ability that chooses a friendly unit or gear.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter an enemy spell or ability that chooses a friendly unit or gear."
-  },
-  {
-    "id": "ven-128",
-    "name": "Noxian Emissary",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "[>>] Play two 1 Might Recruit unit tokens to your base. (When I die while Empowered, get the effect.)",
-    "fullText": "[Empower] 1 EnergyOrder Rune (1 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered][>][>>][Deathknell][>] Play two 1 Might Recruit unit tokens to your base. (When I die while Empowered, get the effect.)"
   },
   {
     "id": "ogn-254",
@@ -3278,22 +3246,6 @@
     "type": "champion",
     "residualText": "The third time I move in a turn, you score 1 point.",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nThe third time I move in a turn, you score 1 point."
-  },
-  {
-    "id": "ven-23",
-    "name": "Zed, From the Shadows",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "You may discard 1 as an additional cost to play me.\nWhen you play me, if you paid the additional cost, play a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me  this turn.\")",
-    "fullText": "You may discard 1 as an additional cost to play me.\nWhen you play me, if you paid the additional cost, play a 0 Might Shadow Clone unit token. (It has \"When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.\")"
-  },
-  {
-    "id": "ven-112",
-    "name": "Zed, Without a Sound",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I conquer, play a 0 Might Shadow Clone unit token to your base. (It has \"When I attack, you may banish a unit from your trash. If you do, give me  this turn.\")\n 1 EnergyChaos Rune: Move me and a Shadow Clone you control to each other's locations.",
-    "fullText": "When I conquer, play a 0 Might Shadow Clone unit token to your base. (It has \"When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.\")\n[Action][>] 1 EnergyChaos Rune: Move me and a Shadow Clone you control to each other's locations."
   },
   {
     "id": "ogn-77",

@@ -105,11 +105,12 @@ export function runDraw(game: GameState, player: PlayerId): void {
 export function runTurnStart(game: GameState, player: PlayerId): void {
   game.players[player].turnsTaken += 1;
   game.players[player].friendlyUnitDiedDuringBeginningThisTurn = false;
-  runAwaken(game, player);
-  runBeginning(game, player);
-  runChannel(game, player);
-  runDraw(game, player);
-  game.turnPhase = "main";
+  // Every other "ThisTurn" reset used to run AFTER Beginning/Channel/Draw below, which silently
+  // wiped out anything one of THIS turn's own Beginning-phase hooks granted (e.g. Forsaken
+  // Baccai/Oasis Raider: "at the start of your Beginning Phase, give me +Might this turn") the
+  // instant it was set. Reset first, matching friendlyUnitDiedDuringBeginningThisTurn's existing
+  // placement, so grants made during this turn's own Awaken/Beginning/Channel/Draw survive into
+  // its Main Phase like every other "this turn" effect does.
   game.players[player].playedMainDeckCardThisTurn = false;
   game.players[player].discardedCardThisTurn = false;
   game.players[player].cardsPlayedThisTurn = 0;
@@ -131,6 +132,11 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
       }
     }
   }
+  runAwaken(game, player);
+  runBeginning(game, player);
+  runChannel(game, player);
+  runDraw(game, player);
+  game.turnPhase = "main";
   game.activePlayer = player;
 }
 

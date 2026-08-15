@@ -430,6 +430,11 @@ import { kennenStormOfShuriken } from "./kennen-storm-of-shuriken";
 import { missFortuneCaptain } from "./miss-fortune-captain";
 import { ruthlessStrike } from "./ruthless-strike";
 import { mirrorImage } from "./mirror-image";
+import { oasisRaider } from "./oasis-raider";
+import { zedWithoutASound } from "./zed-without-a-sound";
+import { noxianEmissary } from "./noxian-emissary";
+import { forgottenRelic } from "./forgotten-relic";
+import { ambessaTheWolf } from "./ambessa-the-wolf";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -860,6 +865,11 @@ const handlers: SpecialCaseHandler[] = [
   missFortuneCaptain,
   ruthlessStrike,
   mirrorImage,
+  oasisRaider,
+  zedWithoutASound,
+  noxianEmissary,
+  forgottenRelic,
+  ambessaTheWolf,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
