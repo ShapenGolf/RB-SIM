@@ -30,10 +30,10 @@ type MainFilter = "all" | CardType;
 
 const STEPS = [
   { key: "legend", label: "1. Legend" },
-  { key: "main", label: "2. Main Deck" },
-  { key: "runes", label: "3. Runen" },
-  { key: "battlefields", label: "4. Battlefields" },
-  { key: "champion", label: "5. Champion" },
+  { key: "champion", label: "2. Champion" },
+  { key: "main", label: "3. Main Deck" },
+  { key: "runes", label: "4. Runen" },
+  { key: "battlefields", label: "5. Battlefields" },
   { key: "save", label: "6. Speichern" },
 ] as const;
 type StepKey = (typeof STEPS)[number]["key"];
@@ -120,24 +120,34 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     return counts;
   }, [mainDeck]);
 
-  const championOptions = useMemo(() => {
+  // Every champion that could legally become the Chosen Champion for this Legend — independent
+  // of what's already in the Main Deck, so picking one is possible right after choosing a
+  // Legend (step 2), before building out the rest of the Main Deck (step 3).
+  const championCandidates = useMemo(() => {
     if (!legend) return [];
-    const seen = new Set<string>();
-    const options: Card[] = [];
-    for (const id of mainDeck) {
-      const c = getCard(id);
-      if (c.type === "champion" && matchesLegendTag(c, legendTags) && !seen.has(c.id)) {
-        seen.add(c.id);
-        options.push(c);
-      }
-    }
-    return options;
-  }, [mainDeck, legend, legendTags]);
+    return ALL_CARDS.filter((c) => c.type === "champion" && fitsDomainIdentity(c, legendDomains) && matchesLegendTag(c, legendTags)).sort(
+      (a, b) => a.name.localeCompare(b.name),
+    );
+  }, [legend, legendDomains, legendTags]);
+
+  function pickChampion(id: string) {
+    setChosenChampionId(id);
+    // The Chosen Champion must also physically be in the Main Deck (docs/deck-building-rules.md)
+    // — seed one copy now so step 3 starts from a deck that already satisfies that rule.
+    setMainDeck((prev) => (prev.includes(id) ? prev : [...prev, id]));
+  }
 
   function addMainCopy(card: Card) {
-    const current = mainDeckNameCounts.get(card.name) ?? 0;
-    if (current >= copyLimitFor(card)) return;
-    setMainDeck((prev) => [...prev, card.id]);
+    // Recompute the count from `prev` inside the updater (not from the mainDeckNameCounts
+    // closure) so two rapid clicks queued before a re-render can't both read the same stale
+    // count and both pass the limit check — React applies queued updaters sequentially against
+    // the latest state, so this can't race regardless of click speed.
+    setMainDeck((prev) => {
+      const limit = copyLimitFor(card);
+      const current = prev.filter((id) => getCard(id).name === card.name).length;
+      if (current >= limit) return prev;
+      return [...prev, card.id];
+    });
   }
   function removeMainCopy(cardId: string) {
     setMainDeck((prev) => {
@@ -150,8 +160,8 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     });
   }
   function addRuneCopy(cardId: string) {
-    if (runeDeck.length >= 12) return;
-    setRuneDeck((prev) => [...prev, cardId]);
+    // Same rapid-click race fix as addMainCopy: check the cap against `prev`, not a closed-over value.
+    setRuneDeck((prev) => (prev.length >= 12 ? prev : [...prev, cardId]));
   }
   function removeRuneCopy(cardId: string) {
     setRuneDeck((prev) => {
@@ -299,6 +309,31 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
           </>
         )}
 
+        {step === "champion" && legend && (
+          <>
+            <div className="rb-section-label">
+              Chosen Champion
+              <span className="rb-count">{chosenChampionId ? "gewählt" : "offen"}</span>
+            </div>
+            {championCandidates.length === 0 ? (
+              <p className="rb-db-hint">Für {legend.name} gibt es keinen passenden Champion in der Datenbank.</p>
+            ) : (
+              <div className="rb-db-card-grid">
+                {championCandidates.map((c) => (
+                  <CardFace
+                    key={c.id}
+                    card={c}
+                    size="sm"
+                    selected={c.id === chosenChampionId}
+                    onClick={() => pickChampion(c.id)}
+                    footer={<div className="rb-db-legend-name">{c.name}</div>}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
         {step === "main" && legend && (
           <>
             <div className="rb-section-label">
@@ -350,8 +385,8 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
             />
             {mainFilter === "champion" && (
               <p className="rb-db-hint">
-                ★ = passt als Chosen Champion zu {legend.name} (Tag stimmt überein). Andere Champions kannst du trotzdem ins
-                Main Deck legen, aber nur ein markierter kann dein Chosen Champion werden.
+                ★ = würde als Chosen Champion zu {legend.name} passen (Tag stimmt überein) — dein gewählter Champion aus
+                Schritt 2 ist schon im Deck. Andere Champions kannst du trotzdem als normale Main-Deck-Karten hinzufügen.
               </p>
             )}
             <div className="rb-db-card-grid rb-db-browse-grid">
@@ -426,34 +461,6 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
                 />
               ))}
             </div>
-          </>
-        )}
-
-        {step === "champion" && legend && (
-          <>
-            <div className="rb-section-label">
-              Chosen Champion
-              <span className="rb-count">{chosenChampionId ? "gewählt" : "offen"}</span>
-            </div>
-            {championOptions.length === 0 ? (
-              <p className="rb-db-hint">
-                Noch kein passender Champion im Main Deck. Geh zu Schritt 2 und füge einen Champion hinzu, dessen Tag zu{" "}
-                {legend.name} passt.
-              </p>
-            ) : (
-              <div className="rb-db-card-grid">
-                {championOptions.map((c) => (
-                  <CardFace
-                    key={c.id}
-                    card={c}
-                    size="sm"
-                    selected={c.id === chosenChampionId}
-                    onClick={() => setChosenChampionId(c.id)}
-                    footer={<div className="rb-db-legend-name">{c.name}</div>}
-                  />
-                ))}
-              </div>
-            )}
           </>
         )}
 
