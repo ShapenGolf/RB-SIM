@@ -476,6 +476,9 @@ import { katoTheArm } from "./kato-the-arm";
 import { conscription } from "./conscription";
 import { skywardStrike } from "./skyward-strike";
 import { wildclawShaman } from "./wildclaw-shaman";
+import { dragonsRage } from "./dragons-rage";
+import { decreeOfDiscord } from "./decree-of-discord";
+import { gustMonk } from "./gust-monk";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -952,6 +955,9 @@ const handlers: SpecialCaseHandler[] = [
   conscription,
   skywardStrike,
   wildclawShaman,
+  dragonsRage,
+  decreeOfDiscord,
+  gustMonk,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

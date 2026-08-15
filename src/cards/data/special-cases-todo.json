@@ -608,14 +608,6 @@
     "fullText": "When you conquer or hold, you may discard 1 and exhaust me to play a ready Reflection unit token there. It becomes a copy of another unit there. Give it [Temporary]."
   },
   {
-    "id": "ven-107",
-    "name": "Decree of Discord",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Return any number of enemy Order (Order Rune) units with total Might 5 or less to their owners' hands.",
-    "fullText": "Return any number of enemy Order (Order Rune) units with total Might 5 or less to their owners' hands."
-  },
-  {
     "id": "ven-40",
     "name": "Decree of Focus",
     "set": "VEN",
@@ -710,14 +702,6 @@
     "type": "battlefield",
     "residualText": "Any player may pay RuneRune as an additional cost to play a Dragon. If they do, they play it to this battlefield.",
     "fullText": "Any player may pay RuneRune as an additional cost to play a Dragon. If they do, they play it to this battlefield."
-  },
-  {
-    "id": "ogn-258",
-    "name": "Dragon's Rage",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Move an enemy unit. Then choose another enemy unit at its destination. They deal damage equal to their Mights to each other.",
-    "fullText": "Move an enemy unit. Then choose another enemy unit at its destination. They deal damage equal to their Mights to each other."
   },
   {
     "id": "unl-93",
@@ -1078,14 +1062,6 @@
     "type": "spell",
     "residualText": "Return up to two cards with  from your trash to your hand. You can hide cards ignoring costs this turn.",
     "fullText": "Return up to two cards with [Hidden] from your trash to your hand. You can hide cards ignoring costs this turn."
-  },
-  {
-    "id": "ven-101",
-    "name": "Gust Monk",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, banish a card from any trash to give a unit  this turn. (+2 Might while it's an attacker.)",
-    "fullText": "You may pay 1 Energy as an additional cost to play me.\nWhen you play me, if you paid the additional cost, banish a card from any trash to give a unit [Assault 2] this turn. (+2 Might while it's an attacker.)"
   },
   {
     "id": "sfd-210",
