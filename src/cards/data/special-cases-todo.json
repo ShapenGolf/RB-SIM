@@ -104,22 +104,6 @@
     "fullText": "When you hold here, you may move a unit at a battlefield to its base."
   },
   {
-    "id": "ven-136",
-    "name": "Ambessa, Respected and Feared",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "I have . (+2 Might while I'm an attacker.)\n When I attack, kill an enemy unit here with less Might than me.",
-    "fullText": "[Empower] 1 EnergyOrder RuneOrder Rune (1 EnergyOrder RuneOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Assault 2]. (+2 Might while I'm an attacker.)\n[Empowered][>] When I attack, kill an enemy unit here with less Might than me."
-  },
-  {
-    "id": "ven-187",
-    "name": "Ambessa, Respected and Feared",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "1 EnergyOrder RuneOrder Rune\n I have .\n When I attack, kill an enemy unit here with less Might than me.",
-    "fullText": "[Empower] 1 EnergyOrder RuneOrder Rune\n[Empowered][>] I have [Assault 2].\n[Empowered][>] When I attack, kill an enemy unit here with less Might than me."
-  },
-  {
     "id": "sfd-117",
     "name": "Ancient Henge",
     "set": "SFD",
@@ -222,14 +206,6 @@
     "type": "champion",
     "residualText": "When I attack, you may move any number of your token units to this battlefield.",
     "fullText": "[Accelerate] (You may pay 1 EnergyOrder Rune as an additional cost to have me enter ready.)\nWhen I attack, you may move any number of your token units to this battlefield."
-  },
-  {
-    "id": "ven-1",
-    "name": "Baccai Sandspinner",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "5 Energy. This ability costs 3 Energy less if you control 4 or fewer runes. (Pay the cost: Empower me. Use only if not Empowered.)\n I have  and . (Opponents must pay Rune to choose me with a spell or ability. +2 Might while I'm an attacker.)",
-    "fullText": "[Empower] 5 Energy. This ability costs 3 Energy less if you control 4 or fewer runes. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Assault 2]. (Opponents must pay Rune to choose me with a spell or ability. +2 Might while I'm an attacker.)"
   },
   {
     "id": "unl-42",
@@ -1048,14 +1024,6 @@
     "fullText": "When you draw your second card each turn, give a friendly unit +2 Might this turn."
   },
   {
-    "id": "ven-32",
-    "name": "Frostcoat Mother",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n I have +3 Might.",
-    "fullText": "[Empower] 12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +3 Might."
-  },
-  {
     "id": "ven-86",
     "name": "Gangplank, Naval",
     "set": "VEN",
@@ -1190,14 +1158,6 @@
     "type": "legend",
     "residualText": "When you conquer or hold, you may exhaust me to replace that battlefield with a Brush battlefield token.",
     "fullText": "When you conquer or hold, you may exhaust me to replace that battlefield with a Brush battlefield token."
-  },
-  {
-    "id": "ven-50",
-    "name": "Grumpy Rockbear",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n I have  and . (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)",
-    "fullText": "[Empower] 12 Energy. This ability costs 1 Energy less for each rune you control. (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Deflect] and [Shield 3]. (Opponents must pay Rune to choose me with a spell or ability.+3 Might while I'm a defender.)"
   },
   {
     "id": "sfd-154",

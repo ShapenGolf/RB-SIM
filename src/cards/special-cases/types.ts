@@ -7,6 +7,15 @@ export interface SpecialCaseContext {
   instance: CardInstance;
 }
 
+/** Shape shared by `empowerCost`; see its doc comment on `SpecialCaseHandler` below. */
+export interface EmpowerCost {
+  energy: number;
+  runeDomain?: Domain;
+  exhaustSelf?: boolean;
+  /** "Discard N" as part of this cost (e.g. Punching Poro: "Discard 1"). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand. */
+  discardCount?: number;
+}
+
 /**
  * Card-specific behavior for cards whose text isn't fully covered by the
  * generic keyword engine. Each hook is optional; only implement what the
@@ -222,15 +231,11 @@ export interface SpecialCaseHandler {
    * cost, then sets `statuses.empowered`/`everEmpowered`. The generic `empowered` keyword handler
    * only tracks the resulting status flags and the once-per-game constraint (see
    * keywords/handlers/empowered.ts `canBecomeEmpowered`) — this is what actually lets a player
-   * trigger it, since the granted effect and the cost are both unique per card.
+   * trigger it, since the granted effect and the cost are both unique per card. May be a plain
+   * cost or a function of the live game state, for cards like Frostcoat Mother ("12 Energy. This
+   * ability costs 1 Energy less for each rune you control.").
    */
-  readonly empowerCost?: {
-    energy: number;
-    runeDomain?: Domain;
-    exhaustSelf?: boolean;
-    /** "Discard N" as part of this cost (e.g. Punching Poro: "Discard 1"). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand. */
-    discardCount?: number;
-  };
+  readonly empowerCost?: EmpowerCost | ((ctx: SpecialCaseContext) => EmpowerCost);
 
   /** Set when the bespoke activated ability needs a player-chosen target. */
   readonly activateNeedsTarget?: boolean;

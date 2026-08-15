@@ -435,6 +435,10 @@ import { zedWithoutASound } from "./zed-without-a-sound";
 import { noxianEmissary } from "./noxian-emissary";
 import { forgottenRelic } from "./forgotten-relic";
 import { ambessaTheWolf } from "./ambessa-the-wolf";
+import { ambessaRespectedAndFeared } from "./ambessa-respected-and-feared";
+import { baccaiSandspinner } from "./baccai-sandspinner";
+import { frostcoatMother } from "./frostcoat-mother";
+import { grumpyRockbear } from "./grumpy-rockbear";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -870,6 +874,10 @@ const handlers: SpecialCaseHandler[] = [
   noxianEmissary,
   forgottenRelic,
   ambessaTheWolf,
+  ambessaRespectedAndFeared,
+  baccaiSandspinner,
+  frostcoatMother,
+  grumpyRockbear,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -931,7 +939,11 @@ export const SpecialCaseEngine = {
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,
 
-  empowerCost: (card: Card) => getSpecialCaseHandler(card)?.empowerCost,
+  empowerCost: (game: GameState, card: Card, instance: CardInstance) => {
+    const cost = getSpecialCaseHandler(card)?.empowerCost;
+    if (!cost) return undefined;
+    return typeof cost === "function" ? cost(ctxFor(game, card, instance)) : cost;
+  },
 
   additionalCostDiscardForReduction: (card: Card) =>
     getSpecialCaseHandler(card)?.additionalCostDiscardForReduction,

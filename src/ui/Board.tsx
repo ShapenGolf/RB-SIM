@@ -217,7 +217,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   function empowerAuto(instanceId: string) {
     const instance = G.instances[instanceId];
     const card = getCard(instance.cardId);
-    const cost = SpecialCaseEngine.empowerCost(card);
+    const cost = SpecialCaseEngine.empowerCost(G, card, instance);
     if (!cost) return;
     const payment = computeAbilityPayment(cost);
     if (!payment) {
@@ -515,7 +515,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const isUnit = card.type === "unit" || card.type === "champion";
           const ability = abilityCostFor(card);
           const canActivate = ability && (!ability.exhaustSelf || !instance.exhausted);
-          const empowerCost = SpecialCaseEngine.empowerCost(card);
+          const empowerCost = SpecialCaseEngine.empowerCost(G, card, instance);
           const canEmpower = empowerCost && !instance.statuses.everEmpowered && (!empowerCost.exhaustSelf || !instance.exhausted);
           return (
             <CardFace

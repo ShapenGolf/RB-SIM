@@ -366,7 +366,7 @@ export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: Empowe
   if (instance.statuses.everEmpowered) return INVALID_MOVE;
 
   const card = getCard(instance.cardId);
-  const cost = SpecialCaseEngine.empowerCost(card);
+  const cost = SpecialCaseEngine.empowerCost(G, card, instance);
   if (!cost) return INVALID_MOVE;
   if (cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
