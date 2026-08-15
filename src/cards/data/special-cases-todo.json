@@ -16,14 +16,6 @@
     "fullText": "When a player plays a spell, they may give a unit they control here +1 Might this turn."
   },
   {
-    "id": "sfd-1",
-    "name": "Against the Odds",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Give a friendly unit at a battlefield +2 Might this turn for each enemy unit there.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a friendly unit at a battlefield +2 Might this turn for each enemy unit there."
-  },
-  {
     "id": "ogn-230",
     "name": "Albus Ferros",
     "set": "OGN",
@@ -80,14 +72,6 @@
     "fullText": "Calm Rune: [Action] — Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn."
   },
   {
-    "id": "unl-42",
-    "name": "Back Off",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "a unit. (It doesn't deal combat damage this turn.)\nIf you played this from your hand, draw 1.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\n[Stun] a unit. (It doesn't deal combat damage this turn.)\nIf you played this from your hand, draw 1."
-  },
-  {
     "id": "ogn-277",
     "name": "Back-Alley Bar",
     "set": "OGN",
@@ -110,22 +94,6 @@
     "type": "battlefield",
     "residualText": "You may hide an additional card here.",
     "fullText": "You may hide an additional card here."
-  },
-  {
-    "id": "sfd-228",
-    "name": "Bard, Mercurial",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "You may exhaust your legend as an additional cost to play me.\nWhen you play me, if you paid the additional cost, move any number of your units to an open battlefield.",
-    "fullText": "You may exhaust your legend as an additional cost to play me.\nWhen you play me, if you paid the additional cost, move any number of your units to an open battlefield."
-  },
-  {
-    "id": "sfd-79",
-    "name": "Bard, Mercurial",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "You may exhaust your legend as an additional cost to play me.\nWhen you play me, if you paid the additional cost, move any number of your units to an open battlefield.",
-    "fullText": "You may exhaust your legend as an additional cost to play me.\nWhen you play me, if you paid the additional cost, move any number of your units to an open battlefield."
   },
   {
     "id": "sfd-203",
@@ -152,36 +120,12 @@
     "fullText": "When you play a card from face down, play a Gold gear token exhausted."
   },
   {
-    "id": "unl-109",
-    "name": "Blood Rose",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "When you play a unit, you may pay 1 Energy to gain 1 XP.\nSpend 3 XP, Exhaust: Ready a unit.",
-    "fullText": "When you play a unit, you may pay 1 Energy to gain 1 XP.\nSpend 3 XP, Exhaust: Ready a unit."
-  },
-  {
-    "id": "unl-87",
-    "name": "Blue Sentinel",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Your hold effects for holding here trigger an additional time.\nWhen I hold,  Rune at the start of your next Main Phase. (Abilities that add resources can't be reacted to.)",
-    "fullText": "[Shield 2] (+2 Might while I'm a defender.)\nYour hold effects for holding here trigger an additional time.\nWhen I hold, [Add] Rune at the start of your next Main Phase. (Abilities that add resources can't be reacted to.)"
-  },
-  {
     "id": "ven-4",
     "name": "Dune Surfer",
     "set": "VEN",
     "type": "unit",
     "residualText": "You ignore  while assigning combat damage here.",
     "fullText": "You ignore [Tank] while assigning combat damage here."
-  },
-  {
-    "id": "sfd-151",
-    "name": "Bonds of Strength",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Give two friendly units each +1 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nGive two friendly units each +1 Might this turn."
   },
   {
     "id": "unl-139",
@@ -208,14 +152,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nPay any amount of Rune to deal that much damage to all enemy units at a battlefield."
   },
   {
-    "id": "sfd-4",
-    "name": "Bushwhack",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Friendly units enter ready this turn. Play a Gold gear token exhausted.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nFriendly units enter ready this turn. Play a Gold gear token exhausted."
-  },
-  {
     "id": "ven-141",
     "name": "Butcher of the Sands",
     "set": "VEN",
@@ -230,14 +166,6 @@
     "type": "legend",
     "residualText": "RuneRune, Exhaust:  2 Energy. Spend this Energy only to play units or activated abilities of units.",
     "fullText": "[Reaction][>] RuneRune, Exhaust: [Add] 2 Energy. Spend this Energy only to play units or activated abilities of units."
-  },
-  {
-    "id": "unl-101",
-    "name": "Call to Battle",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Move a unit you control to a battlefield you control. Then, choose an opponent. They move a unit they control to the same battlefield.",
-    "fullText": "Move a unit you control to a battlefield you control. Then, choose an opponent. They move a unit they control to the same battlefield."
   },
   {
     "id": "ogn-207",

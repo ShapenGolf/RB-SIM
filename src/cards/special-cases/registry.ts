@@ -543,6 +543,14 @@ import { block } from "./block";
 import { bellowsBreath } from "./bellows-breath";
 import { avaAchiever } from "./ava-achiever";
 import { baronNashor } from "./baron-nashor";
+import { againstTheOdds } from "./against-the-odds";
+import { backOff } from "./back-off";
+import { bondsOfStrength } from "./bonds-of-strength";
+import { bloodRose } from "./blood-rose";
+import { bushwhack } from "./bushwhack";
+import { callToBattle } from "./call-to-battle";
+import { blueSentinel } from "./blue-sentinel";
+import { bardMercurial } from "./bard-mercurial";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1086,6 +1094,14 @@ const handlers: SpecialCaseHandler[] = [
   bellowsBreath,
   avaAchiever,
   baronNashor,
+  againstTheOdds,
+  backOff,
+  bondsOfStrength,
+  bloodRose,
+  bushwhack,
+  callToBattle,
+  blueSentinel,
+  bardMercurial,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
