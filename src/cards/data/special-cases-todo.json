@@ -992,52 +992,12 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it."
   },
   {
-    "id": "sfd-29",
-    "name": "Rek'Sai, Breacher",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "Friendly units played from anywhere other than a player's hand have .",
-    "fullText": "[Accelerate] (You may pay 1 EnergyFury Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nFriendly units played from anywhere other than a player's hand have [Accelerate]."
-  },
-  {
-    "id": "sfd-170",
-    "name": "Rek'Sai, Swarm Queen",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I attack, you may reveal the top 2 cards of your Main Deck. You may play one. Then recycle the rest. If the played card is a unit, you may play it here.",
-    "fullText": "When I attack, you may reveal the top 2 cards of your Main Deck. You may play one. Then recycle the rest. If the played card is a unit, you may play it here."
-  },
-  {
-    "id": "sfd-184",
-    "name": "Relentless Pursuit",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Move a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\"",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nMove a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\""
-  },
-  {
-    "id": "sfd-25",
-    "name": "Rengar, Pouncing",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "I can be played to a battlefield you're attacking.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve, including to a battlefield you control.)\n[Assault 2] (+2 Might while I'm an attacker.)\nI can be played to a battlefield you're attacking."
-  },
-  {
     "id": "unl-106",
     "name": "Repulse",
     "set": "UNL",
     "type": "spell",
     "residualText": "Choose a friendly unit at a battlefield. Counter an enemy spell or ability that chooses it and no other friendly unit.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit at a battlefield. Counter an enemy spell or ability that chooses it and no other friendly unit."
-  },
-  {
-    "id": "ven-34",
-    "name": "Resonating Strike",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose a battlefield you control and a unit you control at a different location. Move that unit to that battlefield and give it +2 Might this turn.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play on your turn or in showdowns.)\nChoose a battlefield you control and a unit you control at a different location. Move that unit to that battlefield and give it +2 Might this turn."
   },
   {
     "id": "sfd-206",
@@ -1078,22 +1038,6 @@
     "type": "legend",
     "residualText": "Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm , ready it.",
     "fullText": "[Empower] 3 EnergyRune (3 EnergyRune: Empower this. Use only if not Empowered.)\n[Action][>] Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it."
-  },
-  {
-    "id": "sfd-105",
-    "name": "Ruin Runner",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "I can't be chosen by enemy spells and abilities.",
-    "fullText": "I can't be chosen by enemy spells and abilities."
-  },
-  {
-    "id": "unl-173",
-    "name": "Sacrifice",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "As an additional cost to play this, kill a friendly  unit. (A unit is Mighty while it has 5+ Might.)\nDraw 2 and channel 1 rune exhausted.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nAs an additional cost to play this, kill a friendly [Mighty] unit. (A unit is Mighty while it has 5+ Might.)\nDraw 2 and channel 1 rune exhausted."
   },
   {
     "id": "ven-35",

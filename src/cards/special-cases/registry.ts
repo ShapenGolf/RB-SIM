@@ -604,6 +604,13 @@ import { noxianGuillotine } from "./noxian-guillotine";
 import { overzealousFan } from "./overzealous-fan";
 import { pykeDocksideButcher } from "./pyke-dockside-butcher";
 import { questionableTome } from "./questionable-tome";
+import { reksaiSwarmQueen } from "./reksai-swarm-queen";
+import { relentlessPursuit } from "./relentless-pursuit";
+import { resonatingStrike } from "./resonating-strike";
+import { sacrifice } from "./sacrifice";
+import { reksaiBreacher } from "./reksai-breacher";
+import { ruinRunner } from "./ruin-runner";
+import { rengarPouncing } from "./rengar-pouncing";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1208,6 +1215,13 @@ const handlers: SpecialCaseHandler[] = [
   overzealousFan,
   pykeDocksideButcher,
   questionableTome,
+  reksaiSwarmQueen,
+  relentlessPursuit,
+  resonatingStrike,
+  sacrifice,
+  reksaiBreacher,
+  ruinRunner,
+  rengarPouncing,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
