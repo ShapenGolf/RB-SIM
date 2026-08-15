@@ -623,6 +623,14 @@ import { starCrossed } from "./star-crossed";
 import { spiderling } from "./spiderling";
 import { smokeAndMirrors } from "./smoke-and-mirrors";
 import { standUnited } from "./stand-united";
+import { suddenStorm } from "./sudden-storm";
+import { switcheroo } from "./switcheroo";
+import { temporalBreach } from "./temporal-breach";
+import { temptation } from "./temptation";
+import { thwonk } from "./thwonk";
+import { tideturner } from "./tideturner";
+import { tornadoWarrior } from "./tornado-warrior";
+import { temporalPortal } from "./temporal-portal";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1246,6 +1254,14 @@ const handlers: SpecialCaseHandler[] = [
   spiderling,
   smokeAndMirrors,
   standUnited,
+  suddenStorm,
+  switcheroo,
+  temporalBreach,
+  temptation,
+  thwonk,
+  tideturner,
+  tornadoWarrior,
+  temporalPortal,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
