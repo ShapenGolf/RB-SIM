@@ -600,6 +600,10 @@ import { meditation } from "./meditation";
 import { mesmerize } from "./mesmerize";
 import { khaZixEvolvingHunter } from "./kha-zix-evolving-hunter";
 import { namiHeadstrong } from "./nami-headstrong";
+import { noxianGuillotine } from "./noxian-guillotine";
+import { overzealousFan } from "./overzealous-fan";
+import { pykeDocksideButcher } from "./pyke-dockside-butcher";
+import { questionableTome } from "./questionable-tome";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1200,6 +1204,10 @@ const handlers: SpecialCaseHandler[] = [
   mesmerize,
   khaZixEvolvingHunter,
   namiHeadstrong,
+  noxianGuillotine,
+  overzealousFan,
+  pykeDocksideButcher,
+  questionableTome,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
