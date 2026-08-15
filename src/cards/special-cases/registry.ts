@@ -505,6 +505,9 @@ import { piltoverEnforcer } from "./piltover-enforcer";
 import { purifier } from "./purifier";
 import { relentlessStorm } from "./relentless-storm";
 import { unforgiven } from "./unforgiven";
+import { bashfulBloom } from "./bashful-bloom";
+import { emperorOfTheSands } from "./emperor-of-the-sands";
+import { nineTailedFox } from "./nine-tailed-fox";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1010,6 +1013,9 @@ const handlers: SpecialCaseHandler[] = [
   purifier,
   relentlessStorm,
   unforgiven,
+  bashfulBloom,
+  emperorOfTheSands,
+  nineTailedFox,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1073,7 +1079,11 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onMoveFromBattlefield?.(ctxFor(game, card, instance));
   },
 
-  activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,
+  activatedAbilityCost: (game: GameState, card: Card, instance: CardInstance) => {
+    const cost = getSpecialCaseHandler(card)?.activatedAbilityCost;
+    if (!cost) return undefined;
+    return typeof cost === "function" ? cost(ctxFor(game, card, instance)) : cost;
+  },
 
   empowerCost: (game: GameState, card: Card, instance: CardInstance) => {
     const cost = getSpecialCaseHandler(card)?.empowerCost;
@@ -1751,6 +1761,31 @@ export const SpecialCaseEngine = {
       const handler = getSpecialCaseHandler(legendCard);
       if (handler?.onWinCombat) {
         handler.onWinCombat(ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, winner, legend.exhausted)));
+      }
+    }
+  },
+
+  /** Broadcasts an attack on `defendingController`'s Battlefield to every board instance and the Legend they control. See game/moves.ts attackBattlefield. */
+  onEnemyAttackHere: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    defendingController: PlayerId,
+    attackingInstance: CardInstance,
+  ): void => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== defendingController) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onEnemyAttackHere?.(ctxFor(game, card, instance), attackingInstance);
+    }
+    const legend = game.players[defendingController].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const handler = getSpecialCaseHandler(legendCard);
+      if (handler?.onEnemyAttackHere) {
+        handler.onEnemyAttackHere(
+          ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, defendingController, legend.exhausted)),
+          attackingInstance,
+        );
       }
     }
   },

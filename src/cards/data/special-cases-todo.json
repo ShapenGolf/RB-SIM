@@ -248,22 +248,6 @@
     "fullText": "As you play me, add the Baron Pit battlefield token to the board if it's not there already. If you do, I enter there.\nI can't be chosen by enemy spells and abilities.\nOther friendly units have +2 Might."
   },
   {
-    "id": "unl-230",
-    "name": "Bashful Bloom",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "4 Energy, Exhaust: Play a ready 3 Might Sprite unit token with . This ability costs 1 Energy less for each friendly unit with .",
-    "fullText": "4 Energy, Exhaust: Play a ready 3 Might Sprite unit token with [Temporary]. This ability costs 1 Energy less for each friendly unit with [Temporary]."
-  },
-  {
-    "id": "unl-189",
-    "name": "Bashful Bloom",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "4 Energy, Exhaust: Play a ready 3 Might Sprite unit token with . This ability costs 1 Energy less for each friendly unit with .",
-    "fullText": "4 Energy, Exhaust: Play a ready 3 Might Sprite unit token with [Temporary]. This ability costs 1 Energy less for each friendly unit with [Temporary]."
-  },
-  {
     "id": "sfd-203",
     "name": "Battle Mistress",
     "set": "SFD",
@@ -710,22 +694,6 @@
     "type": "unit",
     "residualText": "When you play a card from , give me +2 Might this turn.",
     "fullText": "When you play a card from [Hidden], give me +2 Might this turn."
-  },
-  {
-    "id": "sfd-197",
-    "name": "Emperor of the Sands",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Your Sand Soldiers have .\n1 Energy, Exhaust: Play a 2 Might Sand Soldier unit token to your base. Use only if you've played an Equipment this turn.",
-    "fullText": "Your Sand Soldiers have [Weaponmaster].\n1 Energy, Exhaust: Play a 2 Might Sand Soldier unit token to your base. Use only if you've played an Equipment this turn."
-  },
-  {
-    "id": "sfd-247",
-    "name": "Emperor of the Sands",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Sand Soldiers you play have . (When they're played, you may  one of your Equipment to them for Rune less.)\n1 Energy, Exhaust: Play a 2 Might Sand Soldier unit token to your base. Use only if you've played an Equipment this turn.",
-    "fullText": "Sand Soldiers you play have [Weaponmaster]. (When they're played, you may [Equip] one of your Equipment to them for Rune less.)\n1 Energy, Exhaust: Play a 2 Might Sand Soldier unit token to your base. Use only if you've played an Equipment this turn."
   },
   {
     "id": "sfd-43",
@@ -1630,22 +1598,6 @@
     "type": "unit",
     "residualText": "I cost 2 EnergyCalm Rune less for each point you scored from holding this turn.",
     "fullText": "[Shield 5] (+5 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nI cost 2 EnergyCalm Rune less for each point you scored from holding this turn."
-  },
-  {
-    "id": "ogn-303",
-    "name": "Nine-Tailed Fox",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When an enemy unit attacks a battlefield you control, give it -1 Might this turn, to a minimum of 1 Might.",
-    "fullText": "When an enemy unit attacks a battlefield you control, give it -1 Might this turn, to a minimum of 1 Might."
-  },
-  {
-    "id": "ogn-255",
-    "name": "Nine-Tailed Fox",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When an enemy unit attacks a battlefield you control, give it -1 Might this turn, to a minimum of 1 Might.",
-    "fullText": "When an enemy unit attacks a battlefield you control, give it -1 Might this turn, to a minimum of 1 Might."
   },
   {
     "id": "ogn-194",

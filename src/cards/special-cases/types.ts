@@ -18,6 +18,23 @@ export interface EmpowerCost {
   killFriendlyUnit?: boolean;
 }
 
+/** Shape shared by `activatedAbilityCost`; see its doc comment on `SpecialCaseHandler` below. */
+export interface ActivatedAbilityCost {
+  energy: number;
+  runeDomain?: Domain;
+  exhaustSelf: boolean;
+  /** Recycle N cards from the front of your trash (no choice of which — see docs/data-sourcing.md discard-choice simplification) as part of this ability's cost. */
+  recycleFromTrash?: number;
+  /** "Spend my buff" as part of this ability's cost — requires the instance to already be buffed, consumed by clearing statuses.buffed. */
+  spendBuff?: boolean;
+  /** "Kill this:" as the cost itself (vs. Treasure Trove-style "...Exhaust: Kill this", where killing is the EFFECT). The instance is destroyed before onActivate runs. */
+  killSelf?: boolean;
+  /** "Discard N" as part of this ability's cost (e.g. Gutter Palace: "Discard 1, Exhaust: ..."). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand via discardCardToTrash. */
+  discardCount?: number;
+  /** "Spend N XP" as part of this ability's cost (e.g. Crowd Favorite: "Spend 2 XP: [Buff] me."), paid from this instance's own CardInstance.xp counter (Hunt/Level pool), not the controller's player-level XP. */
+  spendXP?: number;
+}
+
 /**
  * Card-specific behavior for cards whose text isn't fully covered by the
  * generic keyword engine. Each hook is optional; only implement what the
@@ -228,23 +245,12 @@ export interface SpecialCaseHandler {
    * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be
    * expressed as fixed-amount TemplatedActions (e.g. "deal damage equal to my Might") — the
    * data-driven `Card.activatedAbility` (see cards/templatedEffects.ts) covers the fixed-amount
-   * case; this covers the rest. `activateAbility` in moves.ts checks both.
+   * case; this covers the rest. `activateAbility` in moves.ts checks both. May be a plain cost
+   * or a function of the live game state, for cards like Bashful Bloom ("4 Energy... This
+   * ability costs 1 Energy less for each friendly unit with Temporary.") — same spirit as
+   * `empowerCost` below.
    */
-  readonly activatedAbilityCost?: {
-    energy: number;
-    runeDomain?: Domain;
-    exhaustSelf: boolean;
-    /** Recycle N cards from the front of your trash (no choice of which — see docs/data-sourcing.md discard-choice simplification) as part of this ability's cost. */
-    recycleFromTrash?: number;
-    /** "Spend my buff" as part of this ability's cost — requires the instance to already be buffed, consumed by clearing statuses.buffed. */
-    spendBuff?: boolean;
-    /** "Kill this:" as the cost itself (vs. Treasure Trove-style "...Exhaust: Kill this", where killing is the EFFECT). The instance is destroyed before onActivate runs. */
-    killSelf?: boolean;
-    /** "Discard N" as part of this ability's cost (e.g. Gutter Palace: "Discard 1, Exhaust: ..."). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand via discardCardToTrash. */
-    discardCount?: number;
-    /** "Spend N XP" as part of this ability's cost (e.g. Crowd Favorite: "Spend 2 XP: [Buff] me."), paid from this instance's own CardInstance.xp counter (Hunt/Level pool), not the controller's player-level XP. */
-    spendXP?: number;
-  };
+  readonly activatedAbilityCost?: ActivatedAbilityCost | ((ctx: SpecialCaseContext) => ActivatedAbilityCost);
 
   /**
    * Cost for this card's own "[Empower] [Cost]: Empower me/this. Use only if not Empowered."
@@ -474,6 +480,14 @@ export interface SpecialCaseHandler {
    * neither side has survivors.
    */
   onWinCombat?(ctx: SpecialCaseContext): void;
+
+  /**
+   * Called on every board instance (and the Legend, via its pseudo-instance) of the player who
+   * CONTROLS a Battlefield, once for each enemy unit that attacks it, before combat resolves
+   * (e.g. Nine-Tailed Fox: "When an enemy unit attacks a battlefield you control, give it -1
+   * Might this turn, to a minimum of 1 Might."). `attackingInstance` is the attacker.
+   */
+  onEnemyAttackHere?(ctx: SpecialCaseContext, attackingInstance: CardInstance): void;
 
   /**
    * Caps how many runes ANY player channels at the start of their Channel Phase, if lower than

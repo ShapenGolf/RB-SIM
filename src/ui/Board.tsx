@@ -176,8 +176,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setPendingTarget(null);
   }
 
-  function abilityCostFor(card: ReturnType<typeof getCard>) {
-    return card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(card);
+  function abilityCostFor(card: ReturnType<typeof getCard>, instance: CardInstance) {
+    return card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(G, card, instance);
   }
 
   function abilityNeedsTargetFor(card: ReturnType<typeof getCard>) {
@@ -200,7 +200,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   function activateAbilityAuto(instanceId: string) {
     const instance = G.instances[instanceId];
     const card = getCard(instance.cardId);
-    const cost = abilityCostFor(card);
+    const cost = abilityCostFor(card, instance);
     if (!cost) return;
     const payment = computeAbilityPayment(cost);
     if (!payment) {
@@ -231,7 +231,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     if (!pendingAbility) return;
     const instance = G.instances[pendingAbility.instanceId];
     const card = getCard(instance.cardId);
-    const cost = abilityCostFor(card);
+    const cost = abilityCostFor(card, instance);
     if (!cost) return;
     const payment = computeAbilityPayment(cost);
     if (!payment) return;
@@ -513,7 +513,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const instance = G.instances[id];
           const card = getCard(instance.cardId);
           const isUnit = card.type === "unit" || card.type === "champion";
-          const ability = abilityCostFor(card);
+          const ability = abilityCostFor(card, instance);
           const canActivate = ability && (!ability.exhaustSelf || !instance.exhausted);
           const empowerCost = SpecialCaseEngine.empowerCost(G, card, instance);
           const canEmpower = empowerCost && !instance.statuses.everEmpowered && (!empowerCost.exhaustSelf || !instance.exhausted);

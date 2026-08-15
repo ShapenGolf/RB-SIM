@@ -231,6 +231,7 @@ export const attackBattlefield: MoveFn<GameState> = (
   const player = G.players[playerID as "0" | "1"];
   const slot = G.battlefields[args.battlefieldIndex];
   if (!slot || args.unitInstanceIds.length === 0) return INVALID_MOVE;
+  const defendingController = slot.controller;
 
   for (const instanceId of args.unitInstanceIds) {
     const instance = G.instances[instanceId];
@@ -273,6 +274,9 @@ export const attackBattlefield: MoveFn<GameState> = (
     SpecialCaseEngine.onAttack(G, card, instance);
     fireTemplatedEffect(G, getCard, card, instance, "onMove");
     SpecialCaseEngine.onMove(G, card, instance);
+    if (defendingController && defendingController !== player.id) {
+      SpecialCaseEngine.onEnemyAttackHere(G, getCard, defendingController, instance);
+    }
   }
 
   resolveCombat(G, getCard, args.battlefieldIndex, player.id);
@@ -309,7 +313,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   const card = getCard(instance.cardId);
   // Data-driven (fixed-amount TemplatedActions) or bespoke (dynamic effect, e.g. "equal to my
   // Might") activated ability — see SpecialCaseHandler.activatedAbilityCost for the latter.
-  const cost = card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(card);
+  const cost = card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(G, card, instance);
   if (!cost) return INVALID_MOVE;
   if (cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
@@ -450,7 +454,7 @@ export const activateLegendAbility: MoveFn<GameState> = ({ G, playerID }, args: 
 
   const card = getCard(legend.cardId);
   const instance = legendPseudoInstance(legend.cardId, player.id, legend.exhausted);
-  const cost = card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(card);
+  const cost = card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(G, card, instance);
   if (!cost) return INVALID_MOVE;
   // A Legend has no persistent xp/buffed/instance to spend or kill — these cost components don't
   // apply here (no current Legend special case uses them; guarded rather than silently ignored).
