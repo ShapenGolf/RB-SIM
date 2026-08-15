@@ -489,6 +489,10 @@ import { skyCruiser } from "./sky-cruiser";
 import { endlessRiches } from "./endless-riches";
 import { darkChildStarter } from "./dark-child-starter";
 import { gloriousExecutioner } from "./glorious-executioner";
+import { ladyOfLuminosityStarter } from "./lady-of-luminosity-starter";
+import { mightOfDemaciaStarter } from "./might-of-demacia-starter";
+import { theBoss } from "./the-boss";
+import { voidreaver } from "./voidreaver";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -978,6 +982,10 @@ const handlers: SpecialCaseHandler[] = [
   endlessRiches,
   darkChildStarter,
   gloriousExecutioner,
+  ladyOfLuminosityStarter,
+  mightOfDemaciaStarter,
+  theBoss,
+  voidreaver,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1141,6 +1149,18 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onAllyCardPlayed?.(ctxFor(game, card, instance), playedCard, playCountThisTurn);
+    }
+    const legend = game.players[player].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const handler = getSpecialCaseHandler(legendCard);
+      if (handler?.onAllyCardPlayed) {
+        handler.onAllyCardPlayed(
+          ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, player, legend.exhausted)),
+          playedCard,
+          playCountThisTurn,
+        );
+      }
     }
   },
 

@@ -3,7 +3,7 @@ import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { computeMight } from "./might";
 import { fireTemplatedEffect } from "./templatedEffectEngine";
-import { battlefieldPseudoInstance } from "./pseudoInstance";
+import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
 import type { CardInstance, GameState, PlayerId } from "./state";
 
 /**
@@ -180,6 +180,19 @@ function conquerBattlefield(
     if (xp > 0) game.players[newController].xp += xp;
     fireTemplatedEffect(game, getCard, card, instance, "onConquer");
     SpecialCaseEngine.onConquer(game, card, instance, excessDamage);
+  }
+
+  const conqueringLegend = game.players[newController].legend;
+  if (conqueringLegend) {
+    const legendCard = getCard(conqueringLegend.cardId);
+    if (legendCard.specialCaseId) {
+      // Abuses the pseudo-instance's battlefieldIndex field (normally battlefield-only) to let
+      // Legend onConquer handlers see which Battlefield was just conquered (e.g. Might of
+      // Demacia: "if you have 4+ units at that battlefield"), since the Legend has no real zone.
+      const pseudo = legendPseudoInstance(conqueringLegend.cardId, newController, conqueringLegend.exhausted);
+      pseudo.battlefieldIndex = battlefieldIndex;
+      SpecialCaseEngine.onConquer(game, legendCard, pseudo, excessDamage);
+    }
   }
 
   const battlefieldCard = getCard(slot.cardId);

@@ -1448,14 +1448,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
   },
   {
-    "id": "ogs-21",
-    "name": "Lady of Luminosity - Starter",
-    "set": "OGS",
-    "type": "legend",
-    "residualText": "When you play a spell that costs 5 Energy or more, draw 1.",
-    "fullText": "When you play a spell that costs 5 Energy or more, draw 1."
-  },
-  {
     "id": "ven-156",
     "name": "Lightning Rush",
     "set": "VEN",
@@ -1654,14 +1646,6 @@
     "type": "spell",
     "residualText": "Choose one \u2014Return a friendly unit to its owner's hand.Give an enemy unit -2 Might this turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one \u2014Return a friendly unit to its owner's hand.Give an enemy unit -2 Might this turn."
-  },
-  {
-    "id": "ogs-23",
-    "name": "Might of Demacia - Starter",
-    "set": "OGS",
-    "type": "legend",
-    "residualText": "When you conquer, if you have 4+ units at that battlefield, draw 2.",
-    "fullText": "When you conquer, if you have 4+ units at that battlefield, draw 2."
   },
   {
     "id": "ogn-152",
@@ -2464,22 +2448,6 @@
     "fullText": "When you hold here, give your next spell this turn [Repeat] equal to its base cost. (You may pay the additional cost to repeat the spell's effect.)"
   },
   {
-    "id": "ogn-269",
-    "name": "The Boss",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When a buffed unit you control would die, you may pay Rune and exhaust me to spend its buff and recall it exhausted instead. (Send it to base. This isn't a move.)\nWhen you conquer, ready me.",
-    "fullText": "When a buffed unit you control would die, you may pay Rune and exhaust me to spend its buff and recall it exhausted instead. (Send it to base. This isn't a move.)\nWhen you conquer, ready me."
-  },
-  {
-    "id": "ogn-310",
-    "name": "The Boss",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When a buffed unit you control would die, you may pay Rune and exhaust me to spend its buff and recall it exhausted instead. (Send it to base. This isn't a move.)\nWhen you conquer, ready me.",
-    "fullText": "When a buffed unit you control would die, you may pay Rune and exhaust me to spend its buff and recall it exhausted instead. (Send it to base. This isn't a move.)\nWhen you conquer, ready me."
-  },
-  {
     "id": "ogn-291",
     "name": "The Candlelit Sanctum",
     "set": "OGN",
@@ -2694,22 +2662,6 @@
     "type": "unit",
     "residualText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards.",
     "fullText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards."
-  },
-  {
-    "id": "unl-201",
-    "name": "Voidreaver",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you win a combat, gain 1 XP.\nSpend 1 XP, Exhaust:  a unit.\nSpend 2 XP, Exhaust: Move an exhausted friendly unit from a battlefield to its base.",
-    "fullText": "When you win a combat, gain 1 XP.\nSpend 1 XP, Exhaust: [Buff] a unit.\nSpend 2 XP, Exhaust: Move an exhausted friendly unit from a battlefield to its base."
-  },
-  {
-    "id": "unl-236",
-    "name": "Voidreaver",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you win a combat, gain 1 XP.\nSpend 1 XP, Exhaust:  a unit.\nSpend 2 XP, Exhaust: Move an exhausted friendly unit from a battlefield to its base.",
-    "fullText": "When you win a combat, gain 1 XP.\nSpend 1 XP, Exhaust: [Buff] a unit.\nSpend 2 XP, Exhaust: Move an exhausted friendly unit from a battlefield to its base."
   },
   {
     "id": "ogn-158",
