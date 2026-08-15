@@ -1136,14 +1136,6 @@
     "fullText": "When you choose me with a spell, draw 1."
   },
   {
-    "id": "sfd-53",
-    "name": "Janna, Savior",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When you play me, heal your units here, then move an enemy unit from here to its base.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve, including to a battlefield you control.)\nWhen you play me, heal your units here, then move an enemy unit from here to its base."
-  },
-  {
     "id": "sfd-54",
     "name": "Jax, Unmatched",
     "set": "SFD",
@@ -1734,14 +1726,6 @@
     "type": "spell",
     "residualText": "Move a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\"",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nMove a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\""
-  },
-  {
-    "id": "sfd-88",
-    "name": "Renata Glasc, Mastermind",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "1 EnergyMind Rune: Draw 1.\n4 EnergyMind RuneMind RuneMind RuneMind Rune, Exhaust: Score 1 point.\nUse my abilities only while I'm at a battlefield.",
-    "fullText": "1 EnergyMind Rune: Draw 1.\n4 EnergyMind RuneMind RuneMind RuneMind Rune, Exhaust: Score 1 point.\nUse my abilities only while I'm at a battlefield."
   },
   {
     "id": "ven-177",
