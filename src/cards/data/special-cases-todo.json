@@ -1040,14 +1040,6 @@
     "fullText": "[Empower] 3 EnergyRune (3 EnergyRune: Empower this. Use only if not Empowered.)\n[Action][>] Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it."
   },
   {
-    "id": "ven-35",
-    "name": "Sanction",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose one —Empower a unit. Disempower it at end of turn.Disempower a unit that's . Empower it at end of turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one —Empower a unit. Disempower it at end of turn.Disempower a unit that's [Empowered]. Empower it at end of turn."
-  },
-  {
     "id": "ven-164",
     "name": "Sandswept Tomb",
     "set": "VEN",
@@ -1072,22 +1064,6 @@
     "fullText": "[Reaction][>] Exhaust: [Add] 1 Energy. Spend this Energy only during showdowns. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "unl-136",
-    "name": "Scryer's Bloom",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "This enters exhausted.\nKill this, 1 Energy, Exhaust: , then draw 1. Gain 1 XP.  (To Predict 2, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)",
-    "fullText": "This enters exhausted.\nKill this, 1 Energy, Exhaust: [Predict 2], then draw 1. Gain 1 XP.  (To Predict 2, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)"
-  },
-  {
-    "id": "ven-148",
-    "name": "Shadow Dash",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.",
-    "fullText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "ven-137",
     "name": "Shady Spectacles",
     "set": "VEN",
@@ -1096,44 +1072,12 @@
     "fullText": "[Equip] 1 EnergyOrder Rune (1 EnergyOrder Rune: Attach this to a unit you control.)\nAs this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it."
   },
   {
-    "id": "ogn-33",
-    "name": "Shakedown",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Choose an enemy unit. Deal 6 to it unless its controller has you draw 2.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose an enemy unit. Deal 6 to it unless its controller has you draw 2."
-  },
-  {
-    "id": "sfd-106",
-    "name": "Show of Strength",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Draw 1 for each of your  units. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nDraw 1 for each of your [Mighty] units. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
-    "id": "ven-140",
-    "name": "Shuriken Flip",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.",
-    "fullText": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.\n[Flow] 3 EnergyRune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "sfd-47",
     "name": "Simian Ancestor",
     "set": "SFD",
     "type": "unit",
     "residualText": "When you buff me, ready me.",
     "fullText": "When you buff me, ready me."
-  },
-  {
-    "id": "ogn-266",
-    "name": "Siphon Power",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Choose a battlefield. Give friendly units there +1 Might this turn and enemy units there -1 Might this turn, to a minimum of 1 Might.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a battlefield. Give friendly units there +1 Might this turn and enemy units there -1 Might this turn, to a minimum of 1 Might."
   },
   {
     "id": "sfd-143",

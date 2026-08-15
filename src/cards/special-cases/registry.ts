@@ -611,6 +611,13 @@ import { sacrifice } from "./sacrifice";
 import { reksaiBreacher } from "./reksai-breacher";
 import { ruinRunner } from "./ruin-runner";
 import { rengarPouncing } from "./rengar-pouncing";
+import { scryersBloom } from "./scryers-bloom";
+import { shadowDash } from "./shadow-dash";
+import { shakedown } from "./shakedown";
+import { showOfStrength } from "./show-of-strength";
+import { shurikenFlip } from "./shuriken-flip";
+import { siphonPower } from "./siphon-power";
+import { sanction } from "./sanction";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1222,6 +1229,13 @@ const handlers: SpecialCaseHandler[] = [
   reksaiBreacher,
   ruinRunner,
   rengarPouncing,
+  scryersBloom,
+  shadowDash,
+  shakedown,
+  showOfStrength,
+  shurikenFlip,
+  siphonPower,
+  sanction,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

@@ -678,5 +678,10 @@ export const endTurn: MoveFn<GameState> = ({ G, playerID, events }) => {
   const toReady = playerState.runePool.filter((r) => r.exhausted).slice(0, playerState.readyRunesAtEndOfTurn);
   for (const rune of toReady) rune.exhausted = false;
   playerState.readyRunesAtEndOfTurn = 0;
+  for (const instanceId of G.pendingDisempowerAtEndOfTurn) {
+    const instance = G.instances[instanceId];
+    if (instance) instance.statuses.empowered = false;
+  }
+  G.pendingDisempowerAtEndOfTurn = [];
   events.endTurn();
 };

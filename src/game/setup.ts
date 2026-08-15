@@ -179,6 +179,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     pendingOptionalCost: null,
     extraTurnFor: null,
     anyUnitDiedThisTurn: false,
+    pendingDisempowerAtEndOfTurn: [],
   };
 }
 

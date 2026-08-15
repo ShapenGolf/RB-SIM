@@ -159,4 +159,6 @@ export interface GameState {
   extraTurnFor: PlayerId | null;
   /** True once any unit/champion (either player's) has died this turn, e.g. Towering Pairofant: "If a unit died this turn, I enter ready." Set in combat.ts destroyInstance, reset in turnFlow.ts runTurnStart — global, not per-player, unlike PlayerState.enemyUnitDiedThisTurn. */
   anyUnitDiedThisTurn: boolean;
+  /** instanceIds to disempower at the end of the current turn (e.g. Sanction: "Empower a unit. Disempower it at end of turn."). Processed and cleared in moves.ts endTurn. */
+  pendingDisempowerAtEndOfTurn: string[];
 }
