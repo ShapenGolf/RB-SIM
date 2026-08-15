@@ -291,7 +291,7 @@ export function resolveCombat(
 
 /** Fires Hunt-style Hold triggers for every unit a player has on Battlefields they control, at their Beginning step. */
 export function resolveHoldTriggers(game: GameState, getCard: (id: string) => Card, player: PlayerId): void {
-  game.battlefields.forEach((slot) => {
+  game.battlefields.forEach((slot, index) => {
     if (slot.controller !== player) return;
     for (const instanceId of [...slot.units[player]]) {
       const instance = game.instances[instanceId];
@@ -301,6 +301,15 @@ export function resolveHoldTriggers(game: GameState, getCard: (id: string) => Ca
       if (xp > 0) game.players[player].xp += xp;
       fireTemplatedEffect(game, getCard, card, instance, "onHold");
       SpecialCaseEngine.onHold(game, card, instance);
+    }
+    const legend = game.players[player].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      if (legendCard.specialCaseId) {
+        const pseudo = legendPseudoInstance(legend.cardId, player, legend.exhausted);
+        pseudo.battlefieldIndex = index;
+        SpecialCaseEngine.onHold(game, legendCard, pseudo);
+      }
     }
   });
 }

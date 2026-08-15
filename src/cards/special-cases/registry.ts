@@ -496,6 +496,10 @@ import { voidreaver } from "./voidreaver";
 import { looseCannon } from "./loose-cannon";
 import { mechanizedMenace } from "./mechanized-menace";
 import { wujuBladesmanStarter } from "./wuju-bladesman-starter";
+import { gloomist } from "./gloomist";
+import { radiantDawn } from "./radiant-dawn";
+import { keeperOfTheHammer } from "./keeper-of-the-hammer";
+import { chemBaroness } from "./chem-baroness";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -992,6 +996,10 @@ const handlers: SpecialCaseHandler[] = [
   looseCannon,
   mechanizedMenace,
   wujuBladesmanStarter,
+  gloomist,
+  radiantDawn,
+  keeperOfTheHammer,
+  chemBaroness,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1215,6 +1223,17 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onAllyStun?.(ctxFor(game, card, instance), stunnedInstance);
+    }
+    const legend = game.players[stunningController].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const handler = getSpecialCaseHandler(legendCard);
+      if (handler?.onAllyStun) {
+        handler.onAllyStun(
+          ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, stunningController, legend.exhausted)),
+          stunnedInstance,
+        );
+      }
     }
   },
 

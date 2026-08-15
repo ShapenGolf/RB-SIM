@@ -432,22 +432,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
   },
   {
-    "id": "sfd-249",
-    "name": "Chem-Baroness",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you or an ally hold, you may exhaust me to play a Gold gear token exhausted.\nWhile your score is within 3 points of the Victory Score, your Gold  an additional 1 Energy.",
-    "fullText": "When you or an ally hold, you may exhaust me to play a Gold gear token exhausted.\nWhile your score is within 3 points of the Victory Score, your Gold [ADD] an additional 1 Energy."
-  },
-  {
-    "id": "sfd-201",
-    "name": "Chem-Baroness",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you or an ally hold, you may exhaust me to play a Gold gear token exhausted.\nWhile your score is within 3 points of the Victory Score, your Gold  an additional 1 Energy.",
-    "fullText": "When you or an ally hold, you may exhaust me to play a Gold gear token exhausted.\nWhile your score is within 3 points of the Victory Score, your Gold [Add] an additional 1 Energy."
-  },
-  {
     "id": "ven-56",
     "name": "Clairvoyance",
     "set": "VEN",
@@ -936,22 +920,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nEach Equipment attached to me gives double its base Might bonus."
   },
   {
-    "id": "unl-193",
-    "name": "Gloomist",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you or an ally hold, you may exhaust me to draw 1.",
-    "fullText": "When you or an ally hold, you may exhaust me to draw 1."
-  },
-  {
-    "id": "unl-232",
-    "name": "Gloomist",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you or an ally hold, you may exhaust me to draw 1.",
-    "fullText": "When you or an ally hold, you may exhaust me to draw 1."
-  },
-  {
     "id": "ven-133",
     "name": "Glowstone",
     "set": "VEN",
@@ -1390,22 +1358,6 @@
     "type": "unit",
     "residualText": "When you play me, play two Reflection unit tokens here. They become copies of me.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Temporary] (Kill me at the start of my controller's Beginning Phase, before scoring.)\nWhen you play me, play two Reflection unit tokens here. They become copies of me."
-  },
-  {
-    "id": "unl-237",
-    "name": "Keeper of the Hammer",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you hold, gain 1 XP.\nSpend 3 XP, Exhaust: Draw 1.",
-    "fullText": "When you hold, gain 1 XP.\nSpend 3 XP, Exhaust: Draw 1."
-  },
-  {
-    "id": "unl-203",
-    "name": "Keeper of the Hammer",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you hold, gain 1 XP.\nSpend 3 XP, Exhaust: Draw 1.",
-    "fullText": "When you hold, gain 1 XP.\nSpend 3 XP, Exhaust: Draw 1."
   },
   {
     "id": "ven-135",
@@ -1886,22 +1838,6 @@
     "type": "gear",
     "residualText": "\u2014  Exhaust (Pay the cost: Empower me. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Draw 1.",
     "fullText": "[Empower] \u2014  Exhaust (Pay the cost: Empower me. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Draw 1."
-  },
-  {
-    "id": "ogn-261",
-    "name": "Radiant Dawn",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When you stun one or more enemy units, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "When you stun one or more enemy units, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
-  },
-  {
-    "id": "ogn-306",
-    "name": "Radiant Dawn",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When you stun one or more enemy units, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)",
-    "fullText": "When you stun one or more enemy units, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff.)"
   },
   {
     "id": "ogn-285",
