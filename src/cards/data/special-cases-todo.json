@@ -2336,14 +2336,6 @@
     "fullText": "Discard a gear, 1 Energy, Exhaust: Deal 4 to a unit at a battlefield."
   },
   {
-    "id": "unl-38",
-    "name": "Skyward Strike",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Move an enemy unit.\n  an enemy unit. (While you have 6+ XP, get the effect. A stunned unit doesn't deal combat damage this turn.)",
-    "fullText": "Move an enemy unit.\n[Level 6][>] [Stun] an enemy unit. (While you have 6+ XP, get the effect. A stunned unit doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "unl-83",
     "name": "Smoke and Mirrors",
     "set": "UNL",
@@ -2862,14 +2854,6 @@
     "type": "spell",
     "residualText": "Look at the top 5 cards of your Main Deck. You may banish a unit or gear from among them and play it, reducing its Energy cost by 5 Energy. Recycle the rest. Then you may do this: Empower it. (It becomes Empowered if it's not already.)",
     "fullText": "Look at the top 5 cards of your Main Deck. You may banish a unit or gear from among them and play it, reducing its Energy cost by 5 Energy. Recycle the rest. Then you may do this: Empower it. (It becomes Empowered if it's not already.)"
-  },
-  {
-    "id": "ogn-147",
-    "name": "Wildclaw Shaman",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, you may spend a buff to buff me and ready me. (If I don't have a buff, I get a +1 Might buff.)",
-    "fullText": "When you play me, you may spend a buff to buff me and ready me. (If I don't have a buff, I get a +1 Might buff.)"
   },
   {
     "id": "unl-108",

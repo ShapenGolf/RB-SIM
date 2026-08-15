@@ -474,6 +474,8 @@ import { superMegaDeathRocket } from "./super-mega-death-rocket";
 import { harpoonSquad } from "./harpoon-squad";
 import { katoTheArm } from "./kato-the-arm";
 import { conscription } from "./conscription";
+import { skywardStrike } from "./skyward-strike";
+import { wildclawShaman } from "./wildclaw-shaman";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -948,6 +950,8 @@ const handlers: SpecialCaseHandler[] = [
   harpoonSquad,
   katoTheArm,
   conscription,
+  skywardStrike,
+  wildclawShaman,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
