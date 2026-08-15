@@ -568,6 +568,16 @@ import { discipleOfShen } from "./disciple-of-shen";
 import { disposalOrder } from "./disposal-order";
 import { dominus } from "./dominus";
 import { doubleTrouble } from "./double-trouble";
+import { dramaticVisionary } from "./dramatic-visionary";
+import { emperorsDivide } from "./emperors-divide";
+import { edgeOfNight } from "./edge-of-night";
+import { existentialDread } from "./existential-dread";
+import { facebreaker } from "./facebreaker";
+import { forecaster } from "./forecaster";
+import { freshBeans } from "./fresh-beans";
+import { guards } from "./guards";
+import { guerillaWarfare } from "./guerilla-warfare";
+import { heedlessResurrection } from "./heedless-resurrection";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1136,6 +1146,16 @@ const handlers: SpecialCaseHandler[] = [
   disposalOrder,
   dominus,
   doubleTrouble,
+  dramaticVisionary,
+  emperorsDivide,
+  edgeOfNight,
+  existentialDread,
+  facebreaker,
+  forecaster,
+  freshBeans,
+  guards,
+  guerillaWarfare,
+  heedlessResurrection,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

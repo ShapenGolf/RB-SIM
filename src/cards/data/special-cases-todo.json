@@ -280,36 +280,12 @@
     "fullText": "[Reaction][>] Exhaust: [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "unl-62",
-    "name": "Dramatic Visionary",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": ". (When I die, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)",
-    "fullText": "[Deathknell][>] [Predict 2]. (When I die, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)"
-  },
-  {
-    "id": "sfd-139",
-    "name": "Edge of Night",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "When you play this from face down, attach it to a unit you control here.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen you play this from face down, attach it to a unit you control here.\n[Equip] Chaos Rune (Chaos Rune: Attach this to a unit you control.)"
-  },
-  {
     "id": "ogn-167",
     "name": "Ember Monk",
     "set": "OGN",
     "type": "unit",
     "residualText": "When you play a card from , give me +2 Might this turn.",
     "fullText": "When you play a card from [Hidden], give me +2 Might this turn."
-  },
-  {
-    "id": "sfd-43",
-    "name": "Emperor's Divide",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Move any number of friendly units at a battlefield to their base.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nMove any number of friendly units at a battlefield to their base."
   },
   {
     "id": "ogn-98",
@@ -328,28 +304,12 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Backline] (I must be assigned combat damage last.)\nWhen you play me from face down on your turn, you may move an enemy unit at a different location to my battlefield."
   },
   {
-    "id": "unl-134",
-    "name": "Existential Dread",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\n[Stun] an attacking enemy unit. If it's already stunned, return it to its owner's hand instead. (A stunned unit doesn't deal combat damage this turn.)"
-  },
-  {
     "id": "sfd-82",
     "name": "Ezreal, Dashing",
     "set": "SFD",
     "type": "champion",
     "residualText": "When I attack or defend, deal damage equal to my Might to an enemy unit here.\nI don't deal combat damage.\nMind Rune:  — Move me to your base.",
     "fullText": "When I attack or defend, deal damage equal to my Might to an enemy unit here.\nI don't deal combat damage.\nMind Rune: [Action] — Move me to your base."
-  },
-  {
-    "id": "ogn-220",
-    "name": "Facebreaker",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Stun a friendly unit and an enemy unit at the same battlefield. (They don't deal combat damage this turn.)",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nStun a friendly unit and an enemy unit at the same battlefield. (They don't deal combat damage this turn.)"
   },
   {
     "id": "ven-132",
@@ -392,14 +352,6 @@
     "fullText": "[Reaction]\nChoose one —Counter a spell.Play four 1 Might Bird unit tokens with [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)"
   },
   {
-    "id": "sfd-65",
-    "name": "Forecaster",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "Your Mechs have . (When you play us, look at the top card of your Main Deck. You may recycle it.)",
-    "fullText": "Your Mechs have [Vision]. (When you play us, look at the top card of your Main Deck. You may recycle it.)"
-  },
-  {
     "id": "sfd-208",
     "name": "Forge of the Fluft",
     "set": "SFD",
@@ -430,14 +382,6 @@
     "type": "spell",
     "residualText": "Kill any number of units at a battlefield with total Might 4 or less.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nKill any number of units at a battlefield with total Might 4 or less."
-  },
-  {
-    "id": "unl-11",
-    "name": "Fresh Beans",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "When you play a unit during a showdown, you may exhaust this to draw 1.",
-    "fullText": "When you play a unit during a showdown, you may exhaust this to draw 1."
   },
   {
     "id": "ven-71",
@@ -544,22 +488,6 @@
     "fullText": "When you conquer or hold, you may exhaust me to replace that battlefield with a Brush battlefield token."
   },
   {
-    "id": "sfd-154",
-    "name": "Guards!",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Play a 2 Might Sand Soldier unit token. You may pay Order Rune to ready it.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nPlay a 2 Might Sand Soldier unit token. You may pay Order Rune to ready it."
-  },
-  {
-    "id": "ogn-264",
-    "name": "Guerilla Warfare",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Return up to two cards with  from your trash to your hand. You can hide cards ignoring costs this turn.",
-    "fullText": "Return up to two cards with [Hidden] from your trash to your hand. You can hide cards ignoring costs this turn."
-  },
-  {
     "id": "ogn-281",
     "name": "Hallowed Tomb",
     "set": "OGN",
@@ -606,14 +534,6 @@
     "type": "legend",
     "residualText": "When you play a card from anywhere other than your hand, empower me.\n Disempower me, Exhaust: Give a unit  this turn. (+2 Might while it's an attacker.)",
     "fullText": "When you play a card from anywhere other than your hand, empower me.\n[Action][>] Disempower me, Exhaust: Give a unit [Assault 2] this turn. (+2 Might while it's an attacker.)"
-  },
-  {
-    "id": "unl-142",
-    "name": "Heedless Resurrection",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "As an additional cost to play this, kill a friendly unit.\nPlay a unit from your trash that costs no more Energy and no more Power than the killed unit, ignoring its cost.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nAs an additional cost to play this, kill a friendly unit.\nPlay a unit from your trash that costs no more Energy and no more Power than the killed unit, ignoring its cost."
   },
   {
     "id": "ogn-111",
