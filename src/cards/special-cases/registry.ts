@@ -384,6 +384,13 @@ import { lacerate } from "./lacerate";
 import { publicExecution } from "./public-execution";
 import { noxianDemolitionist } from "./noxian-demolitionist";
 import { corinaVeraza } from "./corina-veraza";
+import { brutalHunter } from "./brutal-hunter";
+import { ancientWarmonger } from "./ancient-warmonger";
+import { baccaiReaper } from "./baccai-reaper";
+import { aurokGeneral } from "./aurok-general";
+import { dragUnder } from "./drag-under";
+import { faePorter } from "./fae-porter";
+import { imposingChallenger } from "./imposing-challenger";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -768,6 +775,13 @@ const handlers: SpecialCaseHandler[] = [
   publicExecution,
   noxianDemolitionist,
   corinaVeraza,
+  brutalHunter,
+  ancientWarmonger,
+  baccaiReaper,
+  aurokGeneral,
+  dragUnder,
+  faePorter,
+  imposingChallenger,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

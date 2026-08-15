@@ -144,14 +144,6 @@
     "fullText": "Exhaust: [Reaction] \u2014 Pay any amount of Energy to [Add] that much Rune. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "sfd-131",
-    "name": "Ancient Warmonger",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "I have  equal to the number of enemy units here. (+1 Might while I'm an attacker for each instance of Assault.)",
-    "fullText": "[Accelerate] (You may pay 1 EnergyChaos Rune as an additional cost to have me enter ready.)\nI have [Assault] equal to the number of enemy units here. (+1 Might while I'm an attacker for each instance of Assault.)"
-  },
-  {
     "id": "sfd-11",
     "name": "Angle Shot",
     "set": "SFD",
@@ -224,14 +216,6 @@
     "fullText": "You may kill a friendly unit as an additional cost to play me. If you do, I cost 1 Energy less for each Energy it costs and Order Rune less for each Power it costs.\n[Ganking] (I can move from battlefield to battlefield.)\nWhen I attack, the defender must kill one of their units here."
   },
   {
-    "id": "ven-130",
-    "name": "Aurok General",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "Your units that are  have +2 Might (including me).",
-    "fullText": "[Empower] 3 EnergyOrder Rune (3 EnergyOrder Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] Your units that are [Empowered] have +2 Might (including me)."
-  },
-  {
     "id": "ogn-107",
     "name": "Ava Achiever",
     "set": "OGN",
@@ -254,14 +238,6 @@
     "type": "champion",
     "residualText": "When I attack, you may move any number of your token units to this battlefield.",
     "fullText": "[Accelerate] (You may pay 1 EnergyOrder Rune as an additional cost to have me enter ready.)\nWhen I attack, you may move any number of your token units to this battlefield."
-  },
-  {
-    "id": "ven-9",
-    "name": "Baccai Reaper",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I attack, you may pay Fury Rune to give me  this turn. (+2 Might while I'm an attacker.)",
-    "fullText": "When I attack, you may pay Fury Rune to give me [Assault 2] this turn. (+2 Might while I'm an attacker.)"
   },
   {
     "id": "ven-1",
@@ -494,14 +470,6 @@
     "type": "unit",
     "residualText": "Your Mechs have  and . (Opponents must pay Rune to choose us with a spell or ability. We can move from battlefield to battlefield.)\nI enter ready if you control another Mech.",
     "fullText": "Your Mechs have [Deflect] and [Ganking]. (Opponents must pay Rune to choose us with a spell or ability. We can move from battlefield to battlefield.)\nI enter ready if you control another Mech."
-  },
-  {
-    "id": "ven-70",
-    "name": "Brutal Hunter",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have +2 Might and . (I can move from battlefield to battlefield.)",
-    "fullText": "[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
     "id": "ogn-268",
@@ -872,14 +840,6 @@
     "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest."
   },
   {
-    "id": "sfd-164",
-    "name": "Drag Under",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "I cost 2 Energy less to play from anywhere other than your hand.\nKill a unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nI cost 2 Energy less to play from anywhere other than your hand.\nKill a unit at a battlefield."
-  },
-  {
     "id": "ven-116",
     "name": "Dragon Form",
     "set": "VEN",
@@ -1046,14 +1006,6 @@
     "type": "unit",
     "residualText": "When you play me, buff up to four friendly units. (Give each a +1 Might buff if it doesn't have one.)\nWhen you spend a buff, play a Gold gear token exhausted.",
     "fullText": "When you play me, buff up to four friendly units. (Give each a +1 Might buff if it doesn't have one.)\nWhen you spend a buff, play a Gold gear token exhausted."
-  },
-  {
-    "id": "sfd-125",
-    "name": "Fae Porter",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, you may pay Chaos Rune to move a unit you control to the same battlefield.",
-    "fullText": "When I move to a battlefield, you may pay Chaos Rune to move a unit you control to the same battlefield."
   },
   {
     "id": "ven-132",
@@ -1550,14 +1502,6 @@
     "type": "spell",
     "residualText": "When any unit takes damage this turn, kill it.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nWhen any unit takes damage this turn, kill it."
-  },
-  {
-    "id": "unl-105",
-    "name": "Imposing Challenger",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I move, you may move an enemy unit here with less Might than me to a different battlefield.",
-    "fullText": "When I move, you may move an enemy unit here with less Might than me to a different battlefield."
   },
   {
     "id": "unl-135",
