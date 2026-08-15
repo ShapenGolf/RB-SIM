@@ -656,14 +656,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. This turn, increase its Might to the Might of another friendly unit."
   },
   {
-    "id": "sfd-179",
-    "name": "Corina Veraza",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When I move to a battlefield, play three 1 Might Recruit unit tokens here.",
-    "fullText": "[Accelerate] (You may pay 1 EnergyOrder Rune as an additional cost to have me enter ready.)\nWhen I move to a battlefield, play three 1 Might Recruit unit tokens here."
-  },
-  {
     "id": "ven-91",
     "name": "Corrupted Dragon",
     "set": "VEN",
@@ -1856,14 +1848,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
   },
   {
-    "id": "ven-127",
-    "name": "Lacerate",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose a unit. If it's , disempower it. Then kill it if it has 3 Might or less.",
-    "fullText": "Choose a unit. If it's [Empowered], disempower it. Then kill it if it has 3 Might or less.\n[Flow] 4 EnergyOrder RuneOrder Rune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "ogs-21",
     "name": "Lady of Luminosity - Starter",
     "set": "OGS",
@@ -2256,14 +2240,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter an enemy spell or ability that chooses a friendly unit or gear."
   },
   {
-    "id": "ven-80",
-    "name": "Noxian Demolitionist",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I conquer, you may kill a gear with Energy cost no more than my Might.",
-    "fullText": "When I conquer, you may kill a gear with Energy cost no more than my Might."
-  },
-  {
     "id": "ven-128",
     "name": "Noxian Emissary",
     "set": "VEN",
@@ -2478,14 +2454,6 @@
     "type": "battlefield",
     "residualText": "When you conquer here, if you control 4 or fewer runes, you may pay 1 Energy to draw 1.",
     "fullText": "When you conquer here, if you control 4 or fewer runes, you may pay 1 Energy to draw 1."
-  },
-  {
-    "id": "ven-154",
-    "name": "Public Execution",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose a friendly unit. Kill an enemy unit with less Might than it.",
-    "fullText": "Choose a friendly unit. Kill an enemy unit with less Might than it.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
     "id": "ven-7",

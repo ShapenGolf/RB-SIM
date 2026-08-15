@@ -380,6 +380,10 @@ import { gutturalRoar } from "./guttural-roar";
 import { shenLeaderOfKinkouOrder } from "./shen-leader-of-kinkou-order";
 import { shenScourgeOfShadows } from "./shen-scourge-of-shadows";
 import { blackFlameAltar } from "./black-flame-altar";
+import { lacerate } from "./lacerate";
+import { publicExecution } from "./public-execution";
+import { noxianDemolitionist } from "./noxian-demolitionist";
+import { corinaVeraza } from "./corina-veraza";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -760,6 +764,10 @@ const handlers: SpecialCaseHandler[] = [
   shenLeaderOfKinkouOrder,
   shenScourgeOfShadows,
   blackFlameAltar,
+  lacerate,
+  publicExecution,
+  noxianDemolitionist,
+  corinaVeraza,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
