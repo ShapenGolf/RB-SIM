@@ -181,6 +181,9 @@ export interface SpecialCaseHandler {
    */
   costReduction?(ctx: SpecialCaseContext): number;
 
+  /** True if this card can't be played at all right now (e.g. Ol' Poro: "I can't be played on your first, second, or third turns."). Checked in game/moves.ts playCard. */
+  blocksSelfPlay?(ctx: SpecialCaseContext): boolean;
+
   /** True if this spell should be banished instead of trashed once it finishes resolving (e.g. Time Warp: "Banish this"). Spells only. */
   banishSelfOnResolve?(ctx: SpecialCaseContext): boolean;
 
@@ -189,6 +192,12 @@ export interface SpecialCaseHandler {
 
   /** True if this unit/champion may be played directly to a Battlefield where the OPPONENT has units (e.g. Deadbloom Predator: "You may play me to an occupied enemy battlefield"). Distinct from Ambush, which requires the controller's OWN units there. */
   allowsPlayToEnemyOccupiedBattlefield?(ctx: SpecialCaseContext): boolean;
+
+  /** True if this unit/champion may be played directly to a Battlefield where the opponent has EXACTLY ONE unit (e.g. Arachnoid Horror: "I can be played to an occupied battlefield if an enemy unit is alone there."). The "alone" check itself is done by the caller (registry.ts allowsPlayToLoneEnemyBattlefield) before this is consulted. */
+  allowsPlayToLoneEnemyBattlefield?(ctx: SpecialCaseContext): boolean;
+
+  /** True if, while this is in play, OTHER friendly units may be played to a Battlefield where the opponent has exactly one unit (e.g. Arachnoid Horror: "Friendly units can be played to an occupied battlefield if an enemy unit is alone there."). */
+  grantsOthersPlayToLoneEnemyBattlefield?(ctx: SpecialCaseContext): boolean;
 
   /** True if this unit/champion may be played directly to a Battlefield where NEITHER side has units (e.g. Sai Scout: "You may play me to an open battlefield"). */
   allowsPlayToOpenBattlefield?(ctx: SpecialCaseContext): boolean;
@@ -437,4 +446,15 @@ export interface SpecialCaseHandler {
 
   /** Battlefield-only: true if units can't move from here to base (e.g. Vilemaw's Lair: "Units can't move from here to base."). */
   blocksUnitsMovedToBaseFromHere?(ctx: SpecialCaseContext): boolean;
+
+  /** True if this instance is immune to damage from ENEMY spells/abilities right now (e.g. Esteemed Hierophant: "While you control 7 or more runes, prevent all damage that enemy spells and abilities would deal to me."). Checked in game/spellDamage.ts dealSpellDamage — only consulted when the damage source's controller differs from this instance's controller. */
+  preventsEnemySpellDamage?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * Caps how many runes ANY player channels at the start of their Channel Phase, if lower than
+   * the default amount (e.g. Sandstone Chimera: "While I'm at a battlefield, players only
+   * channel 1 rune at the start of their Channel Phase."). Checked in turnFlow.ts runChannel
+   * against every in-play instance regardless of controller; the lowest cap found (if any) wins.
+   */
+  channelAmountCap?(ctx: SpecialCaseContext): number;
 }

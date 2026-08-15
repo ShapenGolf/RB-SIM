@@ -83,10 +83,12 @@ export function runBeginning(game: GameState, player: PlayerId): void {
 export function runChannel(game: GameState, player: PlayerId): void {
   game.turnPhase = "channel";
   const state = game.players[player];
-  const amount =
+  const baseAmount =
     player === "1" && !state.hasTakenFirstTurn
       ? SECOND_PLAYER_FIRST_TURN_CHANNEL_AMOUNT
       : CHANNEL_AMOUNT;
+  const cap = SpecialCaseEngine.channelAmountCap(game, getCard);
+  const amount = cap === undefined ? baseAmount : Math.min(baseAmount, cap);
   for (let i = 0; i < amount; i += 1) {
     const rune = state.runeDeck.shift();
     if (rune) state.runePool.push(rune);

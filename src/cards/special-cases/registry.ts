@@ -439,6 +439,13 @@ import { ambessaRespectedAndFeared } from "./ambessa-respected-and-feared";
 import { baccaiSandspinner } from "./baccai-sandspinner";
 import { frostcoatMother } from "./frostcoat-mother";
 import { grumpyRockbear } from "./grumpy-rockbear";
+import { olPoro } from "./ol-poro";
+import { altarOfMemories } from "./altar-of-memories";
+import { esteemedHierophant } from "./esteemed-hierophant";
+import { arachnoidHorror } from "./arachnoid-horror";
+import { accelerationGate } from "./acceleration-gate";
+import { oceanDrake } from "./ocean-drake";
+import { sandstoneChimera } from "./sandstone-chimera";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -878,6 +885,13 @@ const handlers: SpecialCaseHandler[] = [
   baccaiSandspinner,
   frostcoatMother,
   grumpyRockbear,
+  olPoro,
+  altarOfMemories,
+  esteemedHierophant,
+  arachnoidHorror,
+  accelerationGate,
+  oceanDrake,
+  sandstoneChimera,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -952,6 +966,10 @@ export const SpecialCaseEngine = {
 
   costReduction: (game: GameState, card: Card, instance: CardInstance): number =>
     getSpecialCaseHandler(card)?.costReduction?.(ctxFor(game, card, instance)) ?? 0,
+
+  /** True if this card can't be played right now at all (e.g. Ol' Poro: "I can't be played on your first, second, or third turns."). */
+  blocksSelfPlay: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.blocksSelfPlay?.(ctxFor(game, card, instance)) ?? false,
 
   banishSelfOnResolve: (game: GameState, card: Card, instance: CardInstance): boolean =>
     getSpecialCaseHandler(card)?.banishSelfOnResolve?.(ctxFor(game, card, instance)) ?? false,
@@ -1499,5 +1517,47 @@ export const SpecialCaseEngine = {
       if (handler?.grantsOthersPlayToOpenBattlefield?.(ctxFor(game, sourceCard, sourceInstance))) return true;
     }
     return false;
+  },
+
+  /**
+   * True if `instance`'s card may be played to the Battlefield at `battlefieldIndex`, where the
+   * opponent has EXACTLY ONE unit — checks the "alone" condition itself, then consults both the
+   * card's own `allowsPlayToLoneEnemyBattlefield` and every ally's `grantsOthersPlayToLoneEnemyBattlefield`
+   * (e.g. Arachnoid Horror grants both to itself and to its controller's other units).
+   */
+  allowsPlayToLoneEnemyBattlefield: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    card: Card,
+    instance: CardInstance,
+    battlefieldIndex: number,
+  ): boolean => {
+    const slot = game.battlefields[battlefieldIndex];
+    const enemyId: PlayerId = instance.controller === "0" ? "1" : "0";
+    if (slot.units[enemyId].length !== 1) return false;
+    if (getSpecialCaseHandler(card)?.allowsPlayToLoneEnemyBattlefield?.(ctxFor(game, card, instance))) return true;
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.controller !== instance.controller) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      if (handler?.grantsOthersPlayToLoneEnemyBattlefield?.(ctxFor(game, sourceCard, sourceInstance))) return true;
+    }
+    return false;
+  },
+
+  /** True if this instance is immune to damage from ENEMY spells/abilities right now (e.g. Esteemed Hierophant). Only consulted in spellDamage.ts when the damage source's controller differs from this instance's controller. */
+  preventsEnemySpellDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.preventsEnemySpellDamage?.(ctxFor(game, card, instance)) ?? false,
+
+  /** Lowest channelAmountCap found across every in-play instance (any controller), or `undefined` if none apply. See turnFlow.ts runChannel. */
+  channelAmountCap: (game: GameState, getCard: (cardId: string) => Card): number | undefined => {
+    let cap: number | undefined;
+    for (const instance of Object.values(game.instances)) {
+      const card = getCard(instance.cardId);
+      const handlerCap = getSpecialCaseHandler(card)?.channelAmountCap?.(ctxFor(game, card, instance));
+      if (handlerCap === undefined) continue;
+      cap = cap === undefined ? handlerCap : Math.min(cap, handlerCap);
+    }
+    return cap;
   },
 };

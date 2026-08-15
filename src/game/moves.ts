@@ -89,6 +89,8 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
 
   const instance = createInstance(G, cardId, player.id);
 
+  if (SpecialCaseEngine.blocksSelfPlay(G, card, instance)) return INVALID_MOVE;
+
   if (args.ambushBattlefieldIndex !== undefined) {
     if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
     const slot = G.battlefields[args.ambushBattlefieldIndex];
@@ -108,6 +110,14 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
       const eligible =
         (ownOccupied && KeywordEngine.allowsPlayToOccupiedBattlefield(G, card, instance)) ||
         (enemyOccupied && SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, instance)) ||
+        (enemyOccupied &&
+          SpecialCaseEngine.allowsPlayToLoneEnemyBattlefield(
+            G,
+            getCard,
+            card,
+            instance,
+            args.ambushBattlefieldIndex,
+          )) ||
         (isOpen &&
           (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, instance) ||
             SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, instance)));

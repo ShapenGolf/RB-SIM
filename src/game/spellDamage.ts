@@ -19,6 +19,12 @@ export function dealSpellDamage(
 ): void {
   const target = game.instances[targetInstanceId];
   if (!target) return;
+  if (
+    controller !== target.controller &&
+    SpecialCaseEngine.preventsEnemySpellDamage(game, getCard(target.cardId), target)
+  ) {
+    return;
+  }
   const battlefieldBonus = SpecialCaseEngine.spellDamageBonusFromBattlefield(game, getCard, target);
   const allyBonus = SpecialCaseEngine.spellDamageBonusFromAllies(game, getCard, controller);
   const totalAmount = amount + game.players[controller].nextSpellBonusDamage + battlefieldBonus + allyBonus;

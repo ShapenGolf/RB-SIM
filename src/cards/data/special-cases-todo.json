@@ -16,14 +16,6 @@
     "fullText": "When a player plays a spell, they may give a unit they control here +1 Might this turn."
   },
   {
-    "id": "ven-150",
-    "name": "Acceleration Gate",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Ready up to 4 units, gear, and/or runes.",
-    "fullText": "Ready up to 4 units, gear, and/or runes."
-  },
-  {
     "id": "sfd-1",
     "name": "Against the Odds",
     "set": "SFD",
@@ -88,14 +80,6 @@
     "fullText": "If a unit here would die during combat, its controller may pay RuneRuneRune to heal it, exhaust it, and recall it instead."
   },
   {
-    "id": "sfd-169",
-    "name": "Altar of Memories",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "When a friendly unit dies, you may exhaust me to draw 1, then put a card from your hand on the top or bottom of your Main Deck.",
-    "fullText": "When a friendly unit dies, you may exhaust me to draw 1, then put a card from your hand on the top or bottom of your Main Deck."
-  },
-  {
     "id": "unl-207",
     "name": "Amateur Recital",
     "set": "UNL",
@@ -142,14 +126,6 @@
     "type": "unit",
     "residualText": "When I become , . (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n I have +1 Might.",
     "fullText": "[Empower] 2 Energy (2 Energy: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], [Predict 2]. (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)\n[Empowered][>] I have +1 Might."
-  },
-  {
-    "id": "unl-117",
-    "name": "Arachnoid Horror",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "I can be played to an occupied battlefield if an enemy unit is alone there.\nFriendly units can be played to an occupied battlefield if an enemy unit is alone there.",
-    "fullText": "[Hunt 2] (When I conquer or hold, gain 2 XP.)\nI can be played to an occupied battlefield if an enemy unit is alone there.\nFriendly units can be played to an occupied battlefield if an enemy unit is alone there."
   },
   {
     "id": "sfd-200",
@@ -870,14 +846,6 @@
     "type": "unit",
     "residualText": "\u2014 Kill a friendly unit (Pay the cost: Empower me. Use only if not Empowered.)\n I have +2 Might.",
     "fullText": "[Empower] \u2014 Kill a friendly unit (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might."
-  },
-  {
-    "id": "ven-25",
-    "name": "Esteemed Hierophant",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "While you control 7 or more runes, prevent all damage that enemy spells and abilities would deal to me.",
-    "fullText": "While you control 7 or more runes, prevent all damage that enemy spells and abilities would deal to me."
   },
   {
     "id": "unl-141",
@@ -2016,22 +1984,6 @@
     "fullText": "Your opponents' [Hidden] cards can't be revealed here."
   },
   {
-    "id": "ven-115",
-    "name": "Ocean Drake",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "You may play me to an open battlefield.\nWhen you play me, you may return a non-Dragon unit to its owner's hand.",
-    "fullText": "You may play me to an open battlefield.\nWhen you play me, you may return a non-Dragon unit to its owner's hand."
-  },
-  {
-    "id": "ven-29",
-    "name": "Ol' Poro",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I can't be played on your first, second, or third turns.",
-    "fullText": "I can't be played on your first, second, or third turns."
-  },
-  {
     "id": "sfd-213",
     "name": "Ornn's Forge",
     "set": "SFD",
@@ -2446,14 +2398,6 @@
     "type": "spell",
     "residualText": "Choose one \u2014Empower a unit. Disempower it at end of turn.Disempower a unit that's . Empower it at end of turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one \u2014Empower a unit. Disempower it at end of turn.Disempower a unit that's [Empowered]. Empower it at end of turn."
-  },
-  {
-    "id": "ven-36",
-    "name": "Sandstone Chimera",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "While I'm at a battlefield, players only channel 1 rune at the start of their Channel Phase.",
-    "fullText": "While I'm at a battlefield, players only channel 1 rune at the start of their Channel Phase."
   },
   {
     "id": "ven-164",
