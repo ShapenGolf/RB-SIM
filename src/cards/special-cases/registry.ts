@@ -526,6 +526,8 @@ import { twilightShroud } from "./twilight-shroud";
 import { twilightStep } from "./twilight-step";
 import { insightfulInvestigator } from "./insightful-investigator";
 import { profiteer } from "./profiteer";
+import { renektonBrute } from "./renekton-brute";
+import { melNewlyAwakened } from "./mel-newly-awakened";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1052,6 +1054,8 @@ const handlers: SpecialCaseHandler[] = [
   twilightStep,
   insightfulInvestigator,
   profiteer,
+  renektonBrute,
+  melNewlyAwakened,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

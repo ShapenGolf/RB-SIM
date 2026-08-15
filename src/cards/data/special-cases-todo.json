@@ -1400,14 +1400,6 @@
     "fullText": "[Empower] \u2014 Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
   },
   {
-    "id": "ven-69",
-    "name": "Mel, Newly Awakened",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me, draw 1.\n\n Your spells and abilities can't be countered. If a spell or ability you control would give -Might to a unit it chooses, it gives an additional -1 Might.",
-    "fullText": "When you play me, draw 1.\n[Empower] 3 Energy (3 Energy: Empower me. Use only if not Empowered.)\n[Empowered][>] Your spells and abilities can't be countered. If a spell or ability you control would give -Might to a unit it chooses, it gives an additional -1 Might."
-  },
-  {
     "id": "ven-52",
     "name": "Mesmerize",
     "set": "VEN",
@@ -1670,22 +1662,6 @@
     "type": "spell",
     "residualText": "Move a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\"",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nMove a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\""
-  },
-  {
-    "id": "ven-177",
-    "name": "Renekton, Brute",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "1 Energy: Give me +1 Might this turn.\nWhen my Might becomes 10 or more, empower me.\n I have  and .",
-    "fullText": "1 Energy: Give me +1 Might this turn.\nWhen my Might becomes 10 or more, empower me.\n[Empowered][>] I have [Ganking] and [Deflect]."
-  },
-  {
-    "id": "ven-92",
-    "name": "Renekton, Brute",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "1 Energy: Give me +1 Might this turn.\nWhen my Might becomes 10 or more, empower me. (I become Empowered if I'm not already.)\n I have  and . (Opponents must pay Rune to choose me with a spell or ability. I can move from battlefield to battlefield.)",
-    "fullText": "1 Energy: Give me +1 Might this turn.\nWhen my Might becomes 10 or more, empower me. (I become Empowered if I'm not already.)\n[Empowered][>] I have [Deflect] and [Ganking]. (Opponents must pay Rune to choose me with a spell or ability. I can move from battlefield to battlefield.)"
   },
   {
     "id": "sfd-25",
