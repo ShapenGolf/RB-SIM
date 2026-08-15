@@ -466,6 +466,16 @@ export interface SpecialCaseHandler {
   preventsEnemySpellDamage?(ctx: SpecialCaseContext): boolean;
 
   /**
+   * Broadcast to every board instance (and the Legend, via its pseudo-instance) the WINNING
+   * player of a real Showdown (both sides had committed units) controls, right after that
+   * Showdown resolves (e.g. Glorious Executioner: "When you win a combat, draw 1. (You win if
+   * only your units remain after combat.)"). Not called for an unopposed conquest (no
+   * defenders present — see combat.ts resolveCombat's early return) or a Showdown where both or
+   * neither side has survivors.
+   */
+  onWinCombat?(ctx: SpecialCaseContext): void;
+
+  /**
    * Caps how many runes ANY player channels at the start of their Channel Phase, if lower than
    * the default amount (e.g. Sandstone Chimera: "While I'm at a battlefield, players only
    * channel 1 rune at the start of their Channel Phase."). Checked in turnFlow.ts runChannel

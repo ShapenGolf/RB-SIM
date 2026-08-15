@@ -270,6 +270,9 @@ export function resolveCombat(
   const defenderSurvivors = slot.units[defender].length;
   if (defenderSurvivors === 0 && attackerSurvivors > 0) {
     conquerBattlefield(game, getCard, battlefieldIndex, attacker, attackerExcessDamage);
+    SpecialCaseEngine.onWinCombat(game, getCard, attacker);
+  } else if (attackerSurvivors === 0 && defenderSurvivors > 0) {
+    SpecialCaseEngine.onWinCombat(game, getCard, defender);
   }
 }
 

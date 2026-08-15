@@ -552,14 +552,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 1 EnergyRune (You may pay the additional cost to repeat this spell's effect.)\nGive your Mechs +1 Might this turn."
   },
   {
-    "id": "ogs-17",
-    "name": "Dark Child - Starter",
-    "set": "OGS",
-    "type": "legend",
-    "residualText": "At the end of your turn, ready 2 runes.",
-    "fullText": "At the end of your turn, ready 2 runes."
-  },
-  {
     "id": "ogn-299",
     "name": "Daughter of the Void",
     "set": "OGN",
@@ -958,22 +950,6 @@
     "type": "legend",
     "residualText": "When you or an ally hold, you may exhaust me to draw 1.",
     "fullText": "When you or an ally hold, you may exhaust me to draw 1."
-  },
-  {
-    "id": "sfd-185",
-    "name": "Glorious Executioner",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you win a combat, draw 1. (You win if only your units remain after combat.)",
-    "fullText": "When you win a combat, draw 1. (You win if only your units remain after combat.)"
-  },
-  {
-    "id": "sfd-242",
-    "name": "Glorious Executioner",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you win a combat, draw 1. (You win if only your units remain after combat.)",
-    "fullText": "When you win a combat, draw 1. (You win if only your units remain after combat.)"
   },
   {
     "id": "ven-133",

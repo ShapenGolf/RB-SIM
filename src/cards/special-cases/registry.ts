@@ -1,7 +1,7 @@
 import type { Card, Domain } from "../types";
 import type { CardInstance, GameState, PlayerId } from "../../game/state";
 import type { SpecialCaseContext, SpecialCaseHandler } from "./types";
-import { battlefieldPseudoInstance } from "../../game/pseudoInstance";
+import { battlefieldPseudoInstance, legendPseudoInstance } from "../../game/pseudoInstance";
 import { dangerousDuo } from "./dangerous-duo";
 import { doomedRecruit } from "./doomed-recruit";
 import { stunningBlow } from "./stunning-blow";
@@ -487,6 +487,8 @@ import { faeDragon } from "./fae-dragon";
 import { safetyInspector } from "./safety-inspector";
 import { skyCruiser } from "./sky-cruiser";
 import { endlessRiches } from "./endless-riches";
+import { darkChildStarter } from "./dark-child-starter";
+import { gloriousExecutioner } from "./glorious-executioner";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -974,6 +976,8 @@ const handlers: SpecialCaseHandler[] = [
   safetyInspector,
   skyCruiser,
   endlessRiches,
+  darkChildStarter,
+  gloriousExecutioner,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1652,6 +1656,23 @@ export const SpecialCaseEngine = {
   /** True if this instance is immune to damage from ENEMY spells/abilities right now (e.g. Esteemed Hierophant). Only consulted in spellDamage.ts when the damage source's controller differs from this instance's controller. */
   preventsEnemySpellDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
     getSpecialCaseHandler(card)?.preventsEnemySpellDamage?.(ctxFor(game, card, instance)) ?? false,
+
+  /** Broadcasts a Showdown win to every board instance and the Legend pseudo-instance of `winner`. See combat.ts resolveCombat. */
+  onWinCombat: (game: GameState, getCard: (id: string) => Card, winner: PlayerId): void => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== winner) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onWinCombat?.(ctxFor(game, card, instance));
+    }
+    const legend = game.players[winner].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const handler = getSpecialCaseHandler(legendCard);
+      if (handler?.onWinCombat) {
+        handler.onWinCombat(ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, winner, legend.exhausted)));
+      }
+    }
+  },
 
   onBecomeEmpowered: (game: GameState, card: Card, instance: CardInstance): void => {
     getSpecialCaseHandler(card)?.onBecomeEmpowered?.(ctxFor(game, card, instance));
