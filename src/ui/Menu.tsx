@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { validateDeck } from "../cards/deckValidation";
 import { listSavedDecks, type SavedDeck } from "../decks/store";
 import type { SetupOptions } from "../game/setup";
+import { getCard } from "../cards/db";
+import { CardFace } from "./CardFace";
 
 /**
  * Home screen. Deck building + picking who starts is fully wired to a real local (same-screen)
@@ -16,22 +18,28 @@ export function Menu({ onOpenDeckBuilder, onStartGame }: { onOpenDeckBuilder: ()
   const [deckAId, setDeckAId] = useState("");
   const [deckBId, setDeckBId] = useState("");
   const [starter, setStarter] = useState<"A" | "B">("A");
+  // Each player brings 1 of their own 3 submitted Battlefields to the shared table (see
+  // docs/rules-reference.md: "2 aktive Battlefields, je 1 von 3 eingereichten pro Spieler") —
+  // null means "not chosen yet", defaulted to the first option once a deck is picked.
+  const [battlefieldAId, setBattlefieldAId] = useState<string | null>(null);
+  const [battlefieldBId, setBattlefieldBId] = useState<string | null>(null);
 
   function findDeck(id: string): SavedDeck | undefined {
     return legalDecks.find((d) => d.id === id);
   }
 
+  const deckA = findDeck(deckAId);
+  const deckB = findDeck(deckBId);
+  const chosenBattlefieldA = battlefieldAId && deckA?.deck.battlefields.includes(battlefieldAId) ? battlefieldAId : (deckA?.deck.battlefields[0] ?? null);
+  const chosenBattlefieldB = battlefieldBId && deckB?.deck.battlefields.includes(battlefieldBId) ? battlefieldBId : (deckB?.deck.battlefields[0] ?? null);
+
   function handleStart() {
-    const deckA = findDeck(deckAId);
-    const deckB = findDeck(deckBId);
-    if (!deckA || !deckB) return;
+    if (!deckA || !deckB || !chosenBattlefieldA || !chosenBattlefieldB) return;
     // Slot "0" always goes first mechanically (see game/turnFlow.ts's second-player Channel
     // bonus, hardcoded to player "1") — "who starts" just decides which chosen deck fills slot 0.
     const firstDeck = starter === "A" ? deckA : deckB;
     const secondDeck = starter === "A" ? deckB : deckA;
-    // Legal decks always carry exactly 3 battlefields (validateDeck enforces it); only 2 reach
-    // the table per the current MVP convention (see docs/deck-building-rules.md open items).
-    const battlefieldCardIds: [string, string] = [firstDeck.deck.battlefields[0], firstDeck.deck.battlefields[1]];
+    const battlefieldCardIds: [string, string] = [chosenBattlefieldA, chosenBattlefieldB];
     onStartGame({
       player0Domains: [],
       player1Domains: [],
@@ -89,7 +97,56 @@ export function Menu({ onOpenDeckBuilder, onStartGame }: { onOpenDeckBuilder: ()
               <option value="B">Spieler B</option>
             </select>
           </label>
-          <button className="rb-end-turn" onClick={handleStart} disabled={!deckAId || !deckBId || deckAId === deckBId}>
+
+          {deckA && deckB && deckAId !== deckBId && (
+            <>
+              <div className="rb-section-label" style={{ marginTop: 10 }}>
+                Battlefields wählen
+              </div>
+              <p className="rb-db-hint">
+                Jeder bringt 1 von seinen 3 eingereichten Battlefields mit an den Tisch — zusammen ergeben die
+                gewählten Karten die 2 Battlefields dieser Partie.
+              </p>
+              <div className="rb-menu-battlefield-pickers">
+                <div>
+                  <div className="rb-section-label">Spieler A</div>
+                  <div className="rb-db-card-grid">
+                    {deckA.deck.battlefields.map((id) => (
+                      <CardFace
+                        key={id}
+                        card={getCard(id)}
+                        size="sm"
+                        selected={id === chosenBattlefieldA}
+                        onClick={() => setBattlefieldAId(id)}
+                        footer={<div className="rb-db-legend-name">{getCard(id).name}</div>}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="rb-section-label">Spieler B</div>
+                  <div className="rb-db-card-grid">
+                    {deckB.deck.battlefields.map((id) => (
+                      <CardFace
+                        key={id}
+                        card={getCard(id)}
+                        size="sm"
+                        selected={id === chosenBattlefieldB}
+                        onClick={() => setBattlefieldBId(id)}
+                        footer={<div className="rb-db-legend-name">{getCard(id).name}</div>}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          <button
+            className="rb-end-turn"
+            onClick={handleStart}
+            disabled={!deckAId || !deckBId || deckAId === deckBId || !chosenBattlefieldA || !chosenBattlefieldB}
+          >
             Spiel starten
           </button>
           {deckAId && deckAId === deckBId && <p className="rb-db-hint">Bitte zwei unterschiedliche Decks wählen.</p>}

@@ -646,6 +646,11 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+.rb-menu-battlefield-pickers {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 .rb-menu-field select {
   font-size: 13px;
   padding: 7px 8px;
