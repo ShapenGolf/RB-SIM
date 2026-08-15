@@ -84,9 +84,17 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
         fitsDomainIdentity(c, legendDomains) &&
         (q === "" || c.name.toLowerCase().includes(q)),
     )
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => {
+        // Champions matching the Legend's tag (i.e. eligible as Chosen Champion) sort first,
+        // so they're easy to spot instead of being buried among same-domain champions that
+        // can never be chosen — the #1 source of "no matching champion" confusion at step 5.
+        const aMatch = a.type === "champion" && matchesLegendTag(a, legendTags) ? 0 : 1;
+        const bMatch = b.type === "champion" && matchesLegendTag(b, legendTags) ? 0 : 1;
+        if (aMatch !== bMatch) return aMatch - bMatch;
+        return a.name.localeCompare(b.name);
+      })
       .slice(0, 60);
-  }, [legend, legendDomains, search, mainFilter]);
+  }, [legend, legendDomains, legendTags, search, mainFilter]);
 
   const eligibleRunes = useMemo(
     () => (legend ? ALL_RUNES.filter((c) => fitsDomainIdentity(c, legendDomains)) : []),
@@ -340,22 +348,32 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            {mainFilter === "champion" && (
+              <p className="rb-db-hint">
+                ★ = passt als Chosen Champion zu {legend.name} (Tag stimmt überein). Andere Champions kannst du trotzdem ins
+                Main Deck legen, aber nur ein markierter kann dein Chosen Champion werden.
+              </p>
+            )}
             <div className="rb-db-card-grid rb-db-browse-grid">
-              {eligibleMainCards.map((c) => (
-                <CardFace
-                  key={c.id}
-                  card={c}
-                  size="sm"
-                  footer={
-                    <div className="rb-db-stepper">
-                      <span>{mainDeckNameCounts.get(c.name) ?? 0}x</span>
-                      <button onClick={() => addMainCopy(c)} disabled={(mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}>
-                        +
-                      </button>
-                    </div>
-                  }
-                />
-              ))}
+              {eligibleMainCards.map((c) => {
+                const isMatchingChampion = c.type === "champion" && matchesLegendTag(c, legendTags);
+                return (
+                  <CardFace
+                    key={c.id}
+                    card={c}
+                    size="sm"
+                    footer={
+                      <div className="rb-db-stepper">
+                        {isMatchingChampion && <span title={`Passt zu ${legend.name}`}>★</span>}
+                        <span>{mainDeckNameCounts.get(c.name) ?? 0}x</span>
+                        <button onClick={() => addMainCopy(c)} disabled={(mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}>
+                          +
+                        </button>
+                      </div>
+                    }
+                  />
+                );
+              })}
             </div>
           </>
         )}
