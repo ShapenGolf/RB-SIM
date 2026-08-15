@@ -402,6 +402,11 @@ import { royalEntourage } from "./royal-entourage";
 import { morganaVindictive } from "./morgana-vindictive";
 import { shockBlast } from "./shock-blast";
 import { shadowOrderDisciple } from "./shadow-order-disciple";
+import { upFromTheDeep } from "./up-from-the-deep";
+import { viHotheaded } from "./vi-hotheaded";
+import { toolsOfEmpire } from "./tools-of-empire";
+import { siphoningStrike } from "./siphoning-strike";
+import { ravenbloomPrefect } from "./ravenbloom-prefect";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -804,6 +809,11 @@ const handlers: SpecialCaseHandler[] = [
   morganaVindictive,
   shockBlast,
   shadowOrderDisciple,
+  upFromTheDeep,
+  viHotheaded,
+  toolsOfEmpire,
+  siphoningStrike,
+  ravenbloomPrefect,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

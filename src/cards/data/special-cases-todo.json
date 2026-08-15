@@ -2432,14 +2432,6 @@
     "fullText": "As you play this, you may pay Body Rune as an additional cost.\nChoose a friendly unit and an enemy unit. If you paid the additional cost, give the friendly unit +2 Might this turn. They deal damage equal to their Mights to each other."
   },
   {
-    "id": "ven-102",
-    "name": "Ravenbloom Prefect",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When an opponent plays a gear, you may banish me to banish it.",
-    "fullText": "When an opponent plays a gear, you may banish me to banish it."
-  },
-  {
     "id": "ogn-285",
     "name": "Reaver's Row",
     "set": "OGN",
@@ -2766,14 +2758,6 @@
     "type": "spell",
     "residualText": "Choose a battlefield. Give friendly units there +1 Might this turn and enemy units there -1 Might this turn, to a minimum of 1 Might.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a battlefield. Give friendly units there +1 Might this turn and enemy units there -1 Might this turn, to a minimum of 1 Might."
-  },
-  {
-    "id": "ven-146",
-    "name": "Siphoning Strike",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Deal 4 to a unit at a battlefield. If you control 7 or more runes, deal 7 to it instead. When it dies this turn, channel 1 rune exhausted.",
-    "fullText": "Deal 4 to a unit at a battlefield. If you control 7 or more runes, deal 7 to it instead. When it dies this turn, channel 1 rune exhausted."
   },
   {
     "id": "sfd-143",
@@ -3152,14 +3136,6 @@
     "fullText": "When you play me, if you control 7 or more runes, choose an enemy gear. If it's [Empowered], disempower it. Otherwise, kill it."
   },
   {
-    "id": "ven-77",
-    "name": "Tools of Empire",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "Exhaust: Give a unit +2 Might this turn. If this is , give that unit +4 Might this turn instead.",
-    "fullText": "[Empower] 2 Energy (2 Energy: Empower this. Use only if not Empowered.)\nExhaust: Give a unit +2 Might this turn. If this is [Empowered], give that unit +4 Might this turn instead."
-  },
-  {
     "id": "ven-99",
     "name": "Tornado Warrior",
     "set": "VEN",
@@ -3256,14 +3232,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nPrevent all spell and ability damage this turn."
   },
   {
-    "id": "ven-100",
-    "name": "Up from the Deep",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Play two 1 Might Tentacle unit tokens from Bilgewater.",
-    "fullText": "Play two 1 Might Tentacle unit tokens from Bilgewater.\n[Flow] 3 Energy (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
     "id": "unl-218",
     "name": "Valley of Idols",
     "set": "UNL",
@@ -3286,22 +3254,6 @@
     "type": "champion",
     "residualText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more.",
     "fullText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more."
-  },
-  {
-    "id": "ven-167",
-    "name": "Vi, Destructive",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "Recycle 1 from your trash: Give me +1 Might this turn.",
-    "fullText": "[Ganking]\nRecycle 1 from your trash: Give me +1 Might this turn."
-  },
-  {
-    "id": "unl-30",
-    "name": "Vi, Hotheaded",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "2 EnergyFury Rune: Double my Might this turn.",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n2 EnergyFury Rune: Double my Might this turn."
   },
   {
     "id": "ven-176",
