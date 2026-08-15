@@ -16,6 +16,7 @@ export function moveInstanceToBase(game: GameState, getCard: (id: string) => Car
   if (SpecialCaseEngine.blocksMoveToBaseFromBattlefield(game, getCard, instance)) return false;
 
   const wasAtBattlefield = instance.zone === "battlefield";
+  const previousBattlefieldIndex = instance.battlefieldIndex;
   if (wasAtBattlefield && instance.battlefieldIndex !== null) {
     const slot = game.battlefields[instance.battlefieldIndex];
     slot.units[instance.controller] = slot.units[instance.controller].filter((id) => id !== instanceId);
@@ -23,7 +24,9 @@ export function moveInstanceToBase(game: GameState, getCard: (id: string) => Car
   instance.zone = "base";
   instance.battlefieldIndex = null;
   game.players[instance.controller].base.push(instanceId);
-  if (wasAtBattlefield) SpecialCaseEngine.onMoveFromBattlefield(game, getCard(instance.cardId), instance);
+  if (wasAtBattlefield && previousBattlefieldIndex !== null) {
+    SpecialCaseEngine.onMoveFromBattlefield(game, getCard(instance.cardId), instance, previousBattlefieldIndex);
+  }
   return true;
 }
 
@@ -41,6 +44,7 @@ export function moveInstanceToBattlefield(game: GameState, instanceId: string, b
   if (instance.zone === "battlefield" && instance.battlefieldIndex === battlefieldIndex) return false;
 
   const wasAtBattlefield = instance.zone === "battlefield";
+  const previousBattlefieldIndex = instance.battlefieldIndex;
   if (instance.zone === "base") {
     game.players[instance.controller].base = game.players[instance.controller].base.filter((id) => id !== instanceId);
   } else if (wasAtBattlefield && instance.battlefieldIndex !== null) {
@@ -50,8 +54,8 @@ export function moveInstanceToBattlefield(game: GameState, instanceId: string, b
   instance.zone = "battlefield";
   instance.battlefieldIndex = battlefieldIndex;
   game.battlefields[battlefieldIndex].units[instance.controller].push(instanceId);
-  if (wasAtBattlefield) {
-    SpecialCaseEngine.onMoveFromBattlefield(game, getCard(instance.cardId), instance);
+  if (wasAtBattlefield && previousBattlefieldIndex !== null) {
+    SpecialCaseEngine.onMoveFromBattlefield(game, getCard(instance.cardId), instance, previousBattlefieldIndex);
   }
   return true;
 }

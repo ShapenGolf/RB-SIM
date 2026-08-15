@@ -587,6 +587,11 @@ import { hextechDisc } from "./hextech-disc";
 import { iascylla } from "./iascylla";
 import { icevaleArcher } from "./icevale-archer";
 import { hostileTakeover } from "./hostile-takeover";
+import { keeperOfMasks } from "./keeper-of-masks";
+import { lilliaFaeFawn } from "./lillia-fae-fawn";
+import { loyalPup } from "./loyal-pup";
+import { jayceBrilliantInventor } from "./jayce-brilliant-inventor";
+import { jhinMurderousArtist } from "./jhin-murderous-artist";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1174,6 +1179,11 @@ const handlers: SpecialCaseHandler[] = [
   iascylla,
   icevaleArcher,
   hostileTakeover,
+  keeperOfMasks,
+  lilliaFaeFawn,
+  loyalPup,
+  jayceBrilliantInventor,
+  jhinMurderousArtist,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1233,8 +1243,8 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onEndOfTurn?.(ctxFor(game, card, instance));
   },
 
-  onMoveFromBattlefield: (game: GameState, card: Card, instance: CardInstance) => {
-    getSpecialCaseHandler(card)?.onMoveFromBattlefield?.(ctxFor(game, card, instance));
+  onMoveFromBattlefield: (game: GameState, card: Card, instance: CardInstance, fromBattlefieldIndex: number) => {
+    getSpecialCaseHandler(card)?.onMoveFromBattlefield?.(ctxFor(game, card, instance), fromBattlefieldIndex);
   },
 
   activatedAbilityCost: (game: GameState, card: Card, instance: CardInstance) => {

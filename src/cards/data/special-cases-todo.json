@@ -616,14 +616,6 @@
     "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\nEach Equipment in your hand has [Quick-Draw]. (It gains [Reaction]. When you play it, attach it to a unit you control.)"
   },
   {
-    "id": "ven-68",
-    "name": "Jayce, Brilliant Inventor",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me or the first time you play a non-token gear each turn, you may ready something besides me that's exhausted.",
-    "fullText": "When you play me or the first time you play a non-token gear each turn, you may ready something besides me that's exhausted."
-  },
-  {
     "id": "ven-88",
     "name": "Jayce, Hammer in Hand",
     "set": "VEN",
@@ -632,28 +624,12 @@
     "fullText": "When I become ready, choose one to give me this turn —[Assault 2] (+2 Might while I'm an attacker.)[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "ven-175",
-    "name": "Jayce, Man of Progress",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me, you may kill a friendly gear. If you do, you may play a gear with Energy cost no more than 7 Energy from hand this turn, ignoring its Energy cost.",
-    "fullText": "When you play me, you may kill a friendly gear. If you do, you may play a gear with Energy cost no more than 7 Energy from hand this turn, ignoring its Energy cost."
-  },
-  {
     "id": "unl-89",
     "name": "Jhin, Meticulous Killer",
     "set": "UNL",
     "type": "champion",
     "residualText": "If you've spent 4 Energy or more to play a spell this turn, you may play me for Mind Rune.",
     "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nIf you've spent 4 Energy or more to play a spell this turn, you may play me for Mind Rune."
-  },
-  {
-    "id": "unl-22",
-    "name": "Jhin, Murderous Artist",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I move,  1 EnergyRune. (Abilities that add resources can't be reacted to.)",
-    "fullText": "[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)\nWhen I move, [Add] 1 EnergyRune. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "ogn-112",
@@ -720,14 +696,6 @@
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nIf I have moved twice this turn, I don't take damage."
   },
   {
-    "id": "unl-81",
-    "name": "Keeper of Masks",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, play two Reflection unit tokens here. They become copies of me.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Temporary] (Kill me at the start of my controller's Beginning Phase, before scoring.)\nWhen you play me, play two Reflection unit tokens here. They become copies of me."
-  },
-  {
     "id": "ven-135",
     "name": "Kennen, Keeper of Balance",
     "set": "VEN",
@@ -768,14 +736,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
   },
   {
-    "id": "unl-82",
-    "name": "Lillia, Fae Fawn",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When I move from a location, play a 3 Might Sprite unit token with  there. (Kill it at the start of its controller's Beginning Phase, before scoring.)",
-    "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nWhen I move from a location, play a 3 Might Sprite unit token with [Temporary] there. (Kill it at the start of its controller's Beginning Phase, before scoring.)"
-  },
-  {
     "id": "unl-190",
     "name": "Lilting Lullaby",
     "set": "UNL",
@@ -790,14 +750,6 @@
     "type": "spell",
     "residualText": "Choose a unit. Double all damage that would be dealt to it this turn.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. Double all damage that would be dealt to it this turn."
-  },
-  {
-    "id": "sfd-126",
-    "name": "Loyal Pup",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you defend at a battlefield, you may move me there.",
-    "fullText": "When you defend at a battlefield, you may move me there."
   },
   {
     "id": "ogs-14",

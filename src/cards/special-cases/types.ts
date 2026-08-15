@@ -90,7 +90,7 @@ export interface SpecialCaseHandler {
   onEndOfTurn?(ctx: SpecialCaseContext): void;
 
   /** Called on this instance right after it moves from a Battlefield to its controller's base, via any source (see move-helpers.ts moveInstanceToBase, the shared chokepoint for non-attack moves-to-base). Not called for a move that started already in base. */
-  onMoveFromBattlefield?(ctx: SpecialCaseContext): void;
+  onMoveFromBattlefield?(ctx: SpecialCaseContext, fromBattlefieldIndex: number): void;
 
   /**
    * Might bonus this Gear/static-effect card grants to a given ally unit
