@@ -18,6 +18,8 @@ export interface DeckValidationIssue {
 }
 
 export const MAIN_DECK_MIN = 40;
+/** No sideboard mechanic yet — main deck is capped at exactly the minimum. */
+export const MAIN_DECK_MAX = 40;
 export const RUNE_DECK_SIZE = 12;
 export const BATTLEFIELD_COUNT = 3;
 export const MAX_COPIES_PER_NAME = 3;
@@ -66,6 +68,12 @@ export function validateDeck(deck: DeckList, getCardFn: (id: string) => Card = g
     issues.push({
       code: "main-deck-too-small",
       message: `Main Deck hat ${deck.mainDeck.length} Karten, mindestens ${MAIN_DECK_MIN} nötig.`,
+    });
+  }
+  if (deck.mainDeck.length > MAIN_DECK_MAX) {
+    issues.push({
+      code: "main-deck-too-large",
+      message: `Main Deck hat ${deck.mainDeck.length} Karten, maximal ${MAIN_DECK_MAX} erlaubt (kein Sideboard).`,
     });
   }
 

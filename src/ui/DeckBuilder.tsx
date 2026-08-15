@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { getCard, listOfficialCards } from "../cards/db";
 import type { Card, CardType } from "../cards/types";
-import { validateDeck, copyLimitFor, type DeckList } from "../cards/deckValidation";
+import { validateDeck, copyLimitFor, MAIN_DECK_MAX, type DeckList } from "../cards/deckValidation";
 import { deleteDeck, listSavedDecks, saveDeck, type SavedDeck } from "../decks/store";
 import { CardFace } from "./CardFace";
 
@@ -134,7 +134,7 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     setChosenChampionId(id);
     // The Chosen Champion must also physically be in the Main Deck (docs/deck-building-rules.md)
     // — seed one copy now so step 3 starts from a deck that already satisfies that rule.
-    setMainDeck((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    setMainDeck((prev) => (prev.includes(id) || prev.length >= MAIN_DECK_MAX ? prev : [...prev, id]));
   }
 
   function addMainCopy(card: Card) {
@@ -143,6 +143,7 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     // count and both pass the limit check — React applies queued updaters sequentially against
     // the latest state, so this can't race regardless of click speed.
     setMainDeck((prev) => {
+      if (prev.length >= MAIN_DECK_MAX) return prev;
       const limit = copyLimitFor(card);
       const current = prev.filter((id) => getCard(id).name === card.name).length;
       if (current >= limit) return prev;
@@ -245,7 +246,7 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
           <span>
             <b>{legend.name}</b> ({legendDomains.join("/")})
           </span>
-          <span>Main Deck: {mainDeck.length}/40+</span>
+          <span>Main Deck: {mainDeck.length}/{MAIN_DECK_MAX}</span>
           <span>Runen: {runeDeck.length}/12</span>
           <span>Battlefields: {battlefields.length}/3</span>
           <span>Champion: {chosenChampionId ? getCard(chosenChampionId).name : "offen"}</span>
@@ -338,8 +339,14 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
           <>
             <div className="rb-section-label">
               Main Deck
-              <span className="rb-count">{mainDeck.length}/40+</span>
+              <span className="rb-count">
+                {mainDeck.length}/{MAIN_DECK_MAX}
+              </span>
             </div>
+            <p className="rb-db-hint">
+              Genau {MAIN_DECK_MAX} Karten im Main Deck (das ist die Hand, mit der du tatsächlich spielst — noch kein
+              Sideboard). Maximal 3 Kopien pro Kartenname (1 bei [Unique]).
+            </p>
             <div className="rb-db-card-grid rb-db-maindeck-grid">
               {[...mainDeckCounts.entries()].map(([id, count]) => {
                 const c = getCard(id);
@@ -352,7 +359,10 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
                       <div className="rb-db-stepper">
                         <button onClick={() => removeMainCopy(id)}>−</button>
                         <b>{count}</b>
-                        <button onClick={() => addMainCopy(c)} disabled={(mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}>
+                        <button
+                          onClick={() => addMainCopy(c)}
+                          disabled={mainDeck.length >= MAIN_DECK_MAX || (mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}
+                        >
                           +
                         </button>
                       </div>
@@ -401,7 +411,10 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
                       <div className="rb-db-stepper">
                         {isMatchingChampion && <span title={`Passt zu ${legend.name}`}>★</span>}
                         <span>{mainDeckNameCounts.get(c.name) ?? 0}x</span>
-                        <button onClick={() => addMainCopy(c)} disabled={(mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}>
+                        <button
+                          onClick={() => addMainCopy(c)}
+                          disabled={mainDeck.length >= MAIN_DECK_MAX || (mainDeckNameCounts.get(c.name) ?? 0) >= copyLimitFor(c)}
+                        >
                           +
                         </button>
                       </div>

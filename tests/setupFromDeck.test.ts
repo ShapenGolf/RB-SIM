@@ -24,9 +24,9 @@ function buildSampleLegalDeck(): DeckList {
 
   const mainDeck: string[] = [CHAMPION_ID, CHAMPION_ID, CHAMPION_ID];
   for (const c of byName.values()) {
-    if (mainDeck.length >= 60) break;
+    if (mainDeck.length >= 40) break;
     const limit = c.keywords.some((k) => k.keyword === "unique") ? 1 : 3;
-    for (let i = 0; i < limit; i += 1) mainDeck.push(c.id);
+    for (let i = 0; i < limit && mainDeck.length < 40; i += 1) mainDeck.push(c.id);
   }
 
   return {

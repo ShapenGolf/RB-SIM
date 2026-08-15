@@ -59,6 +59,12 @@ unverändert übernommen, danach die Übersetzung in unser Datenmodell.
   "Kurzname, Untertitel" ist, z.B. "Lillia, Protector of Dreams" — passt
   exakt zur Regel). `[Unique]`-Keyword-Karten: max. 1 Kopie (überschreibt
   das 3er-Limit).
+  **Simulator-Entscheidung (2026-08-15, auf Nutzerwunsch):** solange es kein
+  Sideboard gibt, deckelt `MAIN_DECK_MAX` (`src/cards/deckValidation.ts`) das
+  Main Deck zusätzlich hart bei genau 40 — mehr als 40 Karten wären laut
+  Originaltext zwar erlaubt, würden im Spiel aber ohnehin nie alle gezogen;
+  der Nutzer wollte das explizit als reines "40 Karten, keine Karte
+  darüber" behandelt sehen, bis ein Sideboard-Feature existiert.
 - **Chosen Champion**: genau 1 Karte mit `type === "champion"` aus dem Main
   Deck, deren Tags die Legend-Tags als Teilmenge enthalten (s.o.). Zählt
   zum eigenen 3-Kopien-Limit (die gewählte Kopie + bis zu 2 weitere im Main
