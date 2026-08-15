@@ -296,22 +296,6 @@
     "fullText": "Exhaust: [Reaction] — [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "unl-141",
-    "name": "Evelynn, Entrancing",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When you play me from face down on your turn, you may move an enemy unit at a different location to my battlefield.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Backline] (I must be assigned combat damage last.)\nWhen you play me from face down on your turn, you may move an enemy unit at a different location to my battlefield."
-  },
-  {
-    "id": "sfd-82",
-    "name": "Ezreal, Dashing",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I attack or defend, deal damage equal to my Might to an enemy unit here.\nI don't deal combat damage.\nMind Rune:  — Move me to your base.",
-    "fullText": "When I attack or defend, deal damage equal to my Might to an enemy unit here.\nI don't deal combat damage.\nMind Rune: [Action] — Move me to your base."
-  },
-  {
     "id": "ven-132",
     "name": "Fallen Feline",
     "set": "VEN",
@@ -342,14 +326,6 @@
     "type": "legend",
     "residualText": "Exhaust:  —  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] — [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "unl-44",
-    "name": "Flurry of Feathers",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose one —Counter a spell.Play four 1 Might Bird unit tokens with . (Opponents must pay Rune to choose them with a spell or ability.)",
-    "fullText": "[Reaction]\nChoose one —Counter a spell.Play four 1 Might Bird unit tokens with [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)"
   },
   {
     "id": "sfd-208",

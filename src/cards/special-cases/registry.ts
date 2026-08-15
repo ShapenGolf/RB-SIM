@@ -578,6 +578,9 @@ import { freshBeans } from "./fresh-beans";
 import { guards } from "./guards";
 import { guerillaWarfare } from "./guerilla-warfare";
 import { heedlessResurrection } from "./heedless-resurrection";
+import { evelynnEntrancing } from "./evelynn-entrancing";
+import { ezrealDashing } from "./ezreal-dashing";
+import { flurryOfFeathers } from "./flurry-of-feathers";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1156,6 +1159,9 @@ const handlers: SpecialCaseHandler[] = [
   guards,
   guerillaWarfare,
   heedlessResurrection,
+  evelynnEntrancing,
+  ezrealDashing,
+  flurryOfFeathers,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
