@@ -110,6 +110,10 @@ export interface PlayerState {
   friendlyUnitDiedDuringBeginningThisTurn: boolean;
   /** Set true once this player has played a spell card this turn, e.g. for "if you've played a spell this turn, ..." effects like Crescent Guardian. Reset at Awaken. */
   playedSpellThisTurn: boolean;
+  /** Set true once this player has played a non-token unit/champion card this turn (tokens never go through resolvePlayedCard — see game/moves.ts). Reset at Awaken. */
+  playedNonTokenUnitThisTurn: boolean;
+  /** Set true once this player has played a non-token gear card this turn. Reset at Awaken. */
+  playedNonTokenGearThisTurn: boolean;
   /** Highest actual Energy cost (after all reductions) this player has paid for a single spell this turn, e.g. for "if you've spent 4+ Energy to play a spell this turn, ..." effects like Prepared Neophyte. Reset at Awaken. */
   maxEnergySpentOnSpellThisTurn: number;
   /** True once this player has resolved their opening mulligan (see moves.ts `mulligan`) — gates the pregame "mulligan" phase in game/game.ts, which both players must clear before turn 1 begins. */

@@ -144,6 +144,8 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   game.players[player].buffUnitsPlayedThisTurn = false;
   game.players[player].enemyUnitDiedThisTurn = false;
   game.players[player].playedSpellThisTurn = false;
+  game.players[player].playedNonTokenUnitThisTurn = false;
+  game.players[player].playedNonTokenGearThisTurn = false;
   game.players[player].maxEnergySpentOnSpellThisTurn = 0;
   game.anyUnitDiedThisTurn = false;
   game.preventAllSpellDamageThisTurn = false;

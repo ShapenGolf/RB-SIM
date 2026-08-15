@@ -91,6 +91,8 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     turnsTaken: 0,
     friendlyUnitDiedDuringBeginningThisTurn: false,
     playedSpellThisTurn: false,
+    playedNonTokenUnitThisTurn: false,
+    playedNonTokenGearThisTurn: false,
     maxEnergySpentOnSpellThisTurn: 0,
     mulliganDone: false,
     battlefieldPool: [],

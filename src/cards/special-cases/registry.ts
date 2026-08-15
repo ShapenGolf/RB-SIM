@@ -640,6 +640,8 @@ import { wagesOfPain } from "./wages-of-pain";
 import { whirlwind } from "./whirlwind";
 import { wildClaw } from "./wild-claw";
 import { windsinger } from "./windsinger";
+import { swainVisionary } from "./swain-visionary";
+import { swiftScout } from "./swift-scout";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1280,6 +1282,8 @@ const handlers: SpecialCaseHandler[] = [
   whirlwind,
   wildClaw,
   windsinger,
+  swainVisionary,
+  swiftScout,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

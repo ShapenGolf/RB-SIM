@@ -46,6 +46,8 @@ export function resolvePlayedCard(
     }
   } else {
     const isUnit = card.type === "unit" || card.type === "champion";
+    if (isUnit) player.playedNonTokenUnitThisTurn = true;
+    if (card.type === "gear") player.playedNonTokenGearThisTurn = true;
     if (ambushBattlefieldIndex !== undefined) {
       instance.zone = "battlefield";
       instance.battlefieldIndex = ambushBattlefieldIndex;

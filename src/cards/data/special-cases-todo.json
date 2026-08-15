@@ -1168,38 +1168,6 @@
     "fullText": "[Equip] 1 EnergyCalm Rune (1 EnergyCalm Rune: Attach this to a unit you control.)\nAs this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it."
   },
   {
-    "id": "ven-173",
-    "name": "Swain, Visionary",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I conquer, if you've played a non-token unit, a non-token gear, and a spell this turn, you score 1 point.",
-    "fullText": "[Vision]\nWhen I conquer, if you've played a non-token unit, a non-token gear, and a spell this turn, you score 1 point."
-  },
-  {
-    "id": "ven-65",
-    "name": "Swain, Visionary",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I conquer, if you've played a non-token unit, a non-token gear, and a spell this turn, you score 1 point.",
-    "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nWhen I conquer, if you've played a non-token unit, a non-token gear, and a spell this turn, you score 1 point."
-  },
-  {
-    "id": "ogn-307",
-    "name": "Swift Scout",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "You may pay 1 Energy to hide a card with  instead of Rune.\n1 Energy, Exhaust: Put a Teemo unit you own into your hand from your Champion Zone or the board.",
-    "fullText": "You may pay 1 Energy to hide a card with [Hidden] instead of Rune.\n1 Energy, Exhaust: Put a Teemo unit you own into your hand from your Champion Zone or the board."
-  },
-  {
-    "id": "ogn-263",
-    "name": "Swift Scout",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "You may pay 1 Energy to hide a card with  instead of Rune.\n1 Energy, Exhaust: Put a Teemo unit you own into your hand from your Champion Zone or the board.",
-    "fullText": "You may pay 1 Energy to hide a card with [Hidden] instead of Rune.\n1 Energy, Exhaust: Put a Teemo unit you own into your hand from your Champion Zone or the board."
-  },
-  {
     "id": "ogn-227",
     "name": "Symbol of the Solari",
     "set": "OGN",
