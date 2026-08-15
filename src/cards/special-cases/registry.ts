@@ -468,6 +468,9 @@ import { voidRush } from "./void-rush";
 import { escapedGrayback } from "./escaped-grayback";
 import { kharox } from "./kharox";
 import { consumingCurse } from "./consuming-curse";
+import { legionMarauder } from "./legion-marauder";
+import { mournfulWitness } from "./mournful-witness";
+import { superMegaDeathRocket } from "./super-mega-death-rocket";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -936,6 +939,9 @@ const handlers: SpecialCaseHandler[] = [
   escapedGrayback,
   kharox,
   consumingCurse,
+  legionMarauder,
+  mournfulWitness,
+  superMegaDeathRocket,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

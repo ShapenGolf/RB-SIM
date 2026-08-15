@@ -1552,14 +1552,6 @@
     "fullText": "When you play a spell that costs 5 Energy or more, draw 1."
   },
   {
-    "id": "ven-74",
-    "name": "Legion Marauder",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "\u2014 1 Energy or Body Rune (Pay either cost: Empower me. Use only if not Empowered.)\n I have +1 Might.",
-    "fullText": "[Empower] \u2014 1 Energy or Body Rune (Pay either cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might."
-  },
-  {
     "id": "ven-156",
     "name": "Lightning Rush",
     "set": "VEN",
@@ -1790,14 +1782,6 @@
     "type": "champion",
     "residualText": "When you play me, deal damage to a unit equal to the damage marked on it.",
     "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, deal damage to a unit equal to the damage marked on it."
-  },
-  {
-    "id": "ven-28",
-    "name": "Mournful Witness",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When a combat that I was in ends, empower me. (I become Empowered if I'm not already.)\n I have +2 Might.",
-    "fullText": "When a combat that I was in ends, empower me. (I become Empowered if I'm not already.)\n[Empowered][>] I have +2 Might."
   },
   {
     "id": "ogn-101",
@@ -2502,14 +2486,6 @@
     "type": "spell",
     "residualText": "Deal 2 to a unit at a battlefield. If it's attacking, deal 4 to it instead.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nDeal 2 to a unit at a battlefield. If it's attacking, deal 4 to it instead."
-  },
-  {
-    "id": "ogn-252",
-    "name": "Super Mega Death Rocket!",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Deal 5 to a unit.\nWhen you conquer, you may discard 1 to return this from your trash to your hand.",
-    "fullText": "Deal 5 to a unit.\nWhen you conquer, you may discard 1 to return this from your trash to your hand."
   },
   {
     "id": "sfd-59",
