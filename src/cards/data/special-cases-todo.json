@@ -1224,14 +1224,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. The next time it would die this turn, heal it, exhaust it, and recall it instead. (Send it to base. This isn't a move.)"
   },
   {
-    "id": "ogn-121",
-    "name": "Teemo, Strategist",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When I defend or I'm played from , reveal the top 5 cards of your Main Deck. Deal 1 to an enemy unit here for each card with , then recycle them.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen I defend or I'm played from [Hidden], reveal the top 5 cards of your Main Deck. Deal 1 to an enemy unit here for each card with [Hidden], then recycle them."
-  },
-  {
     "id": "unl-216",
     "name": "The Academy",
     "set": "UNL",
@@ -1360,30 +1352,6 @@
     "fullText": "[Shield 3] (+3 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nWhen an opponent moves to a battlefield other than mine, draw 1. (Bases are not battlefield.)"
   },
   {
-    "id": "sfd-70",
-    "name": "Wages of Pain",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Deal 3 to a unit at a battlefield. Play a Gold gear token exhausted.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nDeal 3 to a unit at a battlefield. Play a Gold gear token exhausted."
-  },
-  {
-    "id": "ogn-187",
-    "name": "Whirlwind",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Starting with the next player, each player may return a unit to its owner's hand.",
-    "fullText": "Starting with the next player, each player may return a unit to its owner's hand."
-  },
-  {
-    "id": "ven-89",
-    "name": "Wild Claw",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Look at the top 5 cards of your Main Deck. You may banish a unit or gear from among them and play it, reducing its Energy cost by 5 Energy. Recycle the rest. Then you may do this: Empower it. (It becomes Empowered if it's not already.)",
-    "fullText": "Look at the top 5 cards of your Main Deck. You may banish a unit or gear from among them and play it, reducing its Energy cost by 5 Energy. Recycle the rest. Then you may do this: Empower it. (It becomes Empowered if it's not already.)"
-  },
-  {
     "id": "unl-108",
     "name": "Wily Newtfish",
     "set": "UNL",
@@ -1398,14 +1366,6 @@
     "type": "spell",
     "residualText": "Counter a spell.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell."
-  },
-  {
-    "id": "sfd-138",
-    "name": "Windsinger",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "Hidden (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, you may return another unit at a battlefield with 3 Might or less to its owner's hand.",
-    "fullText": "Hidden (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, you may return another unit at a battlefield with 3 Might or less to its owner's hand."
   },
   {
     "id": "sfd-235",
