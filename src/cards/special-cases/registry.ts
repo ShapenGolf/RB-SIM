@@ -456,6 +456,12 @@ import { kingsEdict } from "./kings-edict";
 import { rampage } from "./rampage";
 import { redBrambleback } from "./red-brambleback";
 import { rallyTheTroops } from "./rally-the-troops";
+import { undertitan } from "./undertitan";
+import { overtOperation } from "./overt-operation";
+import { shadowsOfThePast } from "./shadows-of-the-past";
+import { undyingLoyalty } from "./undying-loyalty";
+import { wallop } from "./wallop";
+import { partyFavors } from "./party-favors";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -912,6 +918,12 @@ const handlers: SpecialCaseHandler[] = [
   rampage,
   redBrambleback,
   rallyTheTroops,
+  undertitan,
+  overtOperation,
+  shadowsOfThePast,
+  undyingLoyalty,
+  wallop,
+  partyFavors,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

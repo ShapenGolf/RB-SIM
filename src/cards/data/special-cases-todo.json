@@ -1944,28 +1944,12 @@
     "fullText": "If a player would score 1 point from conquering or holding during their first or second turn, they draw 1 instead."
   },
   {
-    "id": "ogn-153",
-    "name": "Overt Operation",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "For each friendly unit, you may spend its buff to ready it. Then buff all friendly units. (Each one that doesn't have a buff gets a +1 Might buff.)",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nFor each friendly unit, you may spend its buff to ready it. Then buff all friendly units. (Each one that doesn't have a buff gets a +1 Might buff.)"
-  },
-  {
     "id": "sfd-128",
     "name": "Overzealous Fan",
     "set": "SFD",
     "type": "unit",
     "residualText": "When I defend, you may kill me to move an attacking unit to its base.",
     "fullText": "When I defend, you may kill me to move an attacking unit to its base."
-  },
-  {
-    "id": "ogn-71",
-    "name": "Party Favors",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Each other player chooses Cards or Runes. For each player that chooses Cards, you and that player each draw 1. For each player that chooses Runes, you and that player each channel 1 rune exhausted.",
-    "fullText": "Each other player chooses Cards or Runes. For each player that chooses Cards, you and that player each draw 1. For each player that chooses Runes, you and that player each channel 1 rune exhausted."
   },
   {
     "id": "sfd-15",
@@ -2358,14 +2342,6 @@
     "type": "spell",
     "residualText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.",
     "fullText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
-  },
-  {
-    "id": "ven-103",
-    "name": "Shadows of the Past",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Return up to 2 units from trashes to their owners' hands.",
-    "fullText": "Return up to 2 units from trashes to their owners' hands."
   },
   {
     "id": "ven-137",
@@ -2808,28 +2784,12 @@
     "fullText": "Spend my buff: Choose one you've not chosen this turn \u2014Deal 2 to a unit at a battlefield.Stun a unit at a battlefield.Ready me.Give me [Ganking] this turn."
   },
   {
-    "id": "sfd-175",
-    "name": "Undertitan",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, give your other units +2 Might this turn.\nAs I'm revealed from your deck,  2 Energy.",
-    "fullText": "When you play me, give your other units +2 Might this turn.\nAs I'm revealed from your deck, [Add] 2 Energy."
-  },
-  {
     "id": "unl-25",
     "name": "Undying Legion",
     "set": "UNL",
     "type": "unit",
     "residualText": "You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)",
     "fullText": "[Legion][>] You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)"
-  },
-  {
-    "id": "unl-168",
-    "name": "Undying Loyalty",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "This costs 2 Energy less if you choose a Bird, Cat, Dog, or Poro.\nPlay a unit with cost no more than 2 Energy and no more than Rune from your trash, ignoring its cost.",
-    "fullText": "This costs 2 Energy less if you choose a Bird, Cat, Dog, or Poro.\nPlay a unit with cost no more than 2 Energy and no more than Rune from your trash, ignoring its cost."
   },
   {
     "id": "ogn-259",
@@ -2982,14 +2942,6 @@
     "type": "spell",
     "residualText": "Deal 3 to a unit at a battlefield. Play a Gold gear token exhausted.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nDeal 3 to a unit at a battlefield. Play a Gold gear token exhausted."
-  },
-  {
-    "id": "ogn-146",
-    "name": "Wallop",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "As you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nReady a unit.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nAs you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nReady a unit."
   },
   {
     "id": "ogn-187",
