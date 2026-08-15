@@ -27,6 +27,7 @@ export function CardFace({
   selected,
   onClick,
   footer,
+  frame,
 }: {
   card: Card;
   instance?: CardInstance;
@@ -34,6 +35,13 @@ export function CardFace({
   selected?: boolean;
   onClick?: () => void;
   footer?: ReactNode;
+  /**
+   * "Einfacher Modus" visual aid (see ui/Board.tsx simpleMode toggle): a colored outline showing
+   * whether this card is currently affordable/actionable ("ok") or not ("blocked") — e.g. not
+   * enough Runes to play it, or a unit that's already exhausted. Purely informational; illegal
+   * actions are still blocked the same way regardless of this prop.
+   */
+  frame?: "ok" | "blocked";
 }) {
   const domainKey = DOMAIN_VAR[card.domains[0]] ?? "colorless";
   const rarityKey = card.rarity ? (RARITY_VAR[card.rarity] ?? "common") : "common";
@@ -47,6 +55,7 @@ export function CardFace({
     selected ? "rb-selected" : "",
     instance?.exhausted ? "rb-exhausted" : "",
     instance?.statuses.stunned ? "rb-stunned" : "",
+    frame === "ok" ? "rb-frame-ok" : frame === "blocked" ? "rb-frame-blocked" : "",
   ]
     .filter(Boolean)
     .join(" ");

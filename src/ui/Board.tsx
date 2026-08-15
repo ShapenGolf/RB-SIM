@@ -29,7 +29,12 @@ function blankInstance(cardId: string, controller: PlayerId): CardInstance {
 }
 
 export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameState>) {
+  const [mulliganSelected, setMulliganSelected] = useState<Set<number>>(new Set());
   const [attackMode, setAttackMode] = useState<{ selected: Set<string> } | null>(null);
+  // "Einfacher Modus": green/red outline hints on cards (affordable? can still act?), see
+  // CardFace's `frame` prop. "Standard" drops the hints — illegal actions are still blocked
+  // either way (the alert()s in playCardAuto/activateAbilityAuto etc.), this is purely visual.
+  const [simpleMode, setSimpleMode] = useState(true);
   const [pendingTarget, setPendingTarget] = useState<{
     handIndex: number;
     payAdditionalCost: boolean;
@@ -54,6 +59,51 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
   const player = G.players[me];
   const opponentId: PlayerId = me === "0" ? "1" : "0";
+
+  if (ctx.phase === "mulligan") {
+    function toggleMulligan(idx: number) {
+      setMulliganSelected((prev) => {
+        const next = new Set(prev);
+        if (next.has(idx)) next.delete(idx);
+        else if (next.size < 2) next.add(idx);
+        return next;
+      });
+    }
+    function confirmMulligan() {
+      moves.mulligan({ handIndices: Array.from(mulliganSelected) });
+    }
+    return (
+      <div className="rb-board">
+        <div className="rb-topbar">
+          <h2>Spieler {me} — Mulligan</h2>
+        </div>
+        {player.mulliganDone ? (
+          <p className="rb-db-hint">Mulligan bestätigt — warte auf den Gegner…</p>
+        ) : (
+          <>
+            <p className="rb-db-hint">
+              Deine Starthand: {player.hand.length} Karten. Wähle bis zu 2 aus, die du gegen zufällige neue Karten
+              aus deinem Deck tauschen willst — oder bestätige ohne Auswahl, um deine Hand zu behalten.
+            </p>
+            <div className="rb-row">
+              {player.hand.map((cardId, idx) => (
+                <CardFace
+                  key={idx}
+                  card={getCard(cardId)}
+                  size="sm"
+                  selected={mulliganSelected.has(idx)}
+                  onClick={() => toggleMulligan(idx)}
+                />
+              ))}
+            </div>
+            <button className="rb-end-turn" onClick={confirmMulligan}>
+              {mulliganSelected.size === 0 ? "Hand behalten" : `${mulliganSelected.size} Karte(n) tauschen`}
+            </button>
+          </>
+        )}
+      </div>
+    );
+  }
 
   function playCardAuto(handIndex: number, payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
     const cardId = player.hand[handIndex];
@@ -250,7 +300,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         <div>
           <h2>Spieler {me}</h2>
           <div className="rb-status">
-            Zug {ctx.turn} · Phase: {G.turnPhase}
+            {/* ctx.turn counts globally from the very start of the match, including the
+                pregame "mulligan" phase's own turn slot — subtract 1 so the player-facing
+                counter reads "Zug 1" for the actual first turn of real play. */}
+            Zug {ctx.turn - 1} · Phase: {G.turnPhase}
           </div>
         </div>
         <div className="rb-scoreline">
@@ -262,6 +315,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           </span>
         </div>
         <div className={`rb-turn-pill${canAct ? " active" : ""}`}>{canAct ? "Am Zug" : "Wartet"}</div>
+        <button
+          className="rb-mode-toggle"
+          title="Einfacher Modus zeigt grüne/rote Rahmen für spielbar/bezahlbar bzw. blockiert. Standard blendet die Rahmen aus, blockiert illegale Züge aber genauso."
+          onClick={() => setSimpleMode((v) => !v)}
+        >
+          Modus: {simpleMode ? "Einfach" : "Standard"}
+        </button>
       </div>
 
       {/* Opponent sits across the table: their hand (face down, count only) and base up top. */}
@@ -354,10 +414,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           return (
             <div key={idx} className="rb-battlefield">
               <div className="rb-battlefield-header">
-                <span className="rb-battlefield-name">{getCard(slot.cardId).name}</span>
-                <span className={`rb-battlefield-control${controlClass}`}>
-                  {slot.controller === null ? "frei" : slot.controller === me ? "du" : "Gegner"}
-                </span>
+                <CardFace card={getCard(slot.cardId)} size="sm" />
+                <div className="rb-battlefield-header-text">
+                  <span className="rb-battlefield-name">{getCard(slot.cardId).name}</span>
+                  <span className={`rb-battlefield-control${controlClass}`}>
+                    {slot.controller === null ? "frei" : slot.controller === me ? "du" : "Gegner"}
+                  </span>
+                </div>
               </div>
 
               <div className="rb-battlefield-side-label">Du</div>
@@ -416,6 +479,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               size="sm"
               selected={isUnit ? attackMode?.selected.has(id) : undefined}
               onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
+              frame={simpleMode && isUnit ? (instance.exhausted ? "blocked" : "ok") : undefined}
               footer={
                 canAct && (card.equipCost || canActivate) ? (
                   <>
@@ -446,6 +510,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
           const dummyInstance = blankInstance(cardId, me!);
           const bonusEffectEnergy = SpecialCaseEngine.additionalPlayCostEnergy(G, card, dummyInstance);
+          const canAfford = computeAutoPayment(G, card, dummyInstance, player.runePool, false) !== null;
           const isChampion = card.type === "champion";
           const ambushBattlefields = isChampion
             ? G.battlefields.map((_slot, i) => ({ index: i }))
@@ -471,6 +536,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             <CardFace
               key={idx}
               card={card}
+              frame={simpleMode ? (canAfford ? "ok" : "blocked") : undefined}
               footer={
                 canAct ? (
                   <>

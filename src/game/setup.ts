@@ -11,7 +11,7 @@ import type { BattlefieldSlot, CardInstance, GameState, PlayerId, PlayerState, R
  * with real decklist construction once full card data is available.
  */
 
-const STARTING_HAND_SIZE = 7; // Unconfirmed exact rule; common TCG default, see docs/rules-reference.md open items.
+const STARTING_HAND_SIZE = 4; // Confirmed by user 2026-08-15: draw 4, then mulligan up to 2 (see moves.ts `mulligan`).
 const MAIN_DECK_SIZE = 40;
 const RUNE_DECK_SIZE = 12;
 
@@ -54,7 +54,7 @@ function buildRuneDeck(domains: Domain[]): RuneInstance[] {
   return deck;
 }
 
-function shuffle<T>(arr: T[]): T[] {
+export function shuffle<T>(arr: T[]): T[] {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -89,6 +89,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     friendlyUnitDiedDuringBeginningThisTurn: false,
     playedSpellThisTurn: false,
     maxEnergySpentOnSpellThisTurn: 0,
+    mulliganDone: false,
   };
 }
 

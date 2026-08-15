@@ -56,7 +56,7 @@ describe("setupGame with a real DeckList", () => {
 
     for (const playerId of ["0", "1"] as const) {
       const player = game.players[playerId];
-      expect(player.hand).toHaveLength(7);
+      expect(player.hand).toHaveLength(4);
       expect(player.hand.length + player.mainDeck.length).toBe(deck.mainDeck.length);
       // Every card in hand/deck came from the real deck list, not the domain-cycling fallback pool.
       for (const cardId of [...player.hand, ...player.mainDeck]) {
@@ -74,7 +74,7 @@ describe("setupGame with a real DeckList", () => {
 
   it("still supports the domain-cycling fallback when no deck is given (backward compatibility)", () => {
     const game = setupGame();
-    expect(game.players["0"].hand).toHaveLength(7);
-    expect(game.players["1"].hand).toHaveLength(7);
+    expect(game.players["0"].hand).toHaveLength(4);
+    expect(game.players["1"].hand).toHaveLength(4);
   });
 });

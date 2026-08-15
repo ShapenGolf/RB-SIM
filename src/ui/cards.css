@@ -212,6 +212,16 @@ body {
 .rb-card.rb-stunned {
   filter: grayscale(0.3) brightness(0.85) hue-rotate(200deg);
 }
+/* "Einfacher Modus" affordability/action-availability hint — an outline layered on top of
+   whatever else the card shows (rarity ring, selection glow), never replacing it. */
+.rb-card.rb-frame-ok {
+  outline: 3px solid #22c55e;
+  outline-offset: 2px;
+}
+.rb-card.rb-frame-blocked {
+  outline: 3px solid #ef4444;
+  outline-offset: 2px;
+}
 
 .rb-card-art {
   position: relative;
@@ -421,13 +431,27 @@ body {
 }
 .rb-battlefield-header {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 6px;
+}
+.rb-battlefield-header .rb-card-wrap {
+  flex-shrink: 0;
+}
+.rb-battlefield-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  min-width: 0;
 }
 .rb-battlefield-name {
   font-size: 12px;
   font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
 .rb-battlefield-control {
   font-size: 10px;

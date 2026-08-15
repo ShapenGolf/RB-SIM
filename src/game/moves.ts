@@ -4,7 +4,7 @@ import { getCard } from "../cards/db";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat, destroyInstance } from "./combat";
-import { createInstance } from "./setup";
+import { createInstance, shuffle } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
 import { attachEquipment } from "./equip";
@@ -507,6 +507,35 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
   G.pendingOptionalCost = null;
   SpecialCaseEngine.onOptionalCostPaid(G, pending.specialCaseId, player.id, pending.payload);
   return undefined;
+};
+
+export interface MulliganArgs {
+  /** 0-2 indices into the opening hand to shuffle back and replace with random new cards. */
+  handIndices: number[];
+}
+
+/**
+ * Opening-hand mulligan (see game/game.ts's "mulligan" phase, which both players must clear
+ * before turn 1 begins): shuffles the chosen cards back into the Main Deck and draws the same
+ * number of random replacements. Each player may only do this once, for up to 2 of their 4
+ * starting cards.
+ */
+export const mulligan: MoveFn<GameState> = ({ G, playerID }, args: MulliganArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  if (player.mulliganDone) return INVALID_MOVE;
+  const indices = [...new Set(args.handIndices)];
+  if (indices.length > 2 || indices.some((i) => i < 0 || i >= player.hand.length)) return INVALID_MOVE;
+
+  if (indices.length > 0) {
+    const indexSet = new Set(indices);
+    const kept = player.hand.filter((_, i) => !indexSet.has(i));
+    const returned = player.hand.filter((_, i) => indexSet.has(i));
+    const deck = shuffle([...player.mainDeck, ...returned]);
+    const drawn = deck.splice(0, returned.length);
+    player.hand = [...kept, ...drawn];
+    player.mainDeck = deck;
+  }
+  player.mulliganDone = true;
 };
 
 export const endTurn: MoveFn<GameState> = ({ G, playerID, events }) => {

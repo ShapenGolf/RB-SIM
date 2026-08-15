@@ -106,6 +106,8 @@ export interface PlayerState {
   playedSpellThisTurn: boolean;
   /** Highest actual Energy cost (after all reductions) this player has paid for a single spell this turn, e.g. for "if you've spent 4+ Energy to play a spell this turn, ..." effects like Prepared Neophyte. Reset at Awaken. */
   maxEnergySpentOnSpellThisTurn: number;
+  /** True once this player has resolved their opening mulligan (see moves.ts `mulligan`) — gates the pregame "mulligan" phase in game/game.ts, which both players must clear before turn 1 begins. */
+  mulliganDone: boolean;
 }
 
 export interface BattlefieldSlot {
