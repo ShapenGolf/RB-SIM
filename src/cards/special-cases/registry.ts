@@ -482,6 +482,8 @@ import { gustMonk } from "./gust-monk";
 import { minahSwiftfoot } from "./minah-swiftfoot";
 import { rocketBarrage } from "./rocket-barrage";
 import { piercingLight } from "./piercing-light";
+import { helmOfSuppression } from "./helm-of-suppression";
+import { faeDragon } from "./fae-dragon";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -964,6 +966,8 @@ const handlers: SpecialCaseHandler[] = [
   minahSwiftfoot,
   rocketBarrage,
   piercingLight,
+  helmOfSuppression,
+  faeDragon,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1084,6 +1088,24 @@ export const SpecialCaseEngine = {
       const sourceCard = getCard(sourceInstance.cardId);
       const handler = getSpecialCaseHandler(sourceCard);
       const fn = handler?.costReductionForAlly;
+      if (!fn) continue;
+      total += fn(ctxFor(game, sourceCard, sourceInstance), playedCard);
+    }
+    return total;
+  },
+
+  costIncreaseFromEnemies: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    playedInstance: CardInstance,
+    playedCard: Card,
+  ): number => {
+    let total = 0;
+    for (const sourceInstance of Object.values(game.instances)) {
+      if (sourceInstance.controller === playedInstance.controller) continue;
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      const fn = handler?.costIncreaseForEnemy;
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), playedCard);
     }

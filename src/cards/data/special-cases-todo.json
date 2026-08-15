@@ -816,14 +816,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nStun a friendly unit and an enemy unit at the same battlefield. (They don't deal combat damage this turn.)"
   },
   {
-    "id": "sfd-101",
-    "name": "Fae Dragon",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, buff up to four friendly units. (Give each a +1 Might buff if it doesn't have one.)\nWhen you spend a buff, play a Gold gear token exhausted.",
-    "fullText": "When you play me, buff up to four friendly units. (Give each a +1 Might buff if it doesn't have one.)\nWhen you spend a buff, play a Gold gear token exhausted."
-  },
-  {
     "id": "ven-132",
     "name": "Fallen Feline",
     "set": "VEN",
@@ -1142,14 +1134,6 @@
     "type": "battlefield",
     "residualText": "Players ignore  while paying for spells and abilities choosing something here.",
     "fullText": "Players ignore [Deflect] while paying for spells and abilities choosing something here."
-  },
-  {
-    "id": "ven-45",
-    "name": "Helm of Suppression",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "Opponents' spells cost 1 Energy more. If this is , they cost 1 EnergyRune more instead.",
-    "fullText": "[Empower] 4 EnergyCalm Rune (4 EnergyCalm Rune: Empower this. Use only if not Empowered.)\nOpponents' spells cost 1 Energy more. If this is [Empowered], they cost 1 EnergyRune more instead."
   },
   {
     "id": "sfd-111",

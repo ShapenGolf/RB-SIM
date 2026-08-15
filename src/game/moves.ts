@@ -143,11 +143,13 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   const xpReduction = canPayXPCost ? xpCostConfig!.energyReduction : 0;
   const selfCostReduction = SpecialCaseEngine.costReduction(G, card, instance);
   const allyCostReduction = SpecialCaseEngine.costReductionFromAllies(G, getCard, instance, card);
+  const enemyCostIncrease = SpecialCaseEngine.costIncreaseFromEnemies(G, getCard, instance, card);
   const nextSpellReduction = card.type === "spell" ? player.nextSpellCostReduction : 0;
   const energyNeeded = Math.max(
     0,
     (card.energyCost ?? 0) +
-      additionalEnergy -
+      additionalEnergy +
+      enemyCostIncrease -
       discardReduction -
       xpReduction -
       selfCostReduction -

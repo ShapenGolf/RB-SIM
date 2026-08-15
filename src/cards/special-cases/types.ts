@@ -218,6 +218,13 @@ export interface SpecialCaseHandler {
   costReductionForAlly?(ctx: SpecialCaseContext, playedCard: Card): number;
 
   /**
+   * Energy cost INCREASE this card's static presence imposes on an ENEMY card about to be
+   * played (e.g. Helm of Suppression: "Opponents' spells cost 1 Energy more."). `playedCard` is
+   * the card being played, not this source card.
+   */
+  costIncreaseForEnemy?(ctx: SpecialCaseContext, playedCard: Card): number;
+
+  /**
    * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be
    * expressed as fixed-amount TemplatedActions (e.g. "deal damage equal to my Might") — the
    * data-driven `Card.activatedAbility` (see cards/templatedEffects.ts) covers the fixed-amount
