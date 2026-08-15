@@ -248,14 +248,6 @@
     "fullText": "When you conquer or hold, you may discard 1 and exhaust me to play a ready Reflection unit token there. It becomes a copy of another unit there. Give it [Temporary]."
   },
   {
-    "id": "sfd-196",
-    "name": "Defiant Dance",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Give a unit +2 Might this turn and another unit -2 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a unit +2 Might this turn and another unit -2 Might this turn."
-  },
-  {
     "id": "ogn-45",
     "name": "Defy",
     "set": "OGN",
@@ -264,52 +256,12 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell that costs no more than 4 Energy and no more than Rune."
   },
   {
-    "id": "unl-79",
-    "name": "Diana, Lunari",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "When a showdown begins here, you may pay 1 Energy. If you do, , then reveal the top card of your Main Deck. If it's a spell, draw it. (To Predict, look at the top card of your Main Deck. You may recycle it.)",
-    "fullText": "When a showdown begins here, you may pay 1 Energy. If you do, [Predict], then reveal the top card of your Main Deck. If it's a spell, draw it. (To Predict, look at the top card of your Main Deck. You may recycle it.)"
-  },
-  {
-    "id": "ven-117",
-    "name": "Disciple of Shen",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have  while I'm at a battlefield with exactly one other unit you control. (+3 Might while I'm a defender.)",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nI have [Shield 3] while I'm at a battlefield with exactly one other unit you control. (+3 Might while I'm a defender.)"
-  },
-  {
-    "id": "unl-103",
-    "name": "Disposal Order",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose one —Choose up to 3 cards from opponents' trashes. Their owners recycle them.Draw 1.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one —Choose up to 3 cards from opponents' trashes. Their owners recycle them.Draw 1."
-  },
-  {
     "id": "ogn-244",
     "name": "Divine Judgment",
     "set": "OGN",
     "type": "spell",
     "residualText": "Each player chooses 2 units, 2 gear, 2 runes, and 2 cards in their hands. Recycle the rest.",
     "fullText": "Each player chooses 2 units, 2 gear, 2 runes, and 2 cards in their hands. Recycle the rest."
-  },
-  {
-    "id": "ven-142",
-    "name": "Dominus",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "This turn, double a unit's Might and give it \"RuneRune: Ready me.\"",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nThis turn, double a unit's Might and give it \"RuneRune: Ready me.\""
-  },
-  {
-    "id": "unl-32",
-    "name": "Double Trouble",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Look at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest.",
-    "fullText": "[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 3 cards of your Main Deck. You may reveal a unit from among them and draw it. Recycle the rest."
   },
   {
     "id": "ven-157",

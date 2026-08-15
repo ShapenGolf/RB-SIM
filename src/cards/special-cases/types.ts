@@ -499,6 +499,14 @@ export interface SpecialCaseHandler {
   onEnemyAttackHere?(ctx: SpecialCaseContext, attackingInstance: CardInstance): void;
 
   /**
+   * Called on every board instance sitting at a Battlefield (both controllers) right when an
+   * attack is declared there — before combat resolves — regardless of whether this instance is
+   * attacking or defending (e.g. Diana, Lunari: "When a showdown begins here, you may pay 1
+   * Energy..."). See game/moves.ts attackBattlefield.
+   */
+  onShowdownBegin?(ctx: SpecialCaseContext): void;
+
+  /**
    * Caps how many runes ANY player channels at the start of their Channel Phase, if lower than
    * the default amount (e.g. Sandstone Chimera: "While I'm at a battlefield, players only
    * channel 1 rune at the start of their Channel Phase."). Checked in turnFlow.ts runChannel

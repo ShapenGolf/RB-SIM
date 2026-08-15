@@ -287,6 +287,7 @@ export const attackBattlefield: MoveFn<GameState> = (
     }
   }
 
+  SpecialCaseEngine.onShowdownBegin(G, getCard, args.battlefieldIndex);
   resolveCombat(G, getCard, args.battlefieldIndex, player.id);
   return undefined;
 };

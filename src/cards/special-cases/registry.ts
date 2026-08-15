@@ -562,6 +562,12 @@ import { deathMark } from "./death-mark";
 import { deathgrip } from "./deathgrip";
 import { decreeOfInsight } from "./decree-of-insight";
 import { decreeOfFocus } from "./decree-of-focus";
+import { dianaLunari } from "./diana-lunari";
+import { defiantDance } from "./defiant-dance";
+import { discipleOfShen } from "./disciple-of-shen";
+import { disposalOrder } from "./disposal-order";
+import { dominus } from "./dominus";
+import { doubleTrouble } from "./double-trouble";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1124,6 +1130,12 @@ const handlers: SpecialCaseHandler[] = [
   deathgrip,
   decreeOfInsight,
   decreeOfFocus,
+  dianaLunari,
+  defiantDance,
+  discipleOfShen,
+  disposalOrder,
+  dominus,
+  doubleTrouble,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1885,6 +1897,18 @@ export const SpecialCaseEngine = {
       if (handler?.onWinCombat) {
         handler.onWinCombat(ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, winner, legend.exhausted)));
       }
+    }
+  },
+
+  /** Broadcasts the start of a showdown to every instance (both controllers) sitting at `battlefieldIndex`. See game/moves.ts attackBattlefield. */
+  onShowdownBegin: (game: GameState, getCard: (id: string) => Card, battlefieldIndex: number): void => {
+    const slot = game.battlefields[battlefieldIndex];
+    if (!slot) return;
+    for (const instanceId of [...slot.units["0"], ...slot.units["1"]]) {
+      const instance = game.instances[instanceId];
+      if (!instance) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onShowdownBegin?.(ctxFor(game, card, instance));
     }
   },
 
