@@ -1,7 +1,7 @@
 import { getCard } from "../cards/db";
 import { resolveHoldTriggers, destroyInstance } from "./combat";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
-import { battlefieldPseudoInstance } from "./pseudoInstance";
+import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
 import type { GameState, PlayerId } from "./state";
 
 const CHANNEL_AMOUNT = 2;
@@ -43,6 +43,17 @@ export function runBeginning(game: GameState, player: PlayerId): void {
     if (instance.controller !== player) continue;
     const card = getCard(instance.cardId);
     if (card.specialCaseId) SpecialCaseEngine.onBeginning(game, card, instance);
+  }
+  const legend = game.players[player].legend;
+  if (legend) {
+    const legendCard = getCard(legend.cardId);
+    if (legendCard.specialCaseId) {
+      SpecialCaseEngine.onBeginning(
+        game,
+        legendCard,
+        legendPseudoInstance(legend.cardId, player, legend.exhausted),
+      );
+    }
   }
   let scoredPoints = 0;
   game.battlefields.forEach((slot, index) => {

@@ -493,6 +493,9 @@ import { ladyOfLuminosityStarter } from "./lady-of-luminosity-starter";
 import { mightOfDemaciaStarter } from "./might-of-demacia-starter";
 import { theBoss } from "./the-boss";
 import { voidreaver } from "./voidreaver";
+import { looseCannon } from "./loose-cannon";
+import { mechanizedMenace } from "./mechanized-menace";
+import { wujuBladesmanStarter } from "./wuju-bladesman-starter";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -986,6 +989,9 @@ const handlers: SpecialCaseHandler[] = [
   mightOfDemaciaStarter,
   theBoss,
   voidreaver,
+  looseCannon,
+  mechanizedMenace,
+  wujuBladesmanStarter,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1538,7 +1544,7 @@ export const SpecialCaseEngine = {
   defendingMightModifier: (game: GameState, card: Card, instance: CardInstance): number =>
     getSpecialCaseHandler(card)?.defendingMightModifier?.(ctxFor(game, card, instance)) ?? 0,
 
-  /** Sum of attacking-Might bonuses granted to `allyInstance` by every allied Gear/Battlefield special case currently in play. */
+  /** Sum of attacking-Might bonuses granted to `allyInstance` by every allied Gear/Battlefield special case currently in play, plus its controller's Legend if it grants one (e.g. Purifier). */
   attackingMightBonusFromAllies: (
     game: GameState,
     getCard: (cardId: string) => Card,
@@ -1552,6 +1558,12 @@ export const SpecialCaseEngine = {
       const fn = handler?.attackingMightBonusForAlly;
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), allyInstance);
+    }
+    const legend = game.players[allyInstance.controller].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const fn = getSpecialCaseHandler(legendCard)?.attackingMightBonusForAlly;
+      if (fn) total += fn(ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, allyInstance.controller, legend.exhausted)), allyInstance);
     }
     return total;
   },
@@ -1570,6 +1582,12 @@ export const SpecialCaseEngine = {
       const fn = handler?.defendingMightBonusForAlly;
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), allyInstance);
+    }
+    const legend = game.players[allyInstance.controller].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const fn = getSpecialCaseHandler(legendCard)?.defendingMightBonusForAlly;
+      if (fn) total += fn(ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, allyInstance.controller, legend.exhausted)), allyInstance);
     }
     return total;
   },
@@ -1596,7 +1614,7 @@ export const SpecialCaseEngine = {
     return total;
   },
 
-  /** Sum of static Might modifiers every ally special-case card's presence applies to `targetInstance`, independent of role. */
+  /** Sum of static Might modifiers every ally special-case card's presence applies to `targetInstance`, independent of role, plus its controller's Legend if it grants one (e.g. Wuju Master). */
   staticMightModifierFromAllies: (
     game: GameState,
     getCard: (cardId: string) => Card,
@@ -1612,10 +1630,16 @@ export const SpecialCaseEngine = {
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), targetInstance);
     }
+    const legend = game.players[targetInstance.controller].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const fn = getSpecialCaseHandler(legendCard)?.staticMightModifierForAlly;
+      if (fn) total += fn(ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, targetInstance.controller, legend.exhausted)), targetInstance);
+    }
     return total;
   },
 
-  /** True if any other friendly special-case card tells `newInstance` to enter play ready instead of exhausted. */
+  /** True if any other friendly special-case card (or the controller's Legend) tells `newInstance` to enter play ready instead of exhausted. */
   othersEnterReadyFor: (
     game: GameState,
     getCard: (cardId: string) => Card,
@@ -1627,6 +1651,14 @@ export const SpecialCaseEngine = {
       const sourceCard = getCard(sourceInstance.cardId);
       const handler = getSpecialCaseHandler(sourceCard);
       if (handler?.othersEnterReady?.(ctxFor(game, sourceCard, sourceInstance), newInstance)) return true;
+    }
+    const legend = game.players[newInstance.controller].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      const handler = getSpecialCaseHandler(legendCard);
+      if (handler?.othersEnterReady?.(ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, newInstance.controller, legend.exhausted)), newInstance)) {
+        return true;
+      }
     }
     return false;
   },

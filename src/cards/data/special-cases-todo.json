@@ -1472,22 +1472,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell. Its controller can't play spells this turn."
   },
   {
-    "id": "ogn-301",
-    "name": "Loose Cannon",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "At start of your Beginning Phase, draw 1 if you have one or fewer cards in your hand.",
-    "fullText": "At start of your Beginning Phase, draw 1 if you have one or fewer cards in your hand."
-  },
-  {
-    "id": "ogn-251",
-    "name": "Loose Cannon",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "At start of your Beginning Phase, draw 1 if you have one or fewer cards in your hand.",
-    "fullText": "At start of your Beginning Phase, draw 1 if you have one or fewer cards in your hand."
-  },
-  {
     "id": "unl-13",
     "name": "Lotus Trap",
     "set": "UNL",
@@ -1590,22 +1574,6 @@
     "type": "legend",
     "residualText": "When you empower something else, empower me.\nDisempower me, Rune, Exhaust: Ready a unit.",
     "fullText": "When you empower something else, empower me.\nDisempower me, Rune, Exhaust: Ready a unit."
-  },
-  {
-    "id": "sfd-181",
-    "name": "Mechanized Menace",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Your Mechs have . (+1 Might while they're defenders.)",
-    "fullText": "Your Mechs have [Shield]. (+1 Might while they're defenders.)"
-  },
-  {
-    "id": "sfd-240",
-    "name": "Mechanized Menace",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Your Mechs have . (+1 Might while they're defenders.)",
-    "fullText": "Your Mechs have [Shield]. (+1 Might while they're defenders.)"
   },
   {
     "id": "ogn-48",
@@ -2718,22 +2686,6 @@
     "type": "unit",
     "residualText": "Hidden (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, you may return another unit at a battlefield with 3 Might or less to its owner's hand.",
     "fullText": "Hidden (Hide now for Rune to react with later for 0 Energy.)\nWhen you play me, you may return another unit at a battlefield with 3 Might or less to its owner's hand."
-  },
-  {
-    "id": "ogs-19",
-    "name": "Wuju Bladesman - Starter",
-    "set": "OGS",
-    "type": "legend",
-    "residualText": "While a friendly unit defends alone, it gets +2 Might.",
-    "fullText": "While a friendly unit defends alone, it gets +2 Might."
-  },
-  {
-    "id": "unl-231",
-    "name": "Wuju Master",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "Your units have +1 Might.\n Your units enter ready.",
-    "fullText": "[Level 6][>] Your units have +1 Might.\n[Level 11][>] Your units enter ready."
   },
   {
     "id": "sfd-235",
