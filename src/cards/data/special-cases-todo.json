@@ -2040,14 +2040,6 @@
     "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nWhen you play me, deal damage to a unit equal to the damage marked on it."
   },
   {
-    "id": "ven-186",
-    "name": "Morgana, Vindictive",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When you play me, deal damage to a unit equal to the damage marked on it.",
-    "fullText": "[Ambush]\nWhen you play me, deal damage to a unit equal to the damage marked on it."
-  },
-  {
     "id": "ven-28",
     "name": "Mournful Witness",
     "set": "VEN",
@@ -2544,14 +2536,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve, including to a battlefield you control.)\n[Assault 2] (+2 Might while I'm an attacker.)\nI can be played to a battlefield you're attacking."
   },
   {
-    "id": "ven-76",
-    "name": "Repair Specialist",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have  equal to the number of gear you control. (+1 Might while I'm an attacker for each instance of Assault.)",
-    "fullText": "I have [Assault] equal to the number of gear you control. (+1 Might while I'm an attacker for each instance of Assault.)"
-  },
-  {
     "id": "unl-106",
     "name": "Repulse",
     "set": "UNL",
@@ -2616,14 +2600,6 @@
     "fullText": "[Empower] 3 EnergyRune (3 EnergyRune: Empower this. Use only if not Empowered.)\n[Action][>] Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it."
   },
   {
-    "id": "sfd-39",
-    "name": "Royal Entourage",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you play me, ready or exhaust a legend.",
-    "fullText": "When you play me, ready or exhaust a legend."
-  },
-  {
     "id": "sfd-105",
     "name": "Ruin Runner",
     "set": "SFD",
@@ -2646,14 +2622,6 @@
     "type": "spell",
     "residualText": "As an additional cost to play this, you may discard 1.\nDeal 3 to a unit at a battlefield. If you paid the additional cost, deal 5 to it instead.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nAs an additional cost to play this, you may discard 1.\nDeal 3 to a unit at a battlefield. If you paid the additional cost, deal 5 to it instead."
-  },
-  {
-    "id": "ven-129",
-    "name": "Sacred Protector",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I don't deal combat damage unless I'm at a battlefield with exactly one other unit you control.",
-    "fullText": "I don't deal combat damage unless I'm at a battlefield with exactly one other unit you control."
   },
   {
     "id": "unl-173",
@@ -2736,22 +2704,6 @@
     "fullText": "Move an enemy unit to a battlefield where you have units. If you have exactly two units there, they each get +1 Might this turn.\n[Flow] 5 EnergyRuneRune (You may play this from your trash for its Flow cost. Then banish it.)"
   },
   {
-    "id": "ven-14",
-    "name": "Shadow Fiend",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "I have . (+3 Might while I'm an attacker.)",
-    "fullText": "[Empower] 2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\n[Empowered][>] I have [Assault 3]. (+3 Might while I'm an attacker.)"
-  },
-  {
-    "id": "ven-95",
-    "name": "Shadow Order Disciple",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I move, you may [Burn 1] to give me +1 Might this turn. (To Burn 1, put the top card of your Main Deck into your trash.)",
-    "fullText": "When I move, you may [Burn 1] to give me +1 Might this turn. (To Burn 1, put the top card of your Main Deck into your trash.)"
-  },
-  {
     "id": "ven-103",
     "name": "Shadows of the Past",
     "set": "VEN",
@@ -2774,14 +2726,6 @@
     "type": "spell",
     "residualText": "Choose an enemy unit. Deal 6 to it unless its controller has you draw 2.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose an enemy unit. Deal 6 to it unless its controller has you draw 2."
-  },
-  {
-    "id": "ven-59",
-    "name": "Shock Blast",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "This costs 2 Energy less if you control something that's .\nDeal 4 to a unit at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nThis costs 2 Energy less if you control something that's [Empowered].\nDeal 4 to a unit at a battlefield."
   },
   {
     "id": "sfd-106",

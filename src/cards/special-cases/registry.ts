@@ -395,6 +395,13 @@ import { forbiddingWaste } from "./forbidding-waste";
 import { affectionatePoro } from "./affectionate-poro";
 import { kinkouLifeblade } from "./kinkou-lifeblade";
 import { chemtechCask } from "./chemtech-cask";
+import { shadowFiend } from "./shadow-fiend";
+import { repairSpecialist } from "./repair-specialist";
+import { sacredProtector } from "./sacred-protector";
+import { royalEntourage } from "./royal-entourage";
+import { morganaVindictive } from "./morgana-vindictive";
+import { shockBlast } from "./shock-blast";
+import { shadowOrderDisciple } from "./shadow-order-disciple";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -790,6 +797,13 @@ const handlers: SpecialCaseHandler[] = [
   affectionatePoro,
   kinkouLifeblade,
   chemtechCask,
+  shadowFiend,
+  repairSpecialist,
+  sacredProtector,
+  royalEntourage,
+  morganaVindictive,
+  shockBlast,
+  shadowOrderDisciple,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
