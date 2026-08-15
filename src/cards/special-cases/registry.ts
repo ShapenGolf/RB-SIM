@@ -581,6 +581,12 @@ import { heedlessResurrection } from "./heedless-resurrection";
 import { evelynnEntrancing } from "./evelynn-entrancing";
 import { ezrealDashing } from "./ezreal-dashing";
 import { flurryOfFeathers } from "./flurry-of-feathers";
+import { foxFire } from "./fox-fire";
+import { hextechFormula } from "./hextech-formula";
+import { hextechDisc } from "./hextech-disc";
+import { iascylla } from "./iascylla";
+import { icevaleArcher } from "./icevale-archer";
+import { hostileTakeover } from "./hostile-takeover";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1162,6 +1168,12 @@ const handlers: SpecialCaseHandler[] = [
   evelynnEntrancing,
   ezrealDashing,
   flurryOfFeathers,
+  foxFire,
+  hextechFormula,
+  hextechDisc,
+  iascylla,
+  icevaleArcher,
+  hostileTakeover,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

@@ -352,14 +352,6 @@
     "fullText": "[Action][>] Exhaust a unit you control, Exhaust: Move a different unit you control to the location of the unit you exhausted to pay for this ability."
   },
   {
-    "id": "ogn-256",
-    "name": "Fox-Fire",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Kill any number of units at a battlefield with total Might 4 or less.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nKill any number of units at a battlefield with total Might 4 or less."
-  },
-  {
     "id": "ven-71",
     "name": "Fretful Feline",
     "set": "VEN",
@@ -544,22 +536,6 @@
     "fullText": "Exhaust: [Reaction] — Pay any amount of Rune to [Add] that much Energy. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "ven-87",
-    "name": "Hextech Disc",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "— Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Play a 3 Might Mech unit token to your base.",
-    "fullText": "[Empower] — Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Play a 3 Might Mech unit token to your base."
-  },
-  {
-    "id": "ven-62",
-    "name": "Hextech Formula",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "This enters exhausted.\nExhaust: Empower another gear. (It becomes Empowered if it's not already.)",
-    "fullText": "This enters exhausted.\nExhaust: Empower another gear. (It becomes Empowered if it's not already.)"
-  },
-  {
     "id": "ogs-20",
     "name": "Highlander",
     "set": "OGS",
@@ -576,36 +552,12 @@
     "fullText": "This enters exhausted.\n[Reaction][>] Exhaust: [Add] Rune. (Abilities that add resources can't be reacted to.)\n[Level 6][>] [>>][Reaction][>] Exhaust: [Add] 1 EnergyRune. (Use this ability only while you have 6+ XP.)"
   },
   {
-    "id": "sfd-202",
-    "name": "Hostile Takeover",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Take control of an enemy unit at a battlefield. Ready it. (Start a combat if other enemies are there. Otherwise, conquer.)\nLose control of that unit and recall it at end of turn. (Send it to base. This isn't a move.)",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nTake control of an enemy unit at a battlefield. Ready it. (Start a combat if other enemies are there. Otherwise, conquer.)\nLose control of that unit and recall it at end of turn. (Send it to base. This isn't a move.)"
-  },
-  {
     "id": "ven-125",
     "name": "Hungry Wolf",
     "set": "VEN",
     "type": "unit",
     "residualText": "Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit this turn and only once each turn.",
     "fullText": "Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit this turn and only once each turn."
-  },
-  {
-    "id": "unl-50",
-    "name": "Iascylla",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I hold, at the start of your next Main Phase, you may move an enemy unit to this battlefield.",
-    "fullText": "When I hold, at the start of your next Main Phase, you may move an enemy unit to this battlefield."
-  },
-  {
-    "id": "unl-65",
-    "name": "Icevale Archer",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When I attack, you may pay 1 Energy to give a unit here -1 Might this turn.",
-    "fullText": "When I attack, you may pay 1 Energy to give a unit here -1 Might this turn."
   },
   {
     "id": "ogn-221",
