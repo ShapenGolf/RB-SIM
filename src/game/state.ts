@@ -108,6 +108,10 @@ export interface PlayerState {
   maxEnergySpentOnSpellThisTurn: number;
   /** True once this player has resolved their opening mulligan (see moves.ts `mulligan`) — gates the pregame "mulligan" phase in game/game.ts, which both players must clear before turn 1 begins. */
   mulliganDone: boolean;
+  /** The 3 Battlefields this player's DeckList submitted (see cards/deckValidation.ts) — the pool `chooseBattlefield` picks from. Empty for the domain-cycling MVP fallback (no real DeckList), which skips the "battlefieldSelect" phase instead. */
+  battlefieldPool: string[];
+  /** The one Battlefield from `battlefieldPool` this player has chosen to bring to the table (see moves.ts `chooseBattlefield`), or null before they've picked. Gates the pregame "battlefieldSelect" phase in game/game.ts. */
+  chosenBattlefieldId: string | null;
 }
 
 export interface BattlefieldSlot {

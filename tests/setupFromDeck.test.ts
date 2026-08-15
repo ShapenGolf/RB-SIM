@@ -67,6 +67,10 @@ describe("setupGame with a real DeckList", () => {
         expect(["Calm", "Mind"]).toContain(rune.domain);
       }
       expect(player.runePool).toEqual([]);
+      // A real deck submits a pool of 3 Battlefields to pick from (see game/game.ts's
+      // "battlefieldSelect" phase) — nothing pre-chosen yet at setup time.
+      expect(player.battlefieldPool).toEqual(deck.battlefields);
+      expect(player.chosenBattlefieldId).toBeNull();
     }
 
     expect(game.battlefields.map((b) => b.cardId)).toEqual([deck.battlefields[0], deck.battlefields[1]]);
@@ -76,5 +80,10 @@ describe("setupGame with a real DeckList", () => {
     const game = setupGame();
     expect(game.players["0"].hand).toHaveLength(4);
     expect(game.players["1"].hand).toHaveLength(4);
+    // No real deck means no 3-Battlefield pool to choose from — pre-resolved to the setup-time
+    // default so the "battlefieldSelect" phase doesn't block on a player who has nothing to pick.
+    expect(game.players["0"].battlefieldPool).toEqual([]);
+    expect(game.players["0"].chosenBattlefieldId).toBe(game.battlefields[0].cardId);
+    expect(game.players["1"].chosenBattlefieldId).toBe(game.battlefields[1].cardId);
   });
 });

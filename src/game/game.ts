@@ -13,6 +13,7 @@ import {
   endTurn,
   equipGear,
   mulligan,
+  chooseBattlefield,
 } from "./moves";
 import type { GameState, PlayerId } from "./state";
 
@@ -26,11 +27,20 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
   setup: () => setupGame(getPendingSetupOptions()),
 
   phases: {
+    // Both players pick which of their own 3 deck-submitted Battlefields joins the table,
+    // simultaneously (ActivePlayers.ALL) — right after clicking "Spiel starten", before either
+    // hand is even dealt out for mulligans.
+    battlefieldSelect: {
+      start: true,
+      moves: { chooseBattlefield },
+      turn: { activePlayers: ActivePlayers.ALL },
+      endIf: ({ G }) => G.players["0"].chosenBattlefieldId !== null && G.players["1"].chosenBattlefieldId !== null,
+      next: "mulligan",
+    },
     // Both players choose their opening-hand mulligan simultaneously, independent of turn order
     // (ActivePlayers.ALL keeps both playerIDs allowed to call moves at once) — turn 1's Awaken/
     // Beginning/Channel/Draw (in the "play" phase below) must not fire until both are done.
     mulligan: {
-      start: true,
       moves: { mulligan },
       turn: { activePlayers: ActivePlayers.ALL },
       endIf: ({ G }) => G.players["0"].mulliganDone && G.players["1"].mulliganDone,

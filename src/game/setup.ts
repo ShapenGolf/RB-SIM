@@ -90,6 +90,8 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     playedSpellThisTurn: false,
     maxEnergySpentOnSpellThisTurn: 0,
     mulliganDone: false,
+    battlefieldPool: [],
+    chosenBattlefieldId: null,
   };
 }
 
@@ -100,7 +102,14 @@ function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerState {
   const runeDeck = shuffle(
     deck.runeDeck.map((cardId) => ({ instanceId: nextInstanceId(), domain: getCard(cardId).domains[0], exhausted: false })),
   );
-  return { ...emptyPlayerState(id), mainDeck, hand, runeDeck, legend: { cardId: deck.legendId, exhausted: false } };
+  return {
+    ...emptyPlayerState(id),
+    mainDeck,
+    hand,
+    runeDeck,
+    legend: { cardId: deck.legendId, exhausted: false },
+    battlefieldPool: deck.battlefields,
+  };
 }
 
 function buildPlayer(id: PlayerId, domains: Domain[]): PlayerState {
@@ -146,9 +155,19 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     "1": options.player1Deck ? buildPlayerFromDeckList("1", options.player1Deck) : buildPlayer("1", options.player1Domains),
   };
 
+  // Placeholder battlefields — index 0 is player "0"'s slot, index 1 is player "1"'s. The real
+  // Menu-driven flow overwrites both `cardId`s via the `chooseBattlefield` move once each player
+  // picks from their own `battlefieldPool` (see game/game.ts's "battlefieldSelect" phase); a
+  // player with no real deck-submitted pool (MVP fallback, or direct setupGame() calls in tests)
+  // has nothing to choose, so their slot's default here is final — mark it pre-resolved.
+  const battlefields = options.battlefieldCardIds.map(buildBattlefieldSlot);
+  for (const id of ["0", "1"] as PlayerId[]) {
+    if (players[id].battlefieldPool.length === 0) players[id].chosenBattlefieldId = battlefields[Number(id)].cardId;
+  }
+
   return {
     players,
-    battlefields: options.battlefieldCardIds.map(buildBattlefieldSlot),
+    battlefields,
     instances: {},
     turnPhase: "main",
     activePlayer: "0",

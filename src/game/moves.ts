@@ -509,6 +509,25 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
   return undefined;
 };
 
+export interface ChooseBattlefieldArgs {
+  cardId: string;
+}
+
+/**
+ * Opening Battlefield pick (see game/game.ts's "battlefieldSelect" phase, which runs before
+ * "mulligan" and must clear before turn 1 begins): each player brings 1 of their own 3
+ * deck-submitted Battlefields to the shared table. Writes straight into the matching
+ * `game.battlefields` slot (index 0 for player "0", index 1 for player "1" — see setup.ts).
+ */
+export const chooseBattlefield: MoveFn<GameState> = ({ G, playerID }, args: ChooseBattlefieldArgs) => {
+  const id = playerID as "0" | "1";
+  const player = G.players[id];
+  if (player.chosenBattlefieldId) return INVALID_MOVE;
+  if (!player.battlefieldPool.includes(args.cardId)) return INVALID_MOVE;
+  player.chosenBattlefieldId = args.cardId;
+  G.battlefields[Number(id)].cardId = args.cardId;
+};
+
 export interface MulliganArgs {
   /** 0-2 indices into the opening hand to shuffle back and replace with random new cards. */
   handIndices: number[];

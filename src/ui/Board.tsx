@@ -60,6 +60,36 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   const player = G.players[me];
   const opponentId: PlayerId = me === "0" ? "1" : "0";
 
+  if (ctx.phase === "battlefieldSelect") {
+    return (
+      <div className="rb-board">
+        <div className="rb-topbar">
+          <h2>Spieler {me} — Battlefield wählen</h2>
+        </div>
+        {player.chosenBattlefieldId ? (
+          <p className="rb-db-hint">Battlefield gewählt — warte auf den Gegner…</p>
+        ) : (
+          <>
+            <p className="rb-db-hint">
+              Wähle 1 von deinen 3 eingereichten Battlefields, das du mit an den Tisch bringst.
+            </p>
+            <div className="rb-row">
+              {player.battlefieldPool.map((cardId) => (
+                <CardFace
+                  key={cardId}
+                  card={getCard(cardId)}
+                  size="sm"
+                  onClick={() => moves.chooseBattlefield({ cardId })}
+                  footer={<div className="rb-db-legend-name">{getCard(cardId).name}</div>}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
+
   if (ctx.phase === "mulligan") {
     function toggleMulligan(idx: number) {
       setMulliganSelected((prev) => {
@@ -300,10 +330,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         <div>
           <h2>Spieler {me}</h2>
           <div className="rb-status">
-            {/* ctx.turn counts globally from the very start of the match, including the
-                pregame "mulligan" phase's own turn slot — subtract 1 so the player-facing
-                counter reads "Zug 1" for the actual first turn of real play. */}
-            Zug {ctx.turn - 1} · Phase: {G.turnPhase}
+            {/* ctx.turn counts globally from the very start of the match, including the two
+                pregame phases' own turn slots ("battlefieldSelect" and "mulligan") — subtract 2
+                so the player-facing counter reads "Zug 1" for the actual first turn of real play. */}
+            Zug {ctx.turn - 2} · Phase: {G.turnPhase}
           </div>
         </div>
         <div className="rb-scoreline">
