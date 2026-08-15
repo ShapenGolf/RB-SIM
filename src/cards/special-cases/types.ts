@@ -14,6 +14,8 @@ export interface EmpowerCost {
   exhaustSelf?: boolean;
   /** "Discard N" as part of this cost (e.g. Punching Poro: "Discard 1"). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand. */
   discardCount?: number;
+  /** "Kill a friendly unit" as part of this cost (e.g. Escaped Grayback: "[Empower] — Kill a friendly unit"). No choice of which unit (see docs/data-sourcing.md) — kills the controller's own weakest OTHER unit; the move is rejected if none exists. */
+  killFriendlyUnit?: boolean;
 }
 
 /**

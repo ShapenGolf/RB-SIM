@@ -488,14 +488,6 @@
     "fullText": "You may spend 5 XP as an additional cost to play this.\nChoose an enemy unit at a battlefield with 3 Might or less. If you paid the additional cost, choose any enemy unit at a battlefield instead. Take control of it, exhaust it, and recall it."
   },
   {
-    "id": "ven-10",
-    "name": "Consuming Curse",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Deal 2 to a unit at a battlefield. This deals 1 Bonus Damage for each card with this name in your trash.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nDeal 2 to a unit at a battlefield. This deals 1 Bonus Damage for each card with this name in your trash."
-  },
-  {
     "id": "ogn-108",
     "name": "Convergent Mutation",
     "set": "OGN",
@@ -814,14 +806,6 @@
     "type": "gear",
     "residualText": "Exhaust:  \u2014  1 Energy. (Abilities that add resources can't be reacted to.)",
     "fullText": "Exhaust: [Reaction] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "ven-124",
-    "name": "Escaped Grayback",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "\u2014 Kill a friendly unit (Pay the cost: Empower me. Use only if not Empowered.)\n I have +2 Might.",
-    "fullText": "[Empower] \u2014 Kill a friendly unit (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +2 Might."
   },
   {
     "id": "unl-141",
@@ -1542,14 +1526,6 @@
     "type": "champion",
     "residualText": "When I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here.",
     "fullText": "[Hunt] (When I conquer or hold, gain 1 XP.)\nWhen I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here."
-  },
-  {
-    "id": "ven-114",
-    "name": "Kharox",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I become , choose an opponent. They [Burn 3]. Then you may do this: Choose a unit in their trash and play it, ignoring its cost. (To Burn 3, they put the top 3 cards of their Main Deck into their trash.)",
-    "fullText": "[Empower] 6 EnergyChaos RuneChaos Rune (6 EnergyChaos RuneChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], choose an opponent. They [Burn 3]. Then you may do this: Choose a unit in their trash and play it, ignoring its cost. (To Burn 3, they put the top 3 cards of their Main Deck into their trash.)"
   },
   {
     "id": "ven-126",

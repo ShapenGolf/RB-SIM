@@ -465,6 +465,9 @@ import { partyFavors } from "./party-favors";
 import { tailCloakedMatriarch } from "./tail-cloaked-matriarch";
 import { otterpus } from "./otterpus";
 import { voidRush } from "./void-rush";
+import { escapedGrayback } from "./escaped-grayback";
+import { kharox } from "./kharox";
+import { consumingCurse } from "./consuming-curse";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -930,6 +933,9 @@ const handlers: SpecialCaseHandler[] = [
   tailCloakedMatriarch,
   otterpus,
   voidRush,
+  escapedGrayback,
+  kharox,
+  consumingCurse,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

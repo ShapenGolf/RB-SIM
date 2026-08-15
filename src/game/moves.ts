@@ -4,6 +4,7 @@ import { getCard } from "../cards/db";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat, destroyInstance } from "./combat";
+import { computeMight } from "./might";
 import { createInstance, shuffle } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
@@ -383,6 +384,18 @@ export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: Empowe
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
   if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
   if (player.hand.length < (cost.discardCount ?? 0)) return INVALID_MOVE;
+  let killTarget: CardInstance | undefined;
+  if (cost.killFriendlyUnit) {
+    for (const other of Object.values(G.instances)) {
+      if (other.controller !== player.id || other.instanceId === instance.instanceId) continue;
+      const t = getCard(other.cardId).type;
+      if (t !== "unit" && t !== "champion") continue;
+      if (!killTarget || computeMight(G, getCard, other, "none") < computeMight(G, getCard, killTarget, "none")) {
+        killTarget = other;
+      }
+    }
+    if (!killTarget) return INVALID_MOVE;
+  }
 
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
@@ -409,6 +422,7 @@ export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: Empowe
     const discarded = player.hand.shift();
     if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
   }
+  if (killTarget) destroyInstance(G, getCard, killTarget.instanceId);
 
   instance.statuses.empowered = true;
   instance.statuses.everEmpowered = true;
