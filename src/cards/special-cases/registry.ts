@@ -446,6 +446,11 @@ import { arachnoidHorror } from "./arachnoid-horror";
 import { accelerationGate } from "./acceleration-gate";
 import { oceanDrake } from "./ocean-drake";
 import { sandstoneChimera } from "./sandstone-chimera";
+import { challenge } from "./challenge";
+import { gentlemensDuel } from "./gentlemens-duel";
+import { marchingOrders } from "./marching-orders";
+import { cataclysmicDuel } from "./cataclysmic-duel";
+import { bladeTwirler } from "./blade-twirler";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -892,6 +897,11 @@ const handlers: SpecialCaseHandler[] = [
   accelerationGate,
   oceanDrake,
   sandstoneChimera,
+  challenge,
+  gentlemensDuel,
+  marchingOrders,
+  cataclysmicDuel,
+  bladeTwirler,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

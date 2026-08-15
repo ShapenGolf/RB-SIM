@@ -312,14 +312,6 @@
     "fullText": "When you choose a friendly unit, you may exhaust me and pay Rune to ready it.\nWhen you conquer, you may pay 1 Energy to ready me."
   },
   {
-    "id": "ven-2",
-    "name": "Blade Twirler",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "The first time I move each turn, choose a player. They [Burn 1]. (They put the top card of their Main Deck into their trash.)",
-    "fullText": "The first time I move each turn, choose a player. They [Burn 1]. (They put the top card of their Main Deck into their trash.)"
-  },
-  {
     "id": "unl-133",
     "name": "Blast Cone",
     "set": "UNL",
@@ -438,22 +430,6 @@
     "type": "spell",
     "residualText": "Look at the top 2 cards of your Main Deck. Draw one and recycle the other.",
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] Chaos Rune (You may pay the additional cost to repeat this spell's effect.)\nLook at the top 2 cards of your Main Deck. Draw one and recycle the other."
-  },
-  {
-    "id": "ven-90",
-    "name": "Cataclysmic Duel",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Each player chooses a unit they control. Kill the rest.",
-    "fullText": "Each player chooses a unit they control. Kill the rest."
-  },
-  {
-    "id": "ogn-128",
-    "name": "Challenge",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Choose a friendly unit and an enemy unit. They deal damage equal to their Mights to each other.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nChoose a friendly unit and an enemy unit. They deal damage equal to their Mights to each other."
   },
   {
     "id": "sfd-249",
@@ -1022,14 +998,6 @@
     "type": "unit",
     "residualText": "Each Equipment attached to me gives double its base Might bonus.",
     "fullText": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\nEach Equipment attached to me gives double its base Might bonus."
-  },
-  {
-    "id": "ogs-8",
-    "name": "Gentlemen's Duel",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Give a friendly unit +3 Might this turn. Then choose an enemy unit. They deal damage equal to their Mights to each other.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nGive a friendly unit +3 Might this turn. Then choose an enemy unit. They deal damage equal to their Mights to each other."
   },
   {
     "id": "sfd-165",
@@ -1726,14 +1694,6 @@
     "type": "battlefield",
     "residualText": "While you control this battlefield, friendly  costs cost 1 Energy less.",
     "fullText": "While you control this battlefield, friendly [Repeat] costs cost 1 Energy less."
-  },
-  {
-    "id": "sfd-114",
-    "name": "Marching Orders",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Choose a friendly unit anywhere and an enemy unit at a battlefield. They deal damage equal to their Mights to each other.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 3 Energy (You may pay the additional cost to repeat this spell's effect.)\nChoose a friendly unit anywhere and an enemy unit at a battlefield. They deal damage equal to their Mights to each other."
   },
   {
     "id": "ven-120",
