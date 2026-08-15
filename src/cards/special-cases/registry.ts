@@ -500,6 +500,11 @@ import { gloomist } from "./gloomist";
 import { radiantDawn } from "./radiant-dawn";
 import { keeperOfTheHammer } from "./keeper-of-the-hammer";
 import { chemBaroness } from "./chem-baroness";
+import { curatorOfTheSands } from "./curator-of-the-sands";
+import { piltoverEnforcer } from "./piltover-enforcer";
+import { purifier } from "./purifier";
+import { relentlessStorm } from "./relentless-storm";
+import { unforgiven } from "./unforgiven";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1000,6 +1005,11 @@ const handlers: SpecialCaseHandler[] = [
   radiantDawn,
   keeperOfTheHammer,
   chemBaroness,
+  curatorOfTheSands,
+  piltoverEnforcer,
+  purifier,
+  relentlessStorm,
+  unforgiven,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

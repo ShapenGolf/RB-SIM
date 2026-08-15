@@ -488,14 +488,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell if an opponent has played another spell this turn."
   },
   {
-    "id": "ven-192",
-    "name": "Curator of the Sands",
-    "set": "VEN",
-    "type": "legend",
-    "residualText": "When you play a unit, gear, or activated ability with Energy cost 7 Energy or more, you may exhaust me to ready up to 2 runes.",
-    "fullText": "When you play a unit, gear, or activated ability with Energy cost 7 Energy or more, you may exhaust me to ready up to 2 runes."
-  },
-  {
     "id": "unl-148",
     "name": "Cursed Sarcophagus",
     "set": "UNL",
@@ -1728,22 +1720,6 @@
     "fullText": "While you control this battlefield, the first friendly gear activated ability played each turn costs 1 Energy less."
   },
   {
-    "id": "unl-187",
-    "name": "Piltover Enforcer",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you conquer, if you assigned 3 or more excess damage, you may exhaust me to ready a unit.",
-    "fullText": "When you conquer, if you assigned 3 or more excess damage, you may exhaust me to ready a unit."
-  },
-  {
-    "id": "unl-229",
-    "name": "Piltover Enforcer",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you conquer, if you assigned 3 or more excess damage, you may exhaust me to ready a unit.",
-    "fullText": "When you conquer, if you assigned 3 or more excess damage, you may exhaust me to ready a unit."
-  },
-  {
     "id": "ogn-143",
     "name": "Pirate's Haven",
     "set": "OGN",
@@ -1808,22 +1784,6 @@
     "fullText": "Each player looks at the top 5 cards of their Main Deck, chooses one, then recycles the rest. Starting with the next player, each player plays those cards, ignoring Energy costs. (They must still pay Power costs.)"
   },
   {
-    "id": "sfd-183",
-    "name": "Purifier",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Your Equipment each give . (+1 Might while equipped unit is an attacker.)",
-    "fullText": "Your Equipment each give [Assault]. (+1 Might while equipped unit is an attacker.)"
-  },
-  {
-    "id": "sfd-241",
-    "name": "Purifier",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Your Equipment each give . (+1 Might while equipped unit is an attacker.)",
-    "fullText": "Your Equipment each give [Assault]. (+1 Might while equipped unit is an attacker.)"
-  },
-  {
     "id": "unl-28",
     "name": "Pyke, Dockside Butcher",
     "set": "UNL",
@@ -1878,22 +1838,6 @@
     "type": "spell",
     "residualText": "Move a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\"",
     "fullText": "[Action] (Play on your turn or in showdowns.)\nMove a friendly unit. You may attach an Equipment with the same controller to it. This turn, that unit has \"When I conquer, you may move me to my base.\""
-  },
-  {
-    "id": "ogn-300",
-    "name": "Relentless Storm",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When you play a  unit, you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "When you play a [Mighty] unit, you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
-    "id": "ogn-249",
-    "name": "Relentless Storm",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "When you play a  unit, you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "When you play a [Mighty] unit, you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
   },
   {
     "id": "sfd-88",
@@ -2454,22 +2398,6 @@
     "type": "unit",
     "residualText": "You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)",
     "fullText": "[Legion][>] You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)"
-  },
-  {
-    "id": "ogn-259",
-    "name": "Unforgiven",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "2 Energy, Exhaust: Move a friendly unit to or from its base.",
-    "fullText": "2 Energy, Exhaust: Move a friendly unit to or from its base."
-  },
-  {
-    "id": "ogn-305",
-    "name": "Unforgiven",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "2 Energy, Exhaust: Move a friendly unit to or from its base.",
-    "fullText": "2 Energy, Exhaust: Move a friendly unit to or from its base."
   },
   {
     "id": "ogn-23",
