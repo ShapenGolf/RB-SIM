@@ -379,6 +379,7 @@ import { keeperOfLaw } from "./keeper-of-law";
 import { gutturalRoar } from "./guttural-roar";
 import { shenLeaderOfKinkouOrder } from "./shen-leader-of-kinkou-order";
 import { shenScourgeOfShadows } from "./shen-scourge-of-shadows";
+import { blackFlameAltar } from "./black-flame-altar";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -758,6 +759,7 @@ const handlers: SpecialCaseHandler[] = [
   gutturalRoar,
   shenLeaderOfKinkouOrder,
   shenScourgeOfShadows,
+  blackFlameAltar,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1063,6 +1065,23 @@ export const SpecialCaseEngine = {
     const slot = game.battlefields[targetInstance.battlefieldIndex];
     const card = getCard(slot.cardId);
     const fn = getSpecialCaseHandler(card)?.staticMightModifierForUnitsHere;
+    if (!fn) return 0;
+    return fn(
+      ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, targetInstance.controller, targetInstance.battlefieldIndex)),
+      targetInstance,
+    );
+  },
+
+  /** Location-wide, defending-only Might modifier from the Battlefield `targetInstance` is currently sitting at. */
+  defendingMightModifierFromBattlefield: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    targetInstance: CardInstance,
+  ): number => {
+    if (targetInstance.zone !== "battlefield" || targetInstance.battlefieldIndex === null) return 0;
+    const slot = game.battlefields[targetInstance.battlefieldIndex];
+    const card = getCard(slot.cardId);
+    const fn = getSpecialCaseHandler(card)?.defendingMightModifierForUnitsHere;
     if (!fn) return 0;
     return fn(
       ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, targetInstance.controller, targetInstance.battlefieldIndex)),

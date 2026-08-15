@@ -304,6 +304,14 @@ export interface SpecialCaseHandler {
   staticMightModifierForUnitsHere?(ctx: SpecialCaseContext, targetInstance: CardInstance): number;
 
   /**
+   * Battlefield-only: Might modifier this Battlefield grants to units sitting at it, but only
+   * while they're defending here (e.g. Black Flame Altar: "Units here with [Temporary] have
+   * [Shield]." — +1 Might, defending only). Checked in game/might.ts `computeMight` alongside
+   * staticMightModifierForUnitsHere, but only when `role === "defending"`.
+   */
+  defendingMightModifierForUnitsHere?(ctx: SpecialCaseContext, targetInstance: CardInstance): number;
+
+  /**
    * Battlefield-only: true if this Battlefield grants Ganking to every unit sitting at it,
    * regardless of controller (e.g. Windswept Hillock: "Units here have Ganking."). Only
    * consulted when the printed/conditional Ganking checks are both absent — same override

@@ -39,6 +39,7 @@ export function computeMight(
     total += KeywordEngine.defendingMightModifier(game, card, instance);
     total += SpecialCaseEngine.defendingMightModifier(game, card, instance);
     total += SpecialCaseEngine.defendingMightBonusFromAllies(game, getCard, instance);
+    total += SpecialCaseEngine.defendingMightModifierFromBattlefield(game, getCard, instance);
   }
 
   return Math.max(0, total);

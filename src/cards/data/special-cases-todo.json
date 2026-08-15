@@ -384,14 +384,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\n[Repeat] 1 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect.)\nDeal 1 to up to three units at the same location."
   },
   {
-    "id": "unl-208",
-    "name": "Black Flame Altar",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "Units here with  have . (+1 Might while they're defenders.)",
-    "fullText": "Units here with [Temporary] have [Shield]. (+1 Might while they're defenders.)"
-  },
-  {
     "id": "sfd-121",
     "name": "Black Market Broker",
     "set": "SFD",
@@ -2678,14 +2670,6 @@
     "type": "champion",
     "residualText": "I can be played to a battlefield you're attacking.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve, including to a battlefield you control.)\n[Assault 2] (+2 Might while I'm an attacker.)\nI can be played to a battlefield you're attacking."
-  },
-  {
-    "id": "ven-179",
-    "name": "Rengar, Trophy Hunter",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "I can be played to a battlefield where there are enemy units.",
-    "fullText": "[Ambush]\nI can be played to a battlefield where there are enemy units."
   },
   {
     "id": "ven-76",
