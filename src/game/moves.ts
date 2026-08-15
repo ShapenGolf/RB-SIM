@@ -144,6 +144,10 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   const selfCostReduction = SpecialCaseEngine.costReduction(G, card, instance);
   const allyCostReduction = SpecialCaseEngine.costReductionFromAllies(G, getCard, instance, card);
   const enemyCostIncrease = SpecialCaseEngine.costIncreaseFromEnemies(G, getCard, instance, card);
+  const targetCostReduction =
+    card.type === "spell"
+      ? SpecialCaseEngine.costReductionIfTargeted(G, getCard, args.targetInstanceId, card, instance)
+      : 0;
   const nextSpellReduction = card.type === "spell" ? player.nextSpellCostReduction : 0;
   const energyNeeded = Math.max(
     0,
@@ -154,6 +158,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
       xpReduction -
       selfCostReduction -
       allyCostReduction -
+      targetCostReduction -
       nextSpellReduction,
   );
   if (args.energyRuneIds.length !== energyNeeded) return INVALID_MOVE;

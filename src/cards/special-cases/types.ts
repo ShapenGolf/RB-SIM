@@ -242,6 +242,15 @@ export interface SpecialCaseHandler {
   costIncreaseForEnemy?(ctx: SpecialCaseContext, playedCard: Card): number;
 
   /**
+   * Energy cost reduction for a spell about to be played, if THIS instance is the spell's
+   * chosen target (e.g. Irelia, Graceful: "Your spells that choose me cost 1 Energy or Rune
+   * less."). Checked in game/moves.ts playCard against `args.targetInstanceId` before the
+   * target is otherwise validated. Known gap: only the Energy component is charged, matching
+   * the Domain-Rune-only-cost skip convention elsewhere (see docs/data-sourcing.md).
+   */
+  costReductionIfTargetedBySpell?(ctx: SpecialCaseContext, playedCard: Card): number;
+
+  /**
    * Cost for a bespoke "[Cost,] Exhaust: Effect" activated ability whose effect can't be
    * expressed as fixed-amount TemplatedActions (e.g. "deal damage equal to my Might") — the
    * data-driven `Card.activatedAbility` (see cards/templatedEffects.ts) covers the fixed-amount

@@ -528,6 +528,8 @@ import { insightfulInvestigator } from "./insightful-investigator";
 import { profiteer } from "./profiteer";
 import { renektonBrute } from "./renekton-brute";
 import { melNewlyAwakened } from "./mel-newly-awakened";
+import { rumbleHotheaded } from "./rumble-hotheaded";
+import { ireliaGraceful } from "./irelia-graceful";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1056,6 +1058,8 @@ const handlers: SpecialCaseHandler[] = [
   profiteer,
   renektonBrute,
   melNewlyAwakened,
+  rumbleHotheaded,
+  ireliaGraceful,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1202,6 +1206,21 @@ export const SpecialCaseEngine = {
       total += fn(ctxFor(game, sourceCard, sourceInstance), playedCard);
     }
     return total;
+  },
+
+  /** Energy cost reduction for `playedCard` if `targetInstanceId` is the spell's chosen target, that target is controlled by the same player casting the spell, and its handler grants a reduction for being chosen this way (e.g. Irelia, Graceful: "Your spells that choose me..."). See game/moves.ts playCard. */
+  costReductionIfTargeted: (
+    game: GameState,
+    getCard: (cardId: string) => Card,
+    targetInstanceId: string | undefined,
+    playedCard: Card,
+    playedInstance: CardInstance,
+  ): number => {
+    if (!targetInstanceId) return 0;
+    const target = game.instances[targetInstanceId];
+    if (!target || target.controller !== playedInstance.controller) return 0;
+    const targetCard = getCard(target.cardId);
+    return getSpecialCaseHandler(targetCard)?.costReductionIfTargetedBySpell?.(ctxFor(game, targetCard, target), playedCard) ?? 0;
   },
 
   activateNeedsTarget: (card: Card) => getSpecialCaseHandler(card)?.activateNeedsTarget ?? false,

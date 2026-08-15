@@ -1072,14 +1072,6 @@
     "fullText": "[Deflect]\nWhen you choose or ready me, give me +1 Might this turn."
   },
   {
-    "id": "sfd-141",
-    "name": "Irelia, Graceful",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "Your spells that choose me cost 1 Energy or Rune less.",
-    "fullText": "Your spells that choose me cost 1 Energy or Rune less."
-  },
-  {
     "id": "unl-177",
     "name": "Ivern, Friend to All",
     "set": "UNL",
@@ -1734,14 +1726,6 @@
     "type": "unit",
     "residualText": "I can't be chosen by enemy spells and abilities.",
     "fullText": "I can't be chosen by enemy spells and abilities."
-  },
-  {
-    "id": "sfd-26",
-    "name": "Rumble, Hotheaded",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "Your Mechs each have . (+1 Might while we're attackers.)\nWhen I conquer, you may recycle another friendly unit to play a Mech from your trash. Reduce its Energy cost by the Might of the unit you recycled.",
-    "fullText": "Your Mechs each have [Assault]. (+1 Might while we're attackers.)\nWhen I conquer, you may recycle another friendly unit to play a Mech from your trash. Reduce its Energy cost by the Might of the unit you recycled."
   },
   {
     "id": "unl-173",
