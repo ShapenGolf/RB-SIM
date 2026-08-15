@@ -216,6 +216,22 @@ export interface SpecialCaseHandler {
     spendXP?: number;
   };
 
+  /**
+   * Cost for this card's own "[Empower] [Cost]: Empower me/this. Use only if not Empowered."
+   * ability — a player-triggerable action (see game/moves.ts `empowerInstance`) that pays the
+   * cost, then sets `statuses.empowered`/`everEmpowered`. The generic `empowered` keyword handler
+   * only tracks the resulting status flags and the once-per-game constraint (see
+   * keywords/handlers/empowered.ts `canBecomeEmpowered`) — this is what actually lets a player
+   * trigger it, since the granted effect and the cost are both unique per card.
+   */
+  readonly empowerCost?: {
+    energy: number;
+    runeDomain?: Domain;
+    exhaustSelf?: boolean;
+    /** "Discard N" as part of this cost (e.g. Punching Poro: "Discard 1"). No choice of which card (see docs/data-sourcing.md discard-choice simplification) — discards from the front of hand. */
+    discardCount?: number;
+  };
+
   /** Set when the bespoke activated ability needs a player-chosen target. */
   readonly activateNeedsTarget?: boolean;
 

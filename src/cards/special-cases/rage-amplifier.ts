@@ -6,5 +6,6 @@ import type { SpecialCaseHandler } from "./types";
  */
 export const rageAmplifier: SpecialCaseHandler = {
   cardId: "rage-amplifier",
+  empowerCost: { energy: 6, runeDomain: "Fury" },
   staticMightModifierForAlly: (ctx) => (ctx.instance.statuses.empowered ? 2 : 1),
 };

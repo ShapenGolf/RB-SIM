@@ -11,5 +11,6 @@ import type { SpecialCaseHandler } from "./types";
  */
 export const shadowFiend: SpecialCaseHandler = {
   cardId: "shadow-fiend",
+  empowerCost: { energy: 2, runeDomain: "Fury" },
   attackingMightModifier: (ctx) => (ctx.instance.statuses.empowered ? 0 : -3),
 };

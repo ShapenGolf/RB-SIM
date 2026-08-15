@@ -415,6 +415,8 @@ import { steelPaws } from "./steel-paws";
 import { tombRaiderBarbara } from "./tomb-raider-barbara";
 import { viktorInnovator } from "./viktor-innovator";
 import { windAndGhosts } from "./wind-and-ghosts";
+import { protectiveSands } from "./protective-sands";
+import { punchingPoro } from "./punching-poro";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -830,6 +832,8 @@ const handlers: SpecialCaseHandler[] = [
   tombRaiderBarbara,
   viktorInnovator,
   windAndGhosts,
+  protectiveSands,
+  punchingPoro,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -890,6 +894,8 @@ export const SpecialCaseEngine = {
   },
 
   activatedAbilityCost: (card: Card) => getSpecialCaseHandler(card)?.activatedAbilityCost,
+
+  empowerCost: (card: Card) => getSpecialCaseHandler(card)?.empowerCost,
 
   additionalCostDiscardForReduction: (card: Card) =>
     getSpecialCaseHandler(card)?.additionalCostDiscardForReduction,

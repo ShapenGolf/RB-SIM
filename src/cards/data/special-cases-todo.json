@@ -2328,22 +2328,6 @@
     "fullText": "Each player looks at the top 5 cards of their Main Deck, chooses one, then recycles the rest. Starting with the next player, each player plays those cards, ignoring Energy costs. (They must still pay Power costs.)"
   },
   {
-    "id": "ven-162",
-    "name": "Protective Sands",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "When you conquer here, if you control 4 or fewer runes, you may pay 1 Energy to draw 1.",
-    "fullText": "When you conquer here, if you control 4 or fewer runes, you may pay 1 Energy to draw 1."
-  },
-  {
-    "id": "ven-7",
-    "name": "Punching Poro",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "\u2014 Discard 1 (Pay the cost: Empower me. Use only if not Empowered.)\n I have +1 Might.",
-    "fullText": "[Empower] \u2014 Discard 1 (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered][>] I have +1 Might."
-  },
-  {
     "id": "sfd-183",
     "name": "Purifier",
     "set": "SFD",

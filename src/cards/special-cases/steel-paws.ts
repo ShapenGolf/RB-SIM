@@ -6,5 +6,6 @@ import type { SpecialCaseHandler } from "./types";
  */
 export const steelPaws: SpecialCaseHandler = {
   cardId: "steel-paws",
+  empowerCost: { energy: 7 },
   staticMightModifier: (ctx) => (ctx.instance.statuses.empowered ? 7 : 0),
 };

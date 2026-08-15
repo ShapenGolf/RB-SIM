@@ -8,6 +8,7 @@ import type { SpecialCaseHandler } from "./types";
  */
 export const kinkouLifeblade: SpecialCaseHandler = {
   cardId: "kinkou-lifeblade",
+  empowerCost: { energy: 2 },
   staticMightModifier: (ctx) => (ctx.instance.statuses.empowered ? 1 : 0),
   hasConditionalGanking: (ctx) => Boolean(ctx.instance.statuses.empowered),
 };

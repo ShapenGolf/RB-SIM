@@ -10,6 +10,7 @@ import type { SpecialCaseHandler } from "./types";
  */
 export const brutalHunter: SpecialCaseHandler = {
   cardId: "brutal-hunter",
+  empowerCost: { energy: 3 },
   staticMightModifier: (ctx) => (ctx.instance.statuses.empowered ? 2 : 0),
   hasConditionalGanking: (ctx) => Boolean(ctx.instance.statuses.empowered),
 };

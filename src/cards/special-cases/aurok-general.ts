@@ -9,6 +9,7 @@ import type { SpecialCaseHandler } from "./types";
  */
 export const aurokGeneral: SpecialCaseHandler = {
   cardId: "aurok-general",
+  empowerCost: { energy: 3, runeDomain: "Order" },
   staticMightModifier: (ctx) => (ctx.instance.statuses.empowered ? 2 : 0),
   staticMightModifierForAlly: (ctx, allyInstance) => {
     if (!ctx.instance.statuses.empowered) return 0;

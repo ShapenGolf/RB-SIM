@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { BoardProps } from "boardgame.io/react";
 import type { GameState, PlayerId, CardInstance } from "../game/state";
+import type { Domain } from "../cards/types";
 import { getCard } from "../cards/db";
 import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
@@ -185,7 +186,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       : SpecialCaseEngine.activateNeedsTarget(card);
   }
 
-  function computeAbilityPayment(cost: NonNullable<ReturnType<typeof abilityCostFor>>) {
+  function computeAbilityPayment(cost: { energy: number; runeDomain?: Domain }) {
     const powerRune = cost.runeDomain ? player.runePool.find((r) => r.domain === cost.runeDomain) : undefined;
     if (cost.runeDomain && !powerRune) return null;
     const readyRunes = player.runePool.filter((r) => !r.exhausted && r.instanceId !== powerRune?.instanceId);
@@ -211,6 +212,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       return;
     }
     moves.activateAbility({ instanceId, ...payment });
+  }
+
+  function empowerAuto(instanceId: string) {
+    const instance = G.instances[instanceId];
+    const card = getCard(instance.cardId);
+    const cost = SpecialCaseEngine.empowerCost(card);
+    if (!cost) return;
+    const payment = computeAbilityPayment(cost);
+    if (!payment) {
+      window.alert("Nicht genug Runen, um das zu bezahlen.");
+      return;
+    }
+    moves.empowerInstance({ instanceId, ...payment });
   }
 
   function confirmAbilityTarget(targetInstanceId: string) {
@@ -501,6 +515,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const isUnit = card.type === "unit" || card.type === "champion";
           const ability = abilityCostFor(card);
           const canActivate = ability && (!ability.exhaustSelf || !instance.exhausted);
+          const empowerCost = SpecialCaseEngine.empowerCost(card);
+          const canEmpower = empowerCost && !instance.statuses.everEmpowered && (!empowerCost.exhaustSelf || !instance.exhausted);
           return (
             <CardFace
               key={id}
@@ -511,7 +527,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
               frame={simpleMode && isUnit ? (instance.exhausted ? "blocked" : "ok") : undefined}
               footer={
-                canAct && (card.equipCost || canActivate) ? (
+                canAct && (card.equipCost || canActivate || canEmpower) ? (
                   <>
                     {card.equipCost && (
                       <button onClick={() => startEquip(id)}>
@@ -521,6 +537,12 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                     )}
                     {canActivate && (
                       <button onClick={() => activateAbilityAuto(id)}>Aktivieren E{ability!.energy}</button>
+                    )}
+                    {canEmpower && (
+                      <button onClick={() => empowerAuto(id)}>
+                        Empower E{empowerCost!.energy}
+                        {empowerCost!.runeDomain ? `+${empowerCost!.runeDomain}` : ""}
+                      </button>
                     )}
                   </>
                 ) : undefined

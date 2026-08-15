@@ -346,6 +346,64 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   return undefined;
 };
 
+export interface EmpowerArgs {
+  instanceId: string;
+  energyRuneIds: string[];
+  powerRuneId?: string;
+}
+
+/**
+ * Pays a card's own "[Empower] [Cost]: Empower me/this." cost (see
+ * cards/special-cases/types.ts SpecialCaseHandler.empowerCost) and sets the resulting status.
+ * Mirrors activateAbility's cost validation/payment, minus the parts Empower never uses
+ * (recycleFromTrash/spendBuff/killSelf/spendXP/target) — see keywords/handlers/empowered.ts for
+ * the once-per-game constraint this enforces.
+ */
+export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: EmpowerArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  const instance = G.instances[args.instanceId];
+  if (!instance || instance.controller !== player.id) return INVALID_MOVE;
+  if (instance.statuses.everEmpowered) return INVALID_MOVE;
+
+  const card = getCard(instance.cardId);
+  const cost = SpecialCaseEngine.empowerCost(card);
+  if (!cost) return INVALID_MOVE;
+  if (cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
+  if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
+  if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
+  if (player.hand.length < (cost.discardCount ?? 0)) return INVALID_MOVE;
+
+  const seen = new Set<string>();
+  for (const runeId of args.energyRuneIds) {
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune || rune.exhausted || seen.has(runeId)) return INVALID_MOVE;
+    seen.add(runeId);
+  }
+  if (args.powerRuneId) {
+    if (seen.has(args.powerRuneId)) return INVALID_MOVE;
+    const rune = player.runePool.find((r) => r.instanceId === args.powerRuneId);
+    if (!rune || rune.domain !== cost.runeDomain) return INVALID_MOVE;
+  }
+
+  for (const runeId of args.energyRuneIds) {
+    player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  if (args.powerRuneId) {
+    const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
+    const [rune] = player.runePool.splice(idx, 1);
+    player.runeDeck.push(rune);
+  }
+  if (cost.exhaustSelf) instance.exhausted = true;
+  for (let i = 0; i < (cost.discardCount ?? 0); i += 1) {
+    const discarded = player.hand.shift();
+    if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
+  }
+
+  instance.statuses.empowered = true;
+  instance.statuses.everEmpowered = true;
+  return undefined;
+};
+
 export interface ActivateLegendAbilityArgs {
   energyRuneIds: string[];
   powerRuneId?: string;
