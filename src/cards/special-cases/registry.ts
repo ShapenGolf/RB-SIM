@@ -524,6 +524,8 @@ import { dragonForm } from "./dragon-form";
 import { lightningRush } from "./lightning-rush";
 import { twilightShroud } from "./twilight-shroud";
 import { twilightStep } from "./twilight-step";
+import { insightfulInvestigator } from "./insightful-investigator";
+import { profiteer } from "./profiteer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1048,6 +1050,8 @@ const handlers: SpecialCaseHandler[] = [
   lightningRush,
   twilightShroud,
   twilightStep,
+  insightfulInvestigator,
+  profiteer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

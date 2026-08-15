@@ -1048,14 +1048,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nWhen any unit takes damage this turn, kill it."
   },
   {
-    "id": "unl-135",
-    "name": "Insightful Investigator",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "When you play me, choose an opponent. They reveal their hand. You may pay 2 XP to choose a card from their hand. If you do, they discard that card and draw 1.",
-    "fullText": "When you play me, choose an opponent. They reveal their hand. You may pay 2 XP to choose a card from their hand. If you do, they discard that card and draw 1."
-  },
-  {
     "id": "sfd-57",
     "name": "Irelia, Fervent",
     "set": "SFD",
@@ -1614,14 +1606,6 @@
     "type": "legend",
     "residualText": "Exhaust:  \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
     "fullText": "Exhaust: [Reaction] \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."
-  },
-  {
-    "id": "ven-82",
-    "name": "Profiteer",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When you play me, you may disempower something you control to empower a legend, unit, or gear.",
-    "fullText": "When you play me, you may disempower something you control to empower a legend, unit, or gear."
   },
   {
     "id": "ogn-115",
