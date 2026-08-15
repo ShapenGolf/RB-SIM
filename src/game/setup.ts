@@ -180,6 +180,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     extraTurnFor: null,
     anyUnitDiedThisTurn: false,
     pendingDisempowerAtEndOfTurn: [],
+    preventAllSpellDamageThisTurn: false,
   };
 }
 

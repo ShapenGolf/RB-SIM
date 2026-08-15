@@ -631,6 +631,11 @@ import { thwonk } from "./thwonk";
 import { tideturner } from "./tideturner";
 import { tornadoWarrior } from "./tornado-warrior";
 import { temporalPortal } from "./temporal-portal";
+import { unyieldingSpirit } from "./unyielding-spirit";
+import { teemoStrategist } from "./teemo-strategist";
+import { tricksyTentacles } from "./tricksy-tentacles";
+import { udyrWildman } from "./udyr-wildman";
+import { voidDrone } from "./void-drone";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1262,6 +1267,11 @@ const handlers: SpecialCaseHandler[] = [
   tideturner,
   tornadoWarrior,
   temporalPortal,
+  unyieldingSpirit,
+  teemoStrategist,
+  tricksyTentacles,
+  udyrWildman,
+  voidDrone,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

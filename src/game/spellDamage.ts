@@ -19,6 +19,7 @@ export function dealSpellDamage(
 ): void {
   const target = game.instances[targetInstanceId];
   if (!target) return;
+  if (game.preventAllSpellDamageThisTurn) return;
   if (
     controller !== target.controller &&
     SpecialCaseEngine.preventsEnemySpellDamage(game, getCard(target.cardId), target)

@@ -161,4 +161,6 @@ export interface GameState {
   anyUnitDiedThisTurn: boolean;
   /** instanceIds to disempower at the end of the current turn (e.g. Sanction: "Empower a unit. Disempower it at end of turn."). Processed and cleared in moves.ts endTurn. */
   pendingDisempowerAtEndOfTurn: string[];
+  /** Set by Unyielding Spirit: "Prevent all spell and ability damage this turn." Checked at the top of game/spellDamage.ts dealSpellDamage — the single chokepoint for all non-combat damage. Reset each turn in turnFlow.ts runTurnStart. */
+  preventAllSpellDamageThisTurn: boolean;
 }

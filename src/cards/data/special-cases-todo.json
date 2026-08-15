@@ -1224,14 +1224,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. The next time it would die this turn, heal it, exhaust it, and recall it instead. (Send it to base. This isn't a move.)"
   },
   {
-    "id": "sfd-230",
-    "name": "Teemo, Strategist",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I defend or I'm played from , reveal the top 5 cards of your Main Deck. Deal 1 to an enemy unit here for each card with , then recycle them.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nWhen I defend or I'm played from [Hidden], reveal the top 5 cards of your Main Deck. Deal 1 to an enemy unit here for each card with [Hidden], then recycle them."
-  },
-  {
     "id": "ogn-121",
     "name": "Teemo, Strategist",
     "set": "OGN",
@@ -1288,22 +1280,6 @@
     "fullText": "When combat starts here, the attacker and defender each [Add] 1 Energy."
   },
   {
-    "id": "unl-54",
-    "name": "Tricksy Tentacles",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location.",
-    "fullText": "Move any number of enemy units with the same controller and a total Might of 8 or less to a single location."
-  },
-  {
-    "id": "ogn-157",
-    "name": "Udyr, Wildman",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "Spend my buff: Choose one you've not chosen this turn —Deal 2 to a unit at a battlefield.Stun a unit at a battlefield.Ready me.Give me  this turn.",
-    "fullText": "Spend my buff: Choose one you've not chosen this turn —Deal 2 to a unit at a battlefield.Stun a unit at a battlefield.Ready me.Give me [Ganking] this turn."
-  },
-  {
     "id": "unl-25",
     "name": "Undying Legion",
     "set": "UNL",
@@ -1318,14 +1294,6 @@
     "type": "gear",
     "residualText": "Discard 1, Exhaust: Choose a friendly unit. The next time it dies this turn, you may pay Fury Rune to recall it exhausted instead. (Send it to base. This isn't a move.)",
     "fullText": "Discard 1, Exhaust: Choose a friendly unit. The next time it dies this turn, you may pay Fury Rune to recall it exhausted instead. (Send it to base. This isn't a move.)"
-  },
-  {
-    "id": "ogn-145",
-    "name": "Unyielding Spirit",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Prevent all spell and ability damage this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nPrevent all spell and ability damage this turn."
   },
   {
     "id": "unl-218",
@@ -1374,14 +1342,6 @@
     "type": "spell",
     "residualText": "Move a friendly unit, then move an enemy unit. (If they both move to a battlefield you don't control, you're the attacker.)",
     "fullText": "Move a friendly unit, then move an enemy unit. (If they both move to a battlefield you don't control, you're the attacker.)"
-  },
-  {
-    "id": "sfd-10",
-    "name": "Void Drone",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "I cost 2 Energy less to play from anywhere other than your hand.",
-    "fullText": "I cost 2 Energy less to play from anywhere other than your hand."
   },
   {
     "id": "sfd-18",
