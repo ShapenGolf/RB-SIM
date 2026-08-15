@@ -412,6 +412,7 @@ export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: Empowe
 
   instance.statuses.empowered = true;
   instance.statuses.everEmpowered = true;
+  SpecialCaseEngine.onBecomeEmpowered(G, card, instance);
   return undefined;
 };
 

@@ -50,8 +50,15 @@ export function runBeginning(game: GameState, player: PlayerId): void {
     if (SpecialCaseEngine.blocksScoringFor(game, getCard, index, player)) return;
     scoredPoints += 1;
   });
-  game.players[player].points += scoredPoints;
-  if (scoredPoints > 0) SpecialCaseEngine.onOpponentScored(game, getCard, player, scoredPoints);
+  if (scoredPoints > 0 && SpecialCaseEngine.scoringConvertedToDraw(game, getCard, player)) {
+    for (let i = 0; i < scoredPoints; i += 1) {
+      const drawn = game.players[player].mainDeck.shift();
+      if (drawn) game.players[player].hand.push(drawn);
+    }
+  } else {
+    game.players[player].points += scoredPoints;
+    if (scoredPoints > 0) SpecialCaseEngine.onOpponentScored(game, getCard, player, scoredPoints);
+  }
   resolveHoldTriggers(game, getCard, player);
 
   game.battlefields.forEach((slot, index) => {

@@ -1936,14 +1936,6 @@
     "fullText": "While you control this battlefield, the first friendly non-token gear played each turn costs 1 Energy less."
   },
   {
-    "id": "ven-53",
-    "name": "Otterpus",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "If a player would score 1 point from conquering or holding during their first or second turn, they draw 1 instead.",
-    "fullText": "If a player would score 1 point from conquering or holding during their first or second turn, they draw 1 instead."
-  },
-  {
     "id": "sfd-128",
     "name": "Overzealous Fan",
     "set": "SFD",
@@ -2616,14 +2608,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. The next time it would die this turn, heal it, exhaust it, and recall it instead. (Send it to base. This isn't a move.)"
   },
   {
-    "id": "ven-104",
-    "name": "Tail-Cloaked Matriarch",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "When I become , you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost.",
-    "fullText": "[Empower] 2 EnergyChaos Rune (2 EnergyChaos Rune: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], you may choose a unit in your trash with Energy cost no more than 3 Energy and Power cost no more than Rune. Play it to your base, ignoring its cost."
-  },
-  {
     "id": "sfd-230",
     "name": "Teemo, Strategist",
     "set": "SFD",
@@ -2902,14 +2886,6 @@
     "type": "unit",
     "residualText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards.",
     "fullText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards."
-  },
-  {
-    "id": "sfd-188",
-    "name": "Void Rush",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Reveal the top 2 cards of your Main Deck. You may play one of them, reducing its cost by 2 Energy. Draw any you did not play this way.",
-    "fullText": "Reveal the top 2 cards of your Main Deck. You may play one of them, reducing its cost by 2 Energy. Draw any you did not play this way."
   },
   {
     "id": "unl-201",

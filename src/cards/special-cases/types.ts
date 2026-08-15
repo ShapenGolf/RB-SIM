@@ -252,6 +252,9 @@ export interface SpecialCaseHandler {
   /** Executes a bespoke activated ability's effect. */
   onActivate?(ctx: SpecialCaseContext, targetInstanceId?: string): void;
 
+  /** Called on this instance right after it becomes Empowered via the player-triggered `empowerInstance` move (see game/moves.ts), for a one-shot effect distinct from the ongoing `[Empowered]` bonus (e.g. Kharox, Tail-Cloaked Matriarch: "When I become Empowered, ..."). */
+  onBecomeEmpowered?(ctx: SpecialCaseContext): void;
+
   /**
    * Broadcast to every card in the controller's trash whenever THAT PLAYER kills an enemy unit
    * with a spell (see game/spellDamage.ts `dealSpellDamage`, the one place spell damage should
@@ -457,4 +460,13 @@ export interface SpecialCaseHandler {
    * against every in-play instance regardless of controller; the lowest cap found (if any) wins.
    */
   channelAmountCap?(ctx: SpecialCaseContext): number;
+
+  /**
+   * True if this card's mere presence converts points a player WOULD score (from holding, in
+   * this engine's simplified single scoring step) into a card draw instead, for BOTH players,
+   * while that player is on their first or second turn (e.g. Otterpus). Checked in
+   * turnFlow.ts runBeginning against every in-play instance regardless of controller; the
+   * turn-count gate itself is applied by the caller, not this hook.
+   */
+  convertsScoringToDrawOnEarlyTurns?(ctx: SpecialCaseContext): boolean;
 }

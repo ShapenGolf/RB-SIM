@@ -462,6 +462,9 @@ import { shadowsOfThePast } from "./shadows-of-the-past";
 import { undyingLoyalty } from "./undying-loyalty";
 import { wallop } from "./wallop";
 import { partyFavors } from "./party-favors";
+import { tailCloakedMatriarch } from "./tail-cloaked-matriarch";
+import { otterpus } from "./otterpus";
+import { voidRush } from "./void-rush";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -924,6 +927,9 @@ const handlers: SpecialCaseHandler[] = [
   undyingLoyalty,
   wallop,
   partyFavors,
+  tailCloakedMatriarch,
+  otterpus,
+  voidRush,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1581,6 +1587,10 @@ export const SpecialCaseEngine = {
   preventsEnemySpellDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
     getSpecialCaseHandler(card)?.preventsEnemySpellDamage?.(ctxFor(game, card, instance)) ?? false,
 
+  onBecomeEmpowered: (game: GameState, card: Card, instance: CardInstance): void => {
+    getSpecialCaseHandler(card)?.onBecomeEmpowered?.(ctxFor(game, card, instance));
+  },
+
   /** Lowest channelAmountCap found across every in-play instance (any controller), or `undefined` if none apply. See turnFlow.ts runChannel. */
   channelAmountCap: (game: GameState, getCard: (cardId: string) => Card): number | undefined => {
     let cap: number | undefined;
@@ -1591,5 +1601,17 @@ export const SpecialCaseEngine = {
       cap = cap === undefined ? handlerCap : Math.min(cap, handlerCap);
     }
     return cap;
+  },
+
+  /** True if `scoringPlayer` is on their first or second turn AND some in-play instance (either controller) grants the "score becomes a draw" effect (e.g. Otterpus). See turnFlow.ts runBeginning. */
+  scoringConvertedToDraw: (game: GameState, getCard: (cardId: string) => Card, scoringPlayer: PlayerId): boolean => {
+    if (game.players[scoringPlayer].turnsTaken > 2) return false;
+    for (const instance of Object.values(game.instances)) {
+      const card = getCard(instance.cardId);
+      if (getSpecialCaseHandler(card)?.convertsScoringToDrawOnEarlyTurns?.(ctxFor(game, card, instance))) {
+        return true;
+      }
+    }
+    return false;
   },
 };
