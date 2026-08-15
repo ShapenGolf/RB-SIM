@@ -510,6 +510,9 @@ import { emperorOfTheSands } from "./emperor-of-the-sands";
 import { nineTailedFox } from "./nine-tailed-fox";
 import { voidBurrower } from "./void-burrower";
 import { bladeDancer } from "./blade-dancer";
+import { akaliSilent } from "./akali-silent";
+import { akaliDeadlyWeapon } from "./akali-deadly-weapon";
+import { dravenVanquisher } from "./draven-vanquisher";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1020,6 +1023,9 @@ const handlers: SpecialCaseHandler[] = [
   nineTailedFox,
   voidBurrower,
   bladeDancer,
+  akaliSilent,
+  akaliDeadlyWeapon,
+  dravenVanquisher,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

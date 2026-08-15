@@ -24,22 +24,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGive a friendly unit at a battlefield +2 Might this turn for each enemy unit there."
   },
   {
-    "id": "ven-21",
-    "name": "Akali, Deadly Weapon",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "When I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm , deal 2 instead.\n I have +1 Might.",
-    "fullText": "[Empower] 2 EnergyFury Rune (2 EnergyFury Rune: Empower me. Use only if not Empowered.)\nWhen I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm [Empowered], deal 2 instead.\n[Empowered][>] I have +1 Might."
-  },
-  {
-    "id": "ven-38",
-    "name": "Akali, Silent",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "I can't be chosen by enemy spells and abilities unless I'm in combat.\nWhen I move to a battlefield, give me +2 Might this turn.",
-    "fullText": "I can't be chosen by enemy spells and abilities unless I'm in combat.\nWhen I move to a battlefield, give me +2 Might this turn."
-  },
-  {
     "id": "sfd-109",
     "name": "Akshan, Mischievous",
     "set": "SFD",
@@ -654,14 +638,6 @@
     "type": "unit",
     "residualText": ". (When I die, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)",
     "fullText": "[Deathknell][>] [Predict 2]. (When I die, look at the top two cards of your Main Deck. Recycle any of them and put the rest back in any order.)"
-  },
-  {
-    "id": "sfd-20",
-    "name": "Draven, Vanquisher",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn.",
-    "fullText": "When I win a combat, play a Gold gear token exhausted.\nWhen I attack or defend, you may pay Fury Rune. If you do, give me +2 Might this turn."
   },
   {
     "id": "sfd-139",
