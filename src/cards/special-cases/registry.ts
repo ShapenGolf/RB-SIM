@@ -738,6 +738,54 @@ import { starSpring } from "./star-spring";
 import { sandsweptTomb } from "./sandswept-tomb";
 import { risenAltar } from "./risen-altar";
 import { vexCheerless } from "./vex-cheerless";
+import { abandonedHall } from "./abandoned-hall";
+import { alphaWildclaw } from "./alpha-wildclaw";
+import { altarOfBlood } from "./altar-of-blood";
+import { asheFocused } from "./ashe-focused";
+import { atakhan } from "./atakhan";
+import { azirAscendant } from "./azir-ascendant";
+import { baitedHook } from "./baited-hook";
+import { bandleTree } from "./bandle-tree";
+import { blackMarketBroker } from "./black-market-broker";
+import { boneSkewer } from "./bone-skewer";
+import { commanderLedros } from "./commander-ledros";
+import { deceiver } from "./deceiver";
+import { divineJudgment } from "./divine-judgment";
+import { dragonRoost } from "./dragon-roost";
+import { emberMonk } from "./ember-monk";
+import { fallenFeline } from "./fallen-feline";
+import { forgeOfTheFluft } from "./forge-of-the-fluft";
+import { fretfulFeline } from "./fretful-feline";
+import { frigidJewel } from "./frigid-jewel";
+import { gangplankNaval } from "./gangplank-naval";
+import { gearhead } from "./gearhead";
+import { glowstone } from "./glowstone";
+import { greenFather } from "./green-father";
+import { heartOfTheTempest } from "./heart-of-the-tempest";
+import { hereToHelp } from "./here-to-help";
+import { hungryWolf } from "./hungry-wolf";
+import { ireliaFervent } from "./irelia-fervent";
+import { jaxUnmatched } from "./jax-unmatched";
+import { jayceHammerInHand } from "./jayce-hammer-in-hand";
+import { katarinaReckless } from "./katarina-reckless";
+import { kaynUnleashed } from "./kayn-unleashed";
+import { krakenHunter } from "./kraken-hunter";
+import { masterOfShadows } from "./master-of-shadows";
+import { matriarchOfWar } from "./matriarch-of-war";
+import { mistfall } from "./mistfall";
+import { needlesslyLargeYordle } from "./needlessly-large-yordle";
+import { nocturneHorrifying } from "./nocturne-horrifying";
+import { piratesHaven } from "./pirates-haven";
+import { prodigalExplorer } from "./prodigal-explorer";
+import { promisingFuture } from "./promising-future";
+import { rogueAssassin } from "./rogue-assassin";
+import { simianAncestor } from "./simian-ancestor";
+import { sivirMercenary } from "./sivir-mercenary";
+import { soulsReflection } from "./souls-reflection";
+import { stalkingWolf } from "./stalking-wolf";
+import { stargazer } from "./stargazer";
+import { voidHatchling } from "./void-hatchling";
+import { yasuoWindrider } from "./yasuo-windrider";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1476,6 +1524,54 @@ const handlers: SpecialCaseHandler[] = [
   sandsweptTomb,
   risenAltar,
   vexCheerless,
+  abandonedHall,
+  alphaWildclaw,
+  altarOfBlood,
+  asheFocused,
+  atakhan,
+  azirAscendant,
+  baitedHook,
+  bandleTree,
+  blackMarketBroker,
+  boneSkewer,
+  commanderLedros,
+  deceiver,
+  divineJudgment,
+  dragonRoost,
+  emberMonk,
+  fallenFeline,
+  forgeOfTheFluft,
+  fretfulFeline,
+  frigidJewel,
+  gangplankNaval,
+  gearhead,
+  glowstone,
+  greenFather,
+  heartOfTheTempest,
+  hereToHelp,
+  hungryWolf,
+  ireliaFervent,
+  jaxUnmatched,
+  jayceHammerInHand,
+  katarinaReckless,
+  kaynUnleashed,
+  krakenHunter,
+  masterOfShadows,
+  matriarchOfWar,
+  mistfall,
+  needlesslyLargeYordle,
+  nocturneHorrifying,
+  piratesHaven,
+  prodigalExplorer,
+  promisingFuture,
+  rogueAssassin,
+  simianAncestor,
+  sivirMercenary,
+  soulsReflection,
+  stalkingWolf,
+  stargazer,
+  voidHatchling,
+  yasuoWindrider,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
