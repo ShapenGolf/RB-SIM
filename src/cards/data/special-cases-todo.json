@@ -24,14 +24,6 @@
     "fullText": "If a unit here would die during combat, its controller may pay RuneRuneRune to heal it, exhaust it, and recall it instead."
   },
   {
-    "id": "sfd-117",
-    "name": "Ancient Henge",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Exhaust:  \u2014 Pay any amount of Energy to  that much Rune. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 Pay any amount of Energy to [Add] that much Rune. (Abilities that add resources can't be reacted to.)"
-  },
-  {
     "id": "unl-169",
     "name": "Ashe, Focused",
     "set": "UNL",
@@ -104,22 +96,6 @@
     "fullText": "[Action] (Play on your turn or in showdowns.)\nPay any amount of Rune to deal that much damage to all enemy units at a battlefield."
   },
   {
-    "id": "ven-141",
-    "name": "Butcher of the Sands",
-    "set": "VEN",
-    "type": "legend",
-    "residualText": "RuneRune, Exhaust:  2 Energy. Spend this Energy only to play units or activated abilities of units.",
-    "fullText": "[Reaction][>] RuneRune, Exhaust: [Add] 2 Energy. Spend this Energy only to play units or activated abilities of units."
-  },
-  {
-    "id": "ven-190",
-    "name": "Butcher of the Sands",
-    "set": "VEN",
-    "type": "legend",
-    "residualText": "RuneRune, Exhaust:  2 Energy. Spend this Energy only to play units or activated abilities of units.",
-    "fullText": "[Reaction][>] RuneRune, Exhaust: [Add] 2 Energy. Spend this Energy only to play units or activated abilities of units."
-  },
-  {
     "id": "ogn-231",
     "name": "Commander Ledros",
     "set": "OGN",
@@ -134,22 +110,6 @@
     "type": "spell",
     "residualText": "Deal 2 to a unit. Its controller may play this spell again for Rune. If they do, this deals 1 additional Bonus Damage for each time this spell has dealt damage this turn.",
     "fullText": "Deal 2 to a unit. Its controller may play this spell again for Rune. If they do, this deals 1 additional Bonus Damage for each time this spell has dealt damage this turn."
-  },
-  {
-    "id": "ogn-299",
-    "name": "Daughter of the Void",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "Exhaust:  \u2014  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "ogn-247",
-    "name": "Daughter of the Void",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "Exhaust:  \u2014  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "unl-235",
@@ -184,28 +144,12 @@
     "fullText": "Any player may pay RuneRune as an additional cost to play a Dragon. If they do, they play it to this battlefield."
   },
   {
-    "id": "unl-93",
-    "name": "Dragonsoul Sage",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Exhaust:  1 Energy. (Abilities that add resources can't be reacted to.)",
-    "fullText": "[Reaction][>] Exhaust: [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
-  },
-  {
     "id": "ogn-167",
     "name": "Ember Monk",
     "set": "OGN",
     "type": "unit",
     "residualText": "When you play a card from , give me +2 Might this turn.",
     "fullText": "When you play a card from [Hidden], give me +2 Might this turn."
-  },
-  {
-    "id": "ogn-98",
-    "name": "Energy Conduit",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Exhaust:  \u2014  1 Energy. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "ven-132",
@@ -222,22 +166,6 @@
     "type": "champion",
     "residualText": "When a unit you control becomes , you may pay Order Rune to ready it. (A unit is Mighty while it has 5+ Might.)",
     "fullText": "When a unit you control becomes [Mighty], you may pay Order Rune to ready it. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
-    "id": "sfd-244",
-    "name": "Fire Below the Mountain",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Exhaust:  \u2014  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "sfd-189",
-    "name": "Fire Below the Mountain",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "Exhaust:  \u2014  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "sfd-208",
@@ -344,22 +272,6 @@
     "fullText": "When you hold here, you may return your Chosen Champion from your trash to your Champion Zone if it is empty."
   },
   {
-    "id": "ogn-302",
-    "name": "Hand of Noxus",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "Exhaust: ,  \u2014  1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
-    "fullText": "Exhaust: [Reaction], [Legion] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)"
-  },
-  {
-    "id": "ogn-253",
-    "name": "Hand of Noxus",
-    "set": "OGN",
-    "type": "legend",
-    "residualText": "Exhaust: ,  \u2014  1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
-    "fullText": "Exhaust: [Reaction], [Legion] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)"
-  },
-  {
     "id": "ven-197",
     "name": "Heart of the Tempest",
     "set": "VEN",
@@ -390,22 +302,6 @@
     "type": "spell",
     "residualText": "You may play a unit from hand to a battlefield you control, reducing its cost by 3 Energy.",
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Action] (Play on your turn or in showdowns.)\nYou may play a unit from hand to a battlefield you control, reducing its cost by 3 Energy."
-  },
-  {
-    "id": "sfd-83",
-    "name": "Hextech Anomaly",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Exhaust:  \u2014 Pay any amount of Rune to  that much Energy. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 Pay any amount of Rune to [Add] that much Energy. (Abilities that add resources can't be reacted to.)"
-  },
-  {
-    "id": "unl-49",
-    "name": "Honeyfruit",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "This enters exhausted.\n Exhaust:  Rune. (Abilities that add resources can't be reacted to.)\n [>>] Exhaust:  1 EnergyRune. (Use this ability only while you have 6+ XP.)",
-    "fullText": "This enters exhausted.\n[Reaction][>] Exhaust: [Add] Rune. (Abilities that add resources can't be reacted to.)\n[Level 6][>] [>>][Reaction][>] Exhaust: [Add] 1 EnergyRune. (Use this ability only while you have 6+ XP.)"
   },
   {
     "id": "ven-125",
@@ -544,14 +440,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
   },
   {
-    "id": "ogs-14",
-    "name": "Lux, Crownguard",
-    "set": "OGS",
-    "type": "champion",
-    "residualText": "Exhaust:  \u2014  2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] \u2014 [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)"
-  },
-  {
     "id": "unl-163",
     "name": "Mageseeker Investigator",
     "set": "UNL",
@@ -566,14 +454,6 @@
     "type": "unit",
     "residualText": "While I'm at a battlefield, opponents can only play units to their base.\nWhile I'm at a battlefield, spells and abilities can't ready enemy units and gear.",
     "fullText": "While I'm at a battlefield, opponents can only play units to their base.\nWhile I'm at a battlefield, spells and abilities can't ready enemy units and gear."
-  },
-  {
-    "id": "ogn-113",
-    "name": "Malzahar, Fanatic",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "Kill a friendly unit or gear, Exhaust:  \u2014  RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)",
-    "fullText": "Kill a friendly unit or gear, Exhaust: [Action] \u2014 [Add] RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "sfd-211",
@@ -688,14 +568,6 @@
     "fullText": "When you ready a friendly unit, give it +1 Might this turn."
   },
   {
-    "id": "ven-75",
-    "name": "Platewyrm Egg",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "This enters exhausted.\n \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n Exhaust:  1 Energy. If this is ,  2 Energy instead.",
-    "fullText": "This enters exhausted.\n[Empower] \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction][>] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead."
-  },
-  {
     "id": "sfd-199",
     "name": "Prodigal Explorer",
     "set": "SFD",
@@ -750,22 +622,6 @@
     "type": "battlefield",
     "residualText": "Each spell that chooses one or more units here that are friendly to it costs Rune less.",
     "fullText": "Each spell that chooses one or more units here that are friendly to it costs Rune less."
-  },
-  {
-    "id": "unl-234",
-    "name": "Scorn of the Moon",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "Exhaust:  1 Energy. Spend this Energy only during showdowns.",
-    "fullText": "[Reaction][>] Exhaust: [Add] 1 Energy. Spend this Energy only during showdowns."
-  },
-  {
-    "id": "unl-197",
-    "name": "Scorn of the Moon",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "Exhaust:  1 Energy. Spend this Energy only during showdowns. (Abilities that add resources can't be reacted to.)",
-    "fullText": "[Reaction][>] Exhaust: [Add] 1 Energy. Spend this Energy only during showdowns. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "ven-137",

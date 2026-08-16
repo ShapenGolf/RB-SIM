@@ -687,6 +687,19 @@ import { mysticReversal } from "./mystic-reversal";
 import { rebuttal } from "./rebuttal";
 import { riposte } from "./riposte";
 import { imperialDecree } from "./imperial-decree";
+import { ancientHenge } from "./ancient-henge";
+import { butcherOfTheSands } from "./butcher-of-the-sands";
+import { daughterOfTheVoid } from "./daughter-of-the-void";
+import { dragonsoulSage } from "./dragonsoul-sage";
+import { energyConduit } from "./energy-conduit";
+import { fireBelowTheMountain } from "./fire-below-the-mountain";
+import { handOfNoxus } from "./hand-of-noxus";
+import { hextechAnomaly } from "./hextech-anomaly";
+import { honeyfruit } from "./honeyfruit";
+import { luxCrownguard } from "./lux-crownguard";
+import { malzaharFanatic } from "./malzahar-fanatic";
+import { platewyrmEgg } from "./platewyrm-egg";
+import { scornOfTheMoon } from "./scorn-of-the-moon";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1374,6 +1387,19 @@ const handlers: SpecialCaseHandler[] = [
   rebuttal,
   riposte,
   imperialDecree,
+  ancientHenge,
+  butcherOfTheSands,
+  daughterOfTheVoid,
+  dragonsoulSage,
+  energyConduit,
+  fireBelowTheMountain,
+  handOfNoxus,
+  hextechAnomaly,
+  honeyfruit,
+  luxCrownguard,
+  malzaharFanatic,
+  platewyrmEgg,
+  scornOfTheMoon,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
