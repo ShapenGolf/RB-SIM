@@ -36,8 +36,8 @@
     "name": "Ancient Henge",
     "set": "SFD",
     "type": "gear",
-    "residualText": "Exhaust:  — Pay any amount of Energy to  that much Rune. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — Pay any amount of Energy to [Add] that much Rune. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014 Pay any amount of Energy to  that much Rune. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 Pay any amount of Energy to [Add] that much Rune. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "unl-169",
@@ -60,8 +60,8 @@
     "name": "Azir, Ascendant",
     "set": "SFD",
     "type": "champion",
-    "residualText": "Calm Rune:  — Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn.",
-    "fullText": "Calm Rune: [Action] — Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn."
+    "residualText": "Calm Rune:  \u2014 Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn.",
+    "fullText": "Calm Rune: [Action] \u2014 Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn."
   },
   {
     "id": "ogn-242",
@@ -180,16 +180,16 @@
     "name": "Daughter of the Void",
     "set": "OGN",
     "type": "legend",
-    "residualText": "Exhaust:  —  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "ogn-247",
     "name": "Daughter of the Void",
     "set": "OGN",
     "type": "legend",
-    "residualText": "Exhaust:  —  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014  Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "unl-235",
@@ -252,8 +252,8 @@
     "name": "Energy Conduit",
     "set": "OGN",
     "type": "gear",
-    "residualText": "Exhaust:  —  1 Energy. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014  1 Energy. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "ven-132",
@@ -276,16 +276,16 @@
     "name": "Fire Below the Mountain",
     "set": "SFD",
     "type": "legend",
-    "residualText": "Exhaust:  —  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "sfd-189",
     "name": "Fire Below the Mountain",
     "set": "SFD",
     "type": "legend",
-    "residualText": "Exhaust:  —  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014  Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "sfd-208",
@@ -404,16 +404,16 @@
     "name": "Hand of Noxus",
     "set": "OGN",
     "type": "legend",
-    "residualText": "Exhaust: ,  —  1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
-    "fullText": "Exhaust: [Reaction], [Legion] — [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)"
+    "residualText": "Exhaust: ,  \u2014  1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
+    "fullText": "Exhaust: [Reaction], [Legion] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)"
   },
   {
     "id": "ogn-253",
     "name": "Hand of Noxus",
     "set": "OGN",
     "type": "legend",
-    "residualText": "Exhaust: ,  —  1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
-    "fullText": "Exhaust: [Reaction], [Legion] — [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)"
+    "residualText": "Exhaust: ,  \u2014  1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
+    "fullText": "Exhaust: [Reaction], [Legion] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)"
   },
   {
     "id": "sfd-136",
@@ -460,8 +460,8 @@
     "name": "Hextech Anomaly",
     "set": "SFD",
     "type": "gear",
-    "residualText": "Exhaust:  — Pay any amount of Rune to  that much Energy. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — Pay any amount of Rune to [Add] that much Energy. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014 Pay any amount of Rune to  that much Energy. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 Pay any amount of Rune to [Add] that much Energy. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "unl-49",
@@ -516,8 +516,8 @@
     "name": "Ivern, Friend to All",
     "set": "UNL",
     "type": "champion",
-    "residualText": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them — Bird, Cat, Dog, and Poro.",
-    "fullText": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them — Bird, Cat, Dog, and Poro."
+    "residualText": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them \u2014 Bird, Cat, Dog, and Poro.",
+    "fullText": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them \u2014 Bird, Cat, Dog, and Poro."
   },
   {
     "id": "sfd-142",
@@ -540,8 +540,8 @@
     "name": "Jayce, Hammer in Hand",
     "set": "VEN",
     "type": "champion",
-    "residualText": "When I become ready, choose one to give me this turn —",
-    "fullText": "When I become ready, choose one to give me this turn —[Assault 2] (+2 Might while I'm an attacker.)[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)"
+    "residualText": "When I become ready, choose one to give me this turn \u2014",
+    "fullText": "When I become ready, choose one to give me this turn \u2014[Assault 2] (+2 Might while I'm an attacker.)[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)"
   },
   {
     "id": "unl-89",
@@ -596,8 +596,8 @@
     "name": "Kayle, Justified",
     "set": "VEN",
     "type": "champion",
-    "residualText": "I can be  up to three times.\nI have +2 Might for each time I’m .\nWhile I'm  three times, I have  and .",
-    "fullText": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I’m [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking]."
+    "residualText": "I can be  up to three times.\nI have +2 Might for each time I\u2019m .\nWhile I'm  three times, I have  and .",
+    "fullText": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I\u2019m [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking]."
   },
   {
     "id": "ogn-189",
@@ -628,8 +628,8 @@
     "name": "Lux, Crownguard",
     "set": "OGS",
     "type": "champion",
-    "residualText": "Exhaust:  —  2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)",
-    "fullText": "Exhaust: [Reaction] — [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)"
+    "residualText": "Exhaust:  \u2014  2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)",
+    "fullText": "Exhaust: [Reaction] \u2014 [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "unl-163",
@@ -652,8 +652,8 @@
     "name": "Malzahar, Fanatic",
     "set": "OGN",
     "type": "champion",
-    "residualText": "Kill a friendly unit or gear, Exhaust:  —  RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)",
-    "fullText": "Kill a friendly unit or gear, Exhaust: [Action] — [Add] RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)"
+    "residualText": "Kill a friendly unit or gear, Exhaust:  \u2014  RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)",
+    "fullText": "Kill a friendly unit or gear, Exhaust: [Action] \u2014 [Add] RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)"
   },
   {
     "id": "sfd-211",
@@ -700,16 +700,16 @@
     "name": "Mel, Defiant Soul",
     "set": "VEN",
     "type": "champion",
-    "residualText": "— Discard a spell\nWhen I become , banish an enemy unit at a battlefield with 3 Might or less.",
-    "fullText": "[Empower] — Discard a spell\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
+    "residualText": "\u2014 Discard a spell\nWhen I become , banish an enemy unit at a battlefield with 3 Might or less.",
+    "fullText": "[Empower] \u2014 Discard a spell\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
   },
   {
     "id": "ven-110",
     "name": "Mel, Defiant Soul",
     "set": "VEN",
     "type": "champion",
-    "residualText": "— Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become , banish an enemy unit at a battlefield with 3 Might or less.",
-    "fullText": "[Empower] — Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
+    "residualText": "\u2014 Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become , banish an enemy unit at a battlefield with 3 Might or less.",
+    "fullText": "[Empower] \u2014 Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
   },
   {
     "id": "ogn-152",
@@ -836,8 +836,8 @@
     "name": "Platewyrm Egg",
     "set": "VEN",
     "type": "gear",
-    "residualText": "This enters exhausted.\n — 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n Exhaust:  1 Energy. If this is ,  2 Energy instead.",
-    "fullText": "This enters exhausted.\n[Empower] — 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction][>] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead."
+    "residualText": "This enters exhausted.\n \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n Exhaust:  1 Energy. If this is ,  2 Energy instead.",
+    "fullText": "This enters exhausted.\n[Empower] \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction][>] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead."
   },
   {
     "id": "sfd-214",
@@ -860,16 +860,16 @@
     "name": "Prodigal Explorer",
     "set": "SFD",
     "type": "legend",
-    "residualText": "Exhaust:  — Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
-    "fullText": "Exhaust: [Reaction] — Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."
+    "residualText": "Exhaust:  \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
+    "fullText": "Exhaust: [Reaction] \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."
   },
   {
     "id": "sfd-248",
     "name": "Prodigal Explorer",
     "set": "SFD",
     "type": "legend",
-    "residualText": "Exhaust:  — Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
-    "fullText": "Exhaust: [Reaction] — Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."
+    "residualText": "Exhaust:  \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
+    "fullText": "Exhaust: [Reaction] \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."
   },
   {
     "id": "ogn-115",
@@ -984,22 +984,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyChaos Rune as an additional cost to have me enter ready.)\nIf you've spent at least RuneRune this turn, I have +2 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "sfd-239",
-    "name": "Soraka, Wanderer",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "I must be assigned combat damage last.\nIf another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it. (Send it to base. This isn't a move.)",
-    "fullText": "I must be assigned combat damage last.\nIf another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it. (Send it to base. This isn't a move.)"
-  },
-  {
-    "id": "sfd-173",
-    "name": "Soraka, Wanderer",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "I must be assigned combat damage last.\nIf another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it. (Send it to base. This isn't a move.)",
-    "fullText": "I must be assigned combat damage last.\nIf another unit you control here would die, if it has less Might than me, instead heal it, exhaust it, and recall it. (Send it to base. This isn't a move.)"
-  },
-  {
     "id": "ven-195",
     "name": "Soul's Reflection",
     "set": "VEN",
@@ -1112,14 +1096,6 @@
     "fullText": "[Legion][>] You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)"
   },
   {
-    "id": "ogn-23",
-    "name": "Unlicensed Armory",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "Discard 1, Exhaust: Choose a friendly unit. The next time it dies this turn, you may pay Fury Rune to recall it exhausted instead. (Send it to base. This isn't a move.)",
-    "fullText": "Discard 1, Exhaust: Choose a friendly unit. The next time it dies this turn, you may pay Fury Rune to recall it exhausted instead. (Send it to base. This isn't a move.)"
-  },
-  {
     "id": "unl-218",
     "name": "Valley of Idols",
     "set": "UNL",
@@ -1206,13 +1182,5 @@
     "type": "champion",
     "residualText": "The third time I move in a turn, you score 1 point.",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nThe third time I move in a turn, you score 1 point."
-  },
-  {
-    "id": "ogn-77",
-    "name": "Zhonya's Hourglass",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "The next time a friendly unit would die, kill this instead. Recall that unit exhausted. (Send it to base. This isn't a move.)",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nThe next time a friendly unit would die, kill this instead. Recall that unit exhausted. (Send it to base. This isn't a move.)"
   }
 ]

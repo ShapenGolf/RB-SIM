@@ -217,6 +217,18 @@ export interface SpecialCaseHandler {
   /** True if this instance conditionally has Ganking (move battlefield to battlefield) right now, beyond its printed keywords (e.g. Bilgewater Bully: "While I'm buffed, I have Ganking"). */
   hasConditionalGanking?(ctx: SpecialCaseContext): boolean;
 
+  /** True if this instance must be assigned combat damage last, matching the generic Backline keyword's effect, without a printed Backline keyword (e.g. Soraka, Wanderer: "I must be assigned combat damage last."). Checked in game/combat.ts orderForDamageAssignment. */
+  hasConditionalBackline?(ctx: SpecialCaseContext): boolean;
+
+  /**
+   * True if THIS instance's passive presence redirects `dyingInstance` (an ally at the same
+   * location, never itself) away from death this turn — heal/exhaust/recall instead, exactly
+   * like the `preventNextDeathThisTurn` flag (e.g. Soraka, Wanderer: "If another unit you
+   * control here would die, if it has less Might than me, instead heal it, exhaust it, and
+   * recall it."). Checked at the top of game/combat.ts destroyInstance, alongside the flag.
+   */
+  preventsAllyDeathHere?(ctx: SpecialCaseContext, dyingInstance: CardInstance): boolean;
+
   /** True if this unit/champion may be played directly to a Battlefield where the OPPONENT has units (e.g. Deadbloom Predator: "You may play me to an occupied enemy battlefield"). Distinct from Ambush, which requires the controller's OWN units there. */
   allowsPlayToEnemyOccupiedBattlefield?(ctx: SpecialCaseContext): boolean;
 

@@ -659,6 +659,9 @@ import { lotusTrap } from "./lotus-trap";
 import { voidAssault } from "./void-assault";
 import { highlander } from "./highlander";
 import { tacticalRetreat } from "./tactical-retreat";
+import { sorakaWanderer } from "./soraka-wanderer";
+import { unlicensedArmory } from "./unlicensed-armory";
+import { zhonyasHourglass } from "./zhonyas-hourglass";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1318,6 +1321,9 @@ const handlers: SpecialCaseHandler[] = [
   voidAssault,
   highlander,
   tacticalRetreat,
+  sorakaWanderer,
+  unlicensedArmory,
+  zhonyasHourglass,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1439,6 +1445,24 @@ export const SpecialCaseEngine = {
    */
   hasConditionalGanking: (game: GameState, card: Card, instance: CardInstance): boolean | undefined =>
     getSpecialCaseHandler(card)?.hasConditionalGanking?.(ctxFor(game, card, instance)),
+
+  hasConditionalBackline: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    Boolean(getSpecialCaseHandler(card)?.hasConditionalBackline?.(ctxFor(game, card, instance))),
+
+  /**
+   * True if any OTHER same-controller instance (anywhere — base, battlefield, or attached gear;
+   * each handler decides its own location scoping, e.g. Soraka checks "here" itself, Zhonya's
+   * Hourglass doesn't) passively redirects `dyingInstance` away from death.
+   */
+  preventsAllyDeath: (game: GameState, getCard: (id: string) => Card, dyingInstance: CardInstance): boolean => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.instanceId === dyingInstance.instanceId || instance.controller !== dyingInstance.controller) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      if (handler?.preventsAllyDeathHere?.(ctxFor(game, card, instance), dyingInstance)) return true;
+    }
+    return false;
+  },
 
   allowsPlayToEnemyOccupiedBattlefield: (game: GameState, card: Card, instance: CardInstance): boolean =>
     getSpecialCaseHandler(card)?.allowsPlayToEnemyOccupiedBattlefield?.(ctxFor(game, card, instance)) ?? false,

@@ -40,7 +40,7 @@ function orderForDamageAssignment(
       if (instance) {
         const card = getCard(instance.cardId);
         if (hasActiveKeyword(card, instance, "tank")) rank = 0;
-        else if (hasActiveKeyword(card, instance, "backline")) rank = 2;
+        else if (hasActiveKeyword(card, instance, "backline") || SpecialCaseEngine.hasConditionalBackline(game, card, instance)) rank = 2;
       }
       return { instanceId, rank, index };
     })
@@ -146,7 +146,7 @@ export function destroyInstance(game: GameState, getCard: (id: string) => Card, 
   if (!instance) return;
   const card = getCard(instance.cardId);
 
-  if (instance.statuses.preventNextDeathThisTurn) {
+  if (instance.statuses.preventNextDeathThisTurn || SpecialCaseEngine.preventsAllyDeath(game, getCard, instance)) {
     instance.statuses.preventNextDeathThisTurn = false;
     if (instance.battlefieldIndex !== null) {
       const slot = game.battlefields[instance.battlefieldIndex];
