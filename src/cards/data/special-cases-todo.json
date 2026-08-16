@@ -416,14 +416,6 @@
     "fullText": "Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit this turn and only once each turn."
   },
   {
-    "id": "ogn-221",
-    "name": "Imperial Decree",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "When any unit takes damage this turn, kill it.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nWhen any unit takes damage this turn, kill it."
-  },
-  {
     "id": "sfd-57",
     "name": "Irelia, Fervent",
     "set": "SFD",

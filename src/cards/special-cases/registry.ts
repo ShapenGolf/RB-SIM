@@ -686,6 +686,7 @@ import { windWall } from "./wind-wall";
 import { mysticReversal } from "./mystic-reversal";
 import { rebuttal } from "./rebuttal";
 import { riposte } from "./riposte";
+import { imperialDecree } from "./imperial-decree";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1372,6 +1373,7 @@ const handlers: SpecialCaseHandler[] = [
   mysticReversal,
   rebuttal,
   riposte,
+  imperialDecree,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

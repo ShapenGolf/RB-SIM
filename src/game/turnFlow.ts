@@ -149,6 +149,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   game.players[player].maxEnergySpentOnSpellThisTurn = 0;
   game.anyUnitDiedThisTurn = false;
   game.preventAllSpellDamageThisTurn = false;
+  game.anyDamageKillsThisTurn = false;
   for (const instance of Object.values(game.instances)) {
     if (instance.controller === player) {
       instance.tempMightBonus = 0;

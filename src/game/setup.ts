@@ -183,6 +183,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     anyUnitDiedThisTurn: false,
     pendingDisempowerAtEndOfTurn: [],
     preventAllSpellDamageThisTurn: false,
+    anyDamageKillsThisTurn: false,
   };
 }
 

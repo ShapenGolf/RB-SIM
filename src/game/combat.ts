@@ -112,6 +112,10 @@ function assignDamage(
     appliedDamage *= instance.damageMultiplier;
     instance.damage += appliedDamage;
     if (appliedDamage > 0) instance.statuses.tookDamageThisTurn = true;
+    if (appliedDamage > 0 && game.anyDamageKillsThisTurn) {
+      destroyInstance(game, getCard, instanceId);
+      SpecialCaseEngine.onAllyKillUnit(game, getCard, assigningPlayer, instance);
+    }
     remaining -= hit;
   }
   return Math.max(0, remaining);

@@ -171,4 +171,6 @@ export interface GameState {
   pendingDisempowerAtEndOfTurn: string[];
   /** Set by Unyielding Spirit: "Prevent all spell and ability damage this turn." Checked at the top of game/spellDamage.ts dealSpellDamage — the single chokepoint for all non-combat damage. Reset each turn in turnFlow.ts runTurnStart. */
   preventAllSpellDamageThisTurn: boolean;
+  /** Set by Imperial Decree: "When any unit takes damage this turn, kill it." Checked after damage is applied in both game/spellDamage.ts dealSpellDamage and game/combat.ts assignDamage — the two chokepoints for all damage. Global, applies to both players' units. Reset each turn in turnFlow.ts runTurnStart. */
+  anyDamageKillsThisTurn: boolean;
 }

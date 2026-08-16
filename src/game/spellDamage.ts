@@ -42,7 +42,7 @@ export function dealSpellDamage(
   target.damage += totalAmount;
   if (totalAmount > 0) target.statuses.tookDamageThisTurn = true;
   const toughness = computeMight(game, getCard, target, "none");
-  if (target.damage >= toughness) {
+  if (target.damage >= toughness || (totalAmount > 0 && game.anyDamageKillsThisTurn)) {
     destroyInstance(game, getCard, targetInstanceId);
     SpecialCaseEngine.onAllyKillWithSpell(game, getCard, controller, target);
     SpecialCaseEngine.onAllyKillUnit(game, getCard, controller, target);
