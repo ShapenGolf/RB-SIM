@@ -642,6 +642,11 @@ import { wildClaw } from "./wild-claw";
 import { windsinger } from "./windsinger";
 import { swainVisionary } from "./swain-visionary";
 import { swiftScout } from "./swift-scout";
+import { candlelitSanctum } from "./candlelit-sanctum";
+import { reaversRow } from "./reavers-row";
+import { heishoShellOfTheWorld } from "./heisho-shell-of-the-world";
+import { thresholdOfTheGray } from "./threshold-of-the-gray";
+import { theAcademy } from "./the-academy";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1284,6 +1289,11 @@ const handlers: SpecialCaseHandler[] = [
   windsinger,
   swainVisionary,
   swiftScout,
+  candlelitSanctum,
+  reaversRow,
+  heishoShellOfTheWorld,
+  thresholdOfTheGray,
+  theAcademy,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -2079,6 +2089,17 @@ export const SpecialCaseEngine = {
       if (handler?.onEnemyAttackHere) {
         handler.onEnemyAttackHere(
           ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, defendingController, legend.exhausted)),
+          attackingInstance,
+        );
+      }
+    }
+    if (attackingInstance.battlefieldIndex !== null) {
+      const slot = game.battlefields[attackingInstance.battlefieldIndex];
+      const battlefieldCard = getCard(slot.cardId);
+      const handler = getSpecialCaseHandler(battlefieldCard);
+      if (handler?.onEnemyAttackHere) {
+        handler.onEnemyAttackHere(
+          ctxFor(game, battlefieldCard, battlefieldPseudoInstance(slot.cardId, defendingController, attackingInstance.battlefieldIndex)),
           attackingInstance,
         );
       }

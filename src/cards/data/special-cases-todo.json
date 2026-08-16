@@ -512,14 +512,6 @@
     "fullText": "I have all Exhaust abilities of all friendly legends, units, and gear."
   },
   {
-    "id": "ven-158",
-    "name": "Heisho, Shell of the World",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "Players ignore  while paying for spells and abilities choosing something here.",
-    "fullText": "Players ignore [Deflect] while paying for spells and abilities choosing something here."
-  },
-  {
     "id": "sfd-111",
     "name": "Here to Help",
     "set": "SFD",
@@ -976,14 +968,6 @@
     "fullText": "Each player looks at the top 5 cards of their Main Deck, chooses one, then recycles the rest. Starting with the next player, each player plays those cards, ignoring Energy costs. (They must still pay Power costs.)"
   },
   {
-    "id": "ogn-285",
-    "name": "Reaver's Row",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you defend here, you may move a friendly unit here to base.",
-    "fullText": "When you defend here, you may move a friendly unit here to base."
-  },
-  {
     "id": "ven-152",
     "name": "Rebuttal",
     "set": "VEN",
@@ -1192,22 +1176,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. The next time it would die this turn, heal it, exhaust it, and recall it instead. (Send it to base. This isn't a move.)"
   },
   {
-    "id": "unl-216",
-    "name": "The Academy",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "When you hold here, give your next spell this turn",
-    "fullText": "When you hold here, give your next spell this turn [Repeat] equal to its base cost. (You may pay the additional cost to repeat the spell's effect.)"
-  },
-  {
-    "id": "ogn-291",
-    "name": "The Candlelit Sanctum",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you conquer here, look at the top two cards of your Main Deck. You may recycle one or both of them. Put those you don't back in any order.",
-    "fullText": "When you conquer here, look at the top two cards of your Main Deck. You may recycle one or both of them. Put those you don't back in any order."
-  },
-  {
     "id": "ogn-292",
     "name": "The Dreaming Tree",
     "set": "OGN",
@@ -1230,14 +1198,6 @@
     "type": "gear",
     "residualText": "3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)",
     "fullText": "[Equip] 1 EnergyMind Rune (1 EnergyMind Rune: Attach this to a unit you control.)\n3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)"
-  },
-  {
-    "id": "ven-166",
-    "name": "Threshold of the Gray",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "When combat starts here, the attacker and defender each  1 Energy.",
-    "fullText": "When combat starts here, the attacker and defender each [Add] 1 Energy."
   },
   {
     "id": "unl-25",
