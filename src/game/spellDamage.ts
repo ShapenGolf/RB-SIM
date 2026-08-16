@@ -38,7 +38,7 @@ export function dealSpellDamage(
   }
   const battlefieldBonus = SpecialCaseEngine.spellDamageBonusFromBattlefield(game, getCard, target);
   const allyBonus = SpecialCaseEngine.spellDamageBonusFromAllies(game, getCard, controller);
-  const totalAmount = amount + game.players[controller].nextSpellBonusDamage + battlefieldBonus + allyBonus;
+  const totalAmount = (amount + game.players[controller].nextSpellBonusDamage + battlefieldBonus + allyBonus) * target.damageMultiplier;
   target.damage += totalAmount;
   if (totalAmount > 0) target.statuses.tookDamageThisTurn = true;
   const toughness = computeMight(game, getCard, target, "none");

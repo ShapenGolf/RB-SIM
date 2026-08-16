@@ -104,6 +104,7 @@ function assignDamage(
       instance.damagePreventionPool -= absorbed;
       appliedDamage -= absorbed;
     }
+    appliedDamage *= instance.damageMultiplier;
     instance.damage += appliedDamage;
     if (appliedDamage > 0) instance.statuses.tookDamageThisTurn = true;
     remaining -= hit;

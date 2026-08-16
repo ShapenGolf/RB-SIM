@@ -632,14 +632,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell. Its controller can't play spells this turn."
   },
   {
-    "id": "unl-13",
-    "name": "Lotus Trap",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a unit. Double all damage that would be dealt to it this turn.",
-    "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\n[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. Double all damage that would be dealt to it this turn."
-  },
-  {
     "id": "ogs-14",
     "name": "Lux, Crownguard",
     "set": "OGS",

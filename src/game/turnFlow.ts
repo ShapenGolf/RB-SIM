@@ -154,6 +154,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
       instance.tempMightBonus = 0;
       instance.pendingSurviveCombatXP = 0;
       instance.damagePreventionPool = 0;
+      instance.damageMultiplier = 1;
       instance.grantedThisTurn = [];
       for (const key of Object.keys(instance.statuses)) {
         if (key.endsWith("ThisTurn")) delete instance.statuses[key];

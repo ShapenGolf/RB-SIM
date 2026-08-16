@@ -44,6 +44,8 @@ export interface CardInstance {
   attachedTo: string | null;
   /** Damage-absorption pool: incoming damage (spell or combat) is soaked up to this amount before landing, decremented per hit, e.g. Ki Barrier: "Prevent the next 7 damage that would be dealt to it this turn." Reset to 0 at Awaken. */
   damagePreventionPool: number;
+  /** Multiplies all incoming damage (spell and combat) this turn, e.g. Lotus Trap: "Double all damage that would be dealt to it this turn." Defaults to 1 (no change); reset to 1 at Awaken. */
+  damageMultiplier: number;
 }
 
 export interface RuneInstance {

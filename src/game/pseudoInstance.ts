@@ -28,6 +28,7 @@ export function battlefieldPseudoInstance(
     attachedTo: null,
     pendingSurviveCombatXP: 0,
     damagePreventionPool: 0,
+    damageMultiplier: 1,
   };
 }
 
@@ -55,5 +56,6 @@ export function legendPseudoInstance(cardId: string, controller: PlayerId, exhau
     attachedTo: null,
     pendingSurviveCombatXP: 0,
     damagePreventionPool: 0,
+    damageMultiplier: 1,
   };
 }

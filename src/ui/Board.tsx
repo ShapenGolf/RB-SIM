@@ -27,6 +27,7 @@ function blankInstance(cardId: string, controller: PlayerId): CardInstance {
     attachedTo: null,
     pendingSurviveCombatXP: 0,
     damagePreventionPool: 0,
+    damageMultiplier: 1,
   };
 }
 
