@@ -5,8 +5,9 @@ Privates Projekt — kein offizielles Riot-Produkt.
 
 ## Status
 
-MVP-Architektur, lokal spielbar (Hotseat, ein Browser-Tab, zwei Panels).
-Online-Multiplayer noch nicht aktiviert.
+MVP-Architektur, spielbar sowohl lokal (Hotseat, ein Browser-Tab, zwei
+Panels) als auch **online über echte Netzwerkverbindung** (zwei Geräte/Orte,
+siehe "Online-Multiplayer" unten).
 
 **Visuelles UI (neu):** Karten werden jetzt als echte Kartenbilder gerendert
 (`src/ui/CardFace.tsx`, `src/ui/cards.css`) statt als Text-Listen — Domain-
@@ -28,19 +29,21 @@ pro Karte:
 - **17 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
   Exhaust: Effekt", inkl. Domain-Rune-Kosten) und spielbar
   (`src/cards/data/activated-abilities.json`).
-- **346 Karten** von Hand implementiert (`src/cards/special-cases/`), Origins
-  zuerst, der Reihe nach, jetzt auch Proving Grounds, Spiritforged und
-  Unleashed — siehe `src/cards/data/special-case-assignments.json`.
+- **858 Karten** von Hand implementiert (`src/cards/special-cases/`), alle 5
+  Sets — siehe `src/cards/data/special-case-assignments.json`. Die restlichen
+  Karten in `special-cases-todo.json` sind dokumentierte No-ops (jede
+  verweist auf die konkrete fehlende Infrastruktur, die sie blockiert, z.B.
+  Chain/Priority oder Champion-Zone).
 - **Equipment (Equip) und Weaponmaster** sind jetzt implementiert (eigenes
   Anlege-System: `equipGear`-Move, `game/equip.ts`, Weaponmaster-Keyword-
   Handler) — siehe `docs/rules-reference.md`.
 - **[Tank]/[Backline] werden jetzt bei der Kampfschaden-Zuweisung
   berücksichtigt** (Tank zuerst, Backline zuletzt) — vorher waren beide
   Keywords zwar erkannt, aber komplett wirkungslos.
-- Macht **506 von 1019 Karten (~50%) vollständig spielbar.**
-- **513 Karten** noch offen (`src/cards/data/special-cases-todo.json`) — ihr
-  Unique-Effekt tut noch nichts, bis ein Special-Case-Handler dafür existiert.
-  Werte/Kosten/Keywords sind aber für alle 1019 Karten korrekt.
+- Macht **858 von 1019 Karten vollständig spielbar** (zusammen mit
+  Templated Effects/Activated Abilities). Die verbleibenden ~161 sind
+  bewusste No-op-Registrierungen, keine offenen Lücken — Werte/Kosten/
+  Keywords sind für alle 1019 Karten korrekt.
 
 Ziel ist volle Abdeckung aller Karten und Interaktionen — das ist ein großer,
 aber mechanischer Rückstand, der systematisch abgearbeitet wird (siehe
@@ -69,8 +72,9 @@ Weitere Doku:
 
 ```bash
 npm install
-npm run dev      # Dev-Server, http://localhost:5173 — zwei Spieler-Panels nebeneinander
-npm test         # Vitest-Suite (32 Tests: Keywords, Special Cases, Combat, Turn Flow)
+npm run dev      # Dev-Server, http://localhost:5173 — zwei Spieler-Panels nebeneinander (Hotseat)
+npm run server   # Multiplayer-Server (Lobby + Spiel-Sync), http://localhost:8000, für Online-Modus
+npm test         # Vitest-Suite
 npm run build    # Produktions-Build
 ```
 
@@ -80,6 +84,41 @@ Kartendatenbank neu importieren (z.B. nach einem neuen Set-Release, siehe
 ```bash
 node scripts/import-cards.mjs <raw-gallery.json> src/cards/data/official-catalog.json src/cards/data/special-cases-todo.json
 ```
+
+## Online-Multiplayer
+
+Echtes Spiel über zwei getrennte Geräte/Orte, nicht nur Hotseat im selben
+Browser. Architektur:
+
+- **`server/index.ts`** — ein boardgame.io-`Server()` (Koa + Socket.IO), der
+  das Spiel hostet und die Lobby-REST-API (Raum erstellen/beitreten)
+  bereitstellt. Startet lokal mit `npm run server` auf Port 8000
+  (`PORT`-Env-Var überschreibbar, `ALLOWED_ORIGIN` für zusätzliche CORS-
+  Origins bei Produktions-Deployments).
+- **Client** verbindet sich per `SocketIO({ server })`-Transport
+  (`src/ui/OnlineGame.tsx`) statt des lokalen `Local()`-Transports
+  (`src/ui/client.ts`, weiterhin für Hotseat genutzt).
+- **Lobby-UI** (`src/ui/Lobby.tsx`, `src/ui/onlineLobby.ts`): Server-Adresse
+  eingeben (wird lokal gespeichert), Raum erstellen → Raum-Code teilen, oder
+  mit Raum-Code beitreten.
+- **Deck-Übermittlung**: Da jedes Deck im `localStorage` des jeweiligen
+  Browsers liegt (nicht beim Server bekannt), gibt es eine eigene
+  `deckSelect`-Phase zu Spielbeginn — jeder Spieler wählt sein gespeichertes
+  Deck direkt im laufenden Match. Für lokales Hotseat ist diese Phase
+  unsichtbar (beide Decks sind sofort bekannt, die Phase überspringt sich
+  selbst).
+
+**Deployment:** Der einzige manuelle Schritt ist, `server/index.ts` einmal
+irgendwo dauerhaft laufen zu lassen (Node-Hosting mit Websocket-Support,
+z.B. [Render](https://render.com) — kostenloser Tier reicht). Mit
+angeschlossenem GitHub-Repo: "New Web Service" → dieses Repo auswählen →
+Render erkennt `render.yaml` automatisch (Build: `npm install`, Start:
+`npm run server:start`). Danach in der App unter "Online spielen" die
+öffentliche Server-URL eintragen (oder per `VITE_SERVER_URL` beim
+Frontend-Build vorbelegen) — das war's, kein weiterer Code nötig.
+Bekannte Einschränkung: Matches liegen nur im Server-RAM (kein
+`StorageAPI` konfiguriert) — ein Server-Neustart/Idle-Sleep verliert
+laufende Partien.
 
 ## Bekannte MVP-Vereinfachungen
 
@@ -103,20 +142,20 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 Wir arbeiten systematisch auf **volle Abdeckung aller Karten** hin (siehe
 `docs/data-sourcing.md` für den aktuellen Stand und die Historie). Reihenfolge:
 
-1. Verbleibende `special-cases-todo.json`-Einträge (848, Stand nach den
-   ersten 11 Origins-Karten) der Reihe nach implementieren, Set für Set.
-2. Mehrfach-Ziel-Auswahl und einfache Bedingungen als Erweiterung der
-   Templated-Effect-Sprache (mehr Karten automatisch abdecken, bevor sie
-   bespoke werden müssen).
+Card-Coverage ist abgeschlossen (858/1019, Rest sind dokumentierte No-ops)
+und Online-Multiplayer steht (siehe oben). Verbleibend:
+
+1. Chain/Priority-System für Reaction-Timing nachrüsten (blockiert einen
+   Großteil der verbleibenden No-op-Karten).
+2. Champion Zone separat modellieren (blockiert Champion-spezifische
+   No-op-Karten).
 3. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
    den ersten gültigen Kandidaten wählen (onConquer/onHold/onAttack/
    onDefend/onMove/onDestroy).
-4. "Equip"-Mechanik laufzeitseitig umsetzen (Anhängen an eine Einheit).
-5. Handler für die noch fehlenden generischen Keywords ergänzen (Hidden,
-   Ganking, Tank, Backline, Weaponmaster, Mighty, Predict als eigenständiger
-   Hook — siehe Tabelle in `docs/rules-reference.md`).
-6. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
+4. Hidden Information: Handkarten/Deck des Gegners im UI verbergen (wichtig
+   für echtes Online-Spiel — aktuell sieht jede Client-Instanz den vollen
+   Spielzustand beider Spieler, siehe boardgame.io `playerView`).
+5. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
    (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
-7. Online-Multiplayer: `Local()`-Transport in `src/ui/client.ts` durch
-   `SocketIO({ server })` ersetzen, Server aufsetzen, auf Vercel deployen.
-8. Chain/Priority-System für Reaction-Timing nachrüsten.
+6. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),
+   damit laufende Partien einen Server-Neustart überleben.

@@ -100,8 +100,8 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
   };
 }
 
-/** Builds a player from a real, validated DeckList (see cards/deckValidation.ts) instead of the domain-cycling MVP fallback. */
-function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerState {
+/** Builds a player from a real, validated DeckList (see cards/deckValidation.ts) instead of the domain-cycling MVP fallback. Also used by game/moves.ts's `submitDeck` (online lobby's per-player deck submission, see game/game.ts's "deckSelect" phase). */
+export function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerState {
   const mainDeck = shuffle(deck.mainDeck);
   const hand = mainDeck.splice(0, STARTING_HAND_SIZE);
   const runeDeck = shuffle(

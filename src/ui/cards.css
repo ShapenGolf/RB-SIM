@@ -79,6 +79,24 @@ body {
   border-color: #6b7280;
 }
 
+.rb-room-code {
+  position: fixed;
+  top: 8px;
+  right: 12px;
+  z-index: 40;
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid #3f3f46;
+  background: #1f2229;
+  color: var(--text-dim);
+}
+.rb-room-code strong {
+  color: var(--text-main);
+  font-family: monospace;
+  letter-spacing: 0.5px;
+}
+
 .rb-board {
   padding: 12px 16px 20px;
   min-height: 100%;

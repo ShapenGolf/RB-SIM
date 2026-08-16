@@ -15,6 +15,7 @@ import {
   mulligan,
   chooseBattlefield,
   empowerInstance,
+  submitDeck,
 } from "./moves";
 import type { GameState, PlayerId } from "./state";
 
@@ -23,16 +24,29 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
   minPlayers: 2,
   maxPlayers: 2,
 
-  // `setupData` is never actually populated by the Local() transport for an on-demand match
-  // (see game/pendingSetup.ts) — read the real options from there instead.
-  setup: () => setupGame(getPendingSetupOptions()),
+  // The `Local()` transport never populates `setupData` for an on-demand match (see
+  // game/pendingSetup.ts) — fall back to that stash for local hotseat play. A real server
+  // (SocketIO transport, see ui/client.ts) receives whatever setupData the Lobby API's
+  // `/create` call was given, but online matches are created with none — decks arrive later,
+  // per-player, via the "deckSelect" phase's `submitDeck` move below.
+  setup: (_context, setupData) => setupGame(setupData ?? getPendingSetupOptions()),
 
   phases: {
+    // Online-only in practice: each player submits their own locally-saved deck. A local
+    // hotseat match already has both decks from setup() (see above), so both players' pools are
+    // non-empty from tick 0 and this phase's endIf is instantly true — it's skipped without
+    // either player seeing it. Simultaneous (ActivePlayers.ALL): order doesn't matter.
+    deckSelect: {
+      start: true,
+      moves: { submitDeck },
+      turn: { activePlayers: ActivePlayers.ALL },
+      endIf: ({ G }) => G.players["0"].battlefieldPool.length > 0 && G.players["1"].battlefieldPool.length > 0,
+      next: "battlefieldSelect",
+    },
     // Both players pick which of their own 3 deck-submitted Battlefields joins the table,
     // simultaneously (ActivePlayers.ALL) — right after clicking "Spiel starten", before either
     // hand is even dealt out for mulligans.
     battlefieldSelect: {
-      start: true,
       moves: { chooseBattlefield },
       turn: { activePlayers: ActivePlayers.ALL },
       endIf: ({ G }) => G.players["0"].chosenBattlefieldId !== null && G.players["1"].chosenBattlefieldId !== null,

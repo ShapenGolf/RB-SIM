@@ -7,6 +7,8 @@ import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
 import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
+import { validateDeck } from "../cards/deckValidation";
+import { listSavedDecks } from "../decks/store";
 import { CardFace } from "./CardFace";
 import "./cards.css";
 
@@ -62,6 +64,38 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
   const player = G.players[me];
   const opponentId: PlayerId = me === "0" ? "1" : "0";
+
+  if (ctx.phase === "deckSelect") {
+    const submitted = player.battlefieldPool.length > 0;
+    const savedDecks = listSavedDecks();
+    const legalDecks = savedDecks.filter((d) => validateDeck(d.deck).length === 0);
+    return (
+      <div className="rb-board">
+        <div className="rb-topbar">
+          <h2>Spieler {me} — Deck wählen</h2>
+        </div>
+        {submitted ? (
+          <p className="rb-db-hint">Deck übermittelt — warte auf den Gegner…</p>
+        ) : legalDecks.length === 0 ? (
+          <p className="rb-db-hint">
+            Keine legalen, gespeicherten Decks gefunden. Im Deckbuilder (eigener Browser-Tab) zuerst eins bauen und
+            speichern, dann hier neu laden.
+          </p>
+        ) : (
+          <>
+            <p className="rb-db-hint">Wähle dein Deck für dieses Spiel.</p>
+            <div className="rb-menu-start">
+              {legalDecks.map((d) => (
+                <button key={d.id} className="rb-end-turn" onClick={() => moves.submitDeck({ deck: d.deck })}>
+                  {d.name}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
 
   if (ctx.phase === "battlefieldSelect") {
     return (
@@ -346,10 +380,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         <div>
           <h2>Spieler {me}</h2>
           <div className="rb-status">
-            {/* ctx.turn counts globally from the very start of the match, including the two
-                pregame phases' own turn slots ("battlefieldSelect" and "mulligan") — subtract 2
-                so the player-facing counter reads "Zug 1" for the actual first turn of real play. */}
-            Zug {ctx.turn - 2} · Phase: {G.turnPhase}
+            {/* ctx.turn counts globally from the very start of the match, including the three
+                pregame phases' own turn slots ("deckSelect", "battlefieldSelect", "mulligan") —
+                subtract 3 so the player-facing counter reads "Zug 1" for the first real turn. */}
+            Zug {ctx.turn - 3} · Phase: {G.turnPhase}
           </div>
         </div>
         <div className="rb-scoreline">

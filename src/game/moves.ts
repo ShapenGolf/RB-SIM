@@ -5,11 +5,12 @@ import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat, destroyInstance } from "./combat";
 import { computeMight } from "./might";
-import { createInstance, shuffle } from "./setup";
+import { createInstance, shuffle, buildPlayerFromDeckList } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
 import { attachEquipment } from "./equip";
 import { legendPseudoInstance } from "./pseudoInstance";
+import { validateDeck, type DeckList } from "../cards/deckValidation";
 import type { Card } from "../cards/types";
 import type { CardInstance, GameState, PlayerState } from "./state";
 
@@ -626,6 +627,26 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
   G.pendingOptionalCost = null;
   SpecialCaseEngine.onOptionalCostPaid(G, pending.specialCaseId, player.id, pending.payload);
   return undefined;
+};
+
+export interface SubmitDeckArgs {
+  deck: DeckList;
+}
+
+/**
+ * Per-player deck submission for an online match (see game/game.ts's "deckSelect" phase, which
+ * runs before "battlefieldSelect" and must clear before either player can pick a Battlefield).
+ * A local hotseat match already has both decks from game/pendingSetup.ts at setup() time (both
+ * players' battlefieldPool is non-empty from tick 0), so this phase's endIf is immediately true
+ * there and neither player ever sees or needs this move — it only matters for a real online
+ * match, created via the server's Lobby API with no setupData, where each player's own browser
+ * submits their own locally-saved deck (see ui/Board.tsx's "deckSelect" screen).
+ */
+export const submitDeck: MoveFn<GameState> = ({ G, playerID }, args: SubmitDeckArgs) => {
+  const id = playerID as "0" | "1";
+  if (G.players[id].battlefieldPool.length > 0) return INVALID_MOVE; // already submitted
+  if (validateDeck(args.deck).length > 0) return INVALID_MOVE;
+  G.players[id] = buildPlayerFromDeckList(id, args.deck);
 };
 
 export interface ChooseBattlefieldArgs {

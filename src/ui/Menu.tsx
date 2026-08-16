@@ -5,16 +5,25 @@ import type { SetupOptions } from "../game/setup";
 
 /**
  * Home screen. Deck building + picking who starts is fully wired to a real local (same-screen)
- * game. Networked host/join with a shareable room code needs a persistent server (swapping the
- * boardgame.io `Local()` transport for `SocketIO()`, see ui/client.ts) — not built yet, so this
- * is intentionally labeled "local" rather than pretending to offer online play.
+ * game. Networked host/join with a shareable room code (see ui/Lobby.tsx, ui/OnlineGame.tsx,
+ * server/index.ts) needs each player's own deck too, but that's picked once inside the match
+ * itself (game/game.ts's "deckSelect" phase) rather than here, since the two browsers don't
+ * share localStorage.
  *
  * Battlefield selection happens in-game, right after "Spiel starten" (see game/game.ts's
  * "battlefieldSelect" phase and ui/Board.tsx) — not here. `battlefieldCardIds` below is just a
  * placeholder default: the phase overwrites both slots as soon as each player picks from their
  * own submitted pool, so it doesn't matter which of a deck's 3 Battlefields it is.
  */
-export function Menu({ onOpenDeckBuilder, onStartGame }: { onOpenDeckBuilder: () => void; onStartGame: (options: SetupOptions) => void }) {
+export function Menu({
+  onOpenDeckBuilder,
+  onStartGame,
+  onOpenLobby,
+}: {
+  onOpenDeckBuilder: () => void;
+  onStartGame: (options: SetupOptions) => void;
+  onOpenLobby: () => void;
+}) {
   const savedDecks = useMemo(() => listSavedDecks(), []);
   const legalDecks = useMemo(() => savedDecks.filter((d) => validateDeck(d.deck).length === 0), [savedDecks]);
 
@@ -50,14 +59,17 @@ export function Menu({ onOpenDeckBuilder, onStartGame }: { onOpenDeckBuilder: ()
       <button className="rb-end-turn" onClick={onOpenDeckBuilder}>
         Deckbuilder öffnen
       </button>
+      <button className="rb-end-turn" style={{ marginLeft: 8 }} onClick={onOpenLobby}>
+        Online spielen
+      </button>
 
       <div className="rb-section-label" style={{ marginTop: 24 }}>
         Lokales Spiel starten
       </div>
       <p className="rb-db-hint">
-        Zwei legale, gespeicherte Decks nötig. Nach dem Start wählt jeder Spieler noch, welches seiner 3 Battlefields
-        mit an den Tisch kommt. Online-Beitritt per Code folgt, sobald der Server dafür steht — aktuell spielen beide
-        auf demselben Bildschirm.
+        Zwei legale, gespeicherte Decks nötig — beide werden hier ausgewählt, ihr spielt auf demselben Bildschirm.
+        Nach dem Start wählt jeder Spieler noch, welches seiner 3 Battlefields mit an den Tisch kommt. Für ein Spiel
+        von zwei Orten aus: "Online spielen" oben.
       </p>
 
       {legalDecks.length < 2 ? (
