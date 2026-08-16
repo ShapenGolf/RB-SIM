@@ -674,6 +674,7 @@ import { duneSurfer } from "./dune-surfer";
 import { prizeOfProgress } from "./prize-of-progress";
 import { valleyOfIdols } from "./valley-of-idols";
 import { melDefiantSoul } from "./mel-defiant-soul";
+import { battleMistress } from "./battle-mistress";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1348,6 +1349,7 @@ const handlers: SpecialCaseHandler[] = [
   prizeOfProgress,
   valleyOfIdols,
   melDefiantSoul,
+  battleMistress,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -2086,6 +2088,19 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onEnemyUnitDied?.(ctxFor(game, card, instance), diedInstance);
+    }
+    for (const opponentId of ["0", "1"] as PlayerId[]) {
+      if (opponentId === diedController) continue;
+      const legend = game.players[opponentId].legend;
+      if (!legend) continue;
+      const legendCard = getCard(legend.cardId);
+      const handler = getSpecialCaseHandler(legendCard);
+      if (handler?.onEnemyUnitDied) {
+        handler.onEnemyUnitDied(
+          ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, opponentId, legend.exhausted)),
+          diedInstance,
+        );
+      }
     }
   },
 

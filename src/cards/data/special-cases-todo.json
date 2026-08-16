@@ -80,22 +80,6 @@
     "fullText": "You may hide an additional card here."
   },
   {
-    "id": "sfd-203",
-    "name": "Battle Mistress",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you recycle a rune, you may exhaust me to play a Gold gear token exhausted.\nWhen one or more enemy units die, ready me.",
-    "fullText": "When you recycle a rune, you may exhaust me to play a Gold gear token exhausted.\nWhen one or more enemy units die, ready me."
-  },
-  {
-    "id": "sfd-250",
-    "name": "Battle Mistress",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When you recycle a rune, you may exhaust me to play a Gold gear token exhausted.\nWhen one or more enemy units die, ready me.",
-    "fullText": "When you recycle a rune, you may exhaust me to play a Gold gear token exhausted.\nWhen one or more enemy units die, ready me."
-  },
-  {
     "id": "sfd-121",
     "name": "Black Market Broker",
     "set": "SFD",
