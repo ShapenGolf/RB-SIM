@@ -98,6 +98,15 @@ export interface SpecialCaseHandler {
   onMoveFromBattlefield?(ctx: SpecialCaseContext, fromBattlefieldIndex: number, moverInstance?: CardInstance): void;
 
   /**
+   * Called on every OTHER same-controller unit still at `fromBattlefieldIndex` right after one of
+   * their side's units moves away from that location (e.g. Stealthy Pursuer: "When a friendly
+   * unit moves from my location, I may be moved with it."). `moverInstance` has already been
+   * updated to its destination (zone/battlefieldIndex) by the time this fires — read those to
+   * find out where it went. See registry.ts onMoveFromBattlefield for the broadcast.
+   */
+  onAllyUnitMovedFromMyLocation?(ctx: SpecialCaseContext, fromBattlefieldIndex: number, moverInstance: CardInstance): void;
+
+  /**
    * Might bonus this Gear/static-effect card grants to a given ally unit
    * instance while it attacks. Only relevant for Gear/Battlefield cards
    * with a controller-wide static bonus.
@@ -121,6 +130,15 @@ export interface SpecialCaseHandler {
    * fires) — a documented edge case, not a general limitation.
    */
   onAllyUnitDied?(ctx: SpecialCaseContext, diedInstance: CardInstance): void;
+
+  /**
+   * Called on every instance the OPPOSING controller owns (relative to the unit that just died)
+   * with an `onEnemyUnitDied` hook (e.g. Nasus, Guardian of Knowledge: "Once each turn, when an
+   * enemy unit here dies..."). Same destroyInstance chokepoint as onAllyUnitDied, just filtered
+   * to the other side; handlers that care about location check diedInstance.battlefieldIndex
+   * against ctx.instance.battlefieldIndex themselves (see preventsAllyDeathHere precedent).
+   */
+  onEnemyUnitDied?(ctx: SpecialCaseContext, diedInstance: CardInstance): void;
 
   /** Continuous self Might modifier independent of attacking/defending (e.g. an active Empowered bonus). */
   staticMightModifier?(ctx: SpecialCaseContext): number;

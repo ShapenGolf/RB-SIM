@@ -29,7 +29,7 @@ describe("Soraka, Wanderer (sfd-239 / sfd-173)", () => {
 
   it("saves a weaker ally at the same battlefield from dying, recalling it exhausted", () => {
     const game = makeGame();
-    const soraka = putOnBattlefield(game, "sfd-239", "0", 0); // Might 3
+    putOnBattlefield(game, "sfd-239", "0", 0); // Might 4
     const weakling = putOnBattlefield(game, "unit-doomed-recruit", "0", 0); // Might 1
 
     destroyInstance(game, getCard, weakling.instanceId);

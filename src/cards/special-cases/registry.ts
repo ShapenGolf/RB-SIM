@@ -662,6 +662,9 @@ import { tacticalRetreat } from "./tactical-retreat";
 import { sorakaWanderer } from "./soraka-wanderer";
 import { unlicensedArmory } from "./unlicensed-armory";
 import { zhonyasHourglass } from "./zhonyas-hourglass";
+import { forgottenLibrary } from "./forgotten-library";
+import { stealthyPursuer } from "./stealthy-pursuer";
+import { nasusGuardianOfKnowledge } from "./nasus-guardian-of-knowledge";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1324,6 +1327,9 @@ const handlers: SpecialCaseHandler[] = [
   sorakaWanderer,
   unlicensedArmory,
   zhonyasHourglass,
+  forgottenLibrary,
+  stealthyPursuer,
+  nasusGuardianOfKnowledge,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1401,6 +1407,13 @@ export const SpecialCaseEngine = {
           fromBattlefieldIndex,
           instance,
         );
+      }
+      for (const siblingId of slot.units[instance.controller]) {
+        const sibling = game.instances[siblingId];
+        if (!sibling) continue;
+        const siblingCard = getCard(sibling.cardId);
+        const siblingHandler = getSpecialCaseHandler(siblingCard);
+        siblingHandler?.onAllyUnitMovedFromMyLocation?.(ctxFor(game, siblingCard, sibling), fromBattlefieldIndex, instance);
       }
     }
   },
@@ -1555,6 +1568,16 @@ export const SpecialCaseEngine = {
         );
       }
     }
+    game.battlefields.forEach((slot, index) => {
+      if (slot.controller !== player) return;
+      const card = getCard(slot.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyCardPlayed?.(
+        ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, player, index)),
+        playedCard,
+        playCountThisTurn,
+      );
+    });
   },
 
   /** Broadcasts a just-played card to every board instance the OPPONENT of `player` owns, for onEnemyCardPlayed hooks (e.g. Vex, Apathetic). */
@@ -1930,6 +1953,21 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       handler?.onAllyUnitDied?.(ctxFor(game, card, instance), diedInstance);
+    }
+  },
+
+  /** Broadcasts a just-died unit to every board instance the OPPOSING controller owns with an `onEnemyUnitDied` hook. */
+  onEnemyUnitDied: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    diedController: PlayerId,
+    diedInstance: CardInstance,
+  ) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller === diedController) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onEnemyUnitDied?.(ctxFor(game, card, instance), diedInstance);
     }
   },
 

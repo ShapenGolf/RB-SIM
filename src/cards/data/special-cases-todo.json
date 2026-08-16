@@ -296,14 +296,6 @@
     "fullText": "While you control this battlefield, friendly legends have \"Exhaust: Attach an Equipment you control to a unit you control.\""
   },
   {
-    "id": "unl-211",
-    "name": "Forgotten Library",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "While you control this battlefield, when you play a spell, if you spent 4 Energy or more, . (Look at the top card of your Main Deck. You may recycle it.)",
-    "fullText": "While you control this battlefield, when you play a spell, if you spent 4 Energy or more, [Predict]. (Look at the top card of your Main Deck. You may recycle it.)"
-  },
-  {
     "id": "ven-71",
     "name": "Fretful Feline",
     "set": "VEN",
@@ -744,22 +736,6 @@
     "fullText": "During showdowns here, cards with [Reaction] cost Rune more to play. (Hidden cards have [Reaction].)"
   },
   {
-    "id": "ven-63",
-    "name": "Nasus, Guardian of Knowledge",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "Once each turn, when an enemy unit here dies, channel 1 rune exhausted.",
-    "fullText": "Once each turn, when an enemy unit here dies, channel 1 rune exhausted."
-  },
-  {
-    "id": "ven-178",
-    "name": "Nasus, Guardian of Knowledge",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "Once each turn, when an enemy unit here dies, channel 1 rune exhausted.",
-    "fullText": "Once each turn, when an enemy unit here dies, channel 1 rune exhausted."
-  },
-  {
     "id": "sfd-55",
     "name": "Needlessly Large Yordle",
     "set": "SFD",
@@ -1030,14 +1006,6 @@
     "type": "unit",
     "residualText": "Spells with  you play from your trash cost 2 Energy less, to a minimum of 1 Energy.",
     "fullText": "Spells with [Flow] you play from your trash cost 2 Energy less, to a minimum of 1 Energy."
-  },
-  {
-    "id": "ogn-177",
-    "name": "Stealthy Pursuer",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When a friendly unit moves from my location, I may be moved with it.",
-    "fullText": "When a friendly unit moves from my location, I may be moved with it."
   },
   {
     "id": "sfd-59",
