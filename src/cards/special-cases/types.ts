@@ -91,6 +91,9 @@ export interface SpecialCaseHandler {
   /** Called for every instance a player controls at the end of their own turn, just before it passes to the opponent. */
   onEndOfTurn?(ctx: SpecialCaseContext): void;
 
+  /** Called for every instance the active player controls right as their Main Phase begins (e.g. Bottled Constellation: "At the start of your Main Phase, you may..."). See game/turnFlow.ts / registry.ts onMainPhaseStart. */
+  onMainPhaseStart?(ctx: SpecialCaseContext): void;
+
   /** Called on this instance right after it moves from a Battlefield to its controller's base, via any source (see move-helpers.ts moveInstanceToBase, the shared chokepoint for non-attack moves-to-base). Not called for a move that started already in base. */
   /**
    * `moverInstance` is only populated when this fires on a Battlefield's own pseudo-instance

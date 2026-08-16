@@ -80,22 +80,6 @@
     "fullText": "[Hidden] (Hide now for Rune to react with later for 0 Energy.)\nChoose a battlefield. An opponent reveals their hand. You may choose a unit from it. They play that unit to that battlefield, ignoring any and all costs. When they do, [Stun] it. (It doesn't deal combat damage this turn.)"
   },
   {
-    "id": "ven-67",
-    "name": "Bottled Constellation",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "At the start of your Main Phase, you may kill 3 other friendly units and/or gear to score 1 point.",
-    "fullText": "At the start of your Main Phase, you may kill 3 other friendly units and/or gear to score 1 point."
-  },
-  {
-    "id": "ogn-268",
-    "name": "Bullet Time",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Pay any amount of Rune to deal that much damage to all enemy units at a battlefield.",
-    "fullText": "[Action] (Play on your turn or in showdowns.)\nPay any amount of Rune to deal that much damage to all enemy units at a battlefield."
-  },
-  {
     "id": "ogn-231",
     "name": "Commander Ledros",
     "set": "OGN",
@@ -296,30 +280,6 @@
     "fullText": "When I become ready, choose one to give me this turn \u2014[Assault 2] (+2 Might while I'm an attacker.)[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "unl-89",
-    "name": "Jhin, Meticulous Killer",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "If you've spent 4 Energy or more to play a spell this turn, you may play me for Mind Rune.",
-    "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nIf you've spent 4 Energy or more to play a spell this turn, you may play me for Mind Rune."
-  },
-  {
-    "id": "sfd-237",
-    "name": "Karma, Channeler",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When you recycle one or more cards, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff. Runes aren't cards.)",
-    "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nWhen you recycle one or more cards, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff. Runes aren't cards.)"
-  },
-  {
-    "id": "ogn-235",
-    "name": "Karma, Channeler",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When you recycle one or more cards, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff. Runes aren't cards.)",
-    "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nWhen you recycle one or more cards, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff. Runes aren't cards.)"
-  },
-  {
     "id": "unl-23",
     "name": "Katarina, Reckless",
     "set": "UNL",
@@ -342,14 +302,6 @@
     "type": "unit",
     "residualText": "As you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend.",
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
-  },
-  {
-    "id": "sfd-211",
-    "name": "Marai Spire",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "While you control this battlefield, friendly  costs cost 1 Energy less.",
-    "fullText": "While you control this battlefield, friendly [Repeat] costs cost 1 Energy less."
   },
   {
     "id": "ven-191",
@@ -392,14 +344,6 @@
     "fullText": "When you buff a friendly unit, you may pay Body Rune and exhaust this to ready it."
   },
   {
-    "id": "ogn-101",
-    "name": "Mushroom Pouch",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "At the start of your Beginning Phase, if you control a facedown card at a battlefield, draw 1.",
-    "fullText": "At the start of your Beginning Phase, if you control a facedown card at a battlefield, draw 1."
-  },
-  {
     "id": "sfd-55",
     "name": "Needlessly Large Yordle",
     "set": "SFD",
@@ -414,22 +358,6 @@
     "type": "champion",
     "residualText": "When you look at cards from the top of your deck (and don't draw them) and see me, you may play me for Rune.",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nWhen you look at cards from the top of your deck (and don't draw them) and see me, you may play me for Rune."
-  },
-  {
-    "id": "ogn-18",
-    "name": "Noxus Saboteur",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "Your opponents'  cards can't be revealed here.",
-    "fullText": "Your opponents' [Hidden] cards can't be revealed here."
-  },
-  {
-    "id": "ven-161",
-    "name": "Piltovan Forge",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "While you control this battlefield, the first friendly gear activated ability played each turn costs 1 Energy less.",
-    "fullText": "While you control this battlefield, the first friendly gear activated ability played each turn costs 1 Energy less."
   },
   {
     "id": "ogn-143",
@@ -464,14 +392,6 @@
     "fullText": "Each player looks at the top 5 cards of their Main Deck, chooses one, then recycles the rest. Starting with the next player, each player plays those cards, ignoring Energy costs. (They must still pay Power costs.)"
   },
   {
-    "id": "ven-163",
-    "name": "Risen Altar",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "costs of your units here cost 1 Energy or Rune less.",
-    "fullText": "[Empower] costs of your units here cost 1 Energy or Rune less."
-  },
-  {
     "id": "ven-189",
     "name": "Rogue Assassin",
     "set": "VEN",
@@ -486,14 +406,6 @@
     "type": "legend",
     "residualText": "Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm , ready it.",
     "fullText": "[Empower] 3 EnergyRune (3 EnergyRune: Empower this. Use only if not Empowered.)\n[Action][>] Exhaust: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it."
-  },
-  {
-    "id": "ven-164",
-    "name": "Sandswept Tomb",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "Each spell that chooses one or more units here that are friendly to it costs Rune less.",
-    "fullText": "Each spell that chooses one or more units here that are friendly to it costs Rune less."
   },
   {
     "id": "sfd-47",
@@ -536,14 +448,6 @@
     "fullText": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)\nAs an additional cost to play me, kill a Bird, Cat, Dog, or Poro you control. You may play me to its battlefield (even if you don't have other units there)."
   },
   {
-    "id": "unl-215",
-    "name": "Star Spring",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "The first time a player plays a non-token unit here each turn, they may move another unit they control here to its base.",
-    "fullText": "The first time a player plays a non-token unit here each turn, they may move another unit they control here to its base."
-  },
-  {
     "id": "ven-98",
     "name": "Stargazer",
     "set": "VEN",
@@ -552,36 +456,12 @@
     "fullText": "Spells with [Flow] you play from your trash cost 2 Energy less, to a minimum of 1 Energy."
   },
   {
-    "id": "unl-146",
-    "name": "Syndra, Transcendent",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "While I'm in a showdown, your spells have",
-    "fullText": "While I'm in a showdown, your spells have [Repeat] 2 EnergyChaos Rune. (You may pay the additional cost to repeat the spell's effect.)"
-  },
-  {
-    "id": "sfd-146",
-    "name": "Vex, Cheerless",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more.",
-    "fullText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more."
-  },
-  {
     "id": "sfd-18",
     "name": "Void Hatchling",
     "set": "SFD",
     "type": "unit",
     "residualText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards.",
     "fullText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards."
-  },
-  {
-    "id": "unl-108",
-    "name": "Wily Newtfish",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "If you've gained XP this turn, I have +1 Might and . (I can move from battlefield to battlefield.)",
-    "fullText": "If you've gained XP this turn, I have +1 Might and [Ganking]. (I can move from battlefield to battlefield.)"
   },
   {
     "id": "sfd-235",

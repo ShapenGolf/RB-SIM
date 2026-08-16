@@ -168,6 +168,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   runDraw(game, player);
   game.turnPhase = "main";
   game.activePlayer = player;
+  SpecialCaseEngine.onMainPhaseStart(game, getCard, player);
 }
 
 export function markFirstTurnTaken(game: GameState, player: PlayerId): void {

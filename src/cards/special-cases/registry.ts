@@ -724,6 +724,20 @@ import { volibearImposing } from "./volibear-imposing";
 import { spiritWheel } from "./spirit-wheel";
 import { theDreamingTree } from "./the-dreaming-tree";
 import { gardensOfBecoming } from "./gardens-of-becoming";
+import { bottledConstellation } from "./bottled-constellation";
+import { bulletTime } from "./bullet-time";
+import { jhinMeticulousKiller } from "./jhin-meticulous-killer";
+import { karmaChanneler } from "./karma-channeler";
+import { maraiSpire } from "./marai-spire";
+import { piltovanForge } from "./piltovan-forge";
+import { mushroomPouch } from "./mushroom-pouch";
+import { noxusSaboteur } from "./noxus-saboteur";
+import { syndraTranscendent } from "./syndra-transcendent";
+import { wilyNewtfish } from "./wily-newtfish";
+import { starSpring } from "./star-spring";
+import { sandsweptTomb } from "./sandswept-tomb";
+import { risenAltar } from "./risen-altar";
+import { vexCheerless } from "./vex-cheerless";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1448,6 +1462,20 @@ const handlers: SpecialCaseHandler[] = [
   spiritWheel,
   theDreamingTree,
   gardensOfBecoming,
+  bottledConstellation,
+  bulletTime,
+  jhinMeticulousKiller,
+  karmaChanneler,
+  maraiSpire,
+  piltovanForge,
+  mushroomPouch,
+  noxusSaboteur,
+  syndraTranscendent,
+  wilyNewtfish,
+  starSpring,
+  sandsweptTomb,
+  risenAltar,
+  vexCheerless,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1505,6 +1533,16 @@ export const SpecialCaseEngine = {
 
   onEndOfTurn: (game: GameState, card: Card, instance: CardInstance) => {
     getSpecialCaseHandler(card)?.onEndOfTurn?.(ctxFor(game, card, instance));
+  },
+
+  /** Broadcasts the start of `player`'s Main Phase to every board instance they control with an `onMainPhaseStart` hook. See game/turnFlow.ts. */
+  onMainPhaseStart: (game: GameState, getCard: (id: string) => Card, player: PlayerId): void => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== player) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onMainPhaseStart?.(ctxFor(game, card, instance));
+    }
   },
 
   onMoveFromBattlefield: (
