@@ -184,14 +184,6 @@
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell if an opponent has played another spell this turn."
   },
   {
-    "id": "unl-148",
-    "name": "Cursed Sarcophagus",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "When you play this, banish all units from your trash.\nExhaust: Play a unit banished with this. (You must pay its costs.)",
-    "fullText": "When you play this, banish all units from your trash.\nExhaust: Play a unit banished with this. (You must pay its costs.)"
-  },
-  {
     "id": "unl-20",
     "name": "Dancing Grenade",
     "set": "UNL",
@@ -326,14 +318,6 @@
     "type": "battlefield",
     "residualText": "While you control this battlefield, when you play a spell, if you spent 4 Energy or more, . (Look at the top card of your Main Deck. You may recycle it.)",
     "fullText": "While you control this battlefield, when you play a spell, if you spent 4 Energy or more, [Predict]. (Look at the top card of your Main Deck. You may recycle it.)"
-  },
-  {
-    "id": "unl-45",
-    "name": "Forgotten Signpost",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "Exhaust a unit you control, Exhaust: Move a different unit you control to the location of the unit you exhausted to pay for this ability.",
-    "fullText": "[Action][>] Exhaust a unit you control, Exhaust: Move a different unit you control to the location of the unit you exhausted to pay for this ability."
   },
   {
     "id": "ven-71",

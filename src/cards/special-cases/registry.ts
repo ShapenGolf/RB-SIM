@@ -650,6 +650,8 @@ import { theAcademy } from "./the-academy";
 import { albusFerros } from "./albus-ferros";
 import { callToGlory } from "./call-to-glory";
 import { grandmasterAtArms } from "./grandmaster-at-arms";
+import { cursedSarcophagus } from "./cursed-sarcophagus";
+import { forgottenSignpost } from "./forgotten-signpost";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1300,6 +1302,8 @@ const handlers: SpecialCaseHandler[] = [
   albusFerros,
   callToGlory,
   grandmasterAtArms,
+  cursedSarcophagus,
+  forgottenSignpost,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
