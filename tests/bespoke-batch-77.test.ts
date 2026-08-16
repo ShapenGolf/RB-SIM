@@ -24,12 +24,12 @@ describe("Counter Strike (sfd-194)", () => {
     const card = getCard(spell.cardId);
 
     SpecialCaseEngine.onPlay(game, card, spell);
-    expect(unit.statuses.preventNextDamage).toBe(true);
+    expect(unit.statuses.preventNextDamageThisTurn).toBe(true);
     expect(game.players["0"].hand).toContain("unit-doomed-recruit");
 
     dealSpellDamage(game, getCard, unit.instanceId, 5, "1");
     expect(unit.damage).toBe(0);
-    expect(unit.statuses.preventNextDamage).toBe(false);
+    expect(unit.statuses.preventNextDamageThisTurn).toBe(false);
 
     dealSpellDamage(game, getCard, unit.instanceId, 5, "1");
     expect(unit.damage).toBe(5);
@@ -38,13 +38,13 @@ describe("Counter Strike (sfd-194)", () => {
   it("also prevents the next combat damage instance", () => {
     const game = makeGame();
     const defender = putOnBattlefield(game, "unit-blazing-scorcher", "0", 0);
-    defender.statuses.preventNextDamage = true;
+    defender.statuses.preventNextDamageThisTurn = true;
     const attacker = putOnBattlefield(game, "unit-blazing-scorcher", "1", 0);
     attacker.exhausted = true;
 
     resolveCombat(game, getCard, 0, "1");
 
     expect(defender.damage).toBe(0);
-    expect(defender.statuses.preventNextDamage).toBe(false);
+    expect(defender.statuses.preventNextDamageThisTurn).toBe(false);
   });
 });

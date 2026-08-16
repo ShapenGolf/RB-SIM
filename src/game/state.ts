@@ -42,6 +42,8 @@ export interface CardInstance {
   pendingSurviveCombatXP: number;
   /** For an Equipment gear instance: the unit/champion instanceId it's attached to, or null if unattached (sitting in base normally). Always null for non-Equipment cards. */
   attachedTo: string | null;
+  /** Damage-absorption pool: incoming damage (spell or combat) is soaked up to this amount before landing, decremented per hit, e.g. Ki Barrier: "Prevent the next 7 damage that would be dealt to it this turn." Reset to 0 at Awaken. */
+  damagePreventionPool: number;
 }
 
 export interface RuneInstance {

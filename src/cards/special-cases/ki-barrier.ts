@@ -3,15 +3,17 @@ import { computeMight } from "../../game/might";
 import type { CardInstance } from "../../game/state";
 import type { SpecialCaseHandler } from "./types";
 
+const PREVENTION_AMOUNT = 7;
+
 /**
- * [Reaction] Choose a unit. The next time that unit would be dealt damage this turn, prevent it.
- * Draw 1.
+ * [Reaction] Choose a unit. Prevent the next 7 damage that would be dealt to it this turn.
+ * (Opponents can assign it extra combat damage to kill it.)
  *
  * Reaction timing isn't modeled. Simplification: no player choice of which unit — protects the
  * controller's strongest friendly unit.
  */
-export const counterStrike: SpecialCaseHandler = {
-  cardId: "counter-strike",
+export const kiBarrier: SpecialCaseHandler = {
+  cardId: "ki-barrier",
   onPlay: (ctx) => {
     let target: CardInstance | undefined;
     for (const instance of Object.values(ctx.game.instances)) {
@@ -22,10 +24,6 @@ export const counterStrike: SpecialCaseHandler = {
         target = instance;
       }
     }
-    if (target) target.statuses.preventNextDamageThisTurn = true;
-
-    const player = ctx.game.players[ctx.instance.controller];
-    const drawn = player.mainDeck.shift();
-    if (drawn) player.hand.push(drawn);
+    if (target) target.damagePreventionPool += PREVENTION_AMOUNT;
   },
 };

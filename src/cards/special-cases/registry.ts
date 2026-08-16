@@ -654,6 +654,7 @@ import { cursedSarcophagus } from "./cursed-sarcophagus";
 import { forgottenSignpost } from "./forgotten-signpost";
 import { backAlleyBar } from "./back-alley-bar";
 import { counterStrike } from "./counter-strike";
+import { kiBarrier } from "./ki-barrier";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1308,6 +1309,7 @@ const handlers: SpecialCaseHandler[] = [
   forgottenSignpost,
   backAlleyBar,
   counterStrike,
+  kiBarrier,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

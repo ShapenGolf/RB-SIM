@@ -26,6 +26,7 @@ function blankInstance(cardId: string, controller: PlayerId): CardInstance {
     equipment: [],
     attachedTo: null,
     pendingSurviveCombatXP: 0,
+    damagePreventionPool: 0,
   };
 }
 

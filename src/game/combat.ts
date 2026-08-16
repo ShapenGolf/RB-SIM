@@ -92,14 +92,20 @@ function assignDamage(
     if (remaining <= 0) break;
     const instance = game.instances[instanceId];
     if (!instance) continue;
-    if (instance.statuses.preventNextDamage) {
-      instance.statuses.preventNextDamage = false;
+    if (instance.statuses.preventNextDamageThisTurn) {
+      instance.statuses.preventNextDamageThisTurn = false;
       continue;
     }
     const hp = toughness(game, getCard, instanceId, role);
     const hit = Math.min(remaining, hp);
-    instance.damage += hit;
-    if (hit > 0) instance.statuses.tookDamageThisTurn = true;
+    let appliedDamage = hit;
+    if (instance.damagePreventionPool > 0) {
+      const absorbed = Math.min(instance.damagePreventionPool, appliedDamage);
+      instance.damagePreventionPool -= absorbed;
+      appliedDamage -= absorbed;
+    }
+    instance.damage += appliedDamage;
+    if (appliedDamage > 0) instance.statuses.tookDamageThisTurn = true;
     remaining -= hit;
   }
   return Math.max(0, remaining);

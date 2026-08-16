@@ -20,9 +20,15 @@ export function dealSpellDamage(
   const target = game.instances[targetInstanceId];
   if (!target) return;
   if (game.preventAllSpellDamageThisTurn) return;
-  if (target.statuses.preventNextDamage) {
-    target.statuses.preventNextDamage = false;
+  if (target.statuses.preventNextDamageThisTurn) {
+    target.statuses.preventNextDamageThisTurn = false;
     return;
+  }
+  if (target.damagePreventionPool > 0) {
+    const absorbed = Math.min(target.damagePreventionPool, amount);
+    target.damagePreventionPool -= absorbed;
+    amount -= absorbed;
+    if (amount <= 0) return;
   }
   if (
     controller !== target.controller &&
