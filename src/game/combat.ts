@@ -146,6 +146,20 @@ export function destroyInstance(game: GameState, getCard: (id: string) => Card, 
   if (!instance) return;
   const card = getCard(instance.cardId);
 
+  if (instance.statuses.preventNextDeathThisTurn) {
+    instance.statuses.preventNextDeathThisTurn = false;
+    if (instance.battlefieldIndex !== null) {
+      const slot = game.battlefields[instance.battlefieldIndex];
+      slot.units[instance.controller] = slot.units[instance.controller].filter((id) => id !== instanceId);
+    }
+    instance.zone = "base";
+    instance.battlefieldIndex = null;
+    instance.damage = 0;
+    instance.exhausted = true;
+    game.players[instance.controller].base.push(instanceId);
+    return;
+  }
+
   KeywordEngine.fireOnDestroy(game, card, instance);
   SpecialCaseEngine.onDestroy(game, card, instance);
   fireTemplatedEffect(game, getCard, card, instance, "onDestroy");

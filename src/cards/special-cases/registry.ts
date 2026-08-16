@@ -657,6 +657,8 @@ import { counterStrike } from "./counter-strike";
 import { kiBarrier } from "./ki-barrier";
 import { lotusTrap } from "./lotus-trap";
 import { voidAssault } from "./void-assault";
+import { highlander } from "./highlander";
+import { tacticalRetreat } from "./tactical-retreat";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1314,6 +1316,8 @@ const handlers: SpecialCaseHandler[] = [
   kiBarrier,
   lotusTrap,
   voidAssault,
+  highlander,
+  tacticalRetreat,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

@@ -464,14 +464,6 @@
     "fullText": "Exhaust: [Reaction] — Pay any amount of Rune to [Add] that much Energy. (Abilities that add resources can't be reacted to.)"
   },
   {
-    "id": "ogs-20",
-    "name": "Highlander",
-    "set": "OGS",
-    "type": "spell",
-    "residualText": "Choose a friendly unit. The next time it dies this turn, recall it exhausted instead. (Send it to base. This isn't a move.)",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. The next time it dies this turn, recall it exhausted instead. (Send it to base. This isn't a move.)"
-  },
-  {
     "id": "unl-49",
     "name": "Honeyfruit",
     "set": "UNL",
@@ -1086,14 +1078,6 @@
     "type": "champion",
     "residualText": "While I'm in a showdown, your spells have",
     "fullText": "While I'm in a showdown, your spells have [Repeat] 2 EnergyChaos Rune. (You may pay the additional cost to repeat the spell's effect.)"
-  },
-  {
-    "id": "unl-175",
-    "name": "Tactical Retreat",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a friendly unit. The next time it would die this turn, heal it, exhaust it, and recall it instead. (Send it to base. This isn't a move.)",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit. The next time it would die this turn, heal it, exhaust it, and recall it instead. (Send it to base. This isn't a move.)"
   },
   {
     "id": "ogn-292",
