@@ -64,14 +64,6 @@
     "fullText": "Calm Rune: [Action] — Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn."
   },
   {
-    "id": "ogn-277",
-    "name": "Back-Alley Bar",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When a unit moves from here, give it +1 Might this turn.",
-    "fullText": "When a unit moves from here, give it +1 Might this turn."
-  },
-  {
     "id": "ogn-242",
     "name": "Baited Hook",
     "set": "OGN",

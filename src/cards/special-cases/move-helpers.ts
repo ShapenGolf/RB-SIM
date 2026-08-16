@@ -25,7 +25,7 @@ export function moveInstanceToBase(game: GameState, getCard: (id: string) => Car
   instance.battlefieldIndex = null;
   game.players[instance.controller].base.push(instanceId);
   if (wasAtBattlefield && previousBattlefieldIndex !== null) {
-    SpecialCaseEngine.onMoveFromBattlefield(game, getCard(instance.cardId), instance, previousBattlefieldIndex);
+    SpecialCaseEngine.onMoveFromBattlefield(game, getCard, getCard(instance.cardId), instance, previousBattlefieldIndex);
   }
   return true;
 }
@@ -55,7 +55,7 @@ export function moveInstanceToBattlefield(game: GameState, instanceId: string, b
   instance.battlefieldIndex = battlefieldIndex;
   game.battlefields[battlefieldIndex].units[instance.controller].push(instanceId);
   if (wasAtBattlefield && previousBattlefieldIndex !== null) {
-    SpecialCaseEngine.onMoveFromBattlefield(game, getCard(instance.cardId), instance, previousBattlefieldIndex);
+    SpecialCaseEngine.onMoveFromBattlefield(game, getCard, getCard(instance.cardId), instance, previousBattlefieldIndex);
   }
   return true;
 }

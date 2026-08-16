@@ -652,6 +652,7 @@ import { callToGlory } from "./call-to-glory";
 import { grandmasterAtArms } from "./grandmaster-at-arms";
 import { cursedSarcophagus } from "./cursed-sarcophagus";
 import { forgottenSignpost } from "./forgotten-signpost";
+import { backAlleyBar } from "./back-alley-bar";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1304,6 +1305,7 @@ const handlers: SpecialCaseHandler[] = [
   grandmasterAtArms,
   cursedSarcophagus,
   forgottenSignpost,
+  backAlleyBar,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1363,8 +1365,26 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onEndOfTurn?.(ctxFor(game, card, instance));
   },
 
-  onMoveFromBattlefield: (game: GameState, card: Card, instance: CardInstance, fromBattlefieldIndex: number) => {
+  onMoveFromBattlefield: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    card: Card,
+    instance: CardInstance,
+    fromBattlefieldIndex: number,
+  ) => {
     getSpecialCaseHandler(card)?.onMoveFromBattlefield?.(ctxFor(game, card, instance), fromBattlefieldIndex);
+    const slot = game.battlefields[fromBattlefieldIndex];
+    if (slot) {
+      const battlefieldCard = getCard(slot.cardId);
+      const handler = getSpecialCaseHandler(battlefieldCard);
+      if (handler?.onMoveFromBattlefield) {
+        handler.onMoveFromBattlefield(
+          ctxFor(game, battlefieldCard, battlefieldPseudoInstance(slot.cardId, instance.controller, fromBattlefieldIndex)),
+          fromBattlefieldIndex,
+          instance,
+        );
+      }
+    }
   },
 
   activatedAbilityCost: (game: GameState, card: Card, instance: CardInstance) => {
