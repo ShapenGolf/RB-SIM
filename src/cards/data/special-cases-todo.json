@@ -680,22 +680,6 @@
     "fullText": "When you empower something else, empower me.\nDisempower me, Rune, Exhaust: Ready a unit."
   },
   {
-    "id": "ven-188",
-    "name": "Mel, Defiant Soul",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "\u2014 Discard a spell\nWhen I become , banish an enemy unit at a battlefield with 3 Might or less.",
-    "fullText": "[Empower] \u2014 Discard a spell\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
-  },
-  {
-    "id": "ven-110",
-    "name": "Mel, Defiant Soul",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "\u2014 Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become , banish an enemy unit at a battlefield with 3 Might or less.",
-    "fullText": "[Empower] \u2014 Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less."
-  },
-  {
     "id": "ogn-152",
     "name": "Mistfall",
     "set": "OGN",

@@ -16,6 +16,8 @@ export interface EmpowerCost {
   discardCount?: number;
   /** "Kill a friendly unit" as part of this cost (e.g. Escaped Grayback: "[Empower] — Kill a friendly unit"). No choice of which unit (see docs/data-sourcing.md) — kills the controller's own weakest OTHER unit; the move is rejected if none exists. */
   killFriendlyUnit?: boolean;
+  /** "Discard a spell" as part of this cost (e.g. Mel, Defiant Soul: "[Empower] — Discard a spell"). Requires a spell specifically be in hand (not just any card) — discards the first spell found, rejected if none exists. */
+  discardSpell?: boolean;
 }
 
 /** Shape shared by `activatedAbilityCost`; see its doc comment on `SpecialCaseHandler` below. */

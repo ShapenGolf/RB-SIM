@@ -413,6 +413,8 @@ export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: Empowe
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
   if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
   if (player.hand.length < (cost.discardCount ?? 0)) return INVALID_MOVE;
+  const discardSpellIndex = cost.discardSpell ? player.hand.findIndex((id) => getCard(id).type === "spell") : -1;
+  if (cost.discardSpell && discardSpellIndex === -1) return INVALID_MOVE;
   let killTarget: CardInstance | undefined;
   if (cost.killFriendlyUnit) {
     for (const other of Object.values(G.instances)) {
@@ -449,6 +451,10 @@ export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: Empowe
   if (cost.exhaustSelf) instance.exhausted = true;
   for (let i = 0; i < (cost.discardCount ?? 0); i += 1) {
     const discarded = player.hand.shift();
+    if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
+  }
+  if (cost.discardSpell) {
+    const [discarded] = player.hand.splice(discardSpellIndex, 1);
     if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
   }
   if (killTarget) destroyInstance(G, getCard, killTarget.instanceId);

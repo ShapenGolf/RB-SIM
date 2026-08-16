@@ -673,6 +673,7 @@ import { petriciteMonument } from "./petricite-monument";
 import { duneSurfer } from "./dune-surfer";
 import { prizeOfProgress } from "./prize-of-progress";
 import { valleyOfIdols } from "./valley-of-idols";
+import { melDefiantSoul } from "./mel-defiant-soul";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1346,6 +1347,7 @@ const handlers: SpecialCaseHandler[] = [
   duneSurfer,
   prizeOfProgress,
   valleyOfIdols,
+  melDefiantSoul,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
