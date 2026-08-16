@@ -1176,14 +1176,6 @@
     "fullText": "When you play a spell, if you spent 4 Energy or more, you may banish it. Then, if there are four spells banished with me, put each in its trash, channel 4 runes, and draw 1."
   },
   {
-    "id": "unl-202",
-    "name": "Void Assault",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Move a friendly unit, then move an enemy unit. (If they both move to a battlefield you don't control, you're the attacker.)",
-    "fullText": "Move a friendly unit, then move an enemy unit. (If they both move to a battlefield you don't control, you're the attacker.)"
-  },
-  {
     "id": "sfd-18",
     "name": "Void Hatchling",
     "set": "SFD",
