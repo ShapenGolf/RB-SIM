@@ -160,14 +160,6 @@
     "fullText": "When you play me, name a spell.\nWhile I'm at a battlefield, opponents can't play spells with that name."
   },
   {
-    "id": "sfd-180",
-    "name": "Fiora, Worthy",
-    "set": "SFD",
-    "type": "champion",
-    "residualText": "When a unit you control becomes , you may pay Order Rune to ready it. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "When a unit you control becomes [Mighty], you may pay Order Rune to ready it. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
     "id": "sfd-208",
     "name": "Forge of the Fluft",
     "set": "SFD",
@@ -232,22 +224,6 @@
     "fullText": "[Empower] RuneRune (RuneRune: Empower me. Use only if not Empowered.)\nDisempower this, Exhaust: Choose a player. They gain control of this and recall it. (Send it to their base.)\nAt the end of your turn, kill this and deal 5 to all units you control."
   },
   {
-    "id": "sfd-205",
-    "name": "Grand Duelist",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When one of your units becomes , you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "When one of your units becomes [Mighty], you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
-    "id": "sfd-251",
-    "name": "Grand Duelist",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "When one of your units becomes , you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)",
-    "fullText": "When one of your units becomes [Mighty], you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
-  },
-  {
     "id": "unl-195",
     "name": "Green Father",
     "set": "UNL",
@@ -262,14 +238,6 @@
     "type": "legend",
     "residualText": "When you conquer or hold, you may exhaust me to replace that battlefield with a Brush battlefield token.",
     "fullText": "When you conquer or hold, you may exhaust me to replace that battlefield with a Brush battlefield token."
-  },
-  {
-    "id": "ogn-281",
-    "name": "Hallowed Tomb",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When you hold here, you may return your Chosen Champion from your trash to your Champion Zone if it is empty.",
-    "fullText": "When you hold here, you may return your Chosen Champion from your trash to your Champion Zone if it is empty."
   },
   {
     "id": "ven-197",
@@ -334,22 +302,6 @@
     "type": "champion",
     "residualText": "When you choose or ready me, give me +1 Might this turn.",
     "fullText": "[Deflect]\nWhen you choose or ready me, give me +1 Might this turn."
-  },
-  {
-    "id": "unl-177",
-    "name": "Ivern, Friend to All",
-    "set": "UNL",
-    "type": "champion",
-    "residualText": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them \u2014 Bird, Cat, Dog, and Poro.",
-    "fullText": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them \u2014 Bird, Cat, Dog, and Poro."
-  },
-  {
-    "id": "sfd-142",
-    "name": "Jae Medarda",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you choose me with a spell, draw 1.",
-    "fullText": "When you choose me with a spell, draw 1."
   },
   {
     "id": "sfd-54",
@@ -438,14 +390,6 @@
     "type": "unit",
     "residualText": "As you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend.",
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
-  },
-  {
-    "id": "unl-163",
-    "name": "Mageseeker Investigator",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "Opponents must pay Rune for each unit beyond the first to move multiple units to my battlefield at the same time.",
-    "fullText": "Opponents must pay Rune for each unit beyond the first to move multiple units to my battlefield at the same time."
   },
   {
     "id": "ogn-70",
@@ -726,14 +670,6 @@
     "type": "battlefield",
     "residualText": "When a player chooses a friendly unit here with a spell for the first time each turn, they draw 1.",
     "fullText": "When a player chooses a friendly unit here with a spell for the first time each turn, they draw 1."
-  },
-  {
-    "id": "unl-138",
-    "name": "The List",
-    "set": "UNL",
-    "type": "gear",
-    "residualText": "As you play this, name a tag. (For example, Miss Fortune, Demacia, and Poro are tags.)\nExhaust: Give a unit with the named tag -2 Might this turn.",
-    "fullText": "As you play this, name a tag. (For example, Miss Fortune, Demacia, and Poro are tags.)\nExhaust: Give a unit with the named tag -2 Might this turn."
   },
   {
     "id": "sfd-90",

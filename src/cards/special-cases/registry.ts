@@ -700,6 +700,13 @@ import { luxCrownguard } from "./lux-crownguard";
 import { malzaharFanatic } from "./malzahar-fanatic";
 import { platewyrmEgg } from "./platewyrm-egg";
 import { scornOfTheMoon } from "./scorn-of-the-moon";
+import { fioraWorthy } from "./fiora-worthy";
+import { grandDuelist } from "./grand-duelist";
+import { hallowedTomb } from "./hallowed-tomb";
+import { jaeMedarda } from "./jae-medarda";
+import { theList } from "./the-list";
+import { mageseekerInvestigator } from "./mageseeker-investigator";
+import { ivernFriendToAll } from "./ivern-friend-to-all";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1400,6 +1407,13 @@ const handlers: SpecialCaseHandler[] = [
   malzaharFanatic,
   platewyrmEgg,
   scornOfTheMoon,
+  fioraWorthy,
+  grandDuelist,
+  hallowedTomb,
+  jaeMedarda,
+  theList,
+  mageseekerInvestigator,
+  ivernFriendToAll,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
