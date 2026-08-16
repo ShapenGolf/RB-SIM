@@ -92,6 +92,10 @@ function assignDamage(
     if (remaining <= 0) break;
     const instance = game.instances[instanceId];
     if (!instance) continue;
+    if (instance.statuses.preventNextDamage) {
+      instance.statuses.preventNextDamage = false;
+      continue;
+    }
     const hp = toughness(game, getCard, instanceId, role);
     const hit = Math.min(remaining, hp);
     instance.damage += hit;
