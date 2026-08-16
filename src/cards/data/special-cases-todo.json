@@ -408,22 +408,6 @@
     "fullText": "When one of your units becomes [Mighty], you may exhaust me to channel 1 rune exhausted. (A unit is Mighty while it has 5+ Might.)"
   },
   {
-    "id": "sfd-245",
-    "name": "Grandmaster at Arms",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Attach a detached Equipment you control to a unit you control.\nExhaust: Attach an attached Equipment you control to a unit you control.",
-    "fullText": "1 Energy, Exhaust: Attach a detached Equipment you control to a unit you control.\nExhaust: Attach an attached Equipment you control to a unit you control."
-  },
-  {
-    "id": "sfd-193",
-    "name": "Grandmaster at Arms",
-    "set": "SFD",
-    "type": "legend",
-    "residualText": "1 Energy, Exhaust: Attach a detached Equipment you control to a unit you control.\nExhaust: Attach an attached Equipment you control to a unit you control.",
-    "fullText": "1 Energy, Exhaust: Attach a detached Equipment you control to a unit you control.\nExhaust: Attach an attached Equipment you control to a unit you control."
-  },
-  {
     "id": "unl-195",
     "name": "Green Father",
     "set": "UNL",
