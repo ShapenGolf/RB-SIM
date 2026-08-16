@@ -7,6 +7,7 @@ import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
 import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
+import { eligibleAmbushBattlefields } from "../game/moves";
 import { validateDeck } from "../cards/deckValidation";
 import { listSavedDecks } from "../decks/store";
 import { CardFace } from "./CardFace";
@@ -41,7 +42,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   // either way (the alert()s in playCardAuto/activateAbilityAuto etc.), this is purely visual.
   const [simpleMode, setSimpleMode] = useState(true);
   const [pendingTarget, setPendingTarget] = useState<{
-    handIndex: number;
+    handIndex?: number;
+    fromChampionZone?: boolean;
     payAdditionalCost: boolean;
     ambushBattlefieldIndex?: number;
   } | null>(null);
@@ -194,15 +196,41 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     });
   }
 
+  /** Same as playCardAuto, but sourcing the card from the player's Champion Zone (see state.ts's `championZone`) instead of a hand index — the Chosen Champion is playable any time it's affordable, not just when drawn into hand. */
+  function playChampionAuto(payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
+    const cardId = player.championZone;
+    if (!cardId) return;
+    const card = getCard(cardId);
+    const dummyInstance = blankInstance(cardId, me!);
+    const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, payAdditionalCost);
+    if (!payment) {
+      window.alert("Nicht genug Runen, um diese Karte zu bezahlen.");
+      return;
+    }
+    if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
+      setPendingTarget({ fromChampionZone: true, payAdditionalCost, ambushBattlefieldIndex });
+      return;
+    }
+    moves.playCard({
+      fromChampionZone: true,
+      energyRuneIds: payment.energyRuneIds,
+      powerRuneIds: payment.powerRuneIds,
+      payAdditionalCost,
+      ambushBattlefieldIndex,
+    });
+  }
+
   function confirmTarget(targetInstanceId: string) {
     if (!pendingTarget) return;
-    const cardId = player.hand[pendingTarget.handIndex];
+    const cardId = pendingTarget.fromChampionZone ? player.championZone : player.hand[pendingTarget.handIndex ?? -1];
+    if (!cardId) return;
     const card = getCard(cardId);
     const dummyInstance = blankInstance(cardId, me!);
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, pendingTarget.payAdditionalCost);
     if (!payment) return;
     moves.playCard({
       handIndex: pendingTarget.handIndex,
+      fromChampionZone: pendingTarget.fromChampionZone,
       energyRuneIds: payment.energyRuneIds,
       powerRuneIds: payment.powerRuneIds,
       payAdditionalCost: pendingTarget.payAdditionalCost,
@@ -374,6 +402,15 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
   const opponent = G.players[opponentId];
 
+  const championCard = player.championZone ? getCard(player.championZone) : null;
+  const championDummyInstance = player.championZone ? blankInstance(player.championZone, me) : null;
+  const championCanAfford =
+    championCard && championDummyInstance
+      ? computeAutoPayment(G, championCard, championDummyInstance, player.runePool, false) !== null
+      : false;
+  const championAmbushBattlefields =
+    championCard && championDummyInstance ? eligibleAmbushBattlefields(G, championCard, championDummyInstance) : [];
+
   return (
     <div className="rb-board">
       <div className="rb-topbar">
@@ -406,6 +443,14 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
       {/* Opponent sits across the table: their hand (face down, count only) and base up top. */}
       <div className="rb-opponent-zone">
+        {/* Legend and Chosen Champion are public information (chosen at deck-build time, see
+            docs/deck-building-rules.md) — shown face-up for both players, unlike the private hand. */}
+        <div className="rb-section-label">Gegner-Legend &amp; Champion</div>
+        <div className="rb-row">
+          {opponent.legend && <CardFace card={getCard(opponent.legend.cardId)} size="sm" />}
+          {opponent.championZone && <CardFace card={getCard(opponent.championZone)} size="sm" />}
+        </div>
+
         <div className="rb-section-label">
           Gegner-Hand <span className="rb-count">{opponent.hand.length}</span>
         </div>
@@ -588,6 +633,30 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         })}
       </div>
 
+      <div className="rb-section-label">Legend &amp; Champion</div>
+      <div className="rb-row">
+        {player.legend && <CardFace card={getCard(player.legend.cardId)} size="sm" />}
+        {championCard && (
+          <CardFace
+            card={championCard}
+            size="sm"
+            frame={simpleMode ? (championCanAfford ? "ok" : "blocked") : undefined}
+            footer={
+              canAct ? (
+                <>
+                  <button onClick={() => playChampionAuto(false)}>Spielen</button>
+                  {championAmbushBattlefields.map((index) => (
+                    <button key={index} onClick={() => playChampionAuto(false, index)}>
+                      Zu Battlefield {index + 1}
+                    </button>
+                  ))}
+                </>
+              ) : undefined
+            }
+          />
+        )}
+      </div>
+
       <div className="rb-section-label">
         Hand <span className="rb-count">{player.hand.length}</span>
       </div>
@@ -600,26 +669,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const bonusEffectEnergy = SpecialCaseEngine.additionalPlayCostEnergy(G, card, dummyInstance);
           const canAfford = computeAutoPayment(G, card, dummyInstance, player.runePool, false) !== null;
           const isChampion = card.type === "champion";
-          const ambushBattlefields = isChampion
-            ? G.battlefields.map((_slot, i) => ({ index: i }))
-            : card.type === "unit"
-              ? G.battlefields
-                  .map((slot, i) => ({
-                    index: i,
-                    ownOccupied: slot.units[me].length > 0,
-                    enemyOccupied: slot.units[opponentId].length > 0,
-                  }))
-                  .filter(
-                    (b) =>
-                      (b.ownOccupied && KeywordEngine.hasKeyword(card, "ambush")) ||
-                      (b.enemyOccupied &&
-                        SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, dummyInstance)) ||
-                      (!b.ownOccupied &&
-                        !b.enemyOccupied &&
-                        (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, dummyInstance) ||
-                          SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, dummyInstance))),
-                  )
-              : [];
+          const ambushBattlefields = eligibleAmbushBattlefields(G, card, dummyInstance);
           return (
             <CardFace
               key={idx}
@@ -638,9 +688,9 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                     {bonusEffectEnergy !== undefined && (
                       <button onClick={() => playCardAuto(idx, true)}>+{bonusEffectEnergy}E Bonus</button>
                     )}
-                    {ambushBattlefields.map((b) => (
-                      <button key={b.index} onClick={() => playCardAuto(idx, false, b.index)}>
-                        {isChampion ? "Zu" : "Ambush →"} Battlefield {b.index + 1}
+                    {ambushBattlefields.map((index) => (
+                      <button key={index} onClick={() => playCardAuto(idx, false, index)}>
+                        {isChampion ? "Zu" : "Ambush →"} Battlefield {index + 1}
                       </button>
                     ))}
                   </>

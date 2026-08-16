@@ -85,7 +85,10 @@ export function CardFace({
           </div>
         )}
 
-        <div className="rb-card-art" style={card.imageUrl ? { backgroundImage: `url(${card.imageUrl})` } : undefined}>
+        <div
+          className={`rb-card-art${card.type === "battlefield" ? " rb-card-landscape-art" : ""}`}
+          style={card.imageUrl ? { backgroundImage: `url(${card.imageUrl})` } : undefined}
+        >
           {!card.imageUrl && <div className="rb-card-art-placeholder">{card.name}</div>}
         </div>
 
@@ -113,7 +116,7 @@ export function CardFace({
         art itself (it only "worked" while hovering the footer, outside .rb-card).
       */}
       <div className="rb-card-zoom" style={cssVars}>
-        <div className="rb-card-zoom-inner">
+        <div className={`rb-card-zoom-inner${card.type === "battlefield" ? " rb-card-landscape-art" : ""}`}>
           {card.imageUrl ? (
             <img src={card.imageUrl} alt={card.name} />
           ) : (

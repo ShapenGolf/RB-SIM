@@ -4,15 +4,17 @@ import type { SpecialCaseHandler } from "./types";
  * [Tank] When you play me to a battlefield, you may move an enemy unit to here.
  * When I hold, return me to my owner's hand.
  *
- * "Play me to a battlefield" only happens via the ambushBattlefieldIndex play option
- * (see moves.ts playCard) — champions may always choose a Battlefield destination there,
- * approximating the real Champion Zone rules this engine doesn't otherwise model (see
- * docs/rules-reference.md). If Blitzcrank is instead played to base normally, the target
- * prompt (needsPlayTarget) still appears but is a no-op — click Abbrechen/skip.
+ * "Play me to a battlefield" implies Blitzcrank may choose an open or enemy-occupied
+ * Battlefield as his play destination without needing Ambush (see moves.ts's
+ * eligibleAmbushBattlefields, which consults these two grants). If Blitzcrank is instead
+ * played to base normally, the target prompt (needsPlayTarget) still appears but is a
+ * no-op — click Abbrechen/skip.
  */
 export const blitzcrank: SpecialCaseHandler = {
   cardId: "blitzcrank",
   needsPlayTarget: true,
+  allowsPlayToOpenBattlefield: () => true,
+  allowsPlayToEnemyOccupiedBattlefield: () => true,
   onPlay: (ctx, targetInstanceId) => {
     if (ctx.instance.zone !== "battlefield" || ctx.instance.battlefieldIndex === null) return;
     if (!targetInstanceId) return;

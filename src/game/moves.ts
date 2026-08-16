@@ -82,8 +82,39 @@ export function resolvePlayedCard(
   }
 }
 
+/**
+ * Battlefield indices a unit or champion may be played straight to from hand (bypassing Base),
+ * shared by the `playCard` move's own validation and the hand-card UI's button list (Board.tsx)
+ * so the two can never drift apart. Champions get no special carve-out here — like units, they
+ * may only skip Base via an actual granted permission (Ambush, or a specific card's grant); the
+ * normal path onto a Battlefield for both is Base, then `attackBattlefield`.
+ */
+export function eligibleAmbushBattlefields(G: GameState, card: Card, instance: CardInstance): number[] {
+  if (card.type !== "unit" && card.type !== "champion") return [];
+  const playerId = instance.controller;
+  const enemyId = playerId === "0" ? "1" : "0";
+  const eligible: number[] = [];
+  G.battlefields.forEach((slot, index) => {
+    const ownOccupied = slot.units[playerId].length > 0;
+    const enemyOccupied = slot.units[enemyId].length > 0;
+    const isOpen = !ownOccupied && !enemyOccupied;
+    const allowed =
+      (ownOccupied && KeywordEngine.allowsPlayToOccupiedBattlefield(G, card, instance)) ||
+      (enemyOccupied && SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, instance)) ||
+      (enemyOccupied && SpecialCaseEngine.allowsPlayToLoneEnemyBattlefield(G, getCard, card, instance, index)) ||
+      (isOpen &&
+        (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, instance) ||
+          SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, instance)));
+    if (allowed) eligible.push(index);
+  });
+  return eligible;
+}
+
 export interface PlayCardArgs {
-  handIndex: number;
+  /** Required unless `fromChampionZone` is true. */
+  handIndex?: number;
+  /** Play the Chosen Champion from its own zone (see game/setup.ts, state.ts's `championZone`) instead of a hand card — same cost/target/ambush handling either way, just a different source and removal step. */
+  fromChampionZone?: boolean;
   energyRuneIds: string[];
   powerRuneIds: string[];
   payAdditionalCost?: boolean;
@@ -94,7 +125,7 @@ export interface PlayCardArgs {
 
 export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs) => {
   const player = G.players[playerID as "0" | "1"];
-  const cardId = player.hand[args.handIndex];
+  const cardId = args.fromChampionZone ? player.championZone : player.hand[args.handIndex ?? -1];
   if (!cardId) return INVALID_MOVE;
 
   const card = getCard(cardId);
@@ -110,31 +141,12 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     if (!slot) return INVALID_MOVE;
     if (SpecialCaseEngine.blocksUnitsPlayedHere(G, getCard, args.ambushBattlefieldIndex, player.id))
       return INVALID_MOVE;
-    // Champions may always choose a Battlefield destination, approximating the real Champion
-    // Zone rules (see docs/rules-reference.md) this engine doesn't otherwise model. Units need
-    // one of three specific permissions matching where they'd land: Ambush (own units already
-    // there), an enemy-occupied grant (Deadbloom Predator), or an open-battlefield grant (Sai
-    // Scout and friends) — see cards/special-cases/types.ts.
-    if (card.type === "unit") {
-      const enemyId = player.id === "0" ? "1" : "0";
-      const ownOccupied = slot.units[player.id].length > 0;
-      const enemyOccupied = slot.units[enemyId].length > 0;
-      const isOpen = !ownOccupied && !enemyOccupied;
-      const eligible =
-        (ownOccupied && KeywordEngine.allowsPlayToOccupiedBattlefield(G, card, instance)) ||
-        (enemyOccupied && SpecialCaseEngine.allowsPlayToEnemyOccupiedBattlefield(G, card, instance)) ||
-        (enemyOccupied &&
-          SpecialCaseEngine.allowsPlayToLoneEnemyBattlefield(
-            G,
-            getCard,
-            card,
-            instance,
-            args.ambushBattlefieldIndex,
-          )) ||
-        (isOpen &&
-          (SpecialCaseEngine.allowsPlayToOpenBattlefield(G, card, instance) ||
-            SpecialCaseEngine.othersCanPlayToOpenBattlefield(G, getCard, instance)));
-      if (!eligible) return INVALID_MOVE;
+    // Units and champions alike need an actual granted permission to skip Base — Ambush (own
+    // units already there), an enemy-occupied grant (Deadbloom Predator), or an open-battlefield
+    // grant (Sai Scout and friends) — see cards/special-cases/types.ts. The normal path onto a
+    // Battlefield for both is Base, then `attackBattlefield`.
+    if (!eligibleAmbushBattlefields(G, card, instance).includes(args.ambushBattlefieldIndex)) {
+      return INVALID_MOVE;
     }
   }
 
@@ -213,7 +225,11 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     player.runeDeck.push(rune);
   }
 
-  player.hand.splice(args.handIndex, 1);
+  if (args.fromChampionZone) {
+    player.championZone = null;
+  } else {
+    player.hand.splice(args.handIndex ?? -1, 1);
+  }
 
   if (card.type === "spell") {
     player.maxEnergySpentOnSpellThisTurn = Math.max(player.maxEnergySpentOnSpellThisTurn, energyNeeded);

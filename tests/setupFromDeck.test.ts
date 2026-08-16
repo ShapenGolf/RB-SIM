@@ -57,9 +57,12 @@ describe("setupGame with a real DeckList", () => {
     for (const playerId of ["0", "1"] as const) {
       const player = game.players[playerId];
       expect(player.hand).toHaveLength(4);
-      expect(player.hand.length + player.mainDeck.length).toBe(deck.mainDeck.length);
-      // Every card in hand/deck came from the real deck list, not the domain-cycling fallback pool.
-      for (const cardId of [...player.hand, ...player.mainDeck]) {
+      // The Chosen Champion starts set aside in its own zone (see setup.ts's buildPlayerFromDeckList),
+      // not shuffled into the Main Deck's draw pile — so hand + mainDeck is one short of the full list.
+      expect(player.championZone).toBe(deck.chosenChampionId);
+      expect(player.hand.length + player.mainDeck.length).toBe(deck.mainDeck.length - 1);
+      // Every card in hand/deck/championZone came from the real deck list, not the domain-cycling fallback pool.
+      for (const cardId of [...player.hand, ...player.mainDeck, player.championZone!]) {
         expect(deck.mainDeck).toContain(cardId);
       }
       expect(player.runeDeck).toHaveLength(deck.runeDeck.length);

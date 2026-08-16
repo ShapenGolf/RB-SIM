@@ -70,6 +70,8 @@ export interface PlayerState {
   id: PlayerId;
   mainDeck: string[];
   hand: string[];
+  /** The deck's Chosen Champion, set aside in its own zone before the Main Deck is shuffled (see docs/deck-building-rules.md) — "ready to play" from turn 1 without depending on the opening hand's luck. Null for the MVP domain-cycling setup fallback (buildPlayer), which has no single designated champion. Played via moves.ts's playCard with `fromChampionZone: true` instead of a handIndex. */
+  championZone: string | null;
   trash: string[];
   banishment: string[];
   /** instanceIds of units/gear/champions on this player's base (in play, not on a battlefield). */

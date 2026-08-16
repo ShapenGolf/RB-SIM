@@ -64,7 +64,10 @@ describe("submitDeck", () => {
     expect(result).toBeUndefined();
     expect(game.players["0"].battlefieldPool).toEqual(deck.battlefields);
     expect(game.players["0"].legend).toEqual({ cardId: LEGEND_ID, exhausted: false });
-    expect(game.players["0"].mainDeck.length + game.players["0"].hand.length).toBe(deck.mainDeck.length);
+    // The Chosen Champion starts set aside in its own zone (see setup.ts's buildPlayerFromDeckList),
+    // not shuffled into the Main Deck's draw pile — so hand + mainDeck is one short of the full list.
+    expect(game.players["0"].championZone).toBe(deck.chosenChampionId);
+    expect(game.players["0"].mainDeck.length + game.players["0"].hand.length).toBe(deck.mainDeck.length - 1);
   });
 
   it("rejects a second submission for the same player", () => {

@@ -67,6 +67,7 @@ export function shuffle<T>(arr: T[]): T[] {
 function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" | "runeDeck"> {
   return {
     id,
+    championZone: null,
     trash: [],
     banishment: [],
     base: [],
@@ -102,7 +103,14 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
 
 /** Builds a player from a real, validated DeckList (see cards/deckValidation.ts) instead of the domain-cycling MVP fallback. Also used by game/moves.ts's `submitDeck` (online lobby's per-player deck submission, see game/game.ts's "deckSelect" phase). */
 export function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerState {
-  const mainDeck = shuffle(deck.mainDeck);
+  // The Chosen Champion starts the game set aside in its own zone, "ready to play" (see
+  // docs/deck-building-rules.md) — not shuffled into the Main Deck's draw pile with its
+  // other copies (if any), so it never gets stuck undrawn or eats an opening-hand slot.
+  const remainingMainDeck = [...deck.mainDeck];
+  const championIndex = remainingMainDeck.indexOf(deck.chosenChampionId);
+  if (championIndex !== -1) remainingMainDeck.splice(championIndex, 1);
+
+  const mainDeck = shuffle(remainingMainDeck);
   const hand = mainDeck.splice(0, STARTING_HAND_SIZE);
   const runeDeck = shuffle(
     deck.runeDeck.map((cardId) => ({ instanceId: nextInstanceId(), domain: getCard(cardId).domains[0], exhausted: false })),
@@ -113,6 +121,7 @@ export function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerSta
     hand,
     runeDeck,
     legend: { cardId: deck.legendId, exhausted: false },
+    championZone: deck.chosenChampionId,
     battlefieldPool: deck.battlefields,
   };
 }

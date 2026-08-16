@@ -251,6 +251,14 @@ body {
   align-items: center;
   justify-content: center;
 }
+/* Battlefield cards' official art is landscape (1039x744, wider than tall) — forcing it into the
+   same portrait crop as every other card type via `cover` chops off most of the composition.
+   Keep the card tile itself portrait (visual consistency with hand/base cards) but letterbox the
+   art with `contain` so the full landscape image shows, filled by the card's own domain gradient. */
+.rb-card-landscape-art {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 .rb-card-art-placeholder {
   font-size: 13px;
   font-weight: 700;
@@ -380,6 +388,9 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+.rb-card-zoom-inner.rb-card-landscape-art img {
+  object-fit: contain;
 }
 .rb-card-zoom-placeholder {
   padding: 20px;
