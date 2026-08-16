@@ -671,6 +671,8 @@ import { rippersBay } from "./rippers-bay";
 import { ornsForge } from "./orns-forge";
 import { petriciteMonument } from "./petricite-monument";
 import { duneSurfer } from "./dune-surfer";
+import { prizeOfProgress } from "./prize-of-progress";
+import { valleyOfIdols } from "./valley-of-idols";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1342,6 +1344,8 @@ const handlers: SpecialCaseHandler[] = [
   ornsForge,
   petriciteMonument,
   duneSurfer,
+  prizeOfProgress,
+  valleyOfIdols,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1618,6 +1622,21 @@ export const SpecialCaseEngine = {
     getSpecialCaseHandler(card)?.onActivate?.(ctxFor(game, card, instance), targetInstanceId);
   },
 
+  /** Broadcasts a gear's just-used activated ability to every OTHER same-controller instance with an `onAllyActivatedGearAbility` hook. See game/moves.ts activateAbility. */
+  onAllyActivatedGearAbility: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    controller: PlayerId,
+    activatedInstanceId: string,
+  ): void => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.instanceId === activatedInstanceId || instance.controller !== controller) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      handler?.onAllyActivatedGearAbility?.(ctxFor(game, card, instance));
+    }
+  },
+
   /** Broadcasts a just-played card to every board instance `player` controls with an `onAllyCardPlayed` hook. */
   onAllyCardPlayed: (
     game: GameState,
@@ -1654,6 +1673,27 @@ export const SpecialCaseEngine = {
         playCountThisTurn,
       );
     });
+  },
+
+  /** Fires a Battlefield's own onCardPlayedHere hook when a unit/gear is played directly to it. See game/moves.ts resolvePlayedCard. */
+  onCardPlayedHere: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    battlefieldIndex: number,
+    playedCard: Card,
+    playedInstance: CardInstance,
+    playingPlayer: PlayerId,
+  ): void => {
+    const slot = game.battlefields[battlefieldIndex];
+    if (!slot) return;
+    const card = getCard(slot.cardId);
+    const handler = getSpecialCaseHandler(card);
+    handler?.onCardPlayedHere?.(
+      ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, playingPlayer, battlefieldIndex)),
+      playedCard,
+      playedInstance,
+      playingPlayer,
+    );
   },
 
   /** Broadcasts a just-played card to every board instance the OPPONENT of `player` owns, for onEnemyCardPlayed hooks (e.g. Vex, Apathetic). */

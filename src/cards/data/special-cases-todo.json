@@ -792,14 +792,6 @@
     "fullText": "This enters exhausted.\n[Empower] \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction][>] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead."
   },
   {
-    "id": "sfd-75",
-    "name": "Prize of Progress",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "When you use an activated ability of a gear, give me +1 Might this turn.",
-    "fullText": "When you use an activated ability of a gear, give me +1 Might this turn."
-  },
-  {
     "id": "sfd-199",
     "name": "Prodigal Explorer",
     "set": "SFD",
@@ -1022,14 +1014,6 @@
     "type": "unit",
     "residualText": "You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)",
     "fullText": "[Legion][>] You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)"
-  },
-  {
-    "id": "unl-218",
-    "name": "Valley of Idols",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "When a player plays a unit here, they may pay 1 Energy to  it. (Give it a +1 Might buff if it doesn't have one.)",
-    "fullText": "When a player plays a unit here, they may pay 1 Energy to [Buff] it. (Give it a +1 Might buff if it doesn't have one.)"
   },
   {
     "id": "sfd-146",

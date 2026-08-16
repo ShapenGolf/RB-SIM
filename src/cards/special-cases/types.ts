@@ -150,6 +150,24 @@ export interface SpecialCaseHandler {
    */
   onEnemyUnitDied?(ctx: SpecialCaseContext, diedInstance: CardInstance): void;
 
+  /**
+   * Called on every OTHER same-controller instance when that player uses a gear's activated
+   * ability, of either kind (data-driven TemplatedActions or bespoke onActivate) — e.g. Prize of
+   * Progress: "When you use an activated ability of a gear, give me +1 Might this turn." See
+   * game/moves.ts activateAbility / registry.ts onAllyActivatedGearAbility.
+   */
+  onAllyActivatedGearAbility?(ctx: SpecialCaseContext): void;
+
+  /**
+   * Called on a Battlefield's own pseudo-instance when EITHER player plays a unit or gear
+   * directly to that location (an Ambush-style play — `instance.battlefieldIndex` set at play
+   * time, not a base play), e.g. Valley of Idols: "When a player plays a unit here, they may pay
+   * 1 Energy to [Buff] it." `playingPlayer` is whichever side actually played it, not necessarily
+   * ctx.instance's own (meaningless) controller field. See game/moves.ts resolvePlayedCard /
+   * registry.ts onCardPlayedHere.
+   */
+  onCardPlayedHere?(ctx: SpecialCaseContext, playedCard: Card, playedInstance: CardInstance, playingPlayer: PlayerId): void;
+
   /** Continuous self Might modifier independent of attacking/defending (e.g. an active Empowered bonus). */
   staticMightModifier?(ctx: SpecialCaseContext): number;
 

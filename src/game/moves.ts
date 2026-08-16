@@ -76,6 +76,9 @@ export function resolvePlayedCard(
   player.cardsPlayedThisTurn += 1;
   SpecialCaseEngine.onAllyCardPlayed(G, getCard, player.id, card, player.cardsPlayedThisTurn);
   SpecialCaseEngine.onEnemyCardPlayed(G, getCard, player.id, card, instance);
+  if (instance.battlefieldIndex !== null) {
+    SpecialCaseEngine.onCardPlayedHere(G, getCard, instance.battlefieldIndex, card, instance, player.id);
+  }
 }
 
 export interface PlayCardArgs {
@@ -377,6 +380,9 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
     runTemplatedActions(G, getCard, instance, card.activatedAbility.actions, args.targetInstanceId);
   } else {
     SpecialCaseEngine.onActivate(G, card, instance, args.targetInstanceId);
+  }
+  if (card.type === "gear") {
+    SpecialCaseEngine.onAllyActivatedGearAbility(G, getCard, player.id, instance.instanceId);
   }
   return undefined;
 };
