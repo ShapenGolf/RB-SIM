@@ -319,6 +319,10 @@ export function resolveCombat(
 export function resolveHoldTriggers(game: GameState, getCard: (id: string) => Card, player: PlayerId): void {
   game.battlefields.forEach((slot, index) => {
     if (slot.controller !== player) return;
+    const battlefieldCard = getCard(slot.cardId);
+    if (battlefieldCard.specialCaseId) {
+      SpecialCaseEngine.onHold(game, battlefieldCard, battlefieldPseudoInstance(slot.cardId, player, index));
+    }
     for (const instanceId of [...slot.units[player]]) {
       const instance = game.instances[instanceId];
       if (!instance) continue;

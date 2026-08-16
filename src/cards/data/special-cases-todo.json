@@ -816,14 +816,6 @@
     "fullText": "This enters exhausted.\n[Empower] \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction][>] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead."
   },
   {
-    "id": "sfd-214",
-    "name": "Power Nexus",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "When you hold here, you may pay RuneRuneRuneRune to score 1 point.",
-    "fullText": "When you hold here, you may pay RuneRuneRuneRune to score 1 point."
-  },
-  {
     "id": "sfd-75",
     "name": "Prize of Progress",
     "set": "SFD",
@@ -878,14 +870,6 @@
     "type": "spell",
     "residualText": "Choose a friendly unit and a spell. Counter that spell and give that unit +Might equal to that spell's Energy cost this turn.",
     "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit and a spell. Counter that spell and give that unit +Might equal to that spell's Energy cost this turn."
-  },
-  {
-    "id": "unl-214",
-    "name": "Ripper's Bay",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "When a unit here is returned to a player's hand, that player may pay 1 Energy to channel 1 rune exhausted.",
-    "fullText": "When a unit here is returned to a player's hand, that player may pay 1 Energy to channel 1 rune exhausted."
   },
   {
     "id": "ven-163",
@@ -1070,14 +1054,6 @@
     "type": "battlefield",
     "residualText": "When a player plays a unit here, they may pay 1 Energy to  it. (Give it a +1 Might buff if it doesn't have one.)",
     "fullText": "When a player plays a unit here, they may pay 1 Energy to [Buff] it. (Give it a +1 Might buff if it doesn't have one.)"
-  },
-  {
-    "id": "unl-219",
-    "name": "Vaults of Helia",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "When you hold here, your non-token units cost 1 Energy more to play this turn.",
-    "fullText": "When you hold here, your non-token units cost 1 Energy more to play this turn."
   },
   {
     "id": "sfd-146",

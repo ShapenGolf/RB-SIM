@@ -107,6 +107,16 @@ export interface SpecialCaseHandler {
   onAllyUnitMovedFromMyLocation?(ctx: SpecialCaseContext, fromBattlefieldIndex: number, moverInstance: CardInstance): void;
 
   /**
+   * Called on a Battlefield's own pseudo-instance when a unit that was sitting there gets
+   * returned to its owner's hand from any source (e.g. Ripper's Bay: "When a unit here is
+   * returned to a player's hand, that player may pay 1 Energy to channel 1 rune exhausted.").
+   * `returnedInstance.controller` is "that player" — ctx.instance's own controller field is not
+   * meaningful here (mirrors onMoveFromBattlefield's battlefieldPseudoInstance precedent). See
+   * cards/special-cases/bounce-helpers.ts returnInstanceToHand, the shared chokepoint.
+   */
+  onUnitReturnedToHandHere?(ctx: SpecialCaseContext, returnedInstance: CardInstance): void;
+
+  /**
    * Might bonus this Gear/static-effect card grants to a given ally unit
    * instance while it attacks. Only relevant for Gear/Battlefield cards
    * with a controller-wide static bonus.
@@ -275,6 +285,17 @@ export interface SpecialCaseHandler {
    * the card being played, not this source card.
    */
   costIncreaseForEnemy?(ctx: SpecialCaseContext, playedCard: Card): number;
+
+  /**
+   * Energy cost INCREASE imposed on `playedCard` when `ctx.instance`'s CONTROLLER plays it, from
+   * a Battlefield they control (e.g. Vaults of Helia: "When you hold here, your non-token units
+   * cost 1 Energy more to play this turn."). `ctx.instance` is that Battlefield's own pseudo-
+   * instance. Simplification: modeled as continuous "while you control this battlefield" rather
+   * than a genuine one-turn effect starting from the hold trigger — approximates the common case
+   * where control doesn't change again before your Main Phase. See registry.ts
+   * costIncreaseFromControlledBattlefields / game/moves.ts playCard.
+   */
+  costIncreaseForControllerUnit?(ctx: SpecialCaseContext, playedCard: Card): number;
 
   /**
    * Energy cost reduction for a spell about to be played, if THIS instance is the spell's

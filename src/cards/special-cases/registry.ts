@@ -665,6 +665,9 @@ import { zhonyasHourglass } from "./zhonyas-hourglass";
 import { forgottenLibrary } from "./forgotten-library";
 import { stealthyPursuer } from "./stealthy-pursuer";
 import { nasusGuardianOfKnowledge } from "./nasus-guardian-of-knowledge";
+import { powerNexus } from "./power-nexus";
+import { vaultsOfHelia } from "./vaults-of-helia";
+import { rippersBay } from "./rippers-bay";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1330,6 +1333,9 @@ const handlers: SpecialCaseHandler[] = [
   forgottenLibrary,
   stealthyPursuer,
   nasusGuardianOfKnowledge,
+  powerNexus,
+  vaultsOfHelia,
+  rippersBay,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1416,6 +1422,11 @@ export const SpecialCaseEngine = {
         siblingHandler?.onAllyUnitMovedFromMyLocation?.(ctxFor(game, siblingCard, sibling), fromBattlefieldIndex, instance);
       }
     }
+  },
+
+  /** Fires a Battlefield's own onUnitReturnedToHandHere hook. See bounce-helpers.ts returnInstanceToHand. */
+  onUnitReturnedToHandHere: (game: GameState, card: Card, instance: CardInstance, returnedInstance: CardInstance) => {
+    getSpecialCaseHandler(card)?.onUnitReturnedToHandHere?.(ctxFor(game, card, instance), returnedInstance);
   },
 
   activatedAbilityCost: (game: GameState, card: Card, instance: CardInstance) => {
@@ -1518,6 +1529,25 @@ export const SpecialCaseEngine = {
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), playedCard);
     }
+    return total;
+  },
+
+  /** Energy cost increase for `playedCard` from any Battlefield `playedInstance`'s controller controls with a `costIncreaseForControllerUnit` hook (e.g. Vaults of Helia). See game/moves.ts playCard. */
+  costIncreaseFromControlledBattlefields: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    playedInstance: CardInstance,
+    playedCard: Card,
+  ): number => {
+    let total = 0;
+    game.battlefields.forEach((slot, index) => {
+      if (slot.controller !== playedInstance.controller) return;
+      const card = getCard(slot.cardId);
+      const handler = getSpecialCaseHandler(card);
+      const fn = handler?.costIncreaseForControllerUnit;
+      if (!fn) return;
+      total += fn(ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, playedInstance.controller, index)), playedCard);
+    });
     return total;
   },
 

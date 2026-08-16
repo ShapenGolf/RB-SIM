@@ -151,6 +151,7 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   const selfCostReduction = SpecialCaseEngine.costReduction(G, card, instance);
   const allyCostReduction = SpecialCaseEngine.costReductionFromAllies(G, getCard, instance, card);
   const enemyCostIncrease = SpecialCaseEngine.costIncreaseFromEnemies(G, getCard, instance, card);
+  const battlefieldCostIncrease = SpecialCaseEngine.costIncreaseFromControlledBattlefields(G, getCard, instance, card);
   const targetCostReduction =
     card.type === "spell"
       ? SpecialCaseEngine.costReductionIfTargeted(G, getCard, args.targetInstanceId, card, instance)
@@ -161,7 +162,8 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     0,
     (card.energyCost ?? 0) +
       additionalEnergy +
-      enemyCostIncrease -
+      enemyCostIncrease +
+      battlefieldCostIncrease -
       discardReduction -
       xpReduction -
       selfCostReduction -
