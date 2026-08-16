@@ -192,14 +192,6 @@
     "fullText": "[Empower] Body RuneBody Rune\n[Empowered][>] If a spell or ability that chooses me would stun me, give me -Might, or return me to hand, give me +3 Might instead."
   },
   {
-    "id": "unl-213",
-    "name": "Gardens of Becoming",
-    "set": "UNL",
-    "type": "battlefield",
-    "residualText": "Units here have \"Exhaust: Gain 1 XP.\"",
-    "fullText": "Units here have \"Exhaust: Gain 1 XP.\""
-  },
-  {
     "id": "sfd-68",
     "name": "Gearhead",
     "set": "SFD",
@@ -350,14 +342,6 @@
     "type": "unit",
     "residualText": "As you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend.",
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
-  },
-  {
-    "id": "ogn-70",
-    "name": "Mageseeker Warden",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "While I'm at a battlefield, opponents can only play units to their base.\nWhile I'm at a battlefield, spells and abilities can't ready enemy units and gear.",
-    "fullText": "While I'm at a battlefield, opponents can only play units to their base.\nWhile I'm at a battlefield, spells and abilities can't ready enemy units and gear."
   },
   {
     "id": "sfd-211",
@@ -544,14 +528,6 @@
     "fullText": "When you empower something else, empower me. (I become Empowered if I'm not already.)\nDisempower me, Exhaust: Give a unit at a battlefield -2 Might this turn."
   },
   {
-    "id": "sfd-144",
-    "name": "Spirit Wheel",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1.",
-    "fullText": "When you choose a friendly unit, you may pay 1 Energy and exhaust this to draw 1."
-  },
-  {
     "id": "unl-166",
     "name": "Stalking Wolf",
     "set": "UNL",
@@ -584,14 +560,6 @@
     "fullText": "While I'm in a showdown, your spells have [Repeat] 2 EnergyChaos Rune. (You may pay the additional cost to repeat the spell's effect.)"
   },
   {
-    "id": "ogn-292",
-    "name": "The Dreaming Tree",
-    "set": "OGN",
-    "type": "battlefield",
-    "residualText": "When a player chooses a friendly unit here with a spell for the first time each turn, they draw 1.",
-    "fullText": "When a player chooses a friendly unit here with a spell for the first time each turn, they draw 1."
-  },
-  {
     "id": "sfd-146",
     "name": "Vex, Cheerless",
     "set": "SFD",
@@ -606,14 +574,6 @@
     "type": "unit",
     "residualText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards.",
     "fullText": "If you would reveal cards from a deck, look at the top card first. You may recycle it. Then reveal those cards."
-  },
-  {
-    "id": "ogn-158",
-    "name": "Volibear, Imposing",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "When an opponent moves to a battlefield other than mine, draw 1. (Bases are not battlefield.)",
-    "fullText": "[Shield 3] (+3 Might while I'm a defender.)\n[Tank] (I must be assigned combat damage first.)\nWhen an opponent moves to a battlefield other than mine, draw 1. (Bases are not battlefield.)"
   },
   {
     "id": "unl-108",

@@ -719,6 +719,11 @@ import { kayleJustified } from "./kayle-justified";
 import { karthusEternal } from "./karthus-eternal";
 import { virtuoso } from "./virtuoso";
 import { undyingLegion } from "./undying-legion";
+import { mageseekerWarden } from "./mageseeker-warden";
+import { volibearImposing } from "./volibear-imposing";
+import { spiritWheel } from "./spirit-wheel";
+import { theDreamingTree } from "./the-dreaming-tree";
+import { gardensOfBecoming } from "./gardens-of-becoming";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1438,6 +1443,11 @@ const handlers: SpecialCaseHandler[] = [
   karthusEternal,
   virtuoso,
   undyingLegion,
+  mageseekerWarden,
+  volibearImposing,
+  spiritWheel,
+  theDreamingTree,
+  gardensOfBecoming,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -2010,7 +2020,7 @@ export const SpecialCaseEngine = {
     );
   },
 
-  /** True if the Battlefield at `battlefieldIndex` blocks units/champions from being played directly to it. */
+  /** True if the Battlefield at `battlefieldIndex`, or any unit sitting there, blocks `controller` from playing units directly to it. */
   blocksUnitsPlayedHere: (
     game: GameState,
     getCard: (id: string) => Card,
@@ -2019,11 +2029,23 @@ export const SpecialCaseEngine = {
   ): boolean => {
     const slot = game.battlefields[battlefieldIndex];
     const card = getCard(slot.cardId);
-    return (
+    if (
       getSpecialCaseHandler(card)?.blocksUnitsPlayedHere?.(
         ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, controller, battlefieldIndex)),
-      ) ?? false
-    );
+      )
+    ) {
+      return true;
+    }
+    for (const side of ["0", "1"] as PlayerId[]) {
+      for (const instanceId of slot.units[side]) {
+        const instance = game.instances[instanceId];
+        if (!instance) continue;
+        const unitCard = getCard(instance.cardId);
+        const handler = getSpecialCaseHandler(unitCard);
+        if (handler?.blocksUnitsPlayedByOpponentHere?.(ctxFor(game, unitCard, instance), controller)) return true;
+      }
+    }
+    return false;
   },
 
   /** True if `scoringPlayer` is blocked from scoring the point they'd otherwise get for holding the Battlefield at `battlefieldIndex`. */

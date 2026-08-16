@@ -520,6 +520,15 @@ export interface SpecialCaseHandler {
   blocksUnitsPlayedHere?(ctx: SpecialCaseContext): boolean;
 
   /**
+   * True if `ctx.instance` (a UNIT sitting at a battlefield, not the Battlefield card itself)
+   * blocks `attemptingPlayer` from playing units directly to that location — only meaningful
+   * when `attemptingPlayer` differs from `ctx.instance.controller` (e.g. Mageseeker Warden:
+   * "While I'm at a battlefield, opponents can only play units to their base."). Checked
+   * alongside the Battlefield-level blocksUnitsPlayedHere in registry.ts.
+   */
+  blocksUnitsPlayedByOpponentHere?(ctx: SpecialCaseContext, attemptingPlayer: PlayerId): boolean;
+
+  /**
    * Battlefield-only: true if `ctx.instance.controller` (the player attempting to score) can't
    * score from holding this specific Battlefield right now (e.g. Forgotten Monument: "Players
    * can't score here until their third turn.").
