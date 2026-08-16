@@ -647,6 +647,8 @@ import { reaversRow } from "./reavers-row";
 import { heishoShellOfTheWorld } from "./heisho-shell-of-the-world";
 import { thresholdOfTheGray } from "./threshold-of-the-gray";
 import { theAcademy } from "./the-academy";
+import { albusFerros } from "./albus-ferros";
+import { callToGlory } from "./call-to-glory";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1294,6 +1296,8 @@ const handlers: SpecialCaseHandler[] = [
   heishoShellOfTheWorld,
   thresholdOfTheGray,
   theAcademy,
+  albusFerros,
+  callToGlory,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

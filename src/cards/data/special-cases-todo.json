@@ -16,14 +16,6 @@
     "fullText": "When a player plays a spell, they may give a unit they control here +1 Might this turn."
   },
   {
-    "id": "ogn-230",
-    "name": "Albus Ferros",
-    "set": "OGN",
-    "type": "unit",
-    "residualText": "When you play me, spend any number of buffs. For each buff spent, channel 1 rune exhausted.",
-    "fullText": "When you play me, spend any number of buffs. For each buff spent, channel 1 rune exhausted."
-  },
-  {
     "id": "unl-57",
     "name": "Alpha Wildclaw",
     "set": "UNL",
@@ -166,14 +158,6 @@
     "type": "legend",
     "residualText": "RuneRune, Exhaust:  2 Energy. Spend this Energy only to play units or activated abilities of units.",
     "fullText": "[Reaction][>] RuneRune, Exhaust: [Add] 2 Energy. Spend this Energy only to play units or activated abilities of units."
-  },
-  {
-    "id": "ogn-207",
-    "name": "Call to Glory",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "As you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nGive a unit +3 Might this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nAs you play this, you may spend a buff as an additional cost. If you do, ignore this spell's cost.\nGive a unit +3 Might this turn."
   },
   {
     "id": "ogn-231",
