@@ -675,6 +675,17 @@ import { prizeOfProgress } from "./prize-of-progress";
 import { valleyOfIdols } from "./valley-of-idols";
 import { melDefiantSoul } from "./mel-defiant-soul";
 import { battleMistress } from "./battle-mistress";
+import { abandon } from "./abandon";
+import { crumblingSands } from "./crumbling-sands";
+import { defy } from "./defy";
+import { hardBargain } from "./hard-bargain";
+import { liltingLullaby } from "./lilting-lullaby";
+import { notSoFast } from "./not-so-fast";
+import { repulse } from "./repulse";
+import { windWall } from "./wind-wall";
+import { mysticReversal } from "./mystic-reversal";
+import { rebuttal } from "./rebuttal";
+import { riposte } from "./riposte";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1350,6 +1361,17 @@ const handlers: SpecialCaseHandler[] = [
   valleyOfIdols,
   melDefiantSoul,
   battleMistress,
+  abandon,
+  crumblingSands,
+  defy,
+  hardBargain,
+  liltingLullaby,
+  notSoFast,
+  repulse,
+  windWall,
+  mysticReversal,
+  rebuttal,
+  riposte,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));

@@ -1,13 +1,5 @@
 [
   {
-    "id": "unl-131",
-    "name": "Abandon",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Counter a spell. Return it to its owner's hand instead of putting it in their trash.\n. (Look at the top card of your Main Deck. You may recycle it.)",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell. Return it to its owner's hand instead of putting it in their trash.\n[Predict]. (Look at the top card of your Main Deck. You may recycle it.)"
-  },
-  {
     "id": "unl-205",
     "name": "Abandoned Hall",
     "set": "UNL",
@@ -136,14 +128,6 @@
     "fullText": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "ven-39",
-    "name": "Crumbling Sands",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Counter a spell if an opponent has played another spell this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell if an opponent has played another spell this turn."
-  },
-  {
     "id": "unl-20",
     "name": "Dancing Grenade",
     "set": "UNL",
@@ -182,14 +166,6 @@
     "type": "legend",
     "residualText": "When you conquer or hold, you may discard 1 and exhaust me to play a ready Reflection unit token there. It becomes a copy of another unit there. Give it .",
     "fullText": "When you conquer or hold, you may discard 1 and exhaust me to play a ready Reflection unit token there. It becomes a copy of another unit there. Give it [Temporary]."
-  },
-  {
-    "id": "ogn-45",
-    "name": "Defy",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Counter a spell that costs no more than 4 Energy and no more than Rune.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell that costs no more than 4 Energy and no more than Rune."
   },
   {
     "id": "ogn-244",
@@ -384,14 +360,6 @@
     "fullText": "Exhaust: [Reaction], [Legion] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)"
   },
   {
-    "id": "sfd-136",
-    "name": "Hard Bargain",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Counter a spell unless its controller pays 2 Energy.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\n[Repeat] 2 Energy (You may pay the additional cost to repeat this spell's effect.)\nCounter a spell unless its controller pays 2 Energy."
-  },
-  {
     "id": "ven-197",
     "name": "Heart of the Tempest",
     "set": "VEN",
@@ -584,14 +552,6 @@
     "fullText": "[Accelerate] (You may pay 1 EnergyBody Rune as an additional cost to have me enter ready.)\n[Assault] (+1 Might while I'm an attacker.)\nAs you play me, you may spend any number of buffs as an additional cost. Reduce my cost by Body Rune for each buff you spend."
   },
   {
-    "id": "unl-190",
-    "name": "Lilting Lullaby",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Counter a spell. Its controller can't play spells this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell. Its controller can't play spells this turn."
-  },
-  {
     "id": "ogs-14",
     "name": "Lux, Crownguard",
     "set": "OGS",
@@ -680,14 +640,6 @@
     "fullText": "At the start of your Beginning Phase, if you control a facedown card at a battlefield, draw 1."
   },
   {
-    "id": "ogn-80",
-    "name": "Mystic Reversal",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Gain control of a spell. You may make new choices for it.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nGain control of a spell. You may make new choices for it."
-  },
-  {
     "id": "ven-160",
     "name": "Mystic Vortex",
     "set": "VEN",
@@ -710,14 +662,6 @@
     "type": "champion",
     "residualText": "When you look at cards from the top of your deck (and don't draw them) and see me, you may play me for Rune.",
     "fullText": "[Ganking] (I can move from battlefield to battlefield.)\nWhen you look at cards from the top of your deck (and don't draw them) and see me, you may play me for Rune."
-  },
-  {
-    "id": "sfd-45",
-    "name": "Not So Fast",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Counter an enemy spell or ability that chooses a friendly unit or gear.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter an enemy spell or ability that chooses a friendly unit or gear."
   },
   {
     "id": "ogn-18",
@@ -782,30 +726,6 @@
     "type": "spell",
     "residualText": "Each player looks at the top 5 cards of their Main Deck, chooses one, then recycles the rest. Starting with the next player, each player plays those cards, ignoring Energy costs. (They must still pay Power costs.)",
     "fullText": "Each player looks at the top 5 cards of their Main Deck, chooses one, then recycles the rest. Starting with the next player, each player plays those cards, ignoring Energy costs. (They must still pay Power costs.)"
-  },
-  {
-    "id": "ven-152",
-    "name": "Rebuttal",
-    "set": "VEN",
-    "type": "spell",
-    "residualText": "Choose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a spell with Energy cost no more than 4 Energy.  You may pay Rune. If you do, gain control of it and you may make new choices for it. Otherwise, counter it."
-  },
-  {
-    "id": "unl-106",
-    "name": "Repulse",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Choose a friendly unit at a battlefield. Counter an enemy spell or ability that chooses it and no other friendly unit.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit at a battlefield. Counter an enemy spell or ability that chooses it and no other friendly unit."
-  },
-  {
-    "id": "sfd-206",
-    "name": "Riposte",
-    "set": "SFD",
-    "type": "spell",
-    "residualText": "Choose a friendly unit and a spell. Counter that spell and give that unit +Might equal to that spell's Energy cost this turn.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a friendly unit and a spell. Counter that spell and give that unit +Might equal to that spell's Energy cost this turn."
   },
   {
     "id": "ven-163",
@@ -1030,14 +950,6 @@
     "type": "unit",
     "residualText": "If you've gained XP this turn, I have +1 Might and . (I can move from battlefield to battlefield.)",
     "fullText": "If you've gained XP this turn, I have +1 Might and [Ganking]. (I can move from battlefield to battlefield.)"
-  },
-  {
-    "id": "ogn-64",
-    "name": "Wind Wall",
-    "set": "OGN",
-    "type": "spell",
-    "residualText": "Counter a spell.",
-    "fullText": "[Reaction] (Play any time, even before spells and abilities resolve.)\nCounter a spell."
   },
   {
     "id": "sfd-235",
