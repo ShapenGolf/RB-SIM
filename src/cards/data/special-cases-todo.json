@@ -104,14 +104,6 @@
     "fullText": "As you play me, you may kill any number of friendly units as an additional cost. Reduce my cost by Order Rune for each killed this way.\n[Deflect] (Opponents must pay Rune to choose me with a spell or ability.)\n[Ganking] (I can move from battlefield to battlefield.)"
   },
   {
-    "id": "unl-20",
-    "name": "Dancing Grenade",
-    "set": "UNL",
-    "type": "spell",
-    "residualText": "Deal 2 to a unit. Its controller may play this spell again for Rune. If they do, this deals 1 additional Bonus Damage for each time this spell has dealt damage this turn.",
-    "fullText": "Deal 2 to a unit. Its controller may play this spell again for Rune. If they do, this deals 1 additional Bonus Damage for each time this spell has dealt damage this turn."
-  },
-  {
     "id": "unl-235",
     "name": "Deceiver",
     "set": "UNL",
@@ -256,14 +248,6 @@
     "fullText": "When you play a card from anywhere other than your hand, empower me.\n[Action][>] Disempower me, Exhaust: Give a unit [Assault 2] this turn. (+2 Might while it's an attacker.)"
   },
   {
-    "id": "ogn-111",
-    "name": "Heimerdinger, Inventor",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "I have all Exhaust abilities of all friendly legends, units, and gear.",
-    "fullText": "I have all Exhaust abilities of all friendly legends, units, and gear."
-  },
-  {
     "id": "sfd-111",
     "name": "Here to Help",
     "set": "SFD",
@@ -344,36 +328,12 @@
     "fullText": "[Vision] (When you play me, look at the top card of your Main Deck. You may recycle it.)\nWhen you recycle one or more cards, buff a friendly unit. (If it doesn't have a buff, it gets a +1 Might buff. Runes aren't cards.)"
   },
   {
-    "id": "ogn-236",
-    "name": "Karthus, Eternal",
-    "set": "OGN",
-    "type": "champion",
-    "residualText": "Your  effects trigger an additional time.",
-    "fullText": "Your [Deathknell] effects trigger an additional time."
-  },
-  {
     "id": "unl-23",
     "name": "Katarina, Reckless",
     "set": "UNL",
     "type": "champion",
     "residualText": "When you hide a card, ready me.\nWhen you play a card from face down, deal 2 to an enemy unit.",
     "fullText": "When you hide a card, ready me.\nWhen you play a card from face down, deal 2 to an enemy unit."
-  },
-  {
-    "id": "ven-134",
-    "name": "Kayle, Justified",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "I can be  up to three times.\nI have +2 Might for each time I'm .\nWhile I'm  three times, I have  and .",
-    "fullText": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I'm [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking]."
-  },
-  {
-    "id": "ven-185",
-    "name": "Kayle, Justified",
-    "set": "VEN",
-    "type": "champion",
-    "residualText": "I can be  up to three times.\nI have +2 Might for each time I\u2019m .\nWhile I'm  three times, I have  and .",
-    "fullText": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I\u2019m [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking]."
   },
   {
     "id": "ogn-189",
@@ -456,14 +416,6 @@
     "fullText": "At the start of your Beginning Phase, if you control a facedown card at a battlefield, draw 1."
   },
   {
-    "id": "ven-160",
-    "name": "Mystic Vortex",
-    "set": "VEN",
-    "type": "battlefield",
-    "residualText": "During showdowns here, cards with  cost Rune more to play. (Hidden cards have .)",
-    "fullText": "During showdowns here, cards with [Reaction] cost Rune more to play. (Hidden cards have [Reaction].)"
-  },
-  {
     "id": "sfd-55",
     "name": "Needlessly Large Yordle",
     "set": "SFD",
@@ -486,14 +438,6 @@
     "type": "unit",
     "residualText": "Your opponents'  cards can't be revealed here.",
     "fullText": "Your opponents' [Hidden] cards can't be revealed here."
-  },
-  {
-    "id": "sfd-15",
-    "name": "Perched Grimwyrm",
-    "set": "SFD",
-    "type": "unit",
-    "residualText": "Play me only to a battlefield you conquered this turn. (You can't play me anywhere else.)",
-    "fullText": "Play me only to a battlefield you conquered this turn. (You can't play me anywhere else.)"
   },
   {
     "id": "ven-161",
@@ -568,14 +512,6 @@
     "fullText": "Each spell that chooses one or more units here that are friendly to it costs Rune less."
   },
   {
-    "id": "ven-137",
-    "name": "Shady Spectacles",
-    "set": "VEN",
-    "type": "gear",
-    "residualText": "As this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it.",
-    "fullText": "[Equip] 1 EnergyOrder Rune (1 EnergyOrder Rune: Attach this to a unit you control.)\nAs this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it."
-  },
-  {
     "id": "sfd-47",
     "name": "Simian Ancestor",
     "set": "SFD",
@@ -640,22 +576,6 @@
     "fullText": "Spells with [Flow] you play from your trash cost 2 Energy less, to a minimum of 1 Energy."
   },
   {
-    "id": "sfd-59",
-    "name": "Svellsongur",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "As this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it.",
-    "fullText": "[Equip] 1 EnergyCalm Rune (1 EnergyCalm Rune: Attach this to a unit you control.)\nAs this is attached to a unit, copy that unit's text to this Equipment's effect text for as long as this is attached to it."
-  },
-  {
-    "id": "ogn-227",
-    "name": "Symbol of the Solari",
-    "set": "OGN",
-    "type": "gear",
-    "residualText": "If a combat where you are the attacker ends in a tie, recall ALL units instead. (Send them to base. This isn't a move. Ties are calculated after combat damage is dealt.)",
-    "fullText": "If a combat where you are the attacker ends in a tie, recall ALL units instead. (Send them to base. This isn't a move. Ties are calculated after combat damage is dealt.)"
-  },
-  {
     "id": "unl-146",
     "name": "Syndra, Transcendent",
     "set": "UNL",
@@ -672,44 +592,12 @@
     "fullText": "When a player chooses a friendly unit here with a spell for the first time each turn, they draw 1."
   },
   {
-    "id": "sfd-90",
-    "name": "The Zero Drive",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)",
-    "fullText": "[Equip] 1 EnergyMind Rune (1 EnergyMind Rune: Attach this to a unit you control.)\n3 EnergyMind Rune, Banish this: Play all units banished with this, ignoring their costs. (Use only if unattached.)"
-  },
-  {
-    "id": "unl-25",
-    "name": "Undying Legion",
-    "set": "UNL",
-    "type": "unit",
-    "residualText": "You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)",
-    "fullText": "[Legion][>] You may play me from your trash for 3 EnergyFury Rune. (Get the effect if you've played another card this turn.)"
-  },
-  {
     "id": "sfd-146",
     "name": "Vex, Cheerless",
     "set": "SFD",
     "type": "champion",
     "residualText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more.",
     "fullText": "While I'm in combat, friendly spells cost 1 EnergyRune less to a minimum of 1 Energy, and enemy spells cost 1 EnergyRune more."
-  },
-  {
-    "id": "unl-226",
-    "name": "Virtuoso",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you play a spell, if you spent 4 Energy or more, you may banish it. Then, if there are four spells banished with me, put each in its trash, channel 4 runes, and draw 1.",
-    "fullText": "When you play a spell, if you spent 4 Energy or more, you may banish it. Then, if there are four spells banished with me, put each in its trash, channel 4 runes, and draw 1."
-  },
-  {
-    "id": "unl-181",
-    "name": "Virtuoso",
-    "set": "UNL",
-    "type": "legend",
-    "residualText": "When you play a spell, if you spent 4 Energy or more, you may banish it. Then, if there are four spells banished with me, put each in its trash, channel 4 runes, and draw 1.",
-    "fullText": "When you play a spell, if you spent 4 Energy or more, you may banish it. Then, if there are four spells banished with me, put each in its trash, channel 4 runes, and draw 1."
   },
   {
     "id": "sfd-18",

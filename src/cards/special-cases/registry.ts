@@ -707,6 +707,18 @@ import { jaeMedarda } from "./jae-medarda";
 import { theList } from "./the-list";
 import { mageseekerInvestigator } from "./mageseeker-investigator";
 import { ivernFriendToAll } from "./ivern-friend-to-all";
+import { dancingGrenade } from "./dancing-grenade";
+import { symbolOfTheSolari } from "./symbol-of-the-solari";
+import { mysticVortex } from "./mystic-vortex";
+import { perchedGrimwyrm } from "./perched-grimwyrm";
+import { heimerdingerInventor } from "./heimerdinger-inventor";
+import { svellsongur } from "./svellsongur";
+import { shadySpectacles } from "./shady-spectacles";
+import { theZeroDrive } from "./the-zero-drive";
+import { kayleJustified } from "./kayle-justified";
+import { karthusEternal } from "./karthus-eternal";
+import { virtuoso } from "./virtuoso";
+import { undyingLegion } from "./undying-legion";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1414,6 +1426,18 @@ const handlers: SpecialCaseHandler[] = [
   theList,
   mageseekerInvestigator,
   ivernFriendToAll,
+  dancingGrenade,
+  symbolOfTheSolari,
+  mysticVortex,
+  perchedGrimwyrm,
+  heimerdingerInventor,
+  svellsongur,
+  shadySpectacles,
+  theZeroDrive,
+  kayleJustified,
+  karthusEternal,
+  virtuoso,
+  undyingLegion,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
