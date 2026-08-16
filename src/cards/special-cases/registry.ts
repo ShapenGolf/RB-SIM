@@ -668,6 +668,9 @@ import { nasusGuardianOfKnowledge } from "./nasus-guardian-of-knowledge";
 import { powerNexus } from "./power-nexus";
 import { vaultsOfHelia } from "./vaults-of-helia";
 import { rippersBay } from "./rippers-bay";
+import { ornsForge } from "./orns-forge";
+import { petriciteMonument } from "./petricite-monument";
+import { duneSurfer } from "./dune-surfer";
 
 const handlers: SpecialCaseHandler[] = [
   dangerousDuo,
@@ -1336,6 +1339,9 @@ const handlers: SpecialCaseHandler[] = [
   powerNexus,
   vaultsOfHelia,
   rippersBay,
+  ornsForge,
+  petriciteMonument,
+  duneSurfer,
 ];
 
 const registry = new Map<string, SpecialCaseHandler>(handlers.map((h) => [h.cardId, h]));
@@ -1474,6 +1480,38 @@ export const SpecialCaseEngine = {
     Boolean(getSpecialCaseHandler(card)?.hasConditionalBackline?.(ctxFor(game, card, instance))),
 
   /**
+   * True if `assigningPlayer` (whoever's splitting their damage total among targets — the
+   * attacker for the attacker-deals-damage half of a Showdown, the defender for the other half)
+   * ignores [Tank] here — either because they control the Battlefield with an `ignoresTankHere`
+   * handler, or because they control a unit there with one (e.g. Dune Surfer, a unit: "You
+   * ignore [Tank] while assigning combat damage here." — "you" is that unit's own controller).
+   * See game/combat.ts orderForDamageAssignment.
+   */
+  ignoresTankHere: (game: GameState, getCard: (id: string) => Card, battlefieldIndex: number, assigningPlayer: PlayerId): boolean => {
+    const slot = game.battlefields[battlefieldIndex];
+    if (!slot) return false;
+    if (slot.controller === assigningPlayer) {
+      const battlefieldCard = getCard(slot.cardId);
+      const battlefieldHandler = getSpecialCaseHandler(battlefieldCard);
+      if (
+        battlefieldHandler?.ignoresTankHere?.(
+          ctxFor(game, battlefieldCard, battlefieldPseudoInstance(slot.cardId, assigningPlayer, battlefieldIndex)),
+        )
+      ) {
+        return true;
+      }
+    }
+    for (const instanceId of slot.units[assigningPlayer]) {
+      const instance = game.instances[instanceId];
+      if (!instance) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      if (handler?.ignoresTankHere?.(ctxFor(game, card, instance))) return true;
+    }
+    return false;
+  },
+
+  /**
    * True if any OTHER same-controller instance (anywhere — base, battlefield, or attached gear;
    * each handler decides its own location scoping, e.g. Soraka checks "here" itself, Zhonya's
    * Hourglass doesn't) passively redirects `dyingInstance` away from death.
@@ -1511,6 +1549,14 @@ export const SpecialCaseEngine = {
       if (!fn) continue;
       total += fn(ctxFor(game, sourceCard, sourceInstance), playedCard);
     }
+    game.battlefields.forEach((slot, index) => {
+      if (slot.controller !== playedInstance.controller) return;
+      const card = getCard(slot.cardId);
+      const handler = getSpecialCaseHandler(card);
+      const fn = handler?.costReductionForAlly;
+      if (!fn) return;
+      total += fn(ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, playedInstance.controller, index)), playedCard);
+    });
     return total;
   },
 

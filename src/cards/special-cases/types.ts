@@ -249,6 +249,14 @@ export interface SpecialCaseHandler {
   hasConditionalBackline?(ctx: SpecialCaseContext): boolean;
 
   /**
+   * True if [Tank] is ignored while assigning combat damage at this location — usable on a unit
+   * sitting there (e.g. Dune Surfer: "You ignore [Tank] while assigning combat damage here.") or
+   * on a Battlefield's own handler alike. Checked in game/combat.ts orderForDamageAssignment via
+   * registry.ts ignoresTankHere, which scans both.
+   */
+  ignoresTankHere?(ctx: SpecialCaseContext): boolean;
+
+  /**
    * True if THIS instance's passive presence redirects `dyingInstance` (an ally at the same
    * location, never itself) away from death this turn — heal/exhaust/recall instead, exactly
    * like the `preventNextDeathThisTurn` flag (e.g. Soraka, Wanderer: "If another unit you
@@ -275,7 +283,10 @@ export interface SpecialCaseHandler {
   /**
    * Energy cost reduction this card's static presence grants to ANOTHER card of the controller's
    * that's about to be played (e.g. Eager Apprentice: "spells you play cost 1 Energy less while
-   * I'm at a battlefield"). `playedCard` is the card being played, not this source card.
+   * I'm at a battlefield"). `playedCard` is the card being played, not this source card. Also
+   * usable on a Battlefield card's own handler for "while you control this battlefield..." cost
+   * reductions (e.g. Ornn's Forge) — registry.ts costReductionFromAllies broadcasts to Battlefield
+   * pseudo-instances the player controls too, same pattern as costIncreaseForControllerUnit.
    */
   costReductionForAlly?(ctx: SpecialCaseContext, playedCard: Card): number;
 

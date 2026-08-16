@@ -32,14 +32,17 @@ function orderForDamageAssignment(
   game: GameState,
   getCard: (id: string) => Card,
   targets: string[],
+  battlefieldIndex: number,
+  assigningPlayer: PlayerId,
 ): string[] {
+  const ignoreTank = SpecialCaseEngine.ignoresTankHere(game, getCard, battlefieldIndex, assigningPlayer);
   return targets
     .map((instanceId, index) => {
       const instance = game.instances[instanceId];
       let rank = 1;
       if (instance) {
         const card = getCard(instance.cardId);
-        if (hasActiveKeyword(card, instance, "tank")) rank = 0;
+        if (hasActiveKeyword(card, instance, "tank") && !ignoreTank) rank = 0;
         else if (hasActiveKeyword(card, instance, "backline") || SpecialCaseEngine.hasConditionalBackline(game, card, instance)) rank = 2;
       }
       return { instanceId, rank, index };
@@ -86,9 +89,11 @@ function assignDamage(
   totalDamage: number,
   targets: string[],
   role: "attacking" | "defending",
+  battlefieldIndex: number,
+  assigningPlayer: PlayerId,
 ): number {
   let remaining = totalDamage;
-  for (const instanceId of orderForDamageAssignment(game, getCard, targets)) {
+  for (const instanceId of orderForDamageAssignment(game, getCard, targets, battlefieldIndex, assigningPlayer)) {
     if (remaining <= 0) break;
     const instance = game.instances[instanceId];
     if (!instance) continue;
@@ -273,8 +278,8 @@ export function resolveCombat(
   const attackerTotalDamage = attackerDealers.reduce((sum, d) => sum + d.might, 0);
   const defenderTotalDamage = defenderDealers.reduce((sum, d) => sum + d.might, 0);
 
-  const attackerExcessDamage = assignDamage(game, getCard, attackerTotalDamage, defenderIds, "defending");
-  assignDamage(game, getCard, defenderTotalDamage, attackerIds, "attacking");
+  const attackerExcessDamage = assignDamage(game, getCard, attackerTotalDamage, defenderIds, "defending", battlefieldIndex, attacker);
+  assignDamage(game, getCard, defenderTotalDamage, attackerIds, "attacking", battlefieldIndex, defender);
 
   const destroyedDefenders = defenderIds.filter(
     (id) => game.instances[id] && game.instances[id].damage >= toughness(game, getCard, id, "defending"),

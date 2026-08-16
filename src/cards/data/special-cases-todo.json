@@ -104,14 +104,6 @@
     "fullText": "When you play a card from face down, play a Gold gear token exhausted."
   },
   {
-    "id": "ven-4",
-    "name": "Dune Surfer",
-    "set": "VEN",
-    "type": "unit",
-    "residualText": "You ignore  while assigning combat damage here.",
-    "fullText": "You ignore [Tank] while assigning combat damage here."
-  },
-  {
     "id": "unl-139",
     "name": "Bone Skewer",
     "set": "UNL",
@@ -768,28 +760,12 @@
     "fullText": "Your opponents' [Hidden] cards can't be revealed here."
   },
   {
-    "id": "sfd-213",
-    "name": "Ornn's Forge",
-    "set": "SFD",
-    "type": "battlefield",
-    "residualText": "While you control this battlefield, the first friendly non-token gear played each turn costs 1 Energy less.",
-    "fullText": "While you control this battlefield, the first friendly non-token gear played each turn costs 1 Energy less."
-  },
-  {
     "id": "sfd-15",
     "name": "Perched Grimwyrm",
     "set": "SFD",
     "type": "unit",
     "residualText": "Play me only to a battlefield you conquered this turn. (You can't play me anywhere else.)",
     "fullText": "Play me only to a battlefield you conquered this turn. (You can't play me anywhere else.)"
-  },
-  {
-    "id": "sfd-104",
-    "name": "Petricite Monument",
-    "set": "SFD",
-    "type": "gear",
-    "residualText": "Friendly units have . (Opponents must pay Rune to choose them with a spell or ability.)",
-    "fullText": "[Temporary] (Kill this at the start of its controller's Beginning Phase, before scoring.)\nFriendly units have [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)"
   },
   {
     "id": "ven-161",
