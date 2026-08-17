@@ -68,6 +68,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
   return {
     id,
     championZone: null,
+    chosenChampionId: null,
     trash: [],
     banishment: [],
     base: [],
@@ -79,6 +80,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     pendingPredict: false,
     hasTakenFirstTurn: false,
     discardedCardThisTurn: false,
+    chosenEnemyUnitThisTurn: false,
     cardsPlayedThisTurn: 0,
     nextUnitEntersReady: false,
     nextUnitBuffed: false,
@@ -122,6 +124,7 @@ export function buildPlayerFromDeckList(id: PlayerId, deck: DeckList): PlayerSta
     runeDeck,
     legend: { cardId: deck.legendId, exhausted: false },
     championZone: deck.chosenChampionId,
+    chosenChampionId: deck.chosenChampionId,
     battlefieldPool: deck.battlefields,
   };
 }
@@ -138,6 +141,7 @@ function buildBattlefieldSlot(cardId: string): BattlefieldSlot {
     cardId,
     units: { "0": [], "1": [] },
     controller: null,
+    chosenHereTriggeredThisTurn: {},
   };
 }
 

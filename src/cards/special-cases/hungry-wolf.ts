@@ -1,12 +1,26 @@
+import { getCard } from "../db";
 import type { SpecialCaseHandler } from "./types";
 
 /**
  * Order Rune: Ready me and give me +1 Might this turn. Use only if you've chosen an enemy unit
  * this turn and only once each turn.
- *
- * Moot — no generic "chosen as a target" broadcast exists (deferred, see jae-medarda.ts's
- * identical note). No fallback mode.
  */
 export const hungryWolf: SpecialCaseHandler = {
   cardId: "hungry-wolf",
+  onAllyChosenAsTarget: (ctx, target) => {
+    if (target.controller === ctx.instance.controller) return; // must be an enemy, not friendly
+    const targetCard = getCard(target.cardId);
+    if (targetCard.type !== "unit" && targetCard.type !== "champion") return;
+    ctx.game.players[ctx.instance.controller].chosenEnemyUnitThisTurn = true;
+  },
+  activatedAbilityCost: (ctx) => {
+    if (ctx.instance.statuses.hungryWolfUsedThisTurn) return undefined;
+    if (!ctx.game.players[ctx.instance.controller].chosenEnemyUnitThisTurn) return undefined;
+    return { energy: 0, runeDomain: "Order", exhaustSelf: false };
+  },
+  onActivate: (ctx) => {
+    ctx.instance.exhausted = false;
+    ctx.instance.tempMightBonus += 1;
+    ctx.instance.statuses.hungryWolfUsedThisTurn = true;
+  },
 };

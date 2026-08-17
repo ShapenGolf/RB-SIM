@@ -134,6 +134,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   // its Main Phase like every other "this turn" effect does.
   game.players[player].playedMainDeckCardThisTurn = false;
   game.players[player].discardedCardThisTurn = false;
+  game.players[player].chosenEnemyUnitThisTurn = false;
   game.players[player].cardsPlayedThisTurn = 0;
   game.players[player].nextUnitEntersReady = false;
   game.players[player].nextUnitBuffed = false;
@@ -150,6 +151,9 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   game.anyUnitDiedThisTurn = false;
   game.preventAllSpellDamageThisTurn = false;
   game.anyDamageKillsThisTurn = false;
+  for (const slot of game.battlefields) {
+    if (slot.chosenHereTriggeredThisTurn) delete slot.chosenHereTriggeredThisTurn[player];
+  }
   for (const instance of Object.values(game.instances)) {
     if (instance.controller === player) {
       instance.tempMightBonus = 0;

@@ -1,12 +1,12 @@
 import type { SpecialCaseHandler } from "./types";
 
-/**
- * When you choose me with a spell, draw 1.
- *
- * Moot — no generic "chosen as a spell's target" broadcast exists; most bespoke spell effects
- * auto-select targets internally rather than going through one centralized "choose" step this
- * engine could hook into (deferred, see docs/data-sourcing.md). No fallback mode.
- */
+/** When you choose me with a spell, draw 1. "You" is the chooser — draws for them, not for Jae Medarda's own controller. */
 export const jaeMedarda: SpecialCaseHandler = {
   cardId: "jae-medarda",
+  onChosenAsTarget: (ctx, chooser, sourceCard) => {
+    if (sourceCard.type !== "spell") return;
+    const player = ctx.game.players[chooser];
+    const drawn = player.mainDeck.shift();
+    if (drawn) player.hand.push(drawn);
+  },
 };

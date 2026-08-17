@@ -173,6 +173,40 @@ export interface SpecialCaseHandler {
    */
   onCardPlayedHere?(ctx: SpecialCaseContext, playedCard: Card, playedInstance: CardInstance, playingPlayer: PlayerId): void;
 
+  /**
+   * Called on THIS instance's own handler when it is chosen as the target of a spell or an
+   * activated ability (e.g. Jae Medarda: "When you choose me with a spell, draw 1."). `chooser` is
+   * whoever cast the spell/used the ability (not necessarily this instance's own controller —
+   * being targeted by an ENEMY spell still fires this). `sourceCard` is the spell/ability-bearing
+   * card doing the choosing, so handlers that care only about spells (vs. abilities) can filter on
+   * `sourceCard.type === "spell"` themselves. See game/moves.ts resolvePlayedCard/activateAbility,
+   * registry.ts onChosenAsTarget.
+   */
+  onChosenAsTarget?(ctx: SpecialCaseContext, chooser: PlayerId, sourceCard: Card): void;
+
+  /**
+   * Broadcast to every board instance the CHOOSER (whoever cast the spell/used the ability, not
+   * necessarily this instance's own controller) owns, whenever they choose any target with a
+   * spell or activated ability — for "when you choose a friendly/enemy unit..." effects that
+   * react to something other than themselves being chosen (e.g. Hungry Wolf: "...if you've chosen
+   * an enemy unit this turn"; Spirit Wheel: "When you choose a friendly unit..."). `target` is the
+   * instance that was chosen — handlers compare `target.controller` to `ctx.instance.controller`
+   * themselves to tell friendly from enemy, same idiom as onAllyUnitDied/onEnemyUnitDied.
+   * `sourceCard` lets handlers filter to spells only, same as `onChosenAsTarget`.
+   */
+  onAllyChosenAsTarget?(ctx: SpecialCaseContext, target: CardInstance, sourceCard: Card): void;
+
+  /**
+   * Called on a Battlefield's own pseudo-instance when a player chooses (with a spell or ability)
+   * a unit/champion/gear stationed at that location, regardless of who chose it or who controls
+   * the chosen card (e.g. The Dreaming Tree: "When a player chooses a friendly unit here with a
+   * spell for the first time each turn, they draw 1." — the "friendly" check is relative to the
+   * CHOOSER, done by the handler itself via `chooser`). Only fires when the chosen instance is
+   * actually at a Battlefield (`target.battlefieldIndex !== null`) — Base-zone targets don't have
+   * a location to broadcast to.
+   */
+  onChosenHere?(ctx: SpecialCaseContext, target: CardInstance, chooser: PlayerId, sourceCard: Card): void;
+
   /** Continuous self Might modifier independent of attacking/defending (e.g. an active Empowered bonus). */
   staticMightModifier?(ctx: SpecialCaseContext): number;
 
@@ -347,9 +381,12 @@ export interface SpecialCaseHandler {
    * case; this covers the rest. `activateAbility` in moves.ts checks both. May be a plain cost
    * or a function of the live game state, for cards like Bashful Bloom ("4 Energy... This
    * ability costs 1 Energy less for each friendly unit with Temporary.") — same spirit as
-   * `empowerCost` below.
+   * `empowerCost` below. The function form may return `undefined` for "Use only if ..."
+   * conditions (e.g. Hungry Wolf: "Use only if you've chosen an enemy unit this turn and only
+   * once each turn.") — `activateAbility` rejects the move the same as if no cost were declared
+   * at all, so a card whose only gate is a state condition doesn't need a separate check.
    */
-  readonly activatedAbilityCost?: ActivatedAbilityCost | ((ctx: SpecialCaseContext) => ActivatedAbilityCost);
+  readonly activatedAbilityCost?: ActivatedAbilityCost | ((ctx: SpecialCaseContext) => ActivatedAbilityCost | undefined);
 
   /**
    * Cost for this card's own "[Empower] [Cost]: Empower me/this. Use only if not Empowered."

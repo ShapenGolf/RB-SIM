@@ -70,8 +70,10 @@ export interface PlayerState {
   id: PlayerId;
   mainDeck: string[];
   hand: string[];
-  /** The deck's Chosen Champion, set aside in its own zone before the Main Deck is shuffled (see docs/deck-building-rules.md) — "ready to play" from turn 1 without depending on the opening hand's luck. Null for the MVP domain-cycling setup fallback (buildPlayer), which has no single designated champion. Played via moves.ts's playCard with `fromChampionZone: true` instead of a handIndex. */
+  /** The deck's Chosen Champion, set aside in its own zone before the Main Deck is shuffled (see docs/deck-building-rules.md) — "ready to play" from turn 1 without depending on the opening hand's luck. Null for the MVP domain-cycling setup fallback (buildPlayer), which has no single designated champion. Played via moves.ts's playCard with `fromChampionZone: true` instead of a handIndex. Empties (goes to null) once played — unlike `chosenChampionId` below, which stays set for the whole game. */
   championZone: string | null;
+  /** The card id designating which name is this player's Chosen Champion for the whole game — set once at setup and never cleared (unlike `championZone`, which empties once played). Per the rules, every copy of that name counts as the Chosen Champion, not just the physical card that started in the zone (see docs/deck-building-rules.md) — cards like Hallowed Tomb ("return your Chosen Champion from trash to your Champion Zone") match on this. Null for the MVP domain-cycling setup fallback. */
+  chosenChampionId: string | null;
   trash: string[];
   banishment: string[];
   /** instanceIds of units/gear/champions on this player's base (in play, not on a battlefield). */
@@ -90,6 +92,8 @@ export interface PlayerState {
   hasTakenFirstTurn: boolean;
   /** Set true once this player has discarded a card this turn (e.g. "If you've discarded a card this turn, ..."). Reset at Awaken. */
   discardedCardThisTurn: boolean;
+  /** Set true once this player has chosen an enemy unit (as a spell or activated-ability target) this turn (e.g. Hungry Wolf: "Use only if you've chosen an enemy unit this turn"). Reset at Awaken. */
+  chosenEnemyUnitThisTurn: boolean;
   /** Count of cards this player has played this turn, for "when you play your second card..." effects. Reset at Awaken. */
   cardsPlayedThisTurn: number;
   /** One-shot: the next unit/champion this player plays this turn enters ready. Consumed on use, reset at Awaken. */
@@ -135,6 +139,8 @@ export interface BattlefieldSlot {
   /** instanceIds of units each player has committed to this battlefield. */
   units: Record<PlayerId, string[]>;
   controller: PlayerId | null;
+  /** Whether each player has already triggered a "the first time each turn a player chooses a unit here" effect at this location this turn (e.g. The Dreaming Tree) — keyed by the CHOOSING player, not this slot's controller. Reset per-player at that player's own turn start (game/turnFlow.ts runTurnStart), matching the rest of the engine's "ThisTurn" reset convention. Optional (rather than defaulted via a constructor) since many tests build BattlefieldSlot object literals directly — absence just means "not yet triggered for anyone." */
+  chosenHereTriggeredThisTurn?: Partial<Record<PlayerId, boolean>>;
 }
 
 export type Phase = "awaken" | "beginning" | "channel" | "draw" | "main";

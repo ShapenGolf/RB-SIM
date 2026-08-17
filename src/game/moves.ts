@@ -35,6 +35,10 @@ export function resolvePlayedCard(
   if (card.type === "spell") {
     player.playedSpellThisTurn = true;
     if (player.nextSpellCostReduction > 0) player.nextSpellCostReduction = 0;
+    // "Choosing" happens at cast time, before the spell's own effect resolves — fire this first
+    // so "when you choose X" triggers (e.g. Jae Medarda) still see the target even if the spell's
+    // own effect goes on to destroy/move it.
+    if (targetInstanceId) SpecialCaseEngine.onChosen(G, getCard, player.id, targetInstanceId, card);
     KeywordEngine.fireOnPlay(G, card, instance);
     SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
     fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
@@ -393,6 +397,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   instance.xp -= cost.spendXP ?? 0;
   if (cost.killSelf) destroyInstance(G, getCard, instance.instanceId);
 
+  if (args.targetInstanceId) SpecialCaseEngine.onChosen(G, getCard, player.id, args.targetInstanceId, card);
   if (card.activatedAbility) {
     runTemplatedActions(G, getCard, instance, card.activatedAbility.actions, args.targetInstanceId);
   } else {

@@ -50,4 +50,19 @@ describe("Swift Scout (ogn-307 / ogn-263)", () => {
   it("shares the same handler between both reprints", () => {
     expect(getCard("ogn-307").specialCaseId).toBe(getCard("ogn-263").specialCaseId);
   });
+
+  it("pulls a Teemo Chosen Champion from the Champion Zone before searching the board", () => {
+    const game = makeGame();
+    const scout = putOnBase(game, "ogn-307", "0");
+    const boardTeemo = putOnBase(game, "sfd-230", "0"); // Teemo, Strategist
+    game.players["0"].championZone = "ogn-197"; // Teemo, Scout — also tagged Teemo
+    const card = getCard(scout.cardId);
+
+    SpecialCaseEngine.onActivate(game, card, scout);
+
+    expect(game.players["0"].championZone).toBeNull();
+    expect(game.players["0"].hand).toContain("ogn-197");
+    // The board Teemo is left alone — the Champion Zone copy was preferred.
+    expect(game.instances[boardTeemo.instanceId]).toBeDefined();
+  });
 });

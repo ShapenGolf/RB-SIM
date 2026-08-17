@@ -1932,6 +1932,56 @@ export const SpecialCaseEngine = {
     );
   },
 
+  /**
+   * Fires when `chooser` targets `target` with a spell or activated ability — the generic
+   * "chosen as a target" broadcast that onChosenAsTarget/onAllyChosenAsTarget/onChosenHere all
+   * hang off of. See game/moves.ts resolvePlayedCard (spells) / activateAbility (abilities).
+   */
+  onChosen: (game: GameState, getCard: (id: string) => Card, chooser: PlayerId, targetInstanceId: string, sourceCard: Card): void => {
+    const target = game.instances[targetInstanceId];
+    if (!target) return;
+
+    const targetCard = getCard(target.cardId);
+    getSpecialCaseHandler(targetCard)?.onChosenAsTarget?.(ctxFor(game, targetCard, target), chooser, sourceCard);
+
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== chooser) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onAllyChosenAsTarget?.(ctxFor(game, card, instance), target, sourceCard);
+    }
+    const legend = game.players[chooser].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      getSpecialCaseHandler(legendCard)?.onAllyChosenAsTarget?.(
+        ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, chooser, legend.exhausted)),
+        target,
+        sourceCard,
+      );
+    }
+    game.battlefields.forEach((slot, index) => {
+      if (slot.controller !== chooser) return;
+      const card = getCard(slot.cardId);
+      getSpecialCaseHandler(card)?.onAllyChosenAsTarget?.(
+        ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, chooser, index)),
+        target,
+        sourceCard,
+      );
+    });
+
+    if (target.battlefieldIndex !== null) {
+      const slot = game.battlefields[target.battlefieldIndex];
+      if (slot) {
+        const card = getCard(slot.cardId);
+        getSpecialCaseHandler(card)?.onChosenHere?.(
+          ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, chooser, target.battlefieldIndex)),
+          target,
+          chooser,
+          sourceCard,
+        );
+      }
+    }
+  },
+
   /** Broadcasts a just-played card to every board instance the OPPONENT of `player` owns, for onEnemyCardPlayed hooks (e.g. Vex, Apathetic). */
   onEnemyCardPlayed: (
     game: GameState,
