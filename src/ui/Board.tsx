@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { BoardProps } from "boardgame.io/react";
 import type { GameState, PlayerId, CardInstance } from "../game/state";
 import type { Domain } from "../cards/types";
-import { getCard } from "../cards/db";
+import { getCard, getRuneCardForDomain } from "../cards/db";
 import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
@@ -49,6 +49,16 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   } | null>(null);
   const [pendingAbility, setPendingAbility] = useState<{ instanceId: string } | null>(null);
   const [pendingEquip, setPendingEquip] = useState<{ gearInstanceId: string } | null>(null);
+  // Native HTML5 drag-and-drop (see cards.css .rb-draggable/.rb-drop-active): an additive
+  // alternative to the click/button flows above, not a replacement — everything still works by
+  // clicking. `dragPayload` is what's currently being dragged; `dropHoverId` is whichever drop
+  // target (an instanceId, or the literal "base") is currently under the pointer, for the
+  // dashed-outline hover hint. Actually committing a drop reuses the exact same move-building
+  // logic as the equivalent button (computeEquipPayment, playCardAuto, moves.attackBattlefield).
+  const [dragPayload, setDragPayload] = useState<
+    { type: "gear"; gearInstanceId: string } | { type: "handCard"; handIndex: number } | { type: "unit"; instanceId: string } | null
+  >(null);
+  const [dropHoverId, setDropHoverId] = useState<string | null>(null);
 
   const me = playerID as PlayerId | null;
   const canAct = isActive && me !== null && ctx.currentPlayer === me;
@@ -329,19 +339,62 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setPendingEquip({ gearInstanceId });
   }
 
-  function confirmEquipTarget(targetInstanceId: string) {
-    if (!pendingEquip) return;
-    const gear = G.instances[pendingEquip.gearInstanceId];
+  function equipOnto(gearInstanceId: string, targetInstanceId: string) {
+    const gear = G.instances[gearInstanceId];
     const cost = getCard(gear.cardId).equipCost;
     if (!cost) return;
     const payment = computeEquipPayment(cost);
-    if (!payment) return;
-    moves.equipGear({
-      gearInstanceId: pendingEquip.gearInstanceId,
-      targetInstanceId,
-      ...payment,
-    });
+    if (!payment) {
+      window.alert("Nicht genug Runen, um diese Ausrüstung anzulegen.");
+      return;
+    }
+    moves.equipGear({ gearInstanceId, targetInstanceId, ...payment });
+  }
+
+  function confirmEquipTarget(targetInstanceId: string) {
+    if (!pendingEquip) return;
+    equipOnto(pendingEquip.gearInstanceId, targetInstanceId);
     setPendingEquip(null);
+  }
+
+  // ---- Drag-and-drop (see cards.css .rb-draggable/.rb-drop-active) ----
+  // Additive alternative to the click flows above; every drop reuses the same underlying
+  // move-building functions (equipOnto, playCardAuto, moves.attackBattlefield).
+  function dragStart(payload: NonNullable<typeof dragPayload>) {
+    return (e: React.DragEvent) => {
+      e.dataTransfer.effectAllowed = "move";
+      // Firefox requires setData to be called for a drag to initiate at all; the actual payload
+      // travels via React state (dragPayload), not this string.
+      e.dataTransfer.setData("text/plain", "drag");
+      setDragPayload(payload);
+    };
+  }
+  function dragEnd() {
+    setDragPayload(null);
+    setDropHoverId(null);
+  }
+  function dropZone<T extends string>(id: T, accepts: (payload: NonNullable<typeof dragPayload>) => boolean) {
+    return {
+      onDragOver: (e: React.DragEvent) => {
+        if (!dragPayload || !accepts(dragPayload)) return;
+        e.preventDefault();
+        if (dropHoverId !== id) setDropHoverId(id);
+      },
+      onDragLeave: () => setDropHoverId((prev) => (prev === id ? null : prev)),
+      onDrop: (e: React.DragEvent) => {
+        e.preventDefault();
+        setDropHoverId(null);
+        if (!dragPayload || !accepts(dragPayload)) return;
+        const payload = dragPayload;
+        setDragPayload(null);
+        if (payload.type === "gear") equipOnto(payload.gearInstanceId, id);
+        else if (payload.type === "handCard") playCardAuto(payload.handIndex, false);
+        else if (payload.type === "unit") {
+          const battlefieldIndex = Number(id.replace("battlefield-", ""));
+          moves.attackBattlefield({ battlefieldIndex, unitInstanceIds: [payload.instanceId] });
+        }
+      },
+    };
   }
 
   function payOptionalCost() {
@@ -536,8 +589,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         {G.battlefields.map((slot, idx) => {
           const controlClass =
             slot.controller === null ? "" : slot.controller === me ? " mine" : " theirs";
+          const battlefieldDropId = `battlefield-${idx}`;
           return (
-            <div key={idx} className="rb-battlefield">
+            <div
+              key={idx}
+              className={`rb-battlefield rb-drop-zone${dragPayload?.type === "unit" && dropHoverId === battlefieldDropId ? " rb-drop-active" : ""}`}
+              {...dropZone(battlefieldDropId, (p) => p.type === "unit")}
+            >
               <div className="rb-battlefield-header">
                 <CardFace card={getCard(slot.cardId)} size="sm" />
                 <div className="rb-battlefield-header-text">
@@ -579,17 +637,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       </div>
       <div className="rb-rune-strip">
         {player.runePool.map((r) => (
-          <span key={r.instanceId} className={`rb-rune${r.exhausted ? "" : " ready"}`}>
-            {r.domain}
-            {r.exhausted ? " · ex" : ""}
-          </span>
+          <div key={r.instanceId} className="rb-rune-slot" title={`${r.domain} Rune${r.exhausted ? " (exhausted)" : ""}`}>
+            <CardFace card={getRuneCardForDomain(r.domain)} size="sm" rotated={r.exhausted} />
+          </div>
         ))}
       </div>
 
       <div className="rb-section-label">
         Base <span className="rb-count">{player.base.length}</span>
       </div>
-      <div className="rb-row">
+      <div
+        className={`rb-row rb-drop-zone rb-base-drop-zone${dragPayload?.type === "handCard" && dropHoverId === "base" ? " rb-drop-active" : ""}`}
+        {...dropZone("base", (p) => p.type === "handCard")}
+      >
         {player.base.map((id) => {
           const instance = G.instances[id];
           const card = getCard(instance.cardId);
@@ -598,6 +658,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const canActivate = ability && (!ability.exhaustSelf || !instance.exhausted);
           const empowerCost = SpecialCaseEngine.empowerCost(G, card, instance);
           const canEmpower = empowerCost && !instance.statuses.everEmpowered && (!empowerCost.exhaustSelf || !instance.exhausted);
+          const canDragAttack = canAct && isUnit && !instance.exhausted;
           return (
             <CardFace
               key={id}
@@ -607,6 +668,21 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               selected={isUnit ? attackMode?.selected.has(id) : undefined}
               onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
               frame={simpleMode && isUnit ? (instance.exhausted ? "blocked" : "ok") : undefined}
+              draggable={canDragAttack || Boolean(canAct && card.equipCost)}
+              dragging={
+                (dragPayload?.type === "unit" && dragPayload.instanceId === id) ||
+                (dragPayload?.type === "gear" && dragPayload.gearInstanceId === id)
+              }
+              onDragStart={
+                canDragAttack
+                  ? dragStart({ type: "unit", instanceId: id })
+                  : canAct && card.equipCost
+                    ? dragStart({ type: "gear", gearInstanceId: id })
+                    : undefined
+              }
+              onDragEnd={dragEnd}
+              dropActive={isUnit && dropHoverId === id}
+              {...(isUnit ? dropZone(id, (p) => p.type === "gear") : {})}
               footer={
                 canAct && (card.equipCost || canActivate || canEmpower) ? (
                   <>
@@ -675,6 +751,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               key={idx}
               card={card}
               frame={simpleMode ? (canAfford ? "ok" : "blocked") : undefined}
+              draggable={canAct}
+              dragging={dragPayload?.type === "handCard" && dragPayload.handIndex === idx}
+              onDragStart={canAct ? dragStart({ type: "handCard", handIndex: idx }) : undefined}
+              onDragEnd={dragEnd}
               footer={
                 canAct ? (
                   <>

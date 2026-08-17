@@ -28,6 +28,15 @@ export function CardFace({
   onClick,
   footer,
   frame,
+  rotated,
+  draggable,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  dropActive,
+  dragging,
 }: {
   card: Card;
   instance?: CardInstance;
@@ -42,6 +51,19 @@ export function CardFace({
    * actions are still blocked the same way regardless of this prop.
    */
   frame?: "ok" | "blocked";
+  /** Rotate 90° sideways, like a physically tapped card (see Board.tsx's Rune Pool — Runes rotate on exhaust instead of using the generic dim/desaturate `instance.exhausted` look, since a Rune isn't a CardInstance). Caller is responsible for giving the surrounding layout enough room (see .rb-rune-slot in cards.css). */
+  rotated?: boolean;
+  /** Native HTML5 drag-and-drop (see ui/Board.tsx's dnd helpers) — thin pass-through to the underlying .rb-card div, kept card-shape-agnostic here so Board.tsx owns all drag-payload/game-logic decisions. */
+  draggable?: boolean;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragEnd?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDragLeave?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
+  /** True while a compatible drag is hovering this card (see Board.tsx) — shows a drop-target highlight. */
+  dropActive?: boolean;
+  /** True while this specific card is the one currently being dragged (see Board.tsx) — dims it. */
+  dragging?: boolean;
 }) {
   const domainKey = DOMAIN_VAR[card.domains[0]] ?? "colorless";
   const rarityKey = card.rarity ? (RARITY_VAR[card.rarity] ?? "common") : "common";
@@ -56,6 +78,10 @@ export function CardFace({
     instance?.exhausted ? "rb-exhausted" : "",
     instance?.statuses.stunned ? "rb-stunned" : "",
     frame === "ok" ? "rb-frame-ok" : frame === "blocked" ? "rb-frame-blocked" : "",
+    rotated ? "rb-card-rotated" : "",
+    draggable ? "rb-draggable" : "",
+    dropActive ? "rb-drop-active" : "",
+    dragging ? "rb-dragging" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -68,7 +94,17 @@ export function CardFace({
 
   return (
     <div className="rb-card-wrap">
-      <div className={classes} style={cssVars} onClick={onClick}>
+      <div
+        className={classes}
+        style={cssVars}
+        onClick={onClick}
+        draggable={draggable}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+      >
         <div className="rb-card-rarity-dot" />
         {card.energyCost !== null && <div className="rb-card-cost">{card.energyCost}</div>}
         {card.powerCost.length > 0 && (

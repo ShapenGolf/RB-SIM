@@ -68,6 +68,27 @@ export function getCard(cardId: string): Card {
   return card;
 }
 
+const runeCardsByDomain = new Map<Domain, Card>();
+for (const card of Object.values(cardDatabase)) {
+  if (card.type !== "rune") continue;
+  for (const domain of card.domains) {
+    if (!runeCardsByDomain.has(domain)) runeCardsByDomain.set(domain, card);
+  }
+}
+
+/**
+ * The one official Rune card printed for a domain (one per domain, e.g. "Calm Rune") — used to
+ * show a Rune Pool entry's real card art/symbol instead of a plain text domain label (see
+ * ui/Board.tsx). `RuneInstance` (game/state.ts) only stores a `domain`, not a `cardId`, since
+ * Rune cards of the same domain are otherwise interchangeable (no printed text, no unique id
+ * that matters gameplay-wise) — this derives the matching card back from that domain.
+ */
+export function getRuneCardForDomain(domain: Domain): Card {
+  const card = runeCardsByDomain.get(domain);
+  if (!card) throw new Error(`No Rune card found for domain: ${domain}`);
+  return card;
+}
+
 const officialCardIds = new Set(officialCatalog.map((c) => c.id));
 
 /**

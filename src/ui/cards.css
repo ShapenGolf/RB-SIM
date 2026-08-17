@@ -166,17 +166,19 @@ body {
   flex-wrap: wrap;
   gap: 4px;
 }
-.rb-rune {
-  font-size: 10px;
-  padding: 3px 8px;
-  border-radius: 5px;
-  border: 1px solid #3f3f46;
-  background: #1f2229;
-  color: var(--text-dim);
+/* Fixed square slot (matches the "sm" card's rotated bounding box, ~106x106) so a Rune's card
+   footprint stays constant whether it's upright (ready) or rotated 90° (exhausted) — otherwise
+   a CSS transform doesn't affect layout sizing and rotated cards would overlap their neighbors. */
+.rb-rune-slot {
+  width: 106px;
+  height: 106px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
-.rb-rune.ready {
-  color: #fff;
-  border-color: currentColor;
+.rb-rune-slot .rb-card-wrap {
+  gap: 0;
 }
 
 /* ---- Card frame ----
@@ -239,6 +241,39 @@ body {
 .rb-card.rb-frame-blocked {
   outline: 3px solid #ef4444;
   outline-offset: 2px;
+}
+.rb-card.rb-card-rotated {
+  transform: rotate(90deg);
+  transition: transform 0.12s ease;
+}
+.rb-card.rb-draggable {
+  cursor: grab;
+}
+.rb-card.rb-draggable:active {
+  cursor: grabbing;
+}
+.rb-card.rb-dragging {
+  opacity: 0.4;
+}
+.rb-card.rb-drop-active {
+  outline: 3px dashed #60a5fa;
+  outline-offset: 3px;
+}
+/* Non-card drop zones (e.g. the Base row accepting a dragged hand card) get the same dashed hint,
+   applied to the whole container instead of a single .rb-card. */
+.rb-drop-zone {
+  border-radius: 8px;
+  transition: outline 0.1s ease;
+}
+.rb-drop-zone.rb-drop-active {
+  outline: 3px dashed #60a5fa;
+  outline-offset: 4px;
+}
+/* An empty flex row has zero height (nothing to wrap around) and would otherwise vanish as a drop
+   target right when it's most useful — an empty Base is exactly when you're about to drop a unit
+   onto it. Keep at least one card-row's worth of height so it stays droppable. */
+.rb-base-drop-zone {
+  min-height: 106px;
 }
 
 .rb-card-art {
