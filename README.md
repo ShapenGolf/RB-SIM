@@ -136,8 +136,11 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 - Kein volles Chain/Priority-System (Reaction-Fenster im gegnerischen Zug
   fehlen); Karten werden nur in der eigenen Main-Phase gespielt.
-- [Hidden] (verdeckt spielen) und [Add] (generische Ressourcen-Erzeugung)
-  sind als Keywords erkannt, aber ohne Laufzeit-Effekt.
+- [Add] (generische Ressourcen-Erzeugung über den Rune-Pool hinaus) ist als
+  Keyword erkannt, aber ohne Laufzeit-Effekt.
+- [Hidden] ist implementiert, aber vereinfacht: verdeckte Karten liegen in
+  einer privaten Liste statt physisch auf einem Battlefield-Slot (siehe
+  "Nächste Schritte" unten).
 - Kampf wird als simultane Schadenszuteilung behandelt (Annahme, nicht aus
   offiziellem Text bestätigt — siehe Kommentar in `src/game/combat.ts`).
 - Starthandgröße (7) ist ein Standard-TCG-Wert, keine bestätigte
@@ -150,30 +153,41 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 Card-Coverage ist abgeschlossen (858/1019, Rest sind dokumentierte No-ops)
 und Online-Multiplayer steht (siehe oben). Kleinere, in sich abgeschlossene
 No-op-Karten werden weiter opportunistisch nachgezogen, sobald sich ein
-neuer generischer Engine-Baustein lohnt (siehe z.B. `onChosen` oben). Die
-drei größten verbleibenden Blocker brauchen jeweils eine echte neue
-Subsystem-Investition, keinen kleinen Chokepoint-Fix — Reihenfolge noch
-offen, je nachdem was für den nächsten Playtest am wichtigsten ist:
+neuer generischer Engine-Baustein lohnt (siehe z.B. `onChosen` oben).
 
-1. **[Hidden]** (verdeckt spielen, später aufdecken) — blockiert **35
-   Karten**, die mit Abstand größte einzelne Lücke. Hängt eng mit Punkt 4
-   zusammen (verdeckte Karten brauchen echte Informations-Verbergung, sonst
-   sieht man sie im Browser-Devtools trotzdem).
-2. **Chain/Priority-System** für Reaction-Timing/Counter — blockiert **9
+**[Hidden]** (verdeckt spielen, später kostenlos aufdecken) ist jetzt
+implementiert — `PlayerState.hiddenZone`, `moves.ts`'s `hideCard`/
+`playFromHidden`, siehe Commit-Historie. Bewusste Vereinfachung: die
+verdeckte Karte liegt in einer privaten Liste (wie die Hand), nicht
+physisch auf einem Battlefield-Slot — für Karten, deren Text genau das
+abfragt ("kontrollierst du eine verdeckte Karte AN EINEM Battlefield"),
+bleibt es beim No-op (Mushroom Pouch, Noxus Saboteur, Bandle Tree, Bone
+Skewer). "Verdeckt" ist außerdem nur so vertrauenswürdig wie die Hand
+heute schon ist — technisch im Spielzustand sichtbar, nur in der
+Oberfläche verborgen (siehe Punkt 2 unten, auf ausdrücklichen Nutzerwunsch
+bewusst so entschieden, da nur unter Freunden gespielt wird).
+
+Die zwei größten verbleibenden Blocker brauchen jeweils eine echte neue
+Subsystem-Investition, keinen kleinen Chokepoint-Fix:
+
+1. **Chain/Priority-System** für Reaction-Timing/Counter — blockiert **9
    Karten**, die nur im gegnerischen Zug reagieren oder Spells kontern.
-3. **[Add]** (generische Ressourcen-Erzeugung über den Rune-Pool hinaus) —
+2. **[Add]** (generische Ressourcen-Erzeugung über den Rune-Pool hinaus) —
    blockiert **10 Karten**.
-4. Hidden Information: Handkarten/Deck des Gegners im UI verbergen (wichtig
-   für echtes Online-Spiel — aktuell sieht jede Client-Instanz den vollen
-   Spielzustand beider Spieler, siehe boardgame.io `playerView`). Bekannte
-   Lücke seit dem Online-Multiplayer-Release: technisch könnte aktuell
-   jede Seite den Devtools-Spielzustand des Gegners einsehen.
-5. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
+
+Weitere offene Punkte:
+
+3. Hidden Information: Handkarten/Deck/verdeckte Karten des Gegners im UI
+   *kryptografisch* verbergen (wichtig für kompetitiveres Online-Spiel —
+   aktuell sieht jede Client-Instanz den vollen Spielzustand beider
+   Spieler, siehe boardgame.io `playerView`). Für Spiele unter Freunden
+   (aktueller Nutzungskontext) explizit zurückgestellt.
+4. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
    den ersten gültigen Kandidaten wählen (onConquer/onHold/onAttack/
    onDefend/onMove/onDestroy).
-6. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
+5. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
    (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
-7. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),
+6. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),
    damit laufende Partien einen Server-Neustart überleben.
-8. Drag & Drop auf Touch-Geräten (aktuell nur Desktop-Maus, siehe HTML5-DnD
+7. Drag & Drop auf Touch-Geräten (aktuell nur Desktop-Maus, siehe HTML5-DnD
    in `src/ui/Board.tsx`).
