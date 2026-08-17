@@ -44,6 +44,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   const [pendingTarget, setPendingTarget] = useState<{
     handIndex?: number;
     fromChampionZone?: boolean;
+    fromHiddenIndex?: number;
     payAdditionalCost: boolean;
     ambushBattlefieldIndex?: number;
   } | null>(null);
@@ -206,6 +207,28 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     });
   }
 
+  /** Plays a [Hidden] hand card face-down into the player's Hidden zone (see state.ts's `hiddenZone`) instead of resolving it — costs recycling 1 Rune, any domain (no player choice, matching this codebase's established auto-payment convention). */
+  function hideCardAuto(handIndex: number) {
+    const rune = player.runePool[0];
+    if (!rune) {
+      window.alert("Keine Rune zum Verdecken verfügbar.");
+      return;
+    }
+    moves.hideCard({ handIndex, runeId: rune.instanceId });
+  }
+
+  /** Plays a card out of the Hidden zone for free (0 Energy/Power) — same target-picker handling as playCardAuto, just via moves.playFromHidden instead of moves.playCard. */
+  function playFromHiddenAuto(hiddenIndex: number, ambushBattlefieldIndex?: number) {
+    const cardId = player.hiddenZone[hiddenIndex];
+    if (!cardId) return;
+    const card = getCard(cardId);
+    if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
+      setPendingTarget({ fromHiddenIndex: hiddenIndex, payAdditionalCost: false, ambushBattlefieldIndex });
+      return;
+    }
+    moves.playFromHidden({ hiddenIndex, ambushBattlefieldIndex });
+  }
+
   /** Same as playCardAuto, but sourcing the card from the player's Champion Zone (see state.ts's `championZone`) instead of a hand index — the Chosen Champion is playable any time it's affordable, not just when drawn into hand. */
   function playChampionAuto(payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
     const cardId = player.championZone;
@@ -232,6 +255,15 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
   function confirmTarget(targetInstanceId: string) {
     if (!pendingTarget) return;
+    if (pendingTarget.fromHiddenIndex !== undefined) {
+      moves.playFromHidden({
+        hiddenIndex: pendingTarget.fromHiddenIndex,
+        targetInstanceId,
+        ambushBattlefieldIndex: pendingTarget.ambushBattlefieldIndex,
+      });
+      setPendingTarget(null);
+      return;
+    }
     const cardId = pendingTarget.fromChampionZone ? player.championZone : player.hand[pendingTarget.handIndex ?? -1];
     if (!cardId) return;
     const card = getCard(cardId);
@@ -521,6 +553,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             <CardFace key={id} card={getCard(G.instances[id].cardId)} instance={G.instances[id]} size="sm" />
           ))}
         </div>
+
+        {opponent.hiddenZone.length > 0 && (
+          <>
+            <div className="rb-section-label">
+              Gegner-Verdeckt <span className="rb-count">{opponent.hiddenZone.length}</span>
+            </div>
+            <div className="rb-row">
+              {opponent.hiddenZone.map((_, i) => (
+                <div key={i} className="rb-card-back" />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="rb-table-divider">Battlefields</div>
@@ -740,6 +785,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         {player.hand.map((cardId, idx) => {
           const card = getCard(cardId);
           const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
+          const hasHidden = KeywordEngine.hasKeyword(card, "hidden");
           const discardCostConfig = SpecialCaseEngine.additionalCostDiscardForReduction(card);
           const dummyInstance = blankInstance(cardId, me!);
           const bonusEffectEnergy = SpecialCaseEngine.additionalPlayCostEnergy(G, card, dummyInstance);
@@ -773,6 +819,9 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                         {isChampion ? "Zu" : "Ambush →"} Battlefield {index + 1}
                       </button>
                     ))}
+                    {hasHidden && player.runePool.length > 0 && (
+                      <button onClick={() => hideCardAuto(idx)}>Verdeckt spielen (1 Rune)</button>
+                    )}
                   </>
                 ) : undefined
               }
@@ -780,6 +829,40 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           );
         })}
       </div>
+
+      {player.hiddenZone.length > 0 && (
+        <>
+          <div className="rb-section-label">
+            Verdeckte Karten <span className="rb-count">{player.hiddenZone.length}</span>
+          </div>
+          <div className="rb-row">
+            {player.hiddenZone.map((cardId, idx) => {
+              const card = getCard(cardId);
+              const isChampion = card.type === "champion";
+              const dummyInstance = blankInstance(cardId, me!);
+              const ambushBattlefields = eligibleAmbushBattlefields(G, card, dummyInstance);
+              return (
+                <CardFace
+                  key={idx}
+                  card={card}
+                  footer={
+                    canAct ? (
+                      <>
+                        <button onClick={() => playFromHiddenAuto(idx)}>Aufdecken (kostenlos)</button>
+                        {ambushBattlefields.map((index) => (
+                          <button key={index} onClick={() => playFromHiddenAuto(idx, index)}>
+                            {isChampion ? "Zu" : "Ambush →"} Battlefield {index + 1}
+                          </button>
+                        ))}
+                      </>
+                    ) : undefined
+                  }
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
 
       {canAct && (
         <button className="rb-end-turn" onClick={() => moves.endTurn()}>

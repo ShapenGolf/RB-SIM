@@ -259,6 +259,63 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   return undefined;
 };
 
+export interface HideCardArgs {
+  handIndex: number;
+  /** Which Rune from the pool to recycle as the cost — any domain, doesn't need to be un-exhausted (matching the normal recycle-for-Power rule: only exhausting-for-Energy cares about prior exhaustion). No Power is gained from it; the rune itself IS the payment. */
+  runeId: string;
+}
+
+/** Plays a [Hidden] card face-down into `player.hiddenZone` — a private reserve (see state.ts's doc comment) — instead of resolving it immediately. Costs recycling 1 Rune (any domain); the card itself is played later, for free, via `playFromHidden`. */
+export const hideCard: MoveFn<GameState> = ({ G, playerID }, args: HideCardArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  const cardId = player.hand[args.handIndex];
+  if (!cardId) return INVALID_MOVE;
+  if (!KeywordEngine.hasKeyword(getCard(cardId), "hidden")) return INVALID_MOVE;
+
+  const runeIndex = player.runePool.findIndex((r) => r.instanceId === args.runeId);
+  if (runeIndex === -1) return INVALID_MOVE;
+
+  const [rune] = player.runePool.splice(runeIndex, 1);
+  player.runeDeck.push(rune);
+  player.hand.splice(args.handIndex, 1);
+  player.hiddenZone.push(cardId);
+  SpecialCaseEngine.onAllyHideCard(G, getCard, player.id, getCard(cardId));
+  return undefined;
+};
+
+export interface PlayFromHiddenArgs {
+  hiddenIndex: number;
+  targetInstanceId?: string;
+  /** Same as PlayCardArgs.ambushBattlefieldIndex — a unit/champion may still only skip Base with an actual grant (see eligibleAmbushBattlefields). */
+  ambushBattlefieldIndex?: number;
+}
+
+/** Plays a card out of `player.hiddenZone` for free (0 Energy/Power) — same resolution as a normal hand play (resolvePlayedCard), just sourced from the hidden reserve instead of hand. */
+export const playFromHidden: MoveFn<GameState> = ({ G, playerID }, args: PlayFromHiddenArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  const cardId = player.hiddenZone[args.hiddenIndex];
+  if (!cardId) return INVALID_MOVE;
+
+  const card = getCard(cardId);
+  if (card.type === "rune" || card.type === "legend" || card.type === "battlefield") return INVALID_MOVE;
+
+  const instance = createInstance(G, cardId, player.id);
+  if (SpecialCaseEngine.blocksSelfPlay(G, card, instance)) return INVALID_MOVE;
+
+  if (args.ambushBattlefieldIndex !== undefined) {
+    if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
+    const slot = G.battlefields[args.ambushBattlefieldIndex];
+    if (!slot) return INVALID_MOVE;
+    if (SpecialCaseEngine.blocksUnitsPlayedHere(G, getCard, args.ambushBattlefieldIndex, player.id)) return INVALID_MOVE;
+    if (!eligibleAmbushBattlefields(G, card, instance).includes(args.ambushBattlefieldIndex)) return INVALID_MOVE;
+  }
+
+  player.hiddenZone.splice(args.hiddenIndex, 1);
+  resolvePlayedCard(G, player, card, instance, args.targetInstanceId, false, args.ambushBattlefieldIndex);
+  SpecialCaseEngine.onAllyPlayFromHidden(G, getCard, player.id, card);
+  return undefined;
+};
+
 export interface AttackBattlefieldArgs {
   battlefieldIndex: number;
   unitInstanceIds: string[];

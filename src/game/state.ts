@@ -74,6 +74,8 @@ export interface PlayerState {
   championZone: string | null;
   /** The card id designating which name is this player's Chosen Champion for the whole game — set once at setup and never cleared (unlike `championZone`, which empties once played). Per the rules, every copy of that name counts as the Chosen Champion, not just the physical card that started in the zone (see docs/deck-building-rules.md) — cards like Hallowed Tomb ("return your Chosen Champion from trash to your Champion Zone") match on this. Null for the MVP domain-cycling setup fallback. */
   chosenChampionId: string | null;
+  /** Cards played face-down via the [Hidden] keyword — a private reserve, only visible to this player (see ui/Board.tsx: opponents just see a count of card backs, same treatment as `hand`). Hidden with `hideCard` (recycles 1 Rune, any domain, as the cost), later played for free with `playFromHidden` (see game/moves.ts) — same onPlay resolution as a normal hand play (resolvePlayedCard), just sourced from here instead of `hand` and always 0 Energy/Power. */
+  hiddenZone: string[];
   trash: string[];
   banishment: string[];
   /** instanceIds of units/gear/champions on this player's base (in play, not on a battlefield). */

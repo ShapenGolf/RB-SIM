@@ -16,6 +16,8 @@ import {
   chooseBattlefield,
   empowerInstance,
   submitDeck,
+  hideCard,
+  playFromHidden,
 } from "./moves";
 import type { GameState, PlayerId } from "./state";
 
@@ -88,6 +90,8 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
         endTurn,
         equipGear,
         empowerInstance,
+        hideCard,
+        playFromHidden,
       },
     },
   },

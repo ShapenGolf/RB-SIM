@@ -1911,6 +1911,56 @@ export const SpecialCaseEngine = {
     });
   },
 
+  /** Broadcasts a just-played-from-Hidden card to every board instance `player` controls with an `onAllyPlayFromHidden` hook. See game/moves.ts playFromHidden. */
+  onAllyPlayFromHidden: (game: GameState, getCard: (id: string) => Card, player: PlayerId, playedCard: Card) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== player) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onAllyPlayFromHidden?.(ctxFor(game, card, instance), playedCard);
+    }
+    const legend = game.players[player].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      getSpecialCaseHandler(legendCard)?.onAllyPlayFromHidden?.(
+        ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, player, legend.exhausted)),
+        playedCard,
+      );
+    }
+    game.battlefields.forEach((slot, index) => {
+      if (slot.controller !== player) return;
+      const card = getCard(slot.cardId);
+      getSpecialCaseHandler(card)?.onAllyPlayFromHidden?.(
+        ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, player, index)),
+        playedCard,
+      );
+    });
+  },
+
+  /** Broadcasts a just-hidden card to every board instance `player` controls with an `onAllyHideCard` hook. See game/moves.ts hideCard. */
+  onAllyHideCard: (game: GameState, getCard: (id: string) => Card, player: PlayerId, hiddenCard: Card) => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== player) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onAllyHideCard?.(ctxFor(game, card, instance), hiddenCard);
+    }
+    const legend = game.players[player].legend;
+    if (legend) {
+      const legendCard = getCard(legend.cardId);
+      getSpecialCaseHandler(legendCard)?.onAllyHideCard?.(
+        ctxFor(game, legendCard, legendPseudoInstance(legend.cardId, player, legend.exhausted)),
+        hiddenCard,
+      );
+    }
+    game.battlefields.forEach((slot, index) => {
+      if (slot.controller !== player) return;
+      const card = getCard(slot.cardId);
+      getSpecialCaseHandler(card)?.onAllyHideCard?.(
+        ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, player, index)),
+        hiddenCard,
+      );
+    });
+  },
+
   /** Fires a Battlefield's own onCardPlayedHere hook when a unit/gear is played directly to it. See game/moves.ts resolvePlayedCard. */
   onCardPlayedHere: (
     game: GameState,

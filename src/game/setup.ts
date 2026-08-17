@@ -69,6 +69,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     id,
     championZone: null,
     chosenChampionId: null,
+    hiddenZone: [],
     trash: [],
     banishment: [],
     base: [],

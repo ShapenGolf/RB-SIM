@@ -2,12 +2,7 @@ import type { SpecialCaseHandler } from "./types";
 
 const SHIELD_AMOUNT = 3;
 
-/**
- * [Hidden] I have [Shield 3] while I'm at a battlefield with exactly one other unit you control.
- *
- * [Hidden]'s face-down timing isn't modeled — the conditional Shield always applies once
- * eligible.
- */
+/** [Hidden] I have [Shield 3] while I'm at a battlefield with exactly one other unit you control. */
 export const discipleOfShen: SpecialCaseHandler = {
   cardId: "disciple-of-shen",
   defendingMightModifier: (ctx) => {

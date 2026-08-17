@@ -1,11 +1,11 @@
 import type { SpecialCaseHandler } from "./types";
 
-/**
- * When you play a card from [Hidden], give me +2 Might this turn.
- *
- * Moot — [Hidden]/facedown state isn't modeled (deferred, see mushroom-pouch.ts's identical
- * note). No fallback mode.
- */
+const MIGHT_BONUS = 2;
+
+/** When you play a card from [Hidden], give me +2 Might this turn. */
 export const emberMonk: SpecialCaseHandler = {
   cardId: "ember-monk",
+  onAllyPlayFromHidden: (ctx) => {
+    ctx.instance.tempMightBonus += MIGHT_BONUS;
+  },
 };

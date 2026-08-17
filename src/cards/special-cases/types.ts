@@ -242,6 +242,21 @@ export interface SpecialCaseHandler {
   onAllyCardPlayed?(ctx: SpecialCaseContext, playedCard: Card, playCountThisTurn: number): void;
 
   /**
+   * Broadcast to every board instance the controller owns whenever THAT PLAYER plays a card out
+   * of their Hidden zone (see game/moves.ts playFromHidden) — e.g. Ember Monk: "When you play a
+   * card from [Hidden], give me +2 Might this turn." Fires in addition to `onAllyCardPlayed`
+   * (which also sees Hidden plays), not instead of it — for effects that specifically care about
+   * the Hidden route.
+   */
+  onAllyPlayFromHidden?(ctx: SpecialCaseContext, playedCard: Card): void;
+
+  /**
+   * Broadcast to every board instance the controller owns whenever THAT PLAYER hides a card (see
+   * game/moves.ts hideCard) — e.g. Katarina, Reckless: "When you hide a card, ready me."
+   */
+  onAllyHideCard?(ctx: SpecialCaseContext, hiddenCard: Card): void;
+
+  /**
    * Broadcast to every board instance the OPPONENT of the player who just played a card owns
    * (e.g. Vex, Apathetic: "When an opponent plays a unit while I'm at a battlefield, [Stun]
    * it."). `playedInstance` is the just-created instance — for a spell, it has already been
