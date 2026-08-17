@@ -33,7 +33,15 @@ pro Karte:
   Sets — siehe `src/cards/data/special-case-assignments.json`. Die restlichen
   Karten in `special-cases-todo.json` sind dokumentierte No-ops (jede
   verweist auf die konkrete fehlende Infrastruktur, die sie blockiert, z.B.
-  Chain/Priority oder Champion-Zone).
+  Chain/Priority, [Add] oder [Hidden]).
+- **Chosen Champion** hat jetzt eine echte eigene Zone (`PlayerState.championZone`
+  in `game/state.ts`) statt einfach im Main Deck mitgemischt zu werden —
+  spielbar sobald bezahlbar, unabhängig vom Kartenglück, sichtbar neben der
+  Hand (für beide Spieler, da öffentliche Info). Dazu ein neuer generischer
+  Engine-Baustein, `SpecialCaseEngine.onChosen` — broadcasted, sobald ein
+  Spell/eine Activated Ability ein Ziel wählt — der mehrere vorher no-op
+  Karten freigeschaltet hat (Jae Medarda, Hungry Wolf, Spirit Wheel, The
+  Dreaming Tree, Hallowed Tomb, Swift Scout).
 - **Equipment (Equip) und Weaponmaster** sind jetzt implementiert (eigenes
   Anlege-System: `equipGear`-Move, `game/equip.ts`, Weaponmaster-Keyword-
   Handler) — siehe `docs/rules-reference.md`.
@@ -128,8 +136,8 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 - Kein volles Chain/Priority-System (Reaction-Fenster im gegnerischen Zug
   fehlen); Karten werden nur in der eigenen Main-Phase gespielt.
-- Champion Zone nicht separat modelliert — Champions verhalten sich wie
-  normale Units.
+- [Hidden] (verdeckt spielen) und [Add] (generische Ressourcen-Erzeugung)
+  sind als Keywords erkannt, aber ohne Laufzeit-Effekt.
 - Kampf wird als simultane Schadenszuteilung behandelt (Annahme, nicht aus
   offiziellem Text bestätigt — siehe Kommentar in `src/game/combat.ts`).
 - Starthandgröße (7) ist ein Standard-TCG-Wert, keine bestätigte
@@ -139,23 +147,33 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 ## Nächste Schritte
 
-Wir arbeiten systematisch auf **volle Abdeckung aller Karten** hin (siehe
-`docs/data-sourcing.md` für den aktuellen Stand und die Historie). Reihenfolge:
-
 Card-Coverage ist abgeschlossen (858/1019, Rest sind dokumentierte No-ops)
-und Online-Multiplayer steht (siehe oben). Verbleibend:
+und Online-Multiplayer steht (siehe oben). Kleinere, in sich abgeschlossene
+No-op-Karten werden weiter opportunistisch nachgezogen, sobald sich ein
+neuer generischer Engine-Baustein lohnt (siehe z.B. `onChosen` oben). Die
+drei größten verbleibenden Blocker brauchen jeweils eine echte neue
+Subsystem-Investition, keinen kleinen Chokepoint-Fix — Reihenfolge noch
+offen, je nachdem was für den nächsten Playtest am wichtigsten ist:
 
-1. Chain/Priority-System für Reaction-Timing nachrüsten (blockiert einen
-   Großteil der verbleibenden No-op-Karten).
-2. Champion Zone separat modellieren (blockiert Champion-spezifische
-   No-op-Karten).
-3. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
-   den ersten gültigen Kandidaten wählen (onConquer/onHold/onAttack/
-   onDefend/onMove/onDestroy).
+1. **[Hidden]** (verdeckt spielen, später aufdecken) — blockiert **35
+   Karten**, die mit Abstand größte einzelne Lücke. Hängt eng mit Punkt 4
+   zusammen (verdeckte Karten brauchen echte Informations-Verbergung, sonst
+   sieht man sie im Browser-Devtools trotzdem).
+2. **Chain/Priority-System** für Reaction-Timing/Counter — blockiert **9
+   Karten**, die nur im gegnerischen Zug reagieren oder Spells kontern.
+3. **[Add]** (generische Ressourcen-Erzeugung über den Rune-Pool hinaus) —
+   blockiert **10 Karten**.
 4. Hidden Information: Handkarten/Deck des Gegners im UI verbergen (wichtig
    für echtes Online-Spiel — aktuell sieht jede Client-Instanz den vollen
-   Spielzustand beider Spieler, siehe boardgame.io `playerView`).
-5. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
+   Spielzustand beider Spieler, siehe boardgame.io `playerView`). Bekannte
+   Lücke seit dem Online-Multiplayer-Release: technisch könnte aktuell
+   jede Seite den Devtools-Spielzustand des Gegners einsehen.
+5. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
+   den ersten gültigen Kandidaten wählen (onConquer/onHold/onAttack/
+   onDefend/onMove/onDestroy).
+6. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
    (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
-6. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),
+7. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),
    damit laufende Partien einen Server-Neustart überleben.
+8. Drag & Drop auf Touch-Geräten (aktuell nur Desktop-Maus, siehe HTML5-DnD
+   in `src/ui/Board.tsx`).
