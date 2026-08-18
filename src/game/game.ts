@@ -19,6 +19,7 @@ import {
   hideCard,
   playFromHidden,
   passReaction,
+  passCombatReaction,
 } from "./moves";
 import type { GameState, PlayerId } from "./state";
 
@@ -94,6 +95,7 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
         hideCard,
         playFromHidden,
         passReaction,
+        passCombatReaction,
       },
     },
   },

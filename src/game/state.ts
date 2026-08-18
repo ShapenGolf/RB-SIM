@@ -176,8 +176,8 @@ export interface PendingOptionalCost {
  *
  * Deliberately a SINGLE, non-recursive window: once the responder reacts (or passes), the window
  * closes and `pendingSpellReaction` resolves — a reaction to a reaction (e.g. countering a
- * counter) isn't supported. This also means only SPELLS open a window (not activated abilities,
- * not combat) — see README's "Nächste Schritte" for what's still out of scope.
+ * counter) isn't supported. Only SPELLS open THIS window; activated abilities still resolve
+ * instantly. Combat gets its own parallel window — see PendingCombatReaction below.
  */
 export interface PendingSpellReaction {
   /** Whoever cast the paused spell — NOT ctx.currentPlayer's opposite, since ctx.currentPlayer never changes while this is pending. */
@@ -187,6 +187,27 @@ export interface PendingSpellReaction {
   instanceId: string;
   targetInstanceId?: string;
   payAdditionalCost: boolean;
+}
+
+/**
+ * Same idea as PendingSpellReaction, for a declared attack: units have already moved to the
+ * Battlefield (see moves.ts's attackBattlefield) and onAttack/onMove have already fired, but the
+ * actual Showdown math (combat.ts's resolveCombat) is paused so the DEFENDER gets a one-shot
+ * window to respond with a [Reaction] spell BEFORE damage is calculated — e.g. removing or
+ * weakening the attacker first, instead of finding out too late that a unit died. Countering isn't
+ * relevant here (there's no spell to counter) — moves.ts's playCard rejects any counter-intent
+ * card played into this window.
+ *
+ * Can never be open at the same time as PendingSpellReaction: opening either requires the acting
+ * player to currently be `ctx.currentPlayer` with no window already open — both playCard and
+ * attackBattlefield are unreachable for anyone excluded from activePlayers, which happens the
+ * instant either kind of window opens — so moves.ts's playCard can safely assume at most one of
+ * the two fields is ever set.
+ */
+export interface PendingCombatReaction {
+  /** The player who declared the attack — same role as PendingSpellReaction.casterId: not ctx.currentPlayer's opposite, since it never changes while this is pending. */
+  attacker: PlayerId;
+  battlefieldIndex: number;
 }
 
 export interface GameState {
@@ -201,6 +222,8 @@ export interface GameState {
   pendingOptionalCost: PendingOptionalCost | null;
   /** See PendingSpellReaction's doc comment. Null when no spell is currently paused for a reaction window. */
   pendingSpellReaction: PendingSpellReaction | null;
+  /** See PendingCombatReaction's doc comment. Null when no Showdown is currently paused for a reaction window. */
+  pendingCombatReaction: PendingCombatReaction | null;
   /** Set by "take a turn after this one" effects (e.g. Time Warp) — game.ts's turn.order.next reads this to repeat the same player instead of alternating, then clears it in onBegin once consumed. */
   extraTurnFor: PlayerId | null;
   /** True once any unit/champion (either player's) has died this turn, e.g. Towering Pairofant: "If a unit died this turn, I enter ready." Set in combat.ts destroyInstance, reset in turnFlow.ts runTurnStart — global, not per-player, unlike PlayerState.enemyUnitDiedThisTurn. */

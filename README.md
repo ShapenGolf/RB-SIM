@@ -167,8 +167,9 @@ heute schon ist — technisch im Spielzustand sichtbar, nur in der
 Oberfläche verborgen (siehe Punkt 2 unten, auf ausdrücklichen Nutzerwunsch
 bewusst so entschieden, da nur unter Freunden gespielt wird).
 
-**Spell-Reaction-Fenster (Chain/Priority für Sprüche) ist jetzt implementiert**
-— vorher der größte verbleibende Blocker, jetzt erledigt: `GameState.pendingSpellReaction`
+**Reaction-Fenster (Chain/Priority) ist jetzt implementiert — für Sprüche UND
+Kampf** — vorher der größte verbleibende Blocker, jetzt erledigt:
+`GameState.pendingSpellReaction`
 pausiert einen bezahlten, aus der Hand entfernten Spruch, bevor er sich auflöst,
 und gibt dem GEGNER ein einziges echtes Zeitfenster, mit einer eigenen
 [Reaction]-Karte zu antworten — allen voran die 10 "Counter a spell"-Karten
@@ -191,11 +192,18 @@ controller pays 2 Energy") bräuchte dafür eine ZWEITE, verschachtelte
 Entscheidung beim ursprünglichen Caster — noch offen. Rebuttal/Mystic
 Reversal's "gain control of a spell, re-target it"-Variante ist auf ein
 simples Kontern vereinfacht bzw. ganz ausgelassen (Spell-Diebstahl mit
-Neu-Targeting ist ein eigener, größerer Mechanismus). Kampf hat weiterhin
-kein eigenes Reaktionsfenster (Mystic Vortex bleibt deswegen No-op) — ein
-Showdown löst sich nach wie vor synchron in einem Schritt auf (siehe
-`combat.ts`); das wäre der nächste, für sich genommen ähnlich große Schritt,
-und würde vermutlich denselben `pendingSpellReaction`-Mechanismus wiederverwenden.
+Neu-Targeting ist ein eigener, größerer Mechanismus).
+
+**Kampf hat jetzt ebenfalls ein Reaktionsfenster** — `GameState.pendingCombatReaction`,
+derselbe `setActivePlayers`-Mechanismus wie oben, nur vor `combat.ts`s
+`resolveCombat` statt vor einem Spell-`resolvePlayedCard` eingehängt: Einheiten
+sind schon zum Battlefield gezogen, `onAttack`/`onMove` sind schon gefeuert,
+aber die eigentliche Schaden-Mathematik pausiert, bis der VERTEIDIGER einmal
+reagiert hat (oder passt) — z.B. mit einem Entfernungs-Spell auf die
+angreifende Einheit, BEVOR der Kampf entschieden wird. "Counter a spell"-Karten
+sind hier bewusst nicht spielbar (nichts zu kontern) — nur normale
+[Reaction]-Sprüche. Mystic Vortex bleibt trotzdem No-op: sein Text ändert die
+KOSTEN von Reaction-Karten "während Showdowns hier", nicht das Fenster selbst.
 
 Der andere große verbleibende Blocker braucht ebenfalls eine echte neue
 Subsystem-Investition:

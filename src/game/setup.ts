@@ -195,6 +195,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     nextInstanceSeq: 0,
     pendingOptionalCost: null,
     pendingSpellReaction: null,
+    pendingCombatReaction: null,
     extraTurnFor: null,
     anyUnitDiedThisTurn: false,
     pendingDisempowerAtEndOfTurn: [],

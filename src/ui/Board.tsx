@@ -81,6 +81,14 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   // stays dismissed for the one currently on screen — comparing seq (not identity) means it
   // survives boardgame.io's state cloning between moves.
   const [dismissedCombatSeq, setDismissedCombatSeq] = useState<number | null>(null);
+  // Tracks which G.lastCombatResult.seq the player has clicked "Weiter" on — before that, the
+  // affected battlefield renders the FROZEN combat snapshot (every participant, damage taken,
+  // dead or not) right on the cards themselves, instead of the live post-combat board state
+  // (where a defeated unit is already gone). Playtest feedback: a lost unit vanishing the instant
+  // combat resolves, with only a small text panel explaining why, made it hard to actually see
+  // what just happened. Separate from dismissedCombatSeq (below), which only controls the little
+  // topbar recap SHOWN AFTER review — per-unit detail belongs on the battlefield, not up there.
+  const [combatReviewedSeq, setCombatReviewedSeq] = useState<number | null>(null);
 
   const me = playerID as PlayerId | null;
   const canAct = isActive && me !== null && ctx.currentPlayer === me;
@@ -635,17 +643,36 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
   const opponent = G.players[opponentId];
 
-  const combatResult = G.lastCombatResult && G.lastCombatResult.seq !== dismissedCombatSeq ? G.lastCombatResult : null;
+  // Not yet reviewed (see combatReviewedSeq above) — the battlefield itself shows this instead of
+  // its live units.
+  const combatPendingReview =
+    G.lastCombatResult && G.lastCombatResult.seq !== combatReviewedSeq ? G.lastCombatResult : null;
+  // Reviewed — the small topbar recap shows this until dismissed (or replaced by the next fight).
+  const combatResult =
+    G.lastCombatResult && G.lastCombatResult.seq === combatReviewedSeq && G.lastCombatResult.seq !== dismissedCombatSeq
+      ? G.lastCombatResult
+      : null;
 
-  // A spell is paused waiting for a [Reaction] response — see game/state.ts's PendingSpellReaction.
-  // canReact uses `isActive` (not `canAct`'s `ctx.currentPlayer === me`, which stays the CASTER
-  // throughout the window — see game/game.ts) since boardgame.io grants the RESPONDER move access
-  // here via activePlayers, not a currentPlayer change.
-  const canReact = isActive && G.pendingSpellReaction !== null && G.pendingSpellReaction.casterId !== me;
+  // A spell or a declared attack is paused waiting for a [Reaction] response — see
+  // game/state.ts's PendingSpellReaction/PendingCombatReaction. canReact uses `isActive` (not
+  // `canAct`'s `ctx.currentPlayer === me`, which stays with whoever opened the window throughout
+  // — see game/game.ts) since boardgame.io grants the RESPONDER move access here via
+  // activePlayers, not a currentPlayer change. The two windows can never both be open at once
+  // (see PendingCombatReaction's doc comment), so at most one of these is ever true.
+  const canReactToSpell = isActive && G.pendingSpellReaction !== null && G.pendingSpellReaction.casterId !== me;
+  const canReactToCombat = isActive && G.pendingCombatReaction !== null && G.pendingCombatReaction.attacker !== me;
+  const canReact = canReactToSpell || canReactToCombat;
   const reactableHand = canReact
     ? player.hand
         .map((cardId, idx) => ({ cardId, idx }))
-        .filter(({ cardId }) => KeywordEngine.hasKeyword(getCard(cardId), "reaction"))
+        .filter(({ cardId }) => {
+          const card = getCard(cardId);
+          if (!KeywordEngine.hasKeyword(card, "reaction")) return false;
+          // A "Counter a spell" card only makes sense reacting to an actual pending spell —
+          // there's nothing to counter during a combat reaction window (see moves.ts's playCard).
+          if (canReactToCombat && SpecialCaseEngine.hasCounterIntent(card)) return false;
+          return true;
+        })
     : [];
 
   const championCard = player.championZone ? getCard(player.championZone) : null;
@@ -775,6 +802,36 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         </div>
       )}
 
+      {/* Combat reaction window (see game/state.ts's PendingCombatReaction) — same idea as the
+          spell reaction window above, but before a declared attack's Showdown math runs, so a
+          [Reaction] spell here (e.g. removal on the attacker) still changes the outcome. */}
+      {G.pendingCombatReaction && (
+        <div className="rb-callout warn">
+          {G.pendingCombatReaction.attacker === me ? (
+            <div className="rb-callout-title">Warte auf Reaktion des Gegners auf deinen Angriff…</div>
+          ) : (
+            <>
+              <div className="rb-callout-title">Gegner greift an — reagieren, bevor der Kampf sich auflöst?</div>
+              {reactableHand.length > 0 && (
+                <div className="rb-row">
+                  {reactableHand.map(({ cardId, idx }) => (
+                    <CardFace
+                      key={idx}
+                      card={getCard(cardId)}
+                      size="sm"
+                      footer={<button onClick={() => playCardAuto(idx, false)}>Reagieren</button>}
+                    />
+                  ))}
+                </div>
+              )}
+              <button className="cancel" onClick={() => moves.passCombatReaction()}>
+                Passen
+              </button>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Opponent sits across the table: their hand (face down, count only) and base up top. */}
       <div className="rb-opponent-zone">
         {/* Legend and Chosen Champion are public information (chosen at deck-build time, see
@@ -806,6 +863,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             <div key={i} className="rb-card-back" />
           ))}
         </div>
+
+        {/* Main Deck sits face-down for both players — only its SIZE is public info, never its
+            contents (see PlayerState.mainDeck). One card-back stands in for the whole pile. */}
+        <div className="rb-section-label">
+          Gegner-Deck <span className="rb-count">{opponent.mainDeck.length}</span>
+        </div>
+        <div className="rb-row">{opponent.mainDeck.length > 0 && <div className="rb-card-back rb-deck-pile" />}</div>
 
         <div className="rb-section-label">
           Gegner-Base <span className="rb-count">{opponent.base.length}</span>
@@ -1008,6 +1072,44 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const controlClass =
             slot.controller === null ? "" : slot.controller === me ? " mine" : " theirs";
           const battlefieldDropId = `battlefield-${idx}`;
+          const reviewHere = combatPendingReview?.battlefieldIndex === idx ? combatPendingReview : null;
+
+          /** Renders `controller`'s side of this battlefield — the frozen combat snapshot (every
+              participant as it was mid-fight, damage/death shown right on the card) while a review
+              is pending here, otherwise the normal live board state. */
+          function renderSide(controller: PlayerId) {
+            if (reviewHere) {
+              return reviewHere.hits
+                .filter((h) => h.controller === controller)
+                .map((hit) => {
+                  const survivor = G.instances[hit.instanceId];
+                  return (
+                    <CardFace
+                      key={hit.instanceId}
+                      card={getCard(hit.cardId)}
+                      instance={survivor}
+                      size="sm"
+                      equippedGear={survivor ? getEquippedGear(survivor) : undefined}
+                      footer={
+                        <span className={hit.died ? "rb-combat-hit-died" : "rb-combat-hit-damage"}>
+                          {hit.died ? "☠ zerstört" : hit.damage > 0 ? `-${hit.damage}` : "unverletzt"}
+                        </span>
+                      }
+                    />
+                  );
+                });
+            }
+            return slot.units[controller].map((id) => (
+              <CardFace
+                key={id}
+                card={getCard(G.instances[id].cardId)}
+                instance={G.instances[id]}
+                size="sm"
+                equippedGear={getEquippedGear(G.instances[id])}
+              />
+            ));
+          }
+
           return (
             <div
               key={idx}
@@ -1025,35 +1127,23 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               </div>
 
               <div className="rb-battlefield-side-label">Du</div>
-              <div className="rb-battlefield-units">
-                {slot.units[me].map((id) => (
-                  <CardFace
-                    key={id}
-                    card={getCard(G.instances[id].cardId)}
-                    instance={G.instances[id]}
-                    size="sm"
-                    equippedGear={getEquippedGear(G.instances[id])}
-                  />
-                ))}
-              </div>
+              <div className="rb-battlefield-units">{renderSide(me)}</div>
 
               <div className="rb-battlefield-side-label">Gegner</div>
-              <div className="rb-battlefield-units">
-                {slot.units[opponentId].map((id) => (
-                  <CardFace
-                    key={id}
-                    card={getCard(G.instances[id].cardId)}
-                    instance={G.instances[id]}
-                    size="sm"
-                    equippedGear={getEquippedGear(G.instances[id])}
-                  />
-                ))}
-              </div>
+              <div className="rb-battlefield-units">{renderSide(opponentId)}</div>
 
-              {canAct && attackMode && attackMode.selected.size > 0 && (
-                <button className="rb-attack-here" onClick={() => launchAttack(idx)}>
-                  Hierhin angreifen
+              {reviewHere ? (
+                <button className="rb-attack-here" onClick={() => setCombatReviewedSeq(reviewHere.seq)}>
+                  Weiter
                 </button>
+              ) : (
+                canAct &&
+                attackMode &&
+                attackMode.selected.size > 0 && (
+                  <button className="rb-attack-here" onClick={() => launchAttack(idx)}>
+                    Hierhin angreifen
+                  </button>
+                )
               )}
             </div>
           );
@@ -1061,6 +1151,32 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       </div>
 
       <div className="rb-table-divider">Deine Seite</div>
+
+      {/* Main Deck sits face-down — only its SIZE is public info (see PlayerState.mainDeck).
+          One card-back stands in for the whole pile. */}
+      <div className="rb-section-label">
+        Dein Deck <span className="rb-count">{player.mainDeck.length}</span>
+      </div>
+      <div className="rb-row">
+        {player.mainDeck.length > 0 && <div className="rb-card-back rb-deck-pile" title={`${player.mainDeck.length} Karten`} />}
+      </div>
+
+      {/* [Predict]: "Look at the top card of your Main Deck. You may recycle it." — your own top
+          card is never hidden info from you, so this just shows it plainly with two buttons. */}
+      {player.pendingPredict && (
+        <div className="rb-callout warn">
+          <div className="rb-callout-title">Predict — oberste Karte deines Decks</div>
+          {player.mainDeck.length > 0 && (
+            <div className="rb-row">
+              <CardFace card={getCard(player.mainDeck[0])} size="sm" />
+            </div>
+          )}
+          <button onClick={() => moves.resolvePredict({ keepOnTop: true })}>Oben lassen</button>
+          <button className="cancel" style={{ marginLeft: 6 }} onClick={() => moves.resolvePredict({ keepOnTop: false })}>
+            Nach unten legen
+          </button>
+        </div>
+      )}
 
       <div className="rb-section-label">
         Rune Pool <span className="rb-count">{player.runePool.length}</span>

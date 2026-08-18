@@ -204,12 +204,17 @@ export interface PlayCardArgs {
 
 export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayCardArgs) => {
   const player = G.players[playerID as "0" | "1"];
-  // A spell reaction window is open — see PendingSpellReaction. The caster themselves is never
-  // allowed to act during it (boardgame.io's activePlayers already blocks this at the framework
-  // level for real clients — see game/game.ts and openSpellReactionWindow below — this is defense
-  // in depth for direct move calls, e.g. tests).
+  // A reaction window is open — see PendingSpellReaction/PendingCombatReaction. Whoever OPENED it
+  // (the spell's caster, or the attacker) is never allowed to act during it (boardgame.io's
+  // activePlayers already blocks this at the framework level for real clients — see game/game.ts
+  // and the openXReactionWindow logic below — this is defense in depth for direct move calls,
+  // e.g. tests). At most one of the two is ever set at once — see PendingCombatReaction's doc
+  // comment on why they can't overlap.
   if (G.pendingSpellReaction && G.pendingSpellReaction.casterId === player.id) return INVALID_MOVE;
-  const reactingTo = G.pendingSpellReaction && G.pendingSpellReaction.casterId !== player.id ? G.pendingSpellReaction : null;
+  if (G.pendingCombatReaction && G.pendingCombatReaction.attacker === player.id) return INVALID_MOVE;
+  const reactingToSpell = G.pendingSpellReaction && G.pendingSpellReaction.casterId !== player.id ? G.pendingSpellReaction : null;
+  const reactingToCombat = G.pendingCombatReaction && G.pendingCombatReaction.attacker !== player.id ? G.pendingCombatReaction : null;
+  const reactingTo = reactingToSpell || reactingToCombat;
 
   const cardId = args.fromChampionZone ? player.championZone : player.hand[args.handIndex ?? -1];
   if (!cardId) return INVALID_MOVE;
@@ -222,14 +227,17 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   // aren't instant-speed, and nesting a second window (a reaction to a reaction) isn't modeled
   // (see PendingSpellReaction's doc comment).
   if (reactingTo && (card.type !== "spell" || !KeywordEngine.hasKeyword(card, "reaction"))) return INVALID_MOVE;
+  // A "Counter a spell" card only makes sense reacting to an actual pending SPELL — there's
+  // nothing to counter during a combat reaction window.
+  if (reactingToCombat && SpecialCaseEngine.hasCounterIntent(card)) return INVALID_MOVE;
 
   const instance = createInstance(G, cardId, player.id);
 
   if (
-    reactingTo &&
+    reactingToSpell &&
     SpecialCaseEngine.hasCounterIntent(card) &&
-    (!SpecialCaseEngine.canCounterPending(G, card, instance, reactingTo, args.targetInstanceId) ||
-      SpecialCaseEngine.preventsCounter(G, getCard, reactingTo))
+    (!SpecialCaseEngine.canCounterPending(G, card, instance, reactingToSpell, args.targetInstanceId) ||
+      SpecialCaseEngine.preventsCounter(G, getCard, reactingToSpell))
   ) {
     return INVALID_MOVE;
   }
@@ -358,13 +366,24 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   }
   if (canPayXPCost) player.xp -= xpCostConfig!.xpCost;
 
-  if (reactingTo) {
+  if (reactingToSpell) {
     // Resolve the reacting card's own effect first (e.g. Riposte's onPlay reads
     // G.pendingSpellReaction — still set here — to buff its chosen unit by the countered spell's
     // Energy cost), THEN settle the spell it was reacting to.
     resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
     const counterDestination = SpecialCaseEngine.hasCounterIntent(card) ? SpecialCaseEngine.counterDestination(card) : undefined;
-    settlePendingSpellReaction(G, reactingTo, counterDestination);
+    settlePendingSpellReaction(G, reactingToSpell, counterDestination);
+    events.setActivePlayers({ currentPlayer: Stage.NULL });
+    return undefined;
+  }
+
+  if (reactingToCombat) {
+    // Resolve the reacting card's own effect (e.g. a removal/damage spell on the attacker) BEFORE
+    // the Showdown itself resolves — this is the whole point of the window (see
+    // PendingCombatReaction's doc comment).
+    resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
+    G.pendingCombatReaction = null;
+    resolveCombat(G, getCard, reactingToCombat.battlefieldIndex, reactingToCombat.attacker);
     events.setActivePlayers({ currentPlayer: Stage.NULL });
     return undefined;
   }
@@ -398,6 +417,16 @@ export const passReaction: MoveFn<GameState> = ({ G, events, playerID }) => {
   const pending = G.pendingSpellReaction;
   if (!pending || pending.casterId === playerID) return INVALID_MOVE;
   settlePendingSpellReaction(G, pending, undefined);
+  events.setActivePlayers({ currentPlayer: Stage.NULL });
+  return undefined;
+};
+
+/** Declines to react to the currently-open PendingCombatReaction window — the Showdown resolves normally. See moves.ts's playCard for the "react instead" path (attackBattlefield.reactingToCombat). */
+export const passCombatReaction: MoveFn<GameState> = ({ G, events, playerID }) => {
+  const pending = G.pendingCombatReaction;
+  if (!pending || pending.attacker === playerID) return INVALID_MOVE;
+  G.pendingCombatReaction = null;
+  resolveCombat(G, getCard, pending.battlefieldIndex, pending.attacker);
   events.setActivePlayers({ currentPlayer: Stage.NULL });
   return undefined;
 };
@@ -479,10 +508,11 @@ export interface AttackBattlefieldArgs {
 }
 
 export const attackBattlefield: MoveFn<GameState> = (
-  { G, playerID },
+  { G, events, playerID },
   args: AttackBattlefieldArgs,
 ) => {
   const player = G.players[playerID as "0" | "1"];
+  if (G.pendingSpellReaction || G.pendingCombatReaction) return INVALID_MOVE;
   const slot = G.battlefields[args.battlefieldIndex];
   if (!slot || args.unitInstanceIds.length === 0) return INVALID_MOVE;
   const defendingController = slot.controller;
@@ -534,6 +564,14 @@ export const attackBattlefield: MoveFn<GameState> = (
   }
 
   SpecialCaseEngine.onShowdownBegin(G, getCard, args.battlefieldIndex);
+
+  const defenderId = otherPlayerId(player.id);
+  if (slot.units[defenderId].length > 0 && hasReactionCardInHand(G, defenderId)) {
+    G.pendingCombatReaction = { attacker: player.id, battlefieldIndex: args.battlefieldIndex };
+    events.setActivePlayers({ others: Stage.NULL });
+    return undefined;
+  }
+
   resolveCombat(G, getCard, args.battlefieldIndex, player.id);
   return undefined;
 };

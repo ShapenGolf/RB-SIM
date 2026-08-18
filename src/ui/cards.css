@@ -782,6 +782,17 @@ body {
   box-shadow: 0 0 0 2px #3f3f46, 0 2px 6px rgba(0, 0, 0, 0.5);
   flex-shrink: 0;
 }
+/* A stacked-pile look (vs. a single hand card-back) for the Main Deck — see .rb-card-back above. */
+.rb-deck-pile {
+  box-shadow:
+    0 0 0 2px #3f3f46,
+    3px 3px 0 0 #3f3f46,
+    3px 3px 0 2px #27272a,
+    6px 6px 0 0 #3f3f46,
+    6px 6px 0 2px #18181b,
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  margin-right: 10px;
+}
 
 .rb-table-divider {
   display: flex;
