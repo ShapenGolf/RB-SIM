@@ -82,6 +82,30 @@ describe("activateAbility — auto-matched real cards", () => {
     expect(gained[0].exhausted).toBe(false);
   });
 
+  it("Dragonsoul Sage ([Add] 1 Energy — 0 Energy, Exhaust: gain a ready Rune)", () => {
+    const game = makeGame();
+    const sage = putOnBase(game, "unl-93", "0", { exhausted: false });
+
+    const result = activateAbility(ctx(game, "0"), { instanceId: sage.instanceId, energyRuneIds: [] });
+
+    expect(result).toBeUndefined();
+    expect(sage.exhausted).toBe(true);
+    expect(game.players["0"].runePool).toHaveLength(1);
+    expect(game.players["0"].runePool[0].exhausted).toBe(false);
+  });
+
+  it("Energy Conduit ([Add] 1 Energy — 0 Energy, Exhaust: gain a ready Rune)", () => {
+    const game = makeGame();
+    const conduit = putOnBase(game, "ogn-98", "0", { exhausted: false });
+
+    const result = activateAbility(ctx(game, "0"), { instanceId: conduit.instanceId, energyRuneIds: [] });
+
+    expect(result).toBeUndefined();
+    expect(conduit.exhausted).toBe(true);
+    expect(game.players["0"].runePool).toHaveLength(1);
+    expect(game.players["0"].runePool[0].exhausted).toBe(false);
+  });
+
   it("Blind Monk (1 Energy, Exhaust: permanently buff a friendly unit)", () => {
     const game = makeGame();
     const legend = putOnBase(game, "ogn-257", "0", { exhausted: false });

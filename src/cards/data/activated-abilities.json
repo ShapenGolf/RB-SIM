@@ -248,5 +248,33 @@
         "amount": 1
       }
     ]
+  },
+  "unl-93": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Body",
+        "amount": 1
+      }
+    ]
+  },
+  "ogn-98": {
+    "cost": {
+      "energy": 0,
+      "exhaustSelf": true
+    },
+    "actions": [
+      {
+        "type": "gainRune",
+        "player": "controller",
+        "domain": "Mind",
+        "amount": 1
+      }
+    ]
   }
 }

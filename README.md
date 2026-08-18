@@ -150,7 +150,7 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 ## Nächste Schritte
 
-Card-Coverage ist abgeschlossen (858/1019, Rest sind dokumentierte No-ops)
+Card-Coverage ist abgeschlossen (860/1019, Rest sind dokumentierte No-ops)
 und Online-Multiplayer steht (siehe oben). Kleinere, in sich abgeschlossene
 No-op-Karten werden weiter opportunistisch nachgezogen, sobald sich ein
 neuer generischer Engine-Baustein lohnt (siehe z.B. `onChosen` oben).
@@ -173,7 +173,12 @@ Subsystem-Investition, keinen kleinen Chokepoint-Fix:
 1. **Chain/Priority-System** für Reaction-Timing/Counter — blockiert **9
    Karten**, die nur im gegnerischen Zug reagieren oder Spells kontern.
 2. **[Add]** (generische Ressourcen-Erzeugung über den Rune-Pool hinaus) —
-   blockiert **10 Karten**.
+   blockiert noch **8 Karten**. Die restriktionslosen "Exhaust: [Add] 1
+   Energy"-Fälle (Dragonsoul Sage, Energy Conduit) laufen inzwischen über
+   den bestehenden `gainRune`-Mechanismus (wie die 12 Seal-of-*-Karten);
+   offen bleiben nur noch Varianten mit Nutzungsbeschränkung ("nur für
+   Spells/Gear/Showdowns"), Bedingungen ([Legion]/[Level]) oder variabler
+   Menge ("pay any amount ... to add that much").
 
 Weitere offene Punkte:
 
