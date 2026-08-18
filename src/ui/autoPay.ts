@@ -10,6 +10,50 @@ export interface AutoPayResult {
   powerRuneIds: string[];
 }
 
+export interface RequiredCost {
+  energy: number;
+  /** Per-domain Power requirement, already merged by domain (e.g. two "Fury Rune" cost entries become one {domain: "Fury", amount: 2}). */
+  power: { domain: Card["domains"][number]; amount: number }[];
+}
+
+/**
+ * Same cost-reduction math as computeAutoPayment, but returns the REQUIRED totals instead of a
+ * specific rune selection — for the manual rune picker (see ui/Board.tsx), which needs to show
+ * "X/N Energy chosen" and let the player pick which physical runes to spend themselves.
+ */
+export function computeRequiredCost(
+  game: GameState,
+  card: Card,
+  instance: CardInstance,
+  payAdditionalCost: boolean,
+): RequiredCost {
+  const powerByDomain = new Map<Card["domains"][number], number>();
+  for (const cost of card.powerCost) {
+    powerByDomain.set(cost.domain, (powerByDomain.get(cost.domain) ?? 0) + cost.amount);
+  }
+
+  const additionalEnergy = payAdditionalCost
+    ? KeywordEngine.additionalPlayCostEnergy(game, card, instance) +
+      (SpecialCaseEngine.additionalPlayCostEnergy(game, card, instance) ?? 0)
+    : 0;
+  const discardCostConfig = payAdditionalCost
+    ? SpecialCaseEngine.additionalCostDiscardForReduction(card)
+    : undefined;
+  const hand = game.players[instance.controller]?.hand ?? [];
+  const discardReduction =
+    discardCostConfig && hand.length > discardCostConfig.discardCount ? discardCostConfig.energyReduction : 0;
+  const selfCostReduction = SpecialCaseEngine.costReduction(game, card, instance);
+  const allyCostReduction = SpecialCaseEngine.costReductionFromAllies(game, getCard, instance, card);
+  const nextSpellReduction =
+    card.type === "spell" ? (game.players[instance.controller]?.nextSpellCostReduction ?? 0) : 0;
+  const energy = Math.max(
+    0,
+    (card.energyCost ?? 0) + additionalEnergy - discardReduction - selfCostReduction - allyCostReduction - nextSpellReduction,
+  );
+
+  return { energy, power: Array.from(powerByDomain, ([domain, amount]) => ({ domain, amount })) };
+}
+
 /**
  * Greedy payment picker for the demo UI: satisfies Power cost first (using
  * already-exhausted Runes preferentially, since recycling doesn't require a

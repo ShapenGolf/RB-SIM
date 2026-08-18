@@ -3,7 +3,7 @@ import type { BoardProps } from "boardgame.io/react";
 import type { GameState, PlayerId, CardInstance } from "../game/state";
 import type { Card, Domain } from "../cards/types";
 import { getCard, getRuneCardForDomain } from "../cards/db";
-import { computeAutoPayment } from "../ui/autoPay";
+import { computeAutoPayment, computeRequiredCost } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
 import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
@@ -47,9 +47,24 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     fromHiddenIndex?: number;
     payAdditionalCost: boolean;
     ambushBattlefieldIndex?: number;
+    /** Set when the payment was chosen manually (see pendingManualPayment below) — confirmTarget uses these verbatim instead of calling computeAutoPayment. */
+    manualEnergyRuneIds?: string[];
+    manualPowerRuneIds?: string[];
   } | null>(null);
   const [pendingAbility, setPendingAbility] = useState<{ instanceId: string } | null>(null);
   const [pendingEquip, setPendingEquip] = useState<{ gearInstanceId: string } | null>(null);
+  // Manual rune payment (see startManualPayment/toggleManualRune/confirmManualPayment below) —
+  // an alternative to computeAutoPayment's silent auto-pick, so the player can deliberately
+  // choose which physical runes to exhaust (Energy) vs recycle (Power, which actually removes
+  // the rune from the pool for the rest of the turn, not just taps it — a real Nutzerfeedback
+  // point: recycling is a bigger commitment than exhausting, worth choosing on purpose).
+  const [pendingManualPayment, setPendingManualPayment] = useState<{
+    handIndex: number;
+    payAdditionalCost: boolean;
+    ambushBattlefieldIndex?: number;
+  } | null>(null);
+  const [manualEnergyRuneIds, setManualEnergyRuneIds] = useState<string[]>([]);
+  const [manualPowerRuneIds, setManualPowerRuneIds] = useState<string[]>([]);
   // Native HTML5 drag-and-drop (see cards.css .rb-draggable/.rb-drop-active): an additive
   // alternative to the click/button flows above, not a replacement — everything still works by
   // clicking. `dragPayload` is what's currently being dragged; `dropHoverId` is whichever drop
@@ -207,6 +222,51 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     });
   }
 
+  function startManualPayment(handIndex: number, payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
+    setPendingManualPayment({ handIndex, payAdditionalCost, ambushBattlefieldIndex });
+    setManualEnergyRuneIds([]);
+    setManualPowerRuneIds([]);
+  }
+
+  /** Cycles one rune through unused -> Energy -> Power -> unused. Exhausted runes skip the Energy step (matching moves.ts's own validation: only ready runes may pay Energy; recycling for Power doesn't care). */
+  function toggleManualRune(runeId: string, exhausted: boolean) {
+    if (manualEnergyRuneIds.includes(runeId)) {
+      setManualEnergyRuneIds((prev) => prev.filter((id) => id !== runeId));
+      setManualPowerRuneIds((prev) => [...prev, runeId]);
+    } else if (manualPowerRuneIds.includes(runeId)) {
+      setManualPowerRuneIds((prev) => prev.filter((id) => id !== runeId));
+    } else if (!exhausted) {
+      setManualEnergyRuneIds((prev) => [...prev, runeId]);
+    } else {
+      setManualPowerRuneIds((prev) => [...prev, runeId]);
+    }
+  }
+
+  function confirmManualPayment() {
+    if (!pendingManualPayment) return;
+    const { handIndex, payAdditionalCost, ambushBattlefieldIndex } = pendingManualPayment;
+    const cardId = player.hand[handIndex];
+    const card = getCard(cardId);
+    if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
+      setPendingTarget({
+        handIndex,
+        payAdditionalCost,
+        ambushBattlefieldIndex,
+        manualEnergyRuneIds,
+        manualPowerRuneIds,
+      });
+    } else {
+      moves.playCard({
+        handIndex,
+        energyRuneIds: manualEnergyRuneIds,
+        powerRuneIds: manualPowerRuneIds,
+        payAdditionalCost,
+        ambushBattlefieldIndex,
+      });
+    }
+    setPendingManualPayment(null);
+  }
+
   /** Plays a [Hidden] hand card face-down into the player's Hidden zone (see state.ts's `hiddenZone`) instead of resolving it — costs recycling 1 Rune, any domain (no player choice, matching this codebase's established auto-payment convention). */
   function hideCardAuto(handIndex: number) {
     const rune = player.runePool[0];
@@ -267,8 +327,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     const cardId = pendingTarget.fromChampionZone ? player.championZone : player.hand[pendingTarget.handIndex ?? -1];
     if (!cardId) return;
     const card = getCard(cardId);
-    const dummyInstance = blankInstance(cardId, me!);
-    const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, pendingTarget.payAdditionalCost);
+    let payment: { energyRuneIds: string[]; powerRuneIds: string[] } | null;
+    if (pendingTarget.manualEnergyRuneIds) {
+      payment = { energyRuneIds: pendingTarget.manualEnergyRuneIds, powerRuneIds: pendingTarget.manualPowerRuneIds ?? [] };
+    } else {
+      const dummyInstance = blankInstance(cardId, me!);
+      payment = computeAutoPayment(G, card, dummyInstance, player.runePool, pendingTarget.payAdditionalCost);
+    }
     if (!payment) return;
     moves.playCard({
       handIndex: pendingTarget.handIndex,
@@ -617,6 +682,67 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         </div>
       )}
 
+      {pendingManualPayment &&
+        (() => {
+          const cardId = player.hand[pendingManualPayment.handIndex];
+          const card = getCard(cardId);
+          const dummyInstance = blankInstance(cardId, me!);
+          const required = computeRequiredCost(G, card, dummyInstance, pendingManualPayment.payAdditionalCost);
+          const powerChosenByDomain = new Map<string, number>();
+          for (const runeId of manualPowerRuneIds) {
+            const rune = player.runePool.find((r) => r.instanceId === runeId);
+            if (rune) powerChosenByDomain.set(rune.domain, (powerChosenByDomain.get(rune.domain) ?? 0) + 1);
+          }
+          const powerSatisfied = required.power.every((p) => (powerChosenByDomain.get(p.domain) ?? 0) >= p.amount);
+          const powerOverfilled = required.power.some((p) => (powerChosenByDomain.get(p.domain) ?? 0) > p.amount);
+          const energySatisfied = manualEnergyRuneIds.length === required.energy;
+          const canConfirm = energySatisfied && powerSatisfied && !powerOverfilled;
+          return (
+            <div className="rb-callout warn">
+              <div className="rb-callout-title">
+                {card.name} manuell bezahlen — Energy {manualEnergyRuneIds.length}/{required.energy}
+                {required.power.map((p) => (
+                  <span key={p.domain}>
+                    {" "}
+                    · {p.domain} {powerChosenByDomain.get(p.domain) ?? 0}/{p.amount}
+                  </span>
+                ))}
+              </div>
+              <p className="rb-db-hint">
+                Klicken schaltet je Rune durch: ungenutzt → Energy (exhausten) → Power (recyceln, verlässt den Pool
+                für den Rest der Runde) → ungenutzt.
+              </p>
+              <div className="rb-callout-targets">
+                {player.runePool.map((r) => {
+                  const state = manualEnergyRuneIds.includes(r.instanceId)
+                    ? "energy"
+                    : manualPowerRuneIds.includes(r.instanceId)
+                      ? "power"
+                      : "unused";
+                  return (
+                    <button
+                      key={r.instanceId}
+                      className={`rb-rune-pick rb-rune-pick-${state}`}
+                      onClick={() => toggleManualRune(r.instanceId, r.exhausted)}
+                    >
+                      {r.domain}
+                      {r.exhausted ? " (ex)" : ""}
+                      <br />
+                      {state === "energy" ? "→ Energy" : state === "power" ? "→ Power" : ""}
+                    </button>
+                  );
+                })}
+              </div>
+              <button disabled={!canConfirm} onClick={confirmManualPayment}>
+                Bestätigen
+              </button>
+              <button className="cancel" style={{ marginLeft: 6 }} onClick={() => setPendingManualPayment(null)}>
+                Abbrechen
+              </button>
+            </div>
+          );
+        })()}
+
       {G.pendingOptionalCost && G.pendingOptionalCost.playerId === me && (
         <div className="rb-callout optional">
           <div className="rb-callout-title">
@@ -869,6 +995,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                 canAct ? (
                   <>
                     <button onClick={() => playCardAuto(idx, false)}>Spielen</button>
+                    <button onClick={() => startManualPayment(idx, false)}>Manuell zahlen</button>
                     {hasAccelerate && <button onClick={() => playCardAuto(idx, true)}>+Accelerate</button>}
                     {discardCostConfig && (
                       <button onClick={() => playCardAuto(idx, true)}>
