@@ -26,7 +26,7 @@ pro Karte:
   z.B. "When you play me, draw 1.") und spielbar
   (`src/cards/data/templated-effects.json` + `src/game/templatedEffectEngine.ts`)
   — kein Code pro Karte nötig.
-- **17 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
+- **19 Karten** automatisch als "Activated Ability" erkannt ("[Kosten,]
   Exhaust: Effekt", inkl. Domain-Rune-Kosten) und spielbar
   (`src/cards/data/activated-abilities.json`).
 - **858 Karten** von Hand implementiert (`src/cards/special-cases/`), alle 5
@@ -48,8 +48,8 @@ pro Karte:
 - **[Tank]/[Backline] werden jetzt bei der Kampfschaden-Zuweisung
   berücksichtigt** (Tank zuerst, Backline zuletzt) — vorher waren beide
   Keywords zwar erkannt, aber komplett wirkungslos.
-- Macht **858 von 1019 Karten vollständig spielbar** (zusammen mit
-  Templated Effects/Activated Abilities). Die verbleibenden ~161 sind
+- Macht **860 von 1019 Karten vollständig spielbar** (zusammen mit
+  Templated Effects/Activated Abilities). Die verbleibenden ~159 sind
   bewusste No-op-Registrierungen, keine offenen Lücken — Werte/Kosten/
   Keywords sind für alle 1019 Karten korrekt.
 
