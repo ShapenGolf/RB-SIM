@@ -5,9 +5,10 @@ import type { Card, Domain } from "../cards/types";
 import { getCard, getRuneCardForDomain } from "../cards/db";
 import { computeAutoPayment, computeRequiredCost } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
-import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget } from "../cards/templatedEffects";
+import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget, firstChooseTargetSpec } from "../cards/templatedEffects";
 import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
 import { eligibleAmbushBattlefields } from "../game/moves";
+import { candidatesForTarget } from "../game/templatedEffectEngine";
 import { validateDeck } from "../cards/deckValidation";
 import { listSavedDecks } from "../decks/store";
 import { CardFace } from "./CardFace";
@@ -209,6 +210,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     const cardId = player.hand[handIndex];
     const card = getCard(cardId);
     const dummyInstance = blankInstance(cardId, me!);
+    if (blocksPlayForMissingTarget(card, dummyInstance)) {
+      window.alert("Kein gültiges Ziel verfügbar — dieser Spruch kann so nicht gespielt werden.");
+      return;
+    }
     const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, payAdditionalCost);
     if (!payment) {
       window.alert("Nicht genug Runen, um diese Karte zu bezahlen.");
@@ -287,6 +292,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     const cardId = player.hiddenZone[hiddenIndex];
     if (!cardId) return;
     const card = getCard(cardId);
+    const dummyInstance = blankInstance(cardId, me!);
+    if (blocksPlayForMissingTarget(card, dummyInstance)) {
+      window.alert("Kein gültiges Ziel verfügbar — dieser Spruch kann so nicht gespielt werden.");
+      return;
+    }
     if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
       setPendingTarget({ fromHiddenIndex: hiddenIndex, payAdditionalCost: false, ambushBattlefieldIndex });
       return;
@@ -318,7 +328,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     });
   }
 
-  function confirmTarget(targetInstanceId: string) {
+  function confirmTarget(targetInstanceId?: string) {
     if (!pendingTarget) return;
     if (pendingTarget.fromHiddenIndex !== undefined) {
       moves.playFromHidden({
@@ -376,6 +386,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   function activateAbilityAuto(instanceId: string) {
     const instance = G.instances[instanceId];
     const card = getCard(instance.cardId);
+    if (blocksActivateForMissingTarget(card, instance)) {
+      window.alert("Kein gültiges Ziel verfügbar — diese Fähigkeit kann gerade nicht aktiviert werden.");
+      return;
+    }
     const cost = abilityCostFor(card, instance);
     if (!cost) return;
     const payment = computeAbilityPayment(cost);
@@ -534,6 +548,41 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     return instance.equipment.map((id) => getCard(G.instances[id].cardId));
   }
 
+  /**
+   * Real eligible candidates for a DATA-DRIVEN (auto-matched TemplatedAction) target, computed
+   * the exact same way moves.ts validates them server-side (see game/templatedEffectEngine.ts's
+   * candidatesForTarget) — so the picker only ever shows legal choices, and "Spielen"/"Aktivieren"
+   * can be blocked up front instead of letting the player pay for a card that can't do anything.
+   * Returns null for a bespoke special-case target, which has no such spec — those keep the old
+   * "show every board instance" picker (see targetPicker below), since there's no eligibility rule
+   * exposed to filter by.
+   */
+  function templatedTargetInfo(actions: import("../cards/templatedEffects").TemplatedAction[] | undefined, source: CardInstance) {
+    const spec = actions ? firstChooseTargetSpec(actions) : undefined;
+    if (!spec) return null;
+    return { spec, candidates: candidatesForTarget(G, getCard, source, spec) };
+  }
+
+  /**
+   * True if playing `card` right now is pointless: a SPELL whose entire effect is a mandatory
+   * target with zero legal candidates (see moves.ts's rejectsInvalidTemplatedTarget for the
+   * matching server-side rejection and its doc comment on why only spells are blocked this way —
+   * a unit/champion/gear's onPlay trigger is a bonus on top of deploying the card, which still
+   * happens even if the trigger fizzles).
+   */
+  function blocksPlayForMissingTarget(card: Card, source: CardInstance): boolean {
+    if (card.type !== "spell" || card.templatedEffect?.trigger !== "onPlay") return false;
+    const info = templatedTargetInfo(card.templatedEffect.actions, source);
+    return Boolean(info && !info.spec.optional && info.candidates.length === 0);
+  }
+
+  /** Same idea as blocksPlayForMissingTarget, for activated abilities — always blocked with zero candidates (see moves.ts: no activated ability's target is `optional`, and activating is a deliberate cost-paying choice the same way casting a spell is). */
+  function blocksActivateForMissingTarget(card: Card, source: CardInstance): boolean {
+    if (!card.activatedAbility) return false;
+    const info = templatedTargetInfo(card.activatedAbility.actions, source);
+    return Boolean(info && info.candidates.length === 0);
+  }
+
   function toggleAttacker(instanceId: string) {
     setAttackMode((prev) => {
       const selected = new Set(prev?.selected ?? []);
@@ -552,21 +601,34 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setAttackMode(null);
   }
 
-  function targetPicker(onPick: (id: string) => void) {
+  /**
+   * `eligibleIds`, when given, restricts the picker to real legal candidates (see
+   * templatedTargetInfo) instead of every instance on the board — set by the two call sites below
+   * for DATA-DRIVEN targets; left undefined for bespoke special-case targets, which fall back to
+   * the old "show everything, server validates" behavior since there's no eligibility rule to
+   * filter by. `onSkip`, when given, adds a "kein Ziel" button for an `optional` ("you may...")
+   * target — skipping is a real, distinct choice from picking a (possibly nonexistent) target.
+   */
+  function targetPicker(onPick: (id: string) => void, options?: { eligibleIds?: Set<string>; onSkip?: () => void }) {
+    const instances = Object.values(G.instances).filter((i) => i.zone === "base" || i.zone === "battlefield");
+    const shown = options?.eligibleIds ? instances.filter((i) => options.eligibleIds!.has(i.instanceId)) : instances;
     return (
       <div className="rb-callout-targets">
-        {Object.values(G.instances)
-          .filter((i) => i.zone === "base" || i.zone === "battlefield")
-          .map((i) => (
-            <CardFace
-              key={i.instanceId}
-              card={getCard(i.cardId)}
-              instance={i}
-              size="sm"
-              onClick={() => onPick(i.instanceId)}
-              equippedGear={getEquippedGear(i)}
-            />
-          ))}
+        {options?.onSkip && (
+          <button className="rb-skip-target" onClick={options.onSkip}>
+            Kein Ziel (überspringen)
+          </button>
+        )}
+        {shown.map((i) => (
+          <CardFace
+            key={i.instanceId}
+            card={getCard(i.cardId)}
+            instance={i}
+            size="sm"
+            onClick={() => onPick(i.instanceId)}
+            equippedGear={getEquippedGear(i)}
+          />
+        ))}
       </div>
     );
   }
@@ -742,15 +804,35 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
       <div className="rb-table-divider">Battlefields</div>
 
-      {pendingTarget && (
-        <div className="rb-callout warn">
-          <div className="rb-callout-title">Ziel wählen</div>
-          {targetPicker(confirmTarget)}
-          <button className="cancel" onClick={() => setPendingTarget(null)}>
-            Abbrechen
-          </button>
-        </div>
-      )}
+      {pendingTarget &&
+        (() => {
+          const cardId =
+            pendingTarget.fromHiddenIndex !== undefined
+              ? player.hiddenZone[pendingTarget.fromHiddenIndex]
+              : pendingTarget.fromChampionZone
+                ? player.championZone
+                : player.hand[pendingTarget.handIndex ?? -1];
+          const card = cardId ? getCard(cardId) : null;
+          const info =
+            card && cardId
+              ? templatedTargetInfo(
+                  card.templatedEffect?.trigger === "onPlay" ? card.templatedEffect.actions : undefined,
+                  blankInstance(cardId, me!),
+                )
+              : null;
+          return (
+            <div className="rb-callout warn">
+              <div className="rb-callout-title">Ziel wählen</div>
+              {targetPicker(confirmTarget, {
+                eligibleIds: info ? new Set(info.candidates.map((c) => c.instanceId)) : undefined,
+                onSkip: info?.spec.optional ? () => confirmTarget() : undefined,
+              })}
+              <button className="cancel" onClick={() => setPendingTarget(null)}>
+                Abbrechen
+              </button>
+            </div>
+          );
+        })()}
 
       {pendingManualPayment &&
         (() => {
@@ -826,15 +908,23 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         </div>
       )}
 
-      {pendingAbility && (
-        <div className="rb-callout info">
-          <div className="rb-callout-title">Ziel für Fähigkeit wählen</div>
-          {targetPicker(confirmAbilityTarget)}
-          <button className="cancel" onClick={() => setPendingAbility(null)}>
-            Abbrechen
-          </button>
-        </div>
-      )}
+      {pendingAbility &&
+        (() => {
+          const instance = G.instances[pendingAbility.instanceId];
+          const card = getCard(instance.cardId);
+          const info = templatedTargetInfo(card.activatedAbility?.actions, instance);
+          return (
+            <div className="rb-callout info">
+              <div className="rb-callout-title">Ziel für Fähigkeit wählen</div>
+              {targetPicker(confirmAbilityTarget, {
+                eligibleIds: info ? new Set(info.candidates.map((c) => c.instanceId)) : undefined,
+              })}
+              <button className="cancel" onClick={() => setPendingAbility(null)}>
+                Abbrechen
+              </button>
+            </div>
+          );
+        })()}
 
       {pendingEquip && (
         <div className="rb-callout equip">

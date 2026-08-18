@@ -180,7 +180,8 @@
       {
         "type": "killTarget",
         "target": {
-          "kind": "chooseFriendlyGear"
+          "kind": "chooseFriendlyGear",
+          "optional": true
         }
       }
     ]
@@ -325,7 +326,8 @@
       {
         "type": "recallTarget",
         "target": {
-          "kind": "chooseFriendlyUnit"
+          "kind": "chooseFriendlyUnit",
+          "optional": true
         }
       }
     ]
@@ -593,7 +595,8 @@
       {
         "type": "killTarget",
         "target": {
-          "kind": "chooseFriendlyGear"
+          "kind": "chooseFriendlyGear",
+          "optional": true
         }
       },
       {

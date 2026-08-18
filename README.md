@@ -189,7 +189,19 @@ Weitere offene Punkte:
    (aktueller Nutzungskontext) explizit zurückgestellt.
 4. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
    den ersten gültigen Kandidaten wählen (onConquer/onHold/onAttack/
-   onDefend/onMove/onDestroy).
+   onDefend/onMove/onDestroy) — betrifft ~100+ Sonderfall-Handler, bräuchte
+   ein "Pending Decision"-System, das mitten in einem Move pausieren kann
+   (ähnliche Größenordnung wie Chain/Priority oben). **Play-Zeit-Targeting
+   (onPlay-Sprüche und Activated Abilities) ist dagegen bereits gefixt**:
+   der Target-Picker zeigt nur noch echte legale Kandidaten (nicht mehr
+   jede Karte auf dem Feld), ein Spell mit null legalen Zielen lässt sich
+   gar nicht erst spielen (statt Kosten zu bezahlen und wirkungslos zu
+   verpuffen), und ein explizit falsches Ziel wird server-seitig abgelehnt
+   statt still durch den ersten Kandidaten ersetzt zu werden — siehe
+   `moves.ts`s `rejectsInvalidTemplatedTarget` und `TemplatedTargetSpec.optional`
+   für die drei "you may..."-Karten, die eine Wahl bewusst überspringen
+   dürfen. Nur für die 81 bespoke Special-Case-Targets (kein formales
+   Ziel-Schema) bleibt die alte "zeig alles"-Auswahl bestehen.
 5. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
    (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
 6. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),

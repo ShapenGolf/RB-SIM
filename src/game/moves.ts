@@ -6,13 +6,46 @@ import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { resolveCombat, destroyInstance } from "./combat";
 import { computeMight } from "./might";
 import { createInstance, shuffle, buildPlayerFromDeckList } from "./setup";
-import { fireTemplatedEffect, runTemplatedActions } from "./templatedEffectEngine";
+import { fireTemplatedEffect, runTemplatedActions, candidatesForTarget } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
 import { attachEquipment } from "./equip";
 import { legendPseudoInstance } from "./pseudoInstance";
 import { validateDeck, type DeckList } from "../cards/deckValidation";
+import { firstChooseTargetSpec } from "../cards/templatedEffects";
 import type { Card } from "../cards/types";
 import type { CardInstance, GameState, PlayerState } from "./state";
+
+/**
+ * Rejects a play/activation whose action list needs a player-chosen target but the move either
+ * gave an illegal one, or skipped choosing when it shouldn't have — closes the "pay for a spell,
+ * it silently resolves to nothing" gap (see docs/data-sourcing.md and the matching ui/Board.tsx
+ * target-picker filtering). Only covers TemplatedAction-based target specs (auto-matched onPlay
+ * effects and activated abilities); bespoke special-case handlers validate their own targets
+ * separately (see SpecialCaseEngine.onChosen and each handler's onPlay/onActivate).
+ *
+ * `requiresTargetToExist` distinguishes two shapes of "mandatory" (non-`optional`) target:
+ * - A spell's targeted action usually IS the entire spell (e.g. "Kill a gear.") — with zero legal
+ *   candidates it simply can't be cast, same as real rules. Activating an ability is the same
+ *   deliberate, cost-paying choice, so it gets the same treatment.
+ * - A unit/champion/gear's onPlay trigger is a bonus on top of deploying the card (e.g. "When you
+ *   play me, kill an enemy unit.") — it still enters play even if the trigger fizzles for lack of
+ *   a target, same as it always has; only reject an explicit-but-illegal pick here.
+ */
+function rejectsInvalidTemplatedTarget(
+  G: GameState,
+  actions: import("../cards/templatedEffects").TemplatedAction[] | undefined,
+  source: CardInstance,
+  targetInstanceId: string | undefined,
+  requiresTargetToExist: boolean,
+): boolean {
+  const spec = actions ? firstChooseTargetSpec(actions) : undefined;
+  if (!spec) return false;
+  const candidates = candidatesForTarget(G, getCard, source, spec);
+  if (targetInstanceId) return !candidates.some((c) => c.instanceId === targetInstanceId);
+  if (spec.optional) return false;
+  if (candidates.length === 0) return requiresTargetToExist;
+  return true; // Candidates exist and this target is mandatory — force an explicit pick.
+}
 
 /**
  * Shared post-payment resolution for a just-instantiated card: spells resolve immediately
@@ -138,6 +171,20 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   const instance = createInstance(G, cardId, player.id);
 
   if (SpecialCaseEngine.blocksSelfPlay(G, card, instance)) return INVALID_MOVE;
+
+  if (card.templatedEffect?.trigger === "onPlay") {
+    if (
+      rejectsInvalidTemplatedTarget(
+        G,
+        card.templatedEffect.actions,
+        instance,
+        args.targetInstanceId,
+        card.type === "spell",
+      )
+    ) {
+      return INVALID_MOVE;
+    }
+  }
 
   if (args.ambushBattlefieldIndex !== undefined) {
     if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
@@ -302,6 +349,20 @@ export const playFromHidden: MoveFn<GameState> = ({ G, playerID }, args: PlayFro
   const instance = createInstance(G, cardId, player.id);
   if (SpecialCaseEngine.blocksSelfPlay(G, card, instance)) return INVALID_MOVE;
 
+  if (card.templatedEffect?.trigger === "onPlay") {
+    if (
+      rejectsInvalidTemplatedTarget(
+        G,
+        card.templatedEffect.actions,
+        instance,
+        args.targetInstanceId,
+        card.type === "spell",
+      )
+    ) {
+      return INVALID_MOVE;
+    }
+  }
+
   if (args.ambushBattlefieldIndex !== undefined) {
     if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
     const slot = G.battlefields[args.ambushBattlefieldIndex];
@@ -413,6 +474,12 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   // Might") activated ability — see SpecialCaseHandler.activatedAbilityCost for the latter.
   const cost = card.activatedAbility?.cost ?? SpecialCaseEngine.activatedAbilityCost(G, card, instance);
   if (!cost) return INVALID_MOVE;
+  if (
+    card.activatedAbility &&
+    rejectsInvalidTemplatedTarget(G, card.activatedAbility.actions, instance, args.targetInstanceId, true)
+  ) {
+    return INVALID_MOVE;
+  }
   if (cost.exhaustSelf && instance.exhausted) return INVALID_MOVE;
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
   if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;

@@ -30,6 +30,15 @@ export interface TemplatedTargetSpec {
   kind: TemplatedTargetKind;
   /** Restrict candidates to units at the same battlefield as the source instance. */
   atBattlefieldOnly?: boolean;
+  /**
+   * Set for "you may [target something]" text (e.g. Grim Apothecary: "you may return a friendly
+   * unit"), as opposed to a plain "[target something]" — matters for moves.ts's server-side target
+   * validation: skipping the choice entirely is always legal here, even with candidates on board,
+   * unlike a mandatory target (see rejectsInvalidTemplatedTarget). Never set by the auto-matcher on
+   * its own — hand-verified per card, since "may" also shows up in unrelated reminder text (e.g.
+   * "[Flow] ... You may play this from your trash") that has nothing to do with target optionality.
+   */
+  optional?: boolean;
 }
 
 export type TemplatedAction =
@@ -54,6 +63,20 @@ export interface TemplatedEffect {
 export function templatedEffectNeedsPlayTarget(effect: TemplatedEffect | undefined): boolean {
   if (!effect || effect.trigger !== "onPlay") return false;
   return effect.actions.some((a) => "target" in a && a.target.kind.startsWith("choose"));
+}
+
+/**
+ * The spec for the (single) player-chosen target an action list needs, if any — used to compute
+ * real eligible candidates for the UI's target picker and to validate a move's targetInstanceId
+ * server-side (see game/templatedEffectEngine.ts's candidatesForTarget and moves.ts's playCard/
+ * playFromHidden/activateAbility). No auto-matched card currently mixes two DIFFERENT "choose"
+ * target kinds in one action list (verified against the generated data), so "the first one found"
+ * is unambiguous today; this only picks the first, so it would silently misrepresent a future card
+ * that broke that assumption — the auto-matcher would need to reject such cards instead.
+ */
+export function firstChooseTargetSpec(actions: TemplatedAction[]): TemplatedTargetSpec | undefined {
+  const found = actions.find((a) => "target" in a && a.target.kind.startsWith("choose"));
+  return found && "target" in found ? found.target : undefined;
 }
 
 /**

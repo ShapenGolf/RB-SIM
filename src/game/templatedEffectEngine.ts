@@ -24,7 +24,14 @@ function otherPlayer(id: PlayerId): PlayerId {
   return id === "0" ? "1" : "0";
 }
 
-function candidatesForTarget(
+/**
+ * Legal candidates for a "choose" target spec, given `source` (the card being played/activated).
+ * Exported so both the UI (filtering the target picker + disabling play with zero candidates —
+ * see Board.tsx) and moves.ts (rejecting a play/activation whose target has no legal candidate,
+ * instead of silently letting it resolve to a no-op) share the exact same eligibility rules as
+ * the engine's own resolveTargets below — a client-side reimplementation could drift out of sync.
+ */
+export function candidatesForTarget(
   game: GameState,
   getCard: (id: string) => Card,
   source: CardInstance,
@@ -71,7 +78,15 @@ function candidatesForTarget(
   }
 }
 
-/** Resolves a target spec to concrete instances: explicit player choice (onPlay only) first, else deterministic auto-pick. */
+/**
+ * Resolves a target spec to concrete instances: explicit player choice (onPlay/activated-ability
+ * moves, validated against illegal picks by moves.ts's rejectsInvalidTemplatedTarget before this
+ * ever runs) first, else deterministic auto-pick for every OTHER trigger (onConquer/onHold/
+ * onAttack/onDefend/onMove/onDestroy — no player-facing pause exists for those yet, see the
+ * top-of-file doc comment). The one exception: an `optional` ("you may...") spec with no explicit
+ * choice means the player deliberately skipped it — auto-picking a target anyway would silently
+ * do the opposite of what they chose, not just what "no choice offered" already risks elsewhere.
+ */
 function resolveTargets(
   game: GameState,
   getCard: (id: string) => Card,
@@ -87,6 +102,7 @@ function resolveTargets(
     const explicit = candidates.find((c) => c.instanceId === explicitTargetInstanceId);
     if (explicit) return [explicit];
   }
+  if (spec.optional) return [];
   return candidates.length > 0 ? [candidates[0]] : [];
 }
 

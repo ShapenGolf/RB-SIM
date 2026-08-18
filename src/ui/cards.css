@@ -680,6 +680,20 @@ body {
   gap: 6px;
   margin-bottom: 8px;
 }
+.rb-skip-target {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px dashed #6b7280;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  align-self: flex-start;
+}
+.rb-skip-target:hover {
+  color: var(--text-main);
+  border-color: var(--text-main);
+}
 .rb-callout button.cancel {
   font-size: 11px;
   padding: 4px 10px;
