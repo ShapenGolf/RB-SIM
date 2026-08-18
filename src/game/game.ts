@@ -18,6 +18,7 @@ import {
   submitDeck,
   hideCard,
   playFromHidden,
+  passReaction,
 } from "./moves";
 import type { GameState, PlayerId } from "./state";
 
@@ -92,6 +93,7 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
         empowerInstance,
         hideCard,
         playFromHidden,
+        passReaction,
       },
     },
   },

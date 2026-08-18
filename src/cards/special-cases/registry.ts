@@ -1,5 +1,5 @@
 import type { Card, Domain } from "../types";
-import type { CardInstance, GameState, PlayerId } from "../../game/state";
+import type { CardInstance, GameState, PendingSpellReaction, PlayerId } from "../../game/state";
 import type { SpecialCaseContext, SpecialCaseHandler } from "./types";
 import { battlefieldPseudoInstance, legendPseudoInstance } from "../../game/pseudoInstance";
 import { dangerousDuo } from "./dangerous-duo";
@@ -1762,6 +1762,37 @@ export const SpecialCaseEngine = {
       const card = getCard(instance.cardId);
       const handler = getSpecialCaseHandler(card);
       if (handler?.preventsAllyDeathHere?.(ctxFor(game, card, instance), dyingInstance)) return true;
+    }
+    return false;
+  },
+
+  /** True if this card DECLARES counter intent at all (has the canCounterPending hook) — distinguishes "not a counter attempt, plays as a normal Reaction" from "a counter attempt that turned out illegal" (see moves.ts's playCard). */
+  hasCounterIntent: (card: Card): boolean => Boolean(getSpecialCaseHandler(card)?.canCounterPending),
+
+  /** See SpecialCaseHandler.canCounterPending's doc comment. False (no legal counter) for any card without the hook. */
+  canCounterPending: (
+    game: GameState,
+    card: Card,
+    instance: CardInstance,
+    pending: PendingSpellReaction,
+    targetInstanceId: string | undefined,
+  ): boolean => getSpecialCaseHandler(card)?.canCounterPending?.(ctxFor(game, card, instance), pending, targetInstanceId) ?? false,
+
+  /** Static per-card override for where a successfully countered spell goes — "trash" (the normal destination) unless the countering card says otherwise (only Abandon does). */
+  counterDestination: (card: Card): "trash" | "hand" => getSpecialCaseHandler(card)?.counterDestination ?? "trash",
+
+  /**
+   * True if ANY instance `pending.casterId` controls (including the pending spell's own instance
+   * itself, still sitting in game.instances mid-resolution — see PendingSpellReaction) grants
+   * "can't be countered" — checked before any canCounterPending result is allowed to actually
+   * discard the pending spell (see moves.ts's playCard).
+   */
+  preventsCounter: (game: GameState, getCard: (id: string) => Card, pending: PendingSpellReaction): boolean => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== pending.casterId) continue;
+      const card = getCard(instance.cardId);
+      const handler = getSpecialCaseHandler(card);
+      if (handler?.preventsCounterFor?.(ctxFor(game, card, instance), pending)) return true;
     }
     return false;
   },

@@ -48,8 +48,8 @@ pro Karte:
 - **[Tank]/[Backline] werden jetzt bei der Kampfschaden-Zuweisung
   berücksichtigt** (Tank zuerst, Backline zuletzt) — vorher waren beide
   Keywords zwar erkannt, aber komplett wirkungslos.
-- Macht **860 von 1019 Karten vollständig spielbar** (zusammen mit
-  Templated Effects/Activated Abilities). Die verbleibenden ~159 sind
+- Macht **870 von 1019 Karten vollständig spielbar** (zusammen mit
+  Templated Effects/Activated Abilities). Die verbleibenden ~149 sind
   bewusste No-op-Registrierungen, keine offenen Lücken — Werte/Kosten/
   Keywords sind für alle 1019 Karten korrekt.
 
@@ -150,7 +150,7 @@ verifiziert (siehe Kommentare im jeweiligen Code):
 
 ## Nächste Schritte
 
-Card-Coverage ist abgeschlossen (860/1019, Rest sind dokumentierte No-ops)
+Card-Coverage ist abgeschlossen (870/1019, Rest sind dokumentierte No-ops)
 und Online-Multiplayer steht (siehe oben). Kleinere, in sich abgeschlossene
 No-op-Karten werden weiter opportunistisch nachgezogen, sobald sich ein
 neuer generischer Engine-Baustein lohnt (siehe z.B. `onChosen` oben).
@@ -167,12 +167,40 @@ heute schon ist — technisch im Spielzustand sichtbar, nur in der
 Oberfläche verborgen (siehe Punkt 2 unten, auf ausdrücklichen Nutzerwunsch
 bewusst so entschieden, da nur unter Freunden gespielt wird).
 
-Die zwei größten verbleibenden Blocker brauchen jeweils eine echte neue
-Subsystem-Investition, keinen kleinen Chokepoint-Fix:
+**Spell-Reaction-Fenster (Chain/Priority für Sprüche) ist jetzt implementiert**
+— vorher der größte verbleibende Blocker, jetzt erledigt: `GameState.pendingSpellReaction`
+pausiert einen bezahlten, aus der Hand entfernten Spruch, bevor er sich auflöst,
+und gibt dem GEGNER ein einziges echtes Zeitfenster, mit einer eigenen
+[Reaction]-Karte zu antworten — allen voran die 10 "Counter a spell"-Karten
+(Wind Wall, Defy, Crumbling Sands, Riposte, Repulse, Not So Fast, Lilting
+Lullaby, Abandon, Flurry of Feathers, Rebuttal), die vorher reine No-ops waren,
+weil es dafür schlicht keinen Reaktionsmechanismus gab. Technisch über
+boardgame.io's `events.setActivePlayers` gelöst: `ctx.currentPlayer` bleibt
+beim Spieler, der den Spruch gespielt hat (dessen Zug läuft ja weiter), aber
+nur der GEGNER wird für dieses eine Fenster "aktiv" (spielberechtigt) — der
+Caster selbst ist währenddessen komplett blockiert, framework-seitig
+durchgesetzt (verifiziert per echtem `boardgame.io/client`-Test mit `Local()`-
+Transport, nicht nur gegen die eigene Move-Validierung). Reaction-Immunität
+(`preventsCounterFor`, für Decree of Rage/Mel, Newly Awakened) ist mit drin.
 
-1. **Chain/Priority-System** für Reaction-Timing/Counter — blockiert **9
-   Karten**, die nur im gegnerischen Zug reagieren oder Spells kontern.
-2. **[Add]** (generische Ressourcen-Erzeugung über den Rune-Pool hinaus) —
+Bewusst NICHT nachgebaut: ein voller, beliebig tiefer LIFO-Chain mit
+alternierender Priorität (echte Regeln erlauben Reaktionen auf Reaktionen) —
+`pendingSpellReaction` ist ein einziges, nicht-rekursives Fenster; reagiert
+der Gegner, schließt es sich sofort wieder. Hard Bargain ("...unless its
+controller pays 2 Energy") bräuchte dafür eine ZWEITE, verschachtelte
+Entscheidung beim ursprünglichen Caster — noch offen. Rebuttal/Mystic
+Reversal's "gain control of a spell, re-target it"-Variante ist auf ein
+simples Kontern vereinfacht bzw. ganz ausgelassen (Spell-Diebstahl mit
+Neu-Targeting ist ein eigener, größerer Mechanismus). Kampf hat weiterhin
+kein eigenes Reaktionsfenster (Mystic Vortex bleibt deswegen No-op) — ein
+Showdown löst sich nach wie vor synchron in einem Schritt auf (siehe
+`combat.ts`); das wäre der nächste, für sich genommen ähnlich große Schritt,
+und würde vermutlich denselben `pendingSpellReaction`-Mechanismus wiederverwenden.
+
+Der andere große verbleibende Blocker braucht ebenfalls eine echte neue
+Subsystem-Investition:
+
+1. **[Add]** (generische Ressourcen-Erzeugung über den Rune-Pool hinaus) —
    blockiert noch **8 Karten**. Die restriktionslosen "Exhaust: [Add] 1
    Energy"-Fälle (Dragonsoul Sage, Energy Conduit) laufen inzwischen über
    den bestehenden `gainRune`-Mechanismus (wie die 12 Seal-of-*-Karten);
@@ -182,17 +210,18 @@ Subsystem-Investition, keinen kleinen Chokepoint-Fix:
 
 Weitere offene Punkte:
 
-3. Hidden Information: Handkarten/Deck/verdeckte Karten des Gegners im UI
+2. Hidden Information: Handkarten/Deck/verdeckte Karten des Gegners im UI
    *kryptografisch* verbergen (wichtig für kompetitiveres Online-Spiel —
    aktuell sieht jede Client-Instanz den vollen Spielzustand beider
    Spieler, siehe boardgame.io `playerView`). Für Spiele unter Freunden
    (aktueller Nutzungskontext) explizit zurückgestellt.
-4. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
+3. Echte interaktive Ziel-Auswahl für Trigger, die aktuell nur automatisch
    den ersten gültigen Kandidaten wählen (onConquer/onHold/onAttack/
    onDefend/onMove/onDestroy) — betrifft ~100+ Sonderfall-Handler, bräuchte
    ein "Pending Decision"-System, das mitten in einem Move pausieren kann
-   (ähnliche Größenordnung wie Chain/Priority oben). **Play-Zeit-Targeting
-   (onPlay-Sprüche und Activated Abilities) ist dagegen bereits gefixt**:
+   (ähnliche Größenordnung wie das Spell-Reaction-Fenster oben, nur eben
+   für JEDEN Trigger statt nur onPlay). **Play-Zeit-Targeting (onPlay-Sprüche
+   und Activated Abilities) ist dagegen bereits gefixt**:
    der Target-Picker zeigt nur noch echte legale Kandidaten (nicht mehr
    jede Karte auf dem Feld), ein Spell mit null legalen Zielen lässt sich
    gar nicht erst spielen (statt Kosten zu bezahlen und wirkungslos zu
@@ -202,9 +231,9 @@ Weitere offene Punkte:
    für die drei "you may..."-Karten, die eine Wahl bewusst überspringen
    dürfen. Nur für die 81 bespoke Special-Case-Targets (kein formales
    Ziel-Schema) bleibt die alte "zeig alles"-Auswahl bestehen.
-5. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
+4. Power-Domain bei den 41 mehrfarbigen Karten mit Power-Kosten verifizieren
    (aktuell geraten, siehe Warnungen von `scripts/import-cards.mjs`).
-6. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),
+5. Persistenter `StorageAPI` für den Multiplayer-Server (statt In-Memory),
    damit laufende Partien einen Server-Neustart überleben.
-7. Drag & Drop auf Touch-Geräten (aktuell nur Desktop-Maus, siehe HTML5-DnD
+6. Drag & Drop auf Touch-Geräten (aktuell nur Desktop-Maus, siehe HTML5-DnD
    in `src/ui/Board.tsx`).

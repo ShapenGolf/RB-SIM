@@ -1,4 +1,4 @@
-import { INVALID_MOVE } from "boardgame.io/core";
+import { INVALID_MOVE, Stage } from "boardgame.io/core";
 import type { MoveFn } from "boardgame.io";
 import { getCard } from "../cards/db";
 import { KeywordEngine } from "../keywords/registry";
@@ -13,7 +13,7 @@ import { legendPseudoInstance } from "./pseudoInstance";
 import { validateDeck, type DeckList } from "../cards/deckValidation";
 import { firstChooseTargetSpec } from "../cards/templatedEffects";
 import type { Card } from "../cards/types";
-import type { CardInstance, GameState, PlayerState } from "./state";
+import type { CardInstance, GameState, PlayerState, PlayerId, PendingSpellReaction } from "./state";
 
 /**
  * Rejects a play/activation whose action list needs a player-chosen target but the move either
@@ -119,6 +119,48 @@ export function resolvePlayedCard(
   }
 }
 
+function otherPlayerId(id: PlayerId): PlayerId {
+  return id === "0" ? "1" : "0";
+}
+
+/**
+ * True if `playerId` has at least one [Reaction]-keyword card in hand right now — used to decide
+ * whether casting a spell should actually pause and open a reaction window (see
+ * PendingSpellReaction) at all. Skipping the window entirely when the answer is "no" avoids
+ * forcing an empty "Passen" click on every single spell cast — physically equivalent (a player
+ * with nothing to respond with always passes), just without the UI busywork.
+ */
+function hasReactionCardInHand(G: GameState, playerId: PlayerId): boolean {
+  return G.players[playerId].hand.some((cardId) => KeywordEngine.hasKeyword(getCard(cardId), "reaction"));
+}
+
+/**
+ * Resolves — or, if countered, discards — the spell paused by an open reaction window, and closes
+ * the window. Shared by playCard's "reacted with a counter-capable card" path and passReaction's
+ * "declined to react" path.
+ */
+function settlePendingSpellReaction(
+  G: GameState,
+  pending: PendingSpellReaction,
+  /** The reacting card's counterDestination (see SpecialCaseHandler) — undefined when not countered at all. */
+  counterDestination: "trash" | "hand" | undefined,
+): void {
+  const card = getCard(pending.cardId);
+  const casterPlayer = G.players[pending.casterId];
+  const instance = G.instances[pending.instanceId];
+  if (instance && counterDestination) {
+    delete G.instances[pending.instanceId];
+    if (counterDestination === "hand") {
+      casterPlayer.hand.push(pending.cardId);
+    } else {
+      casterPlayer.trash.push(pending.cardId);
+    }
+  } else if (instance) {
+    resolvePlayedCard(G, casterPlayer, card, instance, pending.targetInstanceId, pending.payAdditionalCost);
+  }
+  G.pendingSpellReaction = null;
+}
+
 /**
  * Battlefield indices a unit or champion may be played straight to from hand (bypassing Base),
  * shared by the `playCard` move's own validation and the hand-card UI's button list (Board.tsx)
@@ -160,15 +202,37 @@ export interface PlayCardArgs {
   ambushBattlefieldIndex?: number;
 }
 
-export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs) => {
+export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayCardArgs) => {
   const player = G.players[playerID as "0" | "1"];
+  // A spell reaction window is open — see PendingSpellReaction. The caster themselves is never
+  // allowed to act during it (boardgame.io's activePlayers already blocks this at the framework
+  // level for real clients — see game/game.ts and openSpellReactionWindow below — this is defense
+  // in depth for direct move calls, e.g. tests).
+  if (G.pendingSpellReaction && G.pendingSpellReaction.casterId === player.id) return INVALID_MOVE;
+  const reactingTo = G.pendingSpellReaction && G.pendingSpellReaction.casterId !== player.id ? G.pendingSpellReaction : null;
+
   const cardId = args.fromChampionZone ? player.championZone : player.hand[args.handIndex ?? -1];
   if (!cardId) return INVALID_MOVE;
 
   const card = getCard(cardId);
   if (card.type === "rune" || card.type === "legend" || card.type === "battlefield") return INVALID_MOVE;
+  if (card.type === "spell" && player.cantPlaySpellsThisTurn) return INVALID_MOVE;
+
+  // Playing INTO an open window: only a [Reaction] spell is legal here — units/gear/champions
+  // aren't instant-speed, and nesting a second window (a reaction to a reaction) isn't modeled
+  // (see PendingSpellReaction's doc comment).
+  if (reactingTo && (card.type !== "spell" || !KeywordEngine.hasKeyword(card, "reaction"))) return INVALID_MOVE;
 
   const instance = createInstance(G, cardId, player.id);
+
+  if (
+    reactingTo &&
+    SpecialCaseEngine.hasCounterIntent(card) &&
+    (!SpecialCaseEngine.canCounterPending(G, card, instance, reactingTo, args.targetInstanceId) ||
+      SpecialCaseEngine.preventsCounter(G, getCard, reactingTo))
+  ) {
+    return INVALID_MOVE;
+  }
 
   if (SpecialCaseEngine.blocksSelfPlay(G, card, instance)) return INVALID_MOVE;
 
@@ -294,6 +358,29 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
   }
   if (canPayXPCost) player.xp -= xpCostConfig!.xpCost;
 
+  if (reactingTo) {
+    // Resolve the reacting card's own effect first (e.g. Riposte's onPlay reads
+    // G.pendingSpellReaction — still set here — to buff its chosen unit by the countered spell's
+    // Energy cost), THEN settle the spell it was reacting to.
+    resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
+    const counterDestination = SpecialCaseEngine.hasCounterIntent(card) ? SpecialCaseEngine.counterDestination(card) : undefined;
+    settlePendingSpellReaction(G, reactingTo, counterDestination);
+    events.setActivePlayers({ currentPlayer: Stage.NULL });
+    return undefined;
+  }
+
+  if (card.type === "spell" && hasReactionCardInHand(G, otherPlayerId(player.id))) {
+    G.pendingSpellReaction = {
+      casterId: player.id,
+      cardId,
+      instanceId: instance.instanceId,
+      targetInstanceId: args.targetInstanceId,
+      payAdditionalCost: Boolean(args.payAdditionalCost),
+    };
+    events.setActivePlayers({ others: Stage.NULL });
+    return undefined;
+  }
+
   resolvePlayedCard(
     G,
     player,
@@ -303,6 +390,15 @@ export const playCard: MoveFn<GameState> = ({ G, playerID }, args: PlayCardArgs)
     Boolean(args.payAdditionalCost),
     args.ambushBattlefieldIndex,
   );
+  return undefined;
+};
+
+/** Declines to react to the currently-open PendingSpellReaction window — the paused spell resolves normally (uncountered) and the window closes. See moves.ts's playCard for the "react instead" path. */
+export const passReaction: MoveFn<GameState> = ({ G, events, playerID }) => {
+  const pending = G.pendingSpellReaction;
+  if (!pending || pending.casterId === playerID) return INVALID_MOVE;
+  settlePendingSpellReaction(G, pending, undefined);
+  events.setActivePlayers({ currentPlayer: Stage.NULL });
   return undefined;
 };
 

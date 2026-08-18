@@ -6,12 +6,15 @@ const DAMAGE = 4;
 
 /**
  * This can't be countered. Deal 4 to an enemy Calm (Calm Rune) unit.
- * "Can't be countered" is moot — Counter isn't a wired-up mechanic yet (see docs/data-sourcing.md) —
- * so this just always resolves, matching that simplification.
  */
 export const decreeOfRage: SpecialCaseHandler = {
   cardId: "decree-of-rage",
   needsPlayTarget: true,
+  // The pending spell's own instance is still sitting in game.instances, controlled by its
+  // caster, at counter-check time (see PendingSpellReaction) — so checking "is this ME" via the
+  // normal preventsCounter broadcast (which scans the caster's own instances) protects this card
+  // from countering itself, with no special-casing needed in moves.ts.
+  preventsCounterFor: (ctx, pending) => ctx.instance.instanceId === pending.instanceId,
   onPlay: (ctx, targetInstanceId) => {
     if (!targetInstanceId) return;
     const target = ctx.game.instances[targetInstanceId];

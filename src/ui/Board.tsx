@@ -637,6 +637,17 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
   const combatResult = G.lastCombatResult && G.lastCombatResult.seq !== dismissedCombatSeq ? G.lastCombatResult : null;
 
+  // A spell is paused waiting for a [Reaction] response — see game/state.ts's PendingSpellReaction.
+  // canReact uses `isActive` (not `canAct`'s `ctx.currentPlayer === me`, which stays the CASTER
+  // throughout the window — see game/game.ts) since boardgame.io grants the RESPONDER move access
+  // here via activePlayers, not a currentPlayer change.
+  const canReact = isActive && G.pendingSpellReaction !== null && G.pendingSpellReaction.casterId !== me;
+  const reactableHand = canReact
+    ? player.hand
+        .map((cardId, idx) => ({ cardId, idx }))
+        .filter(({ cardId }) => KeywordEngine.hasKeyword(getCard(cardId), "reaction"))
+    : [];
+
   const championCard = player.championZone ? getCard(player.championZone) : null;
   const championDummyInstance = player.championZone ? blankInstance(player.championZone, me) : null;
   const championCanAfford =
@@ -725,6 +736,44 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             </div>
           );
         })()}
+
+      {/* Spell reaction window (see game/state.ts's PendingSpellReaction) — the caster sees a
+          read-only wait banner, the responder sees their own [Reaction] cards plus a pass button.
+          Everything else (normal hand/attack/ability buttons) stays gated on `canAct`, which is
+          already false for both players here (caster: not currentPlayer's turn to act again yet
+          — well, they ARE currentPlayer but boardgame.io excludes them from activePlayers during
+          the window; responder: `ctx.currentPlayer !== me`), so nothing else is clickable by
+          accident while this is up. */}
+      {G.pendingSpellReaction && (
+        <div className="rb-callout warn">
+          {G.pendingSpellReaction.casterId === me ? (
+            <div className="rb-callout-title">
+              Warte auf Reaktion des Gegners auf {getCard(G.pendingSpellReaction.cardId).name}…
+            </div>
+          ) : (
+            <>
+              <div className="rb-callout-title">
+                Gegner spielt {getCard(G.pendingSpellReaction.cardId).name} — reagieren?
+              </div>
+              {reactableHand.length > 0 && (
+                <div className="rb-row">
+                  {reactableHand.map(({ cardId, idx }) => (
+                    <CardFace
+                      key={idx}
+                      card={getCard(cardId)}
+                      size="sm"
+                      footer={<button onClick={() => playCardAuto(idx, false)}>Reagieren</button>}
+                    />
+                  ))}
+                </div>
+              )}
+              <button className="cancel" onClick={() => moves.passReaction()}>
+                Passen
+              </button>
+            </>
+          )}
+        </div>
+      )}
 
       {/* Opponent sits across the table: their hand (face down, count only) and base up top. */}
       <div className="rb-opponent-zone">

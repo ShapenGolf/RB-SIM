@@ -101,6 +101,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     mulliganDone: false,
     battlefieldPool: [],
     chosenBattlefieldId: null,
+    cantPlaySpellsThisTurn: false,
   };
 }
 
@@ -193,6 +194,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     winner: null,
     nextInstanceSeq: 0,
     pendingOptionalCost: null,
+    pendingSpellReaction: null,
     extraTurnFor: null,
     anyUnitDiedThisTurn: false,
     pendingDisempowerAtEndOfTurn: [],

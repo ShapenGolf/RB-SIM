@@ -1,5 +1,5 @@
 import type { Card, Domain } from "../types";
-import type { CardInstance, GameState, PlayerId } from "../../game/state";
+import type { CardInstance, GameState, PendingSpellReaction, PlayerId } from "../../game/state";
 
 export interface SpecialCaseContext {
   game: GameState;
@@ -336,6 +336,33 @@ export interface SpecialCaseHandler {
    * recall it."). Checked at the top of game/combat.ts destroyInstance, alongside the flag.
    */
   preventsAllyDeathHere?(ctx: SpecialCaseContext, dyingInstance: CardInstance): boolean;
+
+  /**
+   * True if THIS card, played right now with the given (already-chosen, if any) targetInstanceId,
+   * is a legal counter of the currently-pending spell — see game/state.ts's PendingSpellReaction
+   * and moves.ts's playCard. Only present on cards whose ENTIRE effect is "Counter a spell[...]"
+   * (Wind Wall, Defy, Crumbling Sands, Riposte, ...) — moves.ts rejects the whole move (same
+   * spirit as rejectsInvalidTemplatedTarget: no legal effect means the card can't be cast at all,
+   * matching real rules) if this returns false, or if SpecialCaseEngine.preventsCounter says the
+   * pending spell/its controller is protected. Returning true does NOT by itself discard the
+   * pending spell — moves.ts does that afterward, once this card's own onPlay (if any) has
+   * resolved normally (e.g. Riposte reads `ctx.game.pendingSpellReaction` from its own onPlay to
+   * buff a chosen unit by the countered spell's Energy cost — see riposte.ts).
+   */
+  canCounterPending?(ctx: SpecialCaseContext, pending: PendingSpellReaction, targetInstanceId: string | undefined): boolean;
+
+  /** Where a spell THIS card successfully counters ends up — defaults to "trash" (the normal discard destination) when omitted. Only Abandon ("Return it to its owner's hand instead") sets "hand". */
+  readonly counterDestination?: "trash" | "hand";
+
+  /**
+   * True if this instance's passive presence makes `pending` (the spell about to be countered)
+   * immune — e.g. empowered Mel, Newly Awakened protecting her OWN controller's future spells, or
+   * Decree of Rage protecting ITSELF (its own instance is one of the caster's instances at
+   * counter-check time, same as any other spell mid-resolution — see PendingSpellReaction).
+   * Checked via SpecialCaseEngine.preventsCounter, which scans every instance the pending spell's
+   * CASTER controls (mirrors preventsAllyDeathHere's scan-the-controller's-board pattern above).
+   */
+  preventsCounterFor?(ctx: SpecialCaseContext, pending: PendingSpellReaction): boolean;
 
   /** True if this unit/champion may be played directly to a Battlefield where the OPPONENT has units (e.g. Deadbloom Predator: "You may play me to an occupied enemy battlefield"). Distinct from Ambush, which requires the controller's OWN units there. */
   allowsPlayToEnemyOccupiedBattlefield?(ctx: SpecialCaseContext): boolean;

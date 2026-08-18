@@ -134,6 +134,8 @@ export interface PlayerState {
   battlefieldPool: string[];
   /** The one Battlefield from `battlefieldPool` this player has chosen to bring to the table (see moves.ts `chooseBattlefield`), or null before they've picked. Gates the pregame "battlefieldSelect" phase in game/game.ts. */
   chosenBattlefieldId: string | null;
+  /** Set by a successful [Reaction] counter's side effect (e.g. Lilting Lullaby: "Its controller can't play spells this turn.") — checked by moves.ts's playCard. Reset at Awaken. */
+  cantPlaySpellsThisTurn: boolean;
 }
 
 export interface BattlefieldSlot {
@@ -163,6 +165,30 @@ export interface PendingOptionalCost {
   payload?: string;
 }
 
+/**
+ * A spell that's been paid for and removed from its owner's hand, but is paused before resolving
+ * so the OTHER player gets a real one-shot window to respond with one of their own [Reaction]
+ * cards — most importantly, "Counter a spell" cards (Wind Wall, Defy, Riposte, ...), which were
+ * previously unimplementable no-ops (see docs/data-sourcing.md, special-cases/wind-wall.ts and
+ * siblings). See moves.ts's playCard/passReaction for the full flow and game/game.ts for how the
+ * responding player is granted move access via boardgame.io's activePlayers mechanism (ctx.currentPlayer
+ * stays the caster throughout — only who's ALLOWED to move changes).
+ *
+ * Deliberately a SINGLE, non-recursive window: once the responder reacts (or passes), the window
+ * closes and `pendingSpellReaction` resolves — a reaction to a reaction (e.g. countering a
+ * counter) isn't supported. This also means only SPELLS open a window (not activated abilities,
+ * not combat) — see README's "Nächste Schritte" for what's still out of scope.
+ */
+export interface PendingSpellReaction {
+  /** Whoever cast the paused spell — NOT ctx.currentPlayer's opposite, since ctx.currentPlayer never changes while this is pending. */
+  casterId: PlayerId;
+  cardId: string;
+  /** The already-created (but not yet zone-placed) CardInstance sitting in G.instances, same as any other spell mid-resolution — see moves.ts's resolvePlayedCard, which normally runs immediately but is delayed here until the window closes. */
+  instanceId: string;
+  targetInstanceId?: string;
+  payAdditionalCost: boolean;
+}
+
 export interface GameState {
   players: Record<PlayerId, PlayerState>;
   battlefields: BattlefieldSlot[];
@@ -173,6 +199,8 @@ export interface GameState {
   winner: PlayerId | null;
   nextInstanceSeq: number;
   pendingOptionalCost: PendingOptionalCost | null;
+  /** See PendingSpellReaction's doc comment. Null when no spell is currently paused for a reaction window. */
+  pendingSpellReaction: PendingSpellReaction | null;
   /** Set by "take a turn after this one" effects (e.g. Time Warp) — game.ts's turn.order.next reads this to repeat the same player instead of alternating, then clears it in onBegin once consumed. */
   extraTurnFor: PlayerId | null;
   /** True once any unit/champion (either player's) has died this turn, e.g. Towering Pairofant: "If a unit died this turn, I enter ready." Set in combat.ts destroyInstance, reset in turnFlow.ts runTurnStart — global, not per-player, unlike PlayerState.enemyUnitDiedThisTurn. */
