@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { BoardProps } from "boardgame.io/react";
 import type { GameState, PlayerId, CardInstance } from "../game/state";
-import type { Domain } from "../cards/types";
+import type { Card, Domain } from "../cards/types";
 import { getCard, getRuneCardForDomain } from "../cards/db";
 import { computeAutoPayment } from "../ui/autoPay";
 import { KeywordEngine } from "../keywords/registry";
@@ -422,8 +422,12 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         if (payload.type === "gear") equipOnto(payload.gearInstanceId, id);
         else if (payload.type === "handCard") playCardAuto(payload.handIndex, false);
         else if (payload.type === "unit") {
-          const battlefieldIndex = Number(id.replace("battlefield-", ""));
-          moves.attackBattlefield({ battlefieldIndex, unitInstanceIds: [payload.instanceId] });
+          // Stage this unit as an attacker (same as clicking it) instead of committing combat
+          // immediately — dragging several units, one at a time, onto the same battlefield needs
+          // to build up a group BEFORE the fight happens, not resolve combat after just the
+          // first one. The existing "Hierhin angreifen" button (rendered once >=1 unit is
+          // staged) commits the actual attackBattlefield move for all staged units at once.
+          toggleAttacker(payload.instanceId);
         }
       },
     };
@@ -455,6 +459,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     moves.resolveOptionalCost({ pay: false, energyRuneIds: [] });
   }
 
+  /** Resolves a unit/champion instance's attached Gear instanceIds (CardInstance.equipment) into real Card objects, for CardFace's `equippedGear` hover preview. */
+  function getEquippedGear(instance: CardInstance): Card[] {
+    return instance.equipment.map((id) => getCard(G.instances[id].cardId));
+  }
+
   function toggleAttacker(instanceId: string) {
     setAttackMode((prev) => {
       const selected = new Set(prev?.selected ?? []);
@@ -479,7 +488,14 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         {Object.values(G.instances)
           .filter((i) => i.zone === "base" || i.zone === "battlefield")
           .map((i) => (
-            <CardFace key={i.instanceId} card={getCard(i.cardId)} instance={i} size="sm" onClick={() => onPick(i.instanceId)} />
+            <CardFace
+              key={i.instanceId}
+              card={getCard(i.cardId)}
+              instance={i}
+              size="sm"
+              onClick={() => onPick(i.instanceId)}
+              equippedGear={getEquippedGear(i)}
+            />
           ))}
       </div>
     );
@@ -550,7 +566,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         </div>
         <div className="rb-row">
           {opponent.base.map((id) => (
-            <CardFace key={id} card={getCard(G.instances[id].cardId)} instance={G.instances[id]} size="sm" />
+            <CardFace
+              key={id}
+              card={getCard(G.instances[id].cardId)}
+              instance={G.instances[id]}
+              size="sm"
+              equippedGear={getEquippedGear(G.instances[id])}
+            />
           ))}
         </div>
 
@@ -562,6 +584,21 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             <div className="rb-row">
               {opponent.hiddenZone.map((_, i) => (
                 <div key={i} className="rb-card-back" />
+              ))}
+            </div>
+          </>
+        )}
+
+        {opponent.trash.length > 0 && (
+          <>
+            {/* Trash is public information (see docs/rules-reference.md) — shown face-up, unlike
+                hand/Hidden. Newest-on-top so the most recently trashed card is easy to spot. */}
+            <div className="rb-section-label">
+              Gegner-Trash <span className="rb-count">{opponent.trash.length}</span>
+            </div>
+            <div className="rb-row">
+              {[...opponent.trash].reverse().map((cardId, i) => (
+                <CardFace key={i} card={getCard(cardId)} size="sm" />
               ))}
             </div>
           </>
@@ -621,6 +658,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                   instance={i}
                   size="sm"
                   onClick={() => confirmEquipTarget(i.instanceId)}
+                  equippedGear={getEquippedGear(i)}
                 />
               ))}
           </div>
@@ -654,14 +692,26 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               <div className="rb-battlefield-side-label">Du</div>
               <div className="rb-battlefield-units">
                 {slot.units[me].map((id) => (
-                  <CardFace key={id} card={getCard(G.instances[id].cardId)} instance={G.instances[id]} size="sm" />
+                  <CardFace
+                    key={id}
+                    card={getCard(G.instances[id].cardId)}
+                    instance={G.instances[id]}
+                    size="sm"
+                    equippedGear={getEquippedGear(G.instances[id])}
+                  />
                 ))}
               </div>
 
               <div className="rb-battlefield-side-label">Gegner</div>
               <div className="rb-battlefield-units">
                 {slot.units[opponentId].map((id) => (
-                  <CardFace key={id} card={getCard(G.instances[id].cardId)} instance={G.instances[id]} size="sm" />
+                  <CardFace
+                    key={id}
+                    card={getCard(G.instances[id].cardId)}
+                    instance={G.instances[id]}
+                    size="sm"
+                    equippedGear={getEquippedGear(G.instances[id])}
+                  />
                 ))}
               </div>
 
@@ -710,6 +760,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               card={card}
               instance={instance}
               size="sm"
+              equippedGear={getEquippedGear(instance)}
               selected={isUnit ? attackMode?.selected.has(id) : undefined}
               onClick={canAct && isUnit && !instance.exhausted ? () => toggleAttacker(id) : undefined}
               frame={simpleMode && isUnit ? (instance.exhausted ? "blocked" : "ok") : undefined}
@@ -753,6 +804,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           );
         })}
       </div>
+
+      {player.trash.length > 0 && (
+        <>
+          <div className="rb-section-label">
+            Trash <span className="rb-count">{player.trash.length}</span>
+          </div>
+          <div className="rb-row">
+            {[...player.trash].reverse().map((cardId, i) => (
+              <CardFace key={i} card={getCard(cardId)} size="sm" />
+            ))}
+          </div>
+        </>
+      )}
 
       <div className="rb-section-label">Legend &amp; Champion</div>
       <div className="rb-row">

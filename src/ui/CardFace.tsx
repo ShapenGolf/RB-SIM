@@ -37,6 +37,7 @@ export function CardFace({
   onDrop,
   dropActive,
   dragging,
+  equippedGear,
 }: {
   card: Card;
   instance?: CardInstance;
@@ -64,6 +65,8 @@ export function CardFace({
   dropActive?: boolean;
   /** True while this specific card is the one currently being dragged (see Board.tsx) — dims it. */
   dragging?: boolean;
+  /** Gear cards currently attached to this unit/champion (resolved from `instance.equipment`'s instanceIds by the caller, which has `getCard`/`G.instances` — see Board.tsx). Shown as small thumbnails next to the hover-zoom preview, in addition to the small 🗡N badge on the card face itself — the badge alone doesn't say WHICH gear. */
+  equippedGear?: Card[];
 }) {
   const domainKey = DOMAIN_VAR[card.domains[0]] ?? "colorless";
   const rarityKey = card.rarity ? (RARITY_VAR[card.rarity] ?? "common") : "common";
@@ -166,6 +169,20 @@ export function CardFace({
             </div>
           )}
         </div>
+        {equippedGear && equippedGear.length > 0 && (
+          <div className="rb-card-zoom-gear">
+            {equippedGear.map((gearCard, i) => (
+              <div key={i} className="rb-card-zoom-gear-item">
+                {gearCard.imageUrl ? (
+                  <img src={gearCard.imageUrl} alt={gearCard.name} />
+                ) : (
+                  <div className="rb-card-zoom-gear-placeholder" />
+                )}
+                <span>{gearCard.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {footer && <div className="rb-card-footer">{footer}</div>}
