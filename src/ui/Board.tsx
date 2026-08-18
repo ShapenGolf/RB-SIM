@@ -75,6 +75,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     { type: "gear"; gearInstanceId: string } | { type: "handCard"; handIndex: number } | { type: "unit"; instanceId: string } | null
   >(null);
   const [dropHoverId, setDropHoverId] = useState<string | null>(null);
+  // Tracks which G.lastCombatResult.seq the player has already closed, so the post-combat
+  // summary panel (see below, rendered near the topbar) reappears for every NEW Showdown but
+  // stays dismissed for the one currently on screen — comparing seq (not identity) means it
+  // survives boardgame.io's state cloning between moves.
+  const [dismissedCombatSeq, setDismissedCombatSeq] = useState<number | null>(null);
 
   const me = playerID as PlayerId | null;
   const canAct = isActive && me !== null && ctx.currentPlayer === me;
@@ -568,6 +573,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
   const opponent = G.players[opponentId];
 
+  const combatResult = G.lastCombatResult && G.lastCombatResult.seq !== dismissedCombatSeq ? G.lastCombatResult : null;
+
   const championCard = player.championZone ? getCard(player.championZone) : null;
   const championDummyInstance = player.championZone ? blankInstance(player.championZone, me) : null;
   const championCanAfford =
@@ -606,6 +613,56 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           Modus: {simpleMode ? "Einfach" : "Standard"}
         </button>
       </div>
+
+      {/* Post-combat damage summary — playtesters reported combat resolving "too instantly" with
+          no visible feedback on who dealt/took how much damage. Purely a read-only recap of a
+          Showdown that already resolved (see GameState.lastCombatResult); dismissible, and
+          replaced automatically by the next Showdown's summary. */}
+      {combatResult &&
+        (() => {
+          const battlefieldName = getCard(G.battlefields[combatResult.battlefieldIndex].cardId).name;
+          const outcomeText =
+            combatResult.conqueredBy === me
+              ? "Du hast das Battlefield erobert."
+              : combatResult.conqueredBy === opponentId
+                ? "Der Gegner hat das Battlefield erobert."
+                : "Battlefield bleibt umkämpft.";
+          return (
+            <div className="rb-combat-summary">
+              <div className="rb-combat-summary-header">
+                <b>Kampf bei {battlefieldName}</b>
+                <button className="rb-combat-summary-close" onClick={() => setDismissedCombatSeq(combatResult.seq)}>
+                  ×
+                </button>
+              </div>
+              <div className="rb-combat-summary-totals">
+                <span>
+                  {combatResult.attacker === me ? "Du" : "Gegner"} verursachte <b>{combatResult.attackerDamageDealt}</b>{" "}
+                  Schaden
+                </span>
+                <span>
+                  {combatResult.defender === me ? "Du" : "Gegner"} verursachte <b>{combatResult.defenderDamageDealt}</b>{" "}
+                  Schaden
+                </span>
+              </div>
+              <div className="rb-combat-summary-outcome">{outcomeText}</div>
+              <div className="rb-row">
+                {combatResult.hits.map((hit) => (
+                  <CardFace
+                    key={hit.instanceId}
+                    card={getCard(hit.cardId)}
+                    size="sm"
+                    footer={
+                      <span className={hit.died ? "rb-combat-hit-died" : "rb-combat-hit-damage"}>
+                        {hit.died ? "☠ zerstört" : hit.damage > 0 ? `-${hit.damage}` : "unverletzt"}
+                      </span>
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
       {/* Opponent sits across the table: their hand (face down, count only) and base up top. */}
       <div className="rb-opponent-zone">

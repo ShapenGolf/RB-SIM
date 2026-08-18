@@ -198,6 +198,7 @@ export function setupGame(options: SetupOptions = defaultSetupOptions): GameStat
     pendingDisempowerAtEndOfTurn: [],
     preventAllSpellDamageThisTurn: false,
     anyDamageKillsThisTurn: false,
+    lastCombatResult: null,
   };
 }
 

@@ -106,6 +106,52 @@ describe("resolveCombat", () => {
     expect(normal.damage).toBe(0);
   });
 
+  it("records a lastCombatResult summary for a real fight", () => {
+    const game = makeGame();
+    const footman = putOnBase(game, "unit-plain-footman", "0"); // Might 2
+    const guard = putOnBase(game, "unit-plain-guard", "1"); // Might 1
+    moveToBattlefield(game, footman.instanceId, 0);
+    moveToBattlefield(game, guard.instanceId, 0);
+
+    resolveCombat(game, getCard, 0, "0");
+
+    const result = game.lastCombatResult;
+    expect(result).not.toBeNull();
+    expect(result?.battlefieldIndex).toBe(0);
+    expect(result?.attacker).toBe("0");
+    expect(result?.defender).toBe("1");
+    expect(result?.attackerDamageDealt).toBe(2);
+    expect(result?.defenderDamageDealt).toBe(1);
+    expect(result?.conqueredBy).toBe("0");
+    const guardHit = result?.hits.find((h) => h.instanceId === guard.instanceId);
+    expect(guardHit).toEqual({
+      instanceId: guard.instanceId,
+      cardId: "unit-plain-guard",
+      controller: "1",
+      damage: 1,
+      died: true,
+    });
+    const footmanHit = result?.hits.find((h) => h.instanceId === footman.instanceId);
+    expect(footmanHit).toMatchObject({ damage: 1, died: false });
+  });
+
+  it("clears lastCombatResult when an attacker walks into an undefended battlefield", () => {
+    const game = makeGame();
+    const footman = putOnBase(game, "unit-plain-footman", "0");
+    const guard = putOnBase(game, "unit-plain-guard", "1");
+    const scout = putOnBase(game, "unit-plain-footman", "0");
+    moveToBattlefield(game, footman.instanceId, 0);
+    moveToBattlefield(game, guard.instanceId, 0);
+    moveToBattlefield(game, scout.instanceId, 1);
+
+    resolveCombat(game, getCard, 0, "0"); // real fight at battlefield 0, sets lastCombatResult
+    expect(game.lastCombatResult).not.toBeNull();
+
+    resolveCombat(game, getCard, 1, "0"); // walk into the undefended battlefield 1
+
+    expect(game.lastCombatResult).toBeNull();
+  });
+
   it("[Backline] defenders are assigned combat damage last", () => {
     const game = makeGame();
     const attacker = putOnBase(game, "unit-plain-guard", "0"); // Might 1

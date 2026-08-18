@@ -4,7 +4,7 @@ import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { computeMight } from "./might";
 import { fireTemplatedEffect } from "./templatedEffectEngine";
 import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
-import type { CardInstance, GameState, PlayerId } from "./state";
+import type { CardInstance, CombatHit, GameState, PlayerId } from "./state";
 
 /**
  * Combat resolution assumption (unverified against the full official rules
@@ -256,6 +256,9 @@ export function resolveCombat(
 
   if (defenderIds.length === 0) {
     if (attackerIds.length > 0) conquerBattlefield(game, getCard, battlefieldIndex, attacker, 0);
+    // No defenders means no actual Showdown — clear any stale summary from an earlier fight so the
+    // UI doesn't re-show it (see GameState.lastCombatResult).
+    game.lastCombatResult = null;
     return;
   }
 
@@ -284,6 +287,22 @@ export function resolveCombat(
 
   const attackerExcessDamage = assignDamage(game, getCard, attackerTotalDamage, defenderIds, "defending", battlefieldIndex, attacker);
   assignDamage(game, getCard, defenderTotalDamage, attackerIds, "attacking", battlefieldIndex, defender);
+
+  // Snapshot per-unit damage now, before the end-of-Showdown reset-to-0 loop below overwrites it —
+  // this is what powers the UI's post-combat summary (GameState.lastCombatResult).
+  const hits: CombatHit[] = [];
+  for (const instanceId of [...defenderIds, ...attackerIds]) {
+    const instance = game.instances[instanceId];
+    if (!instance) continue;
+    const hp = toughness(game, getCard, instanceId, defenderIds.includes(instanceId) ? "defending" : "attacking");
+    hits.push({
+      instanceId,
+      cardId: instance.cardId,
+      controller: instance.controller,
+      damage: instance.damage,
+      died: instance.damage >= hp,
+    });
+  }
 
   const destroyedDefenders = defenderIds.filter(
     (id) => game.instances[id] && game.instances[id].damage >= toughness(game, getCard, id, "defending"),
@@ -316,12 +335,26 @@ export function resolveCombat(
 
   const attackerSurvivors = slot.units[attacker].length;
   const defenderSurvivors = slot.units[defender].length;
+  let conqueredBy: PlayerId | null = null;
   if (defenderSurvivors === 0 && attackerSurvivors > 0) {
+    conqueredBy = attacker;
     conquerBattlefield(game, getCard, battlefieldIndex, attacker, attackerExcessDamage);
     SpecialCaseEngine.onWinCombat(game, getCard, attacker);
   } else if (attackerSurvivors === 0 && defenderSurvivors > 0) {
     SpecialCaseEngine.onWinCombat(game, getCard, defender);
   }
+
+  game.nextInstanceSeq += 1;
+  game.lastCombatResult = {
+    seq: game.nextInstanceSeq,
+    battlefieldIndex,
+    attacker,
+    defender,
+    attackerDamageDealt: attackerTotalDamage,
+    defenderDamageDealt: defenderTotalDamage,
+    hits,
+    conqueredBy,
+  };
 }
 
 /** Fires Hunt-style Hold triggers for every unit a player has on Battlefields they control, at their Beginning step. */

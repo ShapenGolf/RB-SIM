@@ -183,4 +183,30 @@ export interface GameState {
   preventAllSpellDamageThisTurn: boolean;
   /** Set by Imperial Decree: "When any unit takes damage this turn, kill it." Checked after damage is applied in both game/spellDamage.ts dealSpellDamage and game/combat.ts assignDamage — the two chokepoints for all damage. Global, applies to both players' units. Reset each turn in turnFlow.ts runTurnStart. */
   anyDamageKillsThisTurn: boolean;
+  /** Snapshot of the most recently resolved Showdown, for the UI's post-combat damage summary (see ui/Board.tsx) — players asked to see "who took how much damage" instead of combat resolving silently. Set at the end of combat.ts's resolveCombat, overwritten by the next Showdown; null before the game's first combat. Purely a UI convenience, not read by any game-logic chokepoint. */
+  lastCombatResult: CombatResult | null;
+}
+
+/** One unit's outcome in a resolved Showdown — see GameState.lastCombatResult. */
+export interface CombatHit {
+  instanceId: string;
+  cardId: string;
+  controller: PlayerId;
+  /** Damage this instance took in the Showdown (post-prevention/multiplier, i.e. what actually landed). */
+  damage: number;
+  died: boolean;
+}
+
+/** Damage summary for one resolved Showdown — see GameState.lastCombatResult. */
+export interface CombatResult {
+  /** Monotonic id (from GameState.nextInstanceSeq at resolution time) so the UI can tell two different Showdowns apart even if their damage numbers happen to match — see ui/Board.tsx's dismiss-on-new-result logic. */
+  seq: number;
+  battlefieldIndex: number;
+  attacker: PlayerId;
+  defender: PlayerId;
+  attackerDamageDealt: number;
+  defenderDamageDealt: number;
+  hits: CombatHit[];
+  /** Set if the Showdown ended in a conquer, i.e. one side was fully wiped out (or the battlefield was undefended). */
+  conqueredBy: PlayerId | null;
 }
