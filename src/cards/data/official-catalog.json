@@ -216,7 +216,7 @@
     ],
     "tags": [],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-003/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/33df1c56c6e76f9cb783c19161f16fcdbdc20f98-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2264ab788558ec69b1b6ed3e03ce69a3f63bdbb7-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-227",
@@ -269,7 +269,7 @@
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-119/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/7adc5aa8dba66bf918b8140699cb3a74f7b0efb5-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/cfa28e1abcac1db780d11e82985e13ee5978290d-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-21",
@@ -302,7 +302,7 @@
       "Akali"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-021/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/92d8ad4bc4724da89f32348f290600f632f24e9e-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/564e5f35ae39b6604290e83f39ffb61c2b2b9175-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-38",
@@ -329,7 +329,7 @@
       "Akali"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-038/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/6924311aab46a74aa2c54030c053427725860ea8-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f1a4d73853194a3dde02c51b083d197af89d2bda-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-109",
@@ -649,7 +649,7 @@
       "Ambessa"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-084/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/df72c64b97738a217508ee8ee6e6297000607a97-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/3907dc56d3a639e62f5222eaa0fd589c7a582da6-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-117",
@@ -669,7 +669,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 Pay any amount of Energy to [Add] that much Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — Pay any amount of Energy to [Add] that much Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -861,14 +861,14 @@
       }
     ],
     "might": 4,
-    "text": "When you attach an Equipment to me, choose one that hasn't been chosen this turn \u2014Ready 2 runes.Channel 1 rune exhausted.Buff a friendly unit.",
+    "text": "When you attach an Equipment to me, choose one that hasn't been chosen this turn —Ready 2 runes.Channel 1 rune exhausted.Buff a friendly unit.",
     "keywords": [],
     "tags": [
       "Aphelios",
       "Mount Targon"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-224/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/58bb3f7a73a8aa38159cc63439e0483ca2574157-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/1da6ebc24ad6360186208ab70a0c43443c349bbe-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-49",
@@ -888,7 +888,7 @@
       }
     ],
     "might": 4,
-    "text": "When you attach an Equipment to me, choose one that hasn't been chosen this turn \u2014Ready 2 runes.Channel 1 rune exhausted.Buff a friendly unit.",
+    "text": "When you attach an Equipment to me, choose one that hasn't been chosen this turn —Ready 2 runes.Channel 1 rune exhausted.Buff a friendly unit.",
     "keywords": [],
     "tags": [
       "Aphelios",
@@ -1086,7 +1086,7 @@
       "Noxus"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-001/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e44f173629322a4e0c32d3f8902c294d4482ef42-1039x744.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/db48f8c1da0e4f9804ae94398f0864859db0002a-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-198",
@@ -1369,7 +1369,7 @@
       }
     ],
     "might": 6,
-    "text": "Calm Rune: [Action] \u2014 Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn.",
+    "text": "Calm Rune: [Action] — Choose a unit you control. Move me to its location and it to my original location. If it's equipped, you may attach one of its Equipment to me. Use only once per turn.",
     "keywords": [
       {
         "keyword": "action"
@@ -1408,7 +1408,7 @@
       "Shurima"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-177/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/62c75543213df186d3f05236fda6abe8992c948e-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/088970936fc800bd2c4b36636734e16c83e1c8f9-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-161",
@@ -1501,7 +1501,7 @@
       "Shurima"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-001/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/a14d1be8f014a331f60885013d81a1a8f5c8c076-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/d8abab7f0df7c8ec9fff8c8dfa71c732e1ce2e6a-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-78",
@@ -1810,7 +1810,7 @@
       "Lillia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-230/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8d270600e9ec7472cbb51eb56ad0799b7be38c7b-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/5099aa2938091dfcc54277877e320a7f83aeeec1-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-189",
@@ -2182,7 +2182,7 @@
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-002/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2cc800fbd0011dd084426445ebb1c2831420063d-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/b222082d5d38630c4d2542ed24c0442881e3de18-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-178",
@@ -2202,11 +2202,11 @@
       }
     ],
     "might": null,
-    "text": "[Equip] \u2014 Order Rune, Kill a friendly unit (Pay the cost: Attach this to a unit you control.)",
+    "text": "[Equip] — Order Rune, Kill a friendly unit (Pay the cost: Attach this to a unit you control.)",
     "keywords": [
       {
         "keyword": "equip",
-        "grantedText": "\u2014 Order Rune, Kill a friendly unit"
+        "grantedText": "— Order Rune, Kill a friendly unit"
       }
     ],
     "tags": [
@@ -2583,7 +2583,7 @@
     ],
     "tags": [],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-003/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e878c39b562a4e870e93b819c6d85cdf3fdc5238-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/931b77b9ab56c3abc85686be4d2452c450f9b3e0-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-185",
@@ -2693,7 +2693,7 @@
       "Shurima"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-004/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/075f83adf06b41c42c78addd11cfc73fbdb8aabb-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/acab9ec71d58f1e109cd8879c0fef0bdeb866432-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-126",
@@ -2712,7 +2712,7 @@
     "keywords": [],
     "tags": [],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-126/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/011081f82cab36f8ec0d6874492512fd7859f59e-1488x2078.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/3b3c3c07626d6180457c849047e0228dc0d19539-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-151",
@@ -2872,7 +2872,7 @@
       "Miss Fortune"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-309/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/37153cce7f58b2fceb28ea9ff91deb0411f849e2-1488x2078.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f4b7f334f442d30ccea4743c641760c5533804b4-1488x2078.png?accountingTag=RB"
   },
   {
     "id": "ogn-267",
@@ -3248,7 +3248,7 @@
       "Renekton"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-190/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/b9270494d2c18525e766b2ffa23a7c99ad9f994f-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f5db9db00111d8225e17c3a03d0111b471e74999-744x1040.png?accountingTag=RB"
   },
   {
     "id": "ogn-68",
@@ -4599,7 +4599,7 @@
       "Nasus"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-192/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/964b5f9718a6648add68d894505e69bd2c5d071a-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/1790b30538781eb2a55b5baee00fff9ed08794aa-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-148",
@@ -4639,7 +4639,7 @@
     "energyCost": 4,
     "powerCost": [],
     "might": null,
-    "text": "[Repeat] \u2014 1 Energy / Rune / 1 EnergyRune (You may pay each additional cost to repeat this spell's effect.)\nChoose one you haven't already chosen \u2014Draw 1.Deal 2 to a unit at a battlefield.Deal 3 to a unit at a base.Give a unit at a battlefield -4 Might this turn.",
+    "text": "[Repeat] — 1 Energy / Rune / 1 EnergyRune (You may pay each additional cost to repeat this spell's effect.)\nChoose one you haven't already chosen —Draw 1.Deal 2 to a unit at a battlefield.Deal 3 to a unit at a base.Give a unit at a battlefield -4 Might this turn.",
     "keywords": [
       {
         "keyword": "repeat"
@@ -4671,7 +4671,7 @@
       }
     ],
     "might": 8,
-    "text": "I enter ready.\nReduce my cost by 1 Energy for each of the following tags among your units \u2014 Bird, Cat, Dog, and Poro.\nWhen I attack while your units have all 4 tags, [Stun] an enemy unit here. (It doesn't deal combat damage this turn.)",
+    "text": "I enter ready.\nReduce my cost by 1 Energy for each of the following tags among your units — Bird, Cat, Dog, and Poro.\nWhen I attack while your units have all 4 tags, [Stun] an enemy unit here. (It doesn't deal combat damage this turn.)",
     "keywords": [
       {
         "keyword": "stun"
@@ -4787,7 +4787,7 @@
     "energyCost": 3,
     "powerCost": [],
     "might": 3,
-    "text": "[Legion] \u2014 When you play me, give a unit +2 Might this turn. (Get the effect if you've played another card this turn.)",
+    "text": "[Legion] — When you play me, give a unit +2 Might this turn. (Get the effect if you've played another card this turn.)",
     "keywords": [
       {
         "keyword": "legion"
@@ -4870,7 +4870,7 @@
       }
     ],
     "might": 6,
-    "text": "[Legion] \u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
+    "text": "[Legion] — When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
     "keywords": [
       {
         "keyword": "legion"
@@ -4881,7 +4881,7 @@
       "Darius"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-236/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/46fc840c17925406d22703b82ad02f5eb2ab62cf-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/4f550f321dce06bb09bb47682d5bf2981280ea16-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-243",
@@ -4901,7 +4901,7 @@
       }
     ],
     "might": 6,
-    "text": "[Legion] \u2014 When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
+    "text": "[Legion] — When you play me, ready me. (Get the effect if you've played another card this turn)\nOther friendly units have +1 Might here.",
     "keywords": [
       {
         "keyword": "legion"
@@ -4913,7 +4913,7 @@
       "Noxus"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-243/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/76a697f29d4fc3cd9a5e9a0ce79f229d26bc0c90-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/7b71cf13a07074a6eccbe88ae6c74133d989cb68-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-27",
@@ -4941,7 +4941,7 @@
       "Noxus"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-027/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/df878ecc25160bb7e53b254a609ec243e133e8f1-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/bf7a4900fd2296972c1305a4707c23860bb0522e-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogs-17",
@@ -4979,7 +4979,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -4992,7 +4992,7 @@
       "Kai'Sa"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-299/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/ae8e68af43400f61f7391c0a6ee339fd718a7540-1488x2078.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/57e13462b8fea9a5cfa1b424d3ad3005f37b00ad-1488x2078.png?accountingTag=RB"
   },
   {
     "id": "ogn-247",
@@ -5008,7 +5008,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Rune. Use only to play spells. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -5475,7 +5475,7 @@
       "Jayce"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-194/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/3092eec0739ac28d36e22c3ee005feb75980d001-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f527eb9b02ce62d808ec82e12ac28af5a6bd75fb-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-149",
@@ -5682,7 +5682,7 @@
       "Mount Targon"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-079/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f538c2659c02af20a173503784989e39a0c291f6-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/3e284397713abb21d2c8d9b85202ab65d21689e9-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-183",
@@ -5744,7 +5744,7 @@
       "Mount Targon"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-149/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/d9082f75895c8645e05c0a38edc1b1c83c508d84-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/37b015a64b6bc15e856c2d78e275b10e64db1de4-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-94",
@@ -5882,7 +5882,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": null,
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one \u2014Choose up to 3 cards from opponents' trashes. Their owners recycle them.Draw 1.",
+    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one —Choose up to 3 cards from opponents' trashes. Their owners recycle them.Draw 1.",
     "keywords": [
       {
         "keyword": "reaction"
@@ -6335,7 +6335,7 @@
       "Noxus"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-148/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2b2c2a20cd22c8799b211dd4d7f95c95a8be33ea-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8247622cbe90eadada8d0660ea31d146b1207a87-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-172",
@@ -6410,7 +6410,7 @@
       "Noxus"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-020/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/9019c449004f246de6607bf1829f4f3cabcda200-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8e49e0b83df68f37a15bf704b83475144fd9ef92-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-49",
@@ -6699,7 +6699,7 @@
       }
     ],
     "might": 5,
-    "text": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\n[Deathknell] \u2014 Recycle me to ready your runes. (When I die, get the effect.)",
+    "text": "[Accelerate] (You may pay 1 EnergyMind Rune as an additional cost to have me enter ready.)\n[Deathknell] — Recycle me to ready your runes. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "accelerate"
@@ -6740,7 +6740,7 @@
       "Demacia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-118/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/42d3ce7a0917d57fd9e5809f4d8b66ef40f52d1a-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/fcf578e447d4e2785c8b25f3c39928b98e7b44ca-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-167",
@@ -6948,7 +6948,7 @@
     "energyCost": 3,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] 1 Energy. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -7032,7 +7032,7 @@
     "energyCost": 3,
     "powerCost": [],
     "might": 3,
-    "text": "[Empower] \u2014 Kill a friendly unit (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered] I have +2 Might.",
+    "text": "[Empower] — Kill a friendly unit (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered] I have +2 Might.",
     "keywords": [
       {
         "keyword": "empower"
@@ -7235,7 +7235,7 @@
       "Shen"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-193/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/1f60702c09f95d2a2af0176c77166092cb8cf6fa-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8c234c7efc30a24dc50c4b76517857bff6e1f906-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-153",
@@ -7281,7 +7281,7 @@
       }
     ],
     "might": 3,
-    "text": "When I attack or defend, deal damage equal to my Might to an enemy unit here.\nI don't deal combat damage.\nMind Rune: [Action] \u2014 Move me to your base.",
+    "text": "When I attack or defend, deal damage equal to my Might to an enemy unit here.\nI don't deal combat damage.\nMind Rune: [Action] — Move me to your base.",
     "keywords": [
       {
         "keyword": "action"
@@ -7609,7 +7609,7 @@
       }
     ],
     "might": 6,
-    "text": "[Deathknell] \u2014 Play two 3 Might Mech unit tokens to your base. (When I die, get the effect.)",
+    "text": "[Deathknell] — Play two 3 Might Mech unit tokens to your base. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -7824,7 +7824,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -7853,7 +7853,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Rune. Use only to play gear or use gear abilities. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -8027,7 +8027,7 @@
       }
     ],
     "might": null,
-    "text": "[Reaction]\nChoose one \u2014Counter a spell.Play four 1 Might Bird unit tokens with [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)",
+    "text": "[Reaction]\nChoose one —Counter a spell.Play four 1 Might Bird unit tokens with [Deflect]. (Opponents must pay Rune to choose them with a spell or ability.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -8354,7 +8354,7 @@
     "energyCost": 1,
     "powerCost": [],
     "might": null,
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. Give it +1 Might this turn for each of the following tags among your units \u2014 Bird, Cat, Dog, and Poro.",
+    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose a unit. Give it +1 Might this turn for each of the following tags among your units — Bird, Cat, Dog, and Poro.",
     "keywords": [
       {
         "keyword": "reaction"
@@ -8524,7 +8524,7 @@
     "keywords": [],
     "tags": [],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-007/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/09da06c69d07d4e72dde703737ef167472c715af-1488x2078.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/12bcd0cde5d9ff4640e82945001e9fef863530f1-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-171",
@@ -8932,7 +8932,7 @@
       }
     ],
     "might": 5,
-    "text": "[Deathknell] \u2014 You may play a unit with cost no more than 3 Energy and no more than Rune from your trash, ignoring its cost. (When I die, get the effect.)",
+    "text": "[Deathknell] — You may play a unit with cost no more than 3 Energy and no more than Rune from your trash, ignoring its cost. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -9252,7 +9252,7 @@
       "Ivern"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-233/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/76283fb4384cf39408489f35d00827e0d5b1f9bb-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/d200178cde5075990f7ca1856675d02c4c2538be-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-21",
@@ -9680,7 +9680,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction], [Legion] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
+    "text": "Exhaust: [Reaction], [Legion] — [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -9712,7 +9712,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction], [Legion] \u2014 [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
+    "text": "Exhaust: [Reaction], [Legion] — [Add] 1 Energy. (Abilities that add resources can't be reacted to. Get the effect if you've played a card this turn.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -9859,7 +9859,7 @@
       "Kennen"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-197/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/853681913bcd2a2e2b42217e290b530b72518142-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f208ffb2ee76827cd4c608bcc8e1bcb9380bfa31-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-155",
@@ -10200,7 +10200,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 Pay any amount of Rune to [Add] that much Energy. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — Pay any amount of Rune to [Add] that much Energy. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -10231,7 +10231,7 @@
       }
     ],
     "might": null,
-    "text": "[Empower] \u2014 Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Play a 3 Might Mech unit token to your base.",
+    "text": "[Empower] — Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Play a 3 Might Mech unit token to your base.",
     "keywords": [
       {
         "keyword": "empower"
@@ -10388,7 +10388,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 2,
-    "text": "[Deathknell] \u2014 Play a Gold gear token exhausted. (When I die, get the effect.)",
+    "text": "[Deathknell] — Play a Gold gear token exhausted. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -10559,7 +10559,7 @@
       }
     ],
     "might": 5,
-    "text": "When I move, draw 1, then discard 1. Then, do the following based on the discarded card's type:Spell \u2014 Draw 1.Gear \u2014 Ready up to 2 runes.Unit \u2014 Give me +3 Might this turn.",
+    "text": "When I move, draw 1, then discard 1. Then, do the following based on the discarded card's type:Spell — Draw 1.Gear — Ready up to 2 runes.Unit — Give me +3 Might this turn.",
     "keywords": [],
     "tags": [
       "Ionia",
@@ -11066,14 +11066,14 @@
     "energyCost": 6,
     "powerCost": [],
     "might": 6,
-    "text": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them \u2014 Bird, Cat, Dog, and Poro.",
+    "text": "As you play me, choose Bird, Cat, Dog, or Poro. I gain that tag.\nWhen I conquer or hold, score 1 point if your units have all of the following tags among them — Bird, Cat, Dog, and Poro.",
     "keywords": [],
     "tags": [
       "Ivern",
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-177/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/72462350a7842b6b81c022ac255ae0e82f3559fd-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e450956e0561ddca36558d095b71d3b60dff8b03-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-51",
@@ -11258,7 +11258,7 @@
       "Icathia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-054/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/1d2eae793e415c5f53d7b11c335b5f0ed08c2086-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/3d425589c74dbff818fa09db134fdd8bb7136420-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-119",
@@ -11289,7 +11289,7 @@
       "Icathia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-119/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/a5796125bdb0af8ceb60cd0c5c273c6417e0f7da-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e63ab3370a6e4ce4baddfba12ab92468f6cc9541-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-68",
@@ -11336,7 +11336,7 @@
       }
     ],
     "might": 5,
-    "text": "When I become ready, choose one to give me this turn \u2014[Assault 2] (+2 Might while I'm an attacker.)[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)",
+    "text": "When I become ready, choose one to give me this turn —[Assault 2] (+2 Might while I'm an attacker.)[Deflect 2] (Opponents must pay RuneRune to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)",
     "keywords": [
       {
         "keyword": "assault",
@@ -11355,7 +11355,7 @@
       "Piltover"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-088/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/69539dc4cfa14f1cfe9dc8b49c67344eca176a32-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2dcecc0aab2b62e48388177cc27d220fd70b8a78-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-84",
@@ -11588,7 +11588,7 @@
       "Zaun"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-202/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/da4c4f96081b4c0e151dba74a0ef6eae338478f0-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/a7fe105f40df66525be51bd18e25506945a7b027-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-38",
@@ -11676,7 +11676,7 @@
       "The Void"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-039/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/ad69bde670ce218adee1d2a618a7295d2fb7bd4c-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/3d942c02ad4e96a36dba14d663c5105bb6614500-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-237",
@@ -11706,7 +11706,7 @@
       "Karma"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-237/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2e2c1cb4016543e3288da2dac3ecc3faf8a98927-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/ba0113d449813c94534ae0e74f3ef38f9b8010c2-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-235",
@@ -11885,7 +11885,7 @@
     "energyCost": 3,
     "powerCost": [],
     "might": 3,
-    "text": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I\u2019m [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking].",
+    "text": "[Empower] 3 Energy (3 Energy: Empower me.)\nI can be [Empowered] up to three times.\nI have +2 Might for each time I’m [Empowered].\nWhile I'm [Empowered] three times, I have [Deflect 3] and [Ganking].",
     "keywords": [
       {
         "keyword": "empower",
@@ -12196,7 +12196,7 @@
       "The Void"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-119/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/6998b6c309c93d549284638ff0a3e20c75691978-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/ac07031af5b35881d781b7a7d7b78c59a0fb2cd4-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-143",
@@ -12431,7 +12431,7 @@
       }
     ],
     "might": 1,
-    "text": "[Deathknell] \u2014 Deal 4 to all units at my battlefield. (When I die, get the effect.)",
+    "text": "[Deathknell] — Deal 4 to all units at my battlefield. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -12578,11 +12578,11 @@
     "energyCost": 3,
     "powerCost": [],
     "might": null,
-    "text": "[Equip] \u2014 Chaos Rune, Recycle 2 cards from your trash (Pay the cost: Attach this to a unit you control.)",
+    "text": "[Equip] — Chaos Rune, Recycle 2 cards from your trash (Pay the cost: Attach this to a unit you control.)",
     "keywords": [
       {
         "keyword": "equip",
-        "grantedText": "\u2014 Chaos Rune, Recycle 2 cards from your trash"
+        "grantedText": "— Chaos Rune, Recycle 2 cards from your trash"
       }
     ],
     "tags": [
@@ -12815,7 +12815,7 @@
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-151/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/68d9364d3138e06a25724a0aaae0b7226472cd68-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/eca1aec1304de9c237751eb0aeed620b9ad0408e-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-74",
@@ -12830,7 +12830,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 2,
-    "text": "[Empower] \u2014 1 Energy or Body Rune (Pay either cost: Empower me. Use only if not Empowered.)\n[Empowered] I have +1 Might.",
+    "text": "[Empower] — 1 Energy or Body Rune (Pay either cost: Empower me. Use only if not Empowered.)\n[Empowered] I have +1 Might.",
     "keywords": [
       {
         "keyword": "empower"
@@ -13040,7 +13040,7 @@
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-082/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/b06072002316a5b86f11750bbe21e9dfb94be08d-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/65d0af5361b335a7e65c7aa03a099fc0de3431e6-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-58",
@@ -13114,7 +13114,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 2,
-    "text": "[Deathknell] \u2014 If I died alone, draw 1. (When I die, get the effect. I'm alone if there are no other friendly units here.)",
+    "text": "[Deathknell] — If I died alone, draw 1. (When I die, get the effect. I'm alone if there are no other friendly units here.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -13207,7 +13207,7 @@
       "Jinx"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-301/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/30bed82f66ce9e4eae260d029d92c9d8cb1588ab-1488x2078.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8a7dbbed04133926e58843f1d586f51178ef2ebd-1488x2078.png?accountingTag=RB"
   },
   {
     "id": "ogn-251",
@@ -13396,7 +13396,7 @@
       "Sentinel"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-113/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e05478b8081b3694a795ab0308b1e2c2a7748715-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/bc192b6e22e7a277c53f035809c59db4548a0fd5-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-125",
@@ -13444,7 +13444,7 @@
       "Shurima"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-006/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/71e7d71ebadb81ccad7ca4cb8b3fb85d2f5fd4bf-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/d44355b9b129054e63b6f2c8de30518fe87b6295-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogs-14",
@@ -13459,7 +13459,7 @@
     "energyCost": 4,
     "powerCost": [],
     "might": 2,
-    "text": "Exhaust: [Reaction] \u2014 [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] 2 Energy. Use only to play spells. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -13520,7 +13520,7 @@
       }
     ],
     "might": 4,
-    "text": "[Deathknell] \u2014 Play three 1 Might Recruit unit tokens into your base. (When I die, get the effect.)",
+    "text": "[Deathknell] — Play three 1 Might Recruit unit tokens into your base. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -13670,7 +13670,7 @@
     "energyCost": 4,
     "powerCost": [],
     "might": 3,
-    "text": "Kill a friendly unit or gear, Exhaust: [Action] \u2014 [Add] RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)",
+    "text": "Kill a friendly unit or gear, Exhaust: [Action] — [Add] RuneRune. (Use on your turn or in showdowns. Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "action"
@@ -13864,7 +13864,7 @@
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-113/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/1adb032501aac0070ea1bb0ca31c4efa11cd31a3-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/a21feb3555825392fdb98f868840db3827ad0389-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-59",
@@ -13908,7 +13908,7 @@
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-059/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/cb53c3b70820fca73540223addbe5369b5267e15-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8a6d46d701eebaff0850a5b7400816517006d7e9-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-191",
@@ -13934,7 +13934,7 @@
       "Zed"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-191/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/a88733f8062c18a7aa51a208b1aef5d0bd030007-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/75b7ba57a83af496b26d9fe7e8521f9a851bf464-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-143",
@@ -14004,7 +14004,7 @@
       "Ambessa"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-196/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/844b4dd1ae4803abf61b42d53af2b4969e594332-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2d6c1bd7992ddd20fe524587274ed6f9a249e42c-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-181",
@@ -14143,7 +14143,7 @@
     "energyCost": 5,
     "powerCost": [],
     "might": 4,
-    "text": "[Empower] \u2014 Discard a spell\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less.",
+    "text": "[Empower] — Discard a spell\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less.",
     "keywords": [
       {
         "keyword": "empower"
@@ -14171,7 +14171,7 @@
     "energyCost": 5,
     "powerCost": [],
     "might": 4,
-    "text": "[Empower] \u2014 Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less.",
+    "text": "[Empower] — Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)\nWhen I become [Empowered], banish an enemy unit at a battlefield with 3 Might or less.",
     "keywords": [
       {
         "keyword": "empower"
@@ -14185,7 +14185,7 @@
       "Mel"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-110/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/0495d07746d71cdd1aeae8f7fd5a0b78da0817fb-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/214567717b4f0156ff06c923e1603234cb52db61-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-69",
@@ -14220,7 +14220,7 @@
       "Mel"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-069/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2781dd135b5f42527df3bacee59ccee8684236fa-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/7d794234d8efef9ad647046d1e2cd3736441899f-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-52",
@@ -14240,7 +14240,7 @@
       }
     ],
     "might": null,
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one \u2014Return a friendly unit to its owner's hand.Give an enemy unit -2 Might this turn.",
+    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one —Return a friendly unit to its owner's hand.Give an enemy unit -2 Might this turn.",
     "keywords": [
       {
         "keyword": "reaction"
@@ -14290,7 +14290,7 @@
       }
     ],
     "might": 6,
-    "text": "When I move to a battlefield, choose one \u2014Each player discards 1.Each player draws 1.",
+    "text": "When I move to a battlefield, choose one —Each player discards 1.Each player draws 1.",
     "keywords": [],
     "tags": [
       "Ionia"
@@ -14442,7 +14442,7 @@
       "Bilgewater"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-193/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8fde2eeb516af55b24467569aa982037f5b67b89-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e6ff9ad3d6e2b96ff76cda4c7bc75415c1cdcced-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-162",
@@ -15089,7 +15089,7 @@
       "Nasus"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-063/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/c6bfe2146a52c3d8dd0230904435369ff29bac0e-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/aa96dbb8b4d72db7e47a72ce652ad542f55bf31d-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-178",
@@ -15462,7 +15462,7 @@
       }
     ],
     "might": null,
-    "text": "[Action] (Play on your turn or in showdowns.)\nChoose a unit. Kill it the next time it takes damage this turn.\n[Legion] \u2014 Kill it now instead. (Get the effect if you've played another card this turn.)",
+    "text": "[Action] (Play on your turn or in showdowns.)\nChoose a unit. Kill it the next time it takes damage this turn.\n[Legion] — Kill it now instead. (Get the effect if you've played another card this turn.)",
     "keywords": [
       {
         "keyword": "action"
@@ -15491,7 +15491,7 @@
     "energyCost": 4,
     "powerCost": [],
     "might": 4,
-    "text": "[Legion] \u2014 I cost 2 Energy less. (Get the effect if you've played another card this turn.)",
+    "text": "[Legion] — I cost 2 Energy less. (Get the effect if you've played another card this turn.)",
     "keywords": [
       {
         "keyword": "legion"
@@ -15762,7 +15762,7 @@
       "Freljord"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-085/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/22af72b06cb92d4a0078dddfb87cc9c21c92231d-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f33c4ea9010ea5f440d4470554845c0ecae2c893-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-53",
@@ -16321,7 +16321,7 @@
     "energyCost": 3,
     "powerCost": [],
     "might": null,
-    "text": "This enters exhausted.\n[Empower] \u2014 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead.",
+    "text": "This enters exhausted.\n[Empower] — 1 Energy, Exhaust (Pay the cost: Empower this. Use only if not Empowered.)\n[Reaction] Exhaust: [Add] 1 Energy. If this is [Empowered], [Add] 2 Energy instead.",
     "keywords": [
       {
         "keyword": "empower"
@@ -16499,7 +16499,7 @@
       "Poppy"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-116/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/c0efda4bdfea473f7b9f3fb4ba482990795283a4-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/ef8a8434e1a4c4262dd97213741a4b126cb1449b-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-61",
@@ -16819,7 +16819,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
+    "text": "Exhaust: [Reaction] — Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
     "keywords": [
       {
         "keyword": "reaction"
@@ -16845,7 +16845,7 @@
     "energyCost": null,
     "powerCost": [],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
+    "text": "Exhaust: [Reaction] — Draw 1. Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities.",
     "keywords": [
       {
         "keyword": "reaction"
@@ -17043,7 +17043,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 2,
-    "text": "[Empower] \u2014 Discard 1 (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered] I have +1 Might.",
+    "text": "[Empower] — Discard 1 (Pay the cost: Empower me. Use only if not Empowered.)\n[Empowered] I have +1 Might.",
     "keywords": [
       {
         "keyword": "empower"
@@ -17222,7 +17222,7 @@
     "energyCost": 3,
     "powerCost": [],
     "might": null,
-    "text": "[Empower] \u2014  Exhaust (Pay the cost: Empower me. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Draw 1.",
+    "text": "[Empower] —  Exhaust (Pay the cost: Empower me. Use only if not Empowered.)\nDisempower this, 1 Energy, Exhaust: Draw 1.",
     "keywords": [
       {
         "keyword": "empower"
@@ -17846,7 +17846,7 @@
       "The Void"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-029/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8ef898e761ab44c43cb1cba11109a02d9cb5ce10-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/999e2d25ea32da971e7b99b6e75558286c17949e-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-170",
@@ -17873,7 +17873,7 @@
       "The Void"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-170/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/a268cef6d06080055575bed86aca6db9d75359ac-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/5470aaad3bdb7ff5d2e605b07d93cedb7254c54d-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-184",
@@ -18036,7 +18036,7 @@
       "Zaun"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-171/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/358df43d50a3fc018a6e092acd5fbb3031e0033d-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/edacb8a82d840f2fe46233de9157319a1dc6361a-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-88",
@@ -18123,7 +18123,7 @@
       "Renekton"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-092/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/ba4078d7df5cd5f661aa0c606794036338b64864-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/0b4340e30e46f1784b31b9a110903825b7428a94-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-19",
@@ -18292,7 +18292,7 @@
       "Ixtal"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-024/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/cdab60d27d6d920f19ebed000b13dc25a439848c-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/80c7d1c62301dd6e3ced910156f3fdeb8d34a621-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-76",
@@ -18506,7 +18506,7 @@
       "The Void"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-179/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e8fe608bffa46642e454b0b34f7524c5daef299e-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/4da94f3af92222bebe7be49197ef8d840772d73d-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-15",
@@ -18712,7 +18712,7 @@
       }
     ],
     "might": null,
-    "text": "[Repeat] 4 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect, and may make different choices.)\nChoose one \u2014Deal 4 to a unit in a base.Kill a gear.",
+    "text": "[Repeat] 4 EnergyMind Rune (You may pay the additional cost to repeat this spell's effect, and may make different choices.)\nChoose one —Deal 4 to a unit in a base.Kill a gear.",
     "keywords": [
       {
         "keyword": "repeat"
@@ -18960,7 +18960,7 @@
       "Bandle City"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-089/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/1acbb906fba20f4e5d60f7a82566ca9a19e1a6ea-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/6528aa0656cac59ff7299bc8bdac371238038080-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-50",
@@ -19219,7 +19219,7 @@
       }
     ],
     "might": null,
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one \u2014Empower a unit. Disempower it at end of turn.Disempower a unit that's [Empowered]. Empower it at end of turn.",
+    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)\nChoose one —Empower a unit. Disempower it at end of turn.Disempower a unit that's [Empowered]. Empower it at end of turn.",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19366,7 +19366,7 @@
       "Diana"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-234/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/9782a99fcb36b09adc5d97cdc29595682f26220d-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8bd4006c34aa020211e501e3cb7ee14ab5b4c41f-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-197",
@@ -19434,7 +19434,7 @@
       }
     ],
     "might": 5,
-    "text": "[Legion] \u2014 When you play me, discard 2, then draw 2. (Get the effect if you've played another card this turn.)",
+    "text": "[Legion] — When you play me, discard 2, then draw 2. (Get the effect if you've played another card this turn.)",
     "keywords": [
       {
         "keyword": "legion"
@@ -19558,7 +19558,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Chaos Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Chaos Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19589,7 +19589,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Chaos Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Chaos Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19620,7 +19620,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Calm Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Calm Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19651,7 +19651,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Calm Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Calm Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19682,7 +19682,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Mind Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Mind Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19713,7 +19713,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Mind Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Mind Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19744,7 +19744,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Fury Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Fury Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19775,7 +19775,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Fury Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Fury Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19806,7 +19806,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Body Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Body Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19837,7 +19837,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Body Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Body Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19868,7 +19868,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Order Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Order Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -19899,7 +19899,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Reaction] \u2014 [Add] Order Rune. (Abilities that add resources can't be reacted to.)",
+    "text": "Exhaust: [Reaction] — [Add] Order Rune. (Abilities that add resources can't be reacted to.)",
     "keywords": [
       {
         "keyword": "reaction"
@@ -20568,11 +20568,11 @@
     "energyCost": 2,
     "powerCost": [],
     "might": null,
-    "text": "When you play this, gain 1 XP.\n[Equip] \u2014 Spend 1 XP (Pay the cost: Attach this to a unit you control.)",
+    "text": "When you play this, gain 1 XP.\n[Equip] — Spend 1 XP (Pay the cost: Attach this to a unit you control.)",
     "keywords": [
       {
         "keyword": "equip",
-        "grantedText": "\u2014 Spend 1 XP"
+        "grantedText": "— Spend 1 XP"
       }
     ],
     "tags": [
@@ -20944,7 +20944,7 @@
       "Shurima"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-120/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/484adbe28bafadf0ac37d7787c916013bd106793-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/bd3f242c9ca59cfc2d7dc5b146877c66bb310bb7-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-143",
@@ -21118,7 +21118,7 @@
     ],
     "tags": [],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-007/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/1a90578f055e01515ebfb069dc3dbdba08d24da0-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f46252e8c65a2eb3f476ea51f214af7651d0622d-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-93",
@@ -21212,7 +21212,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 1,
-    "text": "[Deathknell] \u2014 Channel 1 rune exhausted. (When I die, get the effect.)",
+    "text": "[Deathknell] — Channel 1 rune exhausted. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -21377,7 +21377,7 @@
       "Mount Targon"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-239/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/956c7e0ae3d68327c5e822321841c5bf3c96269a-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/fc329097625a1f98a564134945950bd3bd3610a3-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-173",
@@ -21497,7 +21497,7 @@
       "Mel"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Vendetta, VEN-195/166.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/174a22326c894454cb5878f4ce3603d43f9e599f-744x1040.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f56cf2a3755318e1dc6afd01736f2a4d759cd4a1-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-151",
@@ -21950,11 +21950,11 @@
     "energyCost": 4,
     "powerCost": [],
     "might": null,
-    "text": "[Repeat] \u2014 Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn. (+4 Might while it's an attacker.)",
+    "text": "[Repeat] — Discard 1 (You may pay the additional cost to repeat this spell's effect.)\nGive a unit [Assault 4] this turn. (+4 Might while it's an attacker.)",
     "keywords": [
       {
         "keyword": "repeat",
-        "grantedText": "\u2014 Discard 1"
+        "grantedText": "— Discard 1"
       },
       {
         "keyword": "assault",
@@ -22493,7 +22493,7 @@
       }
     ],
     "might": null,
-    "text": "Exhaust: [Legion] \u2014 The next unit you play this turn enters ready. (Get the effect if you've played another card this turn.)",
+    "text": "Exhaust: [Legion] — The next unit you play this turn enters ready. (Get the effect if you've played another card this turn.)",
     "keywords": [
       {
         "keyword": "legion"
@@ -22959,7 +22959,7 @@
     "energyCost": 7,
     "powerCost": [],
     "might": 6,
-    "text": "[Accelerate] (You may pay 1 EnergyCalm Rune as an additional cost to have me enter ready.)\n[Deathknell] \u2014 Channel 2 runes exhausted and draw 1. (When I die, get the effect.)",
+    "text": "[Accelerate] (You may pay 1 EnergyCalm Rune as an additional cost to have me enter ready.)\n[Deathknell] — Channel 2 runes exhausted and draw 1. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "accelerate"
@@ -23037,7 +23037,7 @@
       "Teemo"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-230/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/5e31f0ea037604aa531d84c1d56d26f255210b7c-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/7f0962b840d228ad551fb9334fe9bdf76d209e7d-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-121",
@@ -23075,7 +23075,7 @@
       "Bandle City"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-121/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/0709ab02b75d9acc8f3c4037ec3a4140323150d8-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/b05f31bf744972983f61a9f5801b4ffd68fb9ebf-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ven-66",
@@ -23238,7 +23238,7 @@
       "Sett"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-310/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/6e8efcd343dfd37d9d108243a86c2a5a6412f698-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/af042a5ee9ca9cca47b6f9736b33aaa599353516-1488x2078.png?accountingTag=RB"
   },
   {
     "id": "ogn-291",
@@ -23808,7 +23808,7 @@
       "Shurima"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-008/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/715d5bb52fc8ce0886b28f1c15fe89457e504fc9-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/47ac3971efe67f7910771709b8bb9a5df5b63952-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-217",
@@ -23981,7 +23981,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 2,
-    "text": "[Legion] \u2014 When you play me, buff me. (If I don't have a buff, I get a +1 Might buff. Get the effect if you've played another card this turn.)",
+    "text": "[Legion] — When you play me, buff me. (If I don't have a buff, I get a +1 Might buff. Get the effect if you've played another card this turn.)",
     "keywords": [
       {
         "keyword": "legion"
@@ -24225,7 +24225,7 @@
     "energyCost": 4,
     "powerCost": [],
     "might": 4,
-    "text": "When I attack, reveal the top rune of your rune deck, then recycle it. Do one of the following based on its domain:Fury Rune \u2014 Deal 2 to an enemy unit here and 1 to all other enemy units here.Mind Rune \u2014 Draw 1.Order Rune \u2014 Stun an enemy unit.",
+    "text": "When I attack, reveal the top rune of your rune deck, then recycle it. Do one of the following based on its domain:Fury Rune — Deal 2 to an enemy unit here and 1 to all other enemy units here.Mind Rune — Draw 1.Order Rune — Stun an enemy unit.",
     "keywords": [],
     "tags": [
       "Twisted Fate",
@@ -24252,7 +24252,7 @@
       }
     ],
     "might": 6,
-    "text": "Spend my buff: Choose one you've not chosen this turn \u2014Deal 2 to a unit at a battlefield.Stun a unit at a battlefield.Ready me.Give me [Ganking] this turn.",
+    "text": "Spend my buff: Choose one you've not chosen this turn —Deal 2 to a unit at a battlefield.Stun a unit at a battlefield.Ready me.Give me [Ganking] this turn.",
     "keywords": [
       {
         "keyword": "ganking"
@@ -24338,7 +24338,7 @@
       }
     ],
     "might": 5,
-    "text": "[Deathknell] \u2014 Discard 2, then draw 2. (When I die, get the effect.)",
+    "text": "[Deathknell] — Discard 2, then draw 2. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -24470,7 +24470,7 @@
       "Yasuo"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-305/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/6a06599a299b15175984c1e38d27a3be21258fbe-1488x2078.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/2c804ec513085702763a9145fac93a8adb6c4783-1488x2078.png?accountingTag=RB"
   },
   {
     "id": "ogn-23",
@@ -24504,7 +24504,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 2,
-    "text": "[Deathknell] \u2014 If I was [Mighty], draw 2. (When I die, get the effect. I'm Mighty while I have 5+ Might.)",
+    "text": "[Deathknell] — If I was [Mighty], draw 2. (When I die, get the effect. I'm Mighty while I have 5+ Might.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -24688,7 +24688,7 @@
       }
     ],
     "might": 3,
-    "text": "[Legion] \u2014 When you play me, play two 1 Might Recruit unit tokens here. (Get the effect if you've played another card this turn.)",
+    "text": "[Legion] — When you play me, play two 1 Might Recruit unit tokens here. (Get the effect if you've played another card this turn.)",
     "keywords": [
       {
         "keyword": "legion"
@@ -24985,7 +24985,7 @@
       "Shadow Isles"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-150/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/9dd2a50fcfe6258ef934bdcf73b2fdb19d18ea94-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/7f13b0216c5d805400bb64cf26cd119acfc6c5ca-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-146",
@@ -25140,7 +25140,7 @@
       "Zaun"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-030/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/646df8e81d42025a558112775fc1032c86cab2d0-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/03a55e8d494d7efe20da792365161f5c43c20779-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-176",
@@ -25174,7 +25174,7 @@
       "Piltover"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-176/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/6bde3fc4f76015d36d70e86c8fbcc3b6b7aa43dd-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/51610bbdecd77b15f58b9a968611e536ebdf445e-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-129",
@@ -25306,7 +25306,7 @@
       "Spider"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-060/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/229efda03d93b27741b8f9e86e1151b5c2a5095f-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/cb6dde0284f9ef84cbc9c0f07d2e7aac2fe6f919-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-295",
@@ -25347,7 +25347,7 @@
       "Jhin"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-226/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/94fb0a4944da2427ce615dd2c311a2c9bc781fd2-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/47f10693258104e9373396165e335014bf5783a2-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-181",
@@ -25610,7 +25610,7 @@
       "Kha'Zix"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Unleashed, UNL-236/219.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/e3bff5dc4489376697823d056b42eba7b90566b6-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/ffed0102adcae6fe01d173042487ea85ebe899bc-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-41",
@@ -25677,7 +25677,7 @@
       "Freljord"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-158/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/faceb90b6a46e79eadba43871b8cffe1ec5037a7-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/bcb15f95f4a72f8b070a3b1cd54e6482fe1a4b3e-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-100",
@@ -25851,7 +25851,7 @@
     "energyCost": 2,
     "powerCost": [],
     "might": 1,
-    "text": "[Deathknell] \u2014 Draw 1. (When I die, get the effect.)",
+    "text": "[Deathknell] — Draw 1. (When I die, get the effect.)",
     "keywords": [
       {
         "keyword": "deathknell"
@@ -26400,7 +26400,7 @@
       "Yasuo"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-235/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/40575a59f02c431223ef484edabdf7bd8cb28381-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/74021c17acc45cf743609a825490a0e6dd7466b5-744x1039.png?accountingTag=RB"
   },
   {
     "id": "ogn-205",
@@ -26431,7 +26431,7 @@
       "Ionia"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Origins, OGN-205/298.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/35f7ca6802af48585af55d23cf7675a8922d8535-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/f5ba378ce4dad16d17e001814e091d5f484f2681-744x1039.png?accountingTag=RB"
   },
   {
     "id": "unl-18",
@@ -26581,7 +26581,7 @@
       "Demon"
     ],
     "sourceNote": "Imported from the official Riftbound card gallery (playriftbound.com), set Spiritforged, SFD-233/221.",
-    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/8b190a0e419af24797408f0df4c17b48e8d86e5f-744x1039.png?accountingTag=RB"
+    "imageUrl": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/0bb6fd6e7d1e6fefeeccc82059bdae2eaa000730-744x1039.png?accountingTag=RB"
   },
   {
     "id": "sfd-100",
