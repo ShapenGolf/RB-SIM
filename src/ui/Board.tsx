@@ -617,6 +617,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           {opponent.championZone && <CardFace card={getCard(opponent.championZone)} size="sm" />}
         </div>
 
+        {/* Runes sit face-up in a player's own play area in the physical game — visible to both
+            sides, unlike the hand. */}
+        <div className="rb-section-label">
+          Gegner-Runen <span className="rb-count">{opponent.runePool.length}</span>
+        </div>
+        <div className="rb-rune-strip">
+          {opponent.runePool.map((r) => (
+            <div key={r.instanceId} className="rb-rune-slot" title={`${r.domain} Rune${r.exhausted ? " (exhausted)" : ""}`}>
+              <CardFace card={getRuneCardForDomain(r.domain)} size="sm" rotated={r.exhausted} />
+            </div>
+          ))}
+        </div>
+
         <div className="rb-section-label">
           Gegner-Hand <span className="rb-count">{opponent.hand.length}</span>
         </div>
