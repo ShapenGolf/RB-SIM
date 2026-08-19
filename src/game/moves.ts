@@ -666,8 +666,12 @@ export const attackBattlefield: MoveFn<GameState> = (
 
   SpecialCaseEngine.onShowdownBegin(G, getCard, args.battlefieldIndex);
 
+  // Rule 344.1/344.2: a Showdown opens whenever a Battlefield's control is Contested, whether or
+  // not the other player has any units there to fight with — an uncontrolled/undefended walk-in
+  // opens a Non-Combat Showdown (344.2/348.2), not an unconditional conquer. See
+  // PendingCombatReaction's doc comment for the scope of what this window covers.
   const defenderId = otherPlayerId(player.id);
-  if (slot.units[defenderId].length > 0 && hasReactionOrActionSpellInHand(G, defenderId)) {
+  if (hasReactionOrActionSpellInHand(G, defenderId)) {
     G.pendingCombatReaction = { attacker: player.id, battlefieldIndex: args.battlefieldIndex };
     events.setActivePlayers({ others: Stage.NULL });
     return undefined;

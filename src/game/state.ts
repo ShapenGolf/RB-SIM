@@ -214,13 +214,24 @@ export interface PendingSpellReaction {
 /**
  * Same idea as PendingSpellReaction, for a declared attack: units have already moved to the
  * Battlefield (see moves.ts's attackBattlefield) and onAttack/onMove have already fired, but the
- * actual Showdown math (combat.ts's resolveCombat) is paused so the DEFENDER gets a one-shot
- * window to respond with a [Reaction] spell — OR an [Action] spell, since rule 806.1.b grants
- * Action cards permission to be played "during Showdowns, even when it is not the Controlling
- * player's turn", exactly this situation — BEFORE damage is calculated — e.g. removing or
- * weakening the attacker first, instead of finding out too late that a unit died. Countering isn't
- * relevant here (there's no spell to counter) — moves.ts's playCard rejects any counter-intent
- * card played into this window.
+ * actual Showdown resolution (combat.ts's beginCombatDamageAssignment) is paused so the DEFENDER
+ * gets a one-shot window to respond with a [Reaction] spell — OR an [Action] spell, since rule
+ * 806.1.b grants Action cards permission to be played "during Showdowns, even when it is not the
+ * Controlling player's turn", exactly this situation — BEFORE the Showdown resolves — e.g.
+ * removing or weakening the attacker first, instead of finding out too late that a unit died.
+ * Countering isn't relevant here (there's no spell to counter) — moves.ts's playCard rejects any
+ * counter-intent card played into this window.
+ *
+ * This window opens for BOTH kinds of Showdown (rule 344): a real fight where the defender has
+ * units present (a Combat Showdown, 344.1), and an uncontrolled/undefended walk-in where they
+ * don't (a Non-Combat Showdown, 344.2/348.2) — attackBattlefield only skips it when the defender
+ * has no [Reaction]/[Action] spell to play, regardless of which kind it is; combat.ts's
+ * beginCombatDamageAssignment resolves either correctly once the window closes (its own early
+ * return already handles the no-defenders case). What this window does NOT model is rule 344-348's
+ * real Focus/Chain back-and-forth (either player repeatedly acting until both pass in sequence) —
+ * it's a single one-shot reaction for the defender only, same simplification as the rest of this
+ * codebase's reaction windows; see the findings-report item on a full Chain/Priority system for
+ * the larger piece this is a scoped-down stand-in for.
  *
  * Can never be open at the same time as PendingSpellReaction: opening either requires the acting
  * player to currently be `ctx.currentPlayer` with no window already open — both playCard and

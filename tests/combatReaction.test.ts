@@ -65,15 +65,43 @@ describe("combat reaction window", () => {
     expect(game.instances[defender.instanceId]).toBeUndefined(); // already resolved and died
   });
 
-  it("resolves immediately when walking into an undefended battlefield, even with a Reaction card in the opponent's hand", () => {
+  it("resolves immediately when walking into an undefended battlefield, when the opponent has no Reaction/Action card", () => {
     const game = makeGame();
     const attacker = putOnBase(game, "unit-plain-footman", "0");
-    game.players["1"].hand = ["ogn-64"];
+    game.players["1"].hand = ["unit-plain-footman"]; // no [Reaction]/[Action]
 
     attackBattlefield(moveCtx(game, "0").ctx, { battlefieldIndex: 0, unitInstanceIds: [attacker.instanceId] });
 
     expect(game.pendingCombatReaction).toBeNull();
     expect(game.battlefields[0].controller).toBe("0"); // conquered outright, no fight
+  });
+
+  it("opens a Non-Combat Showdown window (rule 344.2) walking into an undefended battlefield when the opponent has a Reaction card, instead of conquering outright", () => {
+    const game = makeGame();
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    game.players["1"].hand = ["ogn-64"]; // Wind Wall — has [Reaction]
+
+    const { ctx, setActivePlayers } = moveCtx(game, "0");
+    const result = attackBattlefield(ctx, { battlefieldIndex: 0, unitInstanceIds: [attacker.instanceId] });
+
+    expect(result).toBeUndefined();
+    expect(game.pendingCombatReaction).toEqual({ attacker: "0", battlefieldIndex: 0 });
+    expect(game.battlefields[0].controller).toBeNull(); // not conquered yet — waiting on the window
+    expect(setActivePlayers).toHaveBeenCalledWith({ others: null });
+  });
+
+  it("passCombatReaction on an undefended walk-in resolves it as a normal outright conquer once the window closes", () => {
+    const game = makeGame();
+    const attacker = putOnBase(game, "unit-plain-footman", "0");
+    game.players["1"].hand = ["ogn-64"];
+    attackBattlefield(moveCtx(game, "0").ctx, { battlefieldIndex: 0, unitInstanceIds: [attacker.instanceId] });
+    expect(game.pendingCombatReaction).not.toBeNull();
+
+    const result = passCombatReaction(moveCtx(game, "1").ctx, undefined);
+
+    expect(result).toBeUndefined();
+    expect(game.pendingCombatReaction).toBeNull();
+    expect(game.battlefields[0].controller).toBe("0");
   });
 
   it("rejects the attacker acting while their own window is open", () => {
