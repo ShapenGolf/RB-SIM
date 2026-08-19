@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 /**
  * Move a friendly unit and ready it.
@@ -21,6 +23,6 @@ export const rideTheWind: SpecialCaseHandler = {
       target.battlefieldIndex = null;
       ctx.game.players[target.controller].base.push(targetInstanceId);
     }
-    target.exhausted = false;
+    readyInstance(ctx.game, getCard, target.instanceId);
   },
 };

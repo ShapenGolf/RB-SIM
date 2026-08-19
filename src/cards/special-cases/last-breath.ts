@@ -2,6 +2,7 @@ import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
 import { computeMight } from "../../game/might";
 import { dealSpellDamage } from "../../game/spellDamage";
+import { readyInstance } from "./ready-helpers";
 
 /**
  * Ready a friendly unit. It deals damage equal to its Might to an enemy unit at a battlefield.
@@ -16,7 +17,7 @@ export const lastBreath: SpecialCaseHandler = {
     if (!targetInstanceId) return;
     const target = ctx.game.instances[targetInstanceId];
     if (!target || target.controller !== ctx.instance.controller) return;
-    target.exhausted = false;
+    readyInstance(ctx.game, getCard, target.instanceId);
 
     const opponentId = ctx.instance.controller === "0" ? "1" : "0";
     let enemyId: string | undefined;

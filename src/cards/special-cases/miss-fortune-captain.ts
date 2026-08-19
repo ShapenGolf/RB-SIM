@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 /**
  * [Accelerate] [Ganking]
@@ -15,6 +17,6 @@ export const missFortuneCaptain: SpecialCaseHandler = {
     const candidate = Object.values(ctx.game.instances).find(
       (i) => i.instanceId !== ctx.instance.instanceId && i.controller === controller && i.exhausted,
     );
-    if (candidate) candidate.exhausted = false;
+    if (candidate) readyInstance(ctx.game, getCard, candidate.instanceId);
   },
 };

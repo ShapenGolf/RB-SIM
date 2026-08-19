@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import { computeMight } from "../../game/might";
 import { dealSpellDamage } from "../../game/spellDamage";
 import type { CardInstance } from "../../game/state";
@@ -17,7 +18,7 @@ const DAMAGE = 2;
 export const katarinaReckless: SpecialCaseHandler = {
   cardId: "katarina-reckless",
   onAllyHideCard: (ctx) => {
-    ctx.instance.exhausted = false;
+    readyInstance(ctx.game, getCard, ctx.instance.instanceId);
   },
   onAllyPlayFromHidden: (ctx) => {
     const enemyId = ctx.instance.controller === "0" ? "1" : "0";

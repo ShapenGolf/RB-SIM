@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import type { CardInstance } from "../../game/state";
 import type { SpecialCaseHandler } from "./types";
 
@@ -22,6 +23,6 @@ export const jayceBrilliantInventor: SpecialCaseHandler = {
       if (t !== "unit" && t !== "champion") continue;
       if (!best || (getCard(instance.cardId).might ?? 0) > (getCard(best.cardId).might ?? 0)) best = instance;
     }
-    if (best) best.exhausted = false;
+    if (best) readyInstance(ctx.game, getCard, best.instanceId);
   },
 };

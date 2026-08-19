@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import { computeMight } from "../../game/might";
 import type { CardInstance } from "../../game/state";
 import type { SpecialCaseHandler } from "./types";
@@ -24,6 +25,6 @@ export const wallop: SpecialCaseHandler = {
         best = instance;
       }
     }
-    if (best) best.exhausted = false;
+    if (best) readyInstance(ctx.game, getCard, best.instanceId);
   },
 };

@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import { computeMight } from "../../game/might";
 import type { CardInstance } from "../../game/state";
 import type { SpecialCaseHandler } from "./types";
@@ -32,6 +33,6 @@ export const piltoverEnforcer: SpecialCaseHandler = {
     }
     if (!best) return;
     legend.exhausted = true;
-    best.exhausted = false;
+    readyInstance(ctx.game, getCard, best.instanceId);
   },
 };

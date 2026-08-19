@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 /**
  * When you discard one or more cards, ready me and give me +1 Might this turn.
@@ -11,7 +13,7 @@ import type { SpecialCaseHandler } from "./types";
 export const jinxRebel: SpecialCaseHandler = {
   cardId: "jinx-rebel",
   onAllyDiscard: (ctx) => {
-    ctx.instance.exhausted = false;
+    readyInstance(ctx.game, getCard, ctx.instance.instanceId);
     ctx.instance.tempMightBonus += 1;
   },
 };

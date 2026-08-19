@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import type { SpecialCaseHandler } from "./types";
 
 /**
@@ -22,6 +23,6 @@ export const wildclawShaman: SpecialCaseHandler = {
     if (!source) return;
     source.statuses.buffed = false;
     ctx.instance.statuses.buffed = true;
-    ctx.instance.exhausted = false;
+    readyInstance(ctx.game, getCard, ctx.instance.instanceId);
   },
 };

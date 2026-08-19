@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 /** When you play me, ready another unit. */
 export const firstMate: SpecialCaseHandler = {
@@ -8,6 +10,6 @@ export const firstMate: SpecialCaseHandler = {
     if (!targetInstanceId || targetInstanceId === ctx.instance.instanceId) return;
     const target = ctx.game.instances[targetInstanceId];
     if (!target) return;
-    target.exhausted = false;
+    readyInstance(ctx.game, getCard, target.instanceId);
   },
 };

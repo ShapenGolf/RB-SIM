@@ -1,4 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 /**
  * When I attack, ready another friendly unit.
@@ -18,7 +20,7 @@ export const twilightReveler: SpecialCaseHandler = {
       if (id === ctx.instance.instanceId) continue;
       const candidate = ctx.game.instances[id];
       if (candidate?.exhausted) {
-        candidate.exhausted = false;
+        readyInstance(ctx.game, getCard, candidate.instanceId);
         return;
       }
     }

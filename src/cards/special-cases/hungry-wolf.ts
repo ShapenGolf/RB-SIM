@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import type { SpecialCaseHandler } from "./types";
 
 /**
@@ -19,7 +20,7 @@ export const hungryWolf: SpecialCaseHandler = {
     return { energy: 0, runeDomain: "Order", exhaustSelf: false };
   },
   onActivate: (ctx) => {
-    ctx.instance.exhausted = false;
+    readyInstance(ctx.game, getCard, ctx.instance.instanceId);
     ctx.instance.tempMightBonus += 1;
     ctx.instance.statuses.hungryWolfUsedThisTurn = true;
   },

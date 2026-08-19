@@ -1,5 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 /**
  * When you conquer here, you may ready a friendly gear. If it's an Equipment, you may detach it.
@@ -13,6 +14,6 @@ export const veiledTemple: SpecialCaseHandler = {
     const target = Object.values(ctx.game.instances).find(
       (i) => i.controller === ctx.instance.controller && i.exhausted && getCard(i.cardId).type === "gear",
     );
-    if (target) target.exhausted = false;
+    if (target) readyInstance(ctx.game, getCard, target.instanceId);
   },
 };

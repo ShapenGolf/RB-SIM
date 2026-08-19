@@ -1,5 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 /**
  * [Empower] 2 Energy+Rune+Rune
@@ -17,6 +18,6 @@ export const defenderOfTomorrow: SpecialCaseHandler = {
     const target = ctx.game.instances[targetInstanceId];
     if (!target || target.controller !== ctx.instance.controller) return;
     if (getCard(target.cardId).type !== "gear") return;
-    target.exhausted = false;
+    readyInstance(ctx.game, getCard, target.instanceId);
   },
 };
