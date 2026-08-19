@@ -200,6 +200,10 @@ export interface PendingOptionalCost {
     runeDomain?: Domain;
     /** If set, paying this cost ALSO requires exhausting this specific instance (e.g. Grand Duelist: "you may exhaust me to..." — the reactive-trigger equivalent of activatedAbilityCost's exhaustSelf, since this isn't a player-initiated activateAbility call). Rejected if that instance no longer exists or is already exhausted. */
     exhaustSourceInstanceId?: string;
+    /** Same idea as exhaustSourceInstanceId, but for a Legend (e.g. Deceiver: "...and exhaust me to..." where "me" is the Legend) — a Legend isn't a real game.instances entry (see game/pseudoInstance.ts legendPseudoInstance), so it needs its own flag rather than an instanceId lookup. Rejected if the offering player has no Legend or it's already exhausted. */
+    exhaustLegend?: boolean;
+    /** If set, paying this cost ALSO requires discarding this many cards (e.g. Deceiver: "you may discard 1 and exhaust me to..."). No player choice of which — discards from the front of hand, matching ActivatedAbilityCost.discardCount's established precedent. Rejected if hand.length is below this. */
+    discardCount?: number;
   };
   /** Arbitrary bookkeeping the offering handler needs at resolution time (e.g. a trash cardId). */
   payload?: string;

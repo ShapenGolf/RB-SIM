@@ -1080,6 +1080,8 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
 
   const exhaustSource = cost.exhaustSourceInstanceId ? G.instances[cost.exhaustSourceInstanceId] : undefined;
   if (cost.exhaustSourceInstanceId && (!exhaustSource || exhaustSource.exhausted)) return INVALID_MOVE;
+  if (cost.exhaustLegend && (!player.legend || player.legend.exhausted)) return INVALID_MOVE;
+  if (player.hand.length < (cost.discardCount ?? 0)) return INVALID_MOVE;
 
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
@@ -1102,6 +1104,11 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
     player.runeDeck.push(rune);
   }
   if (exhaustSource) exhaustSource.exhausted = true;
+  if (cost.exhaustLegend && player.legend) player.legend.exhausted = true;
+  for (let i = 0; i < (cost.discardCount ?? 0); i += 1) {
+    const discarded = player.hand.shift();
+    if (discarded) discardCardToTrash(G, getCard, player.id, discarded);
+  }
 
   G.pendingOptionalCost = null;
   SpecialCaseEngine.onOptionalCostPaid(G, pending.specialCaseId, player.id, pending.payload);

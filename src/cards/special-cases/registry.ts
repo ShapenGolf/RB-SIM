@@ -2141,7 +2141,7 @@ export const SpecialCaseEngine = {
     game: GameState,
     playerId: PlayerId,
     specialCaseId: string,
-    cost: { energy: number; runeDomain?: Domain; exhaustSourceInstanceId?: string },
+    cost: { energy: number; runeDomain?: Domain; exhaustSourceInstanceId?: string; exhaustLegend?: boolean; discardCount?: number },
     payload?: string,
   ) => {
     game.pendingOptionalCost = { playerId, specialCaseId, cost, payload };

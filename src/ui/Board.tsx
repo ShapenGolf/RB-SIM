@@ -1183,7 +1183,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           <div className="rb-callout-title">
             Optionale Kosten zahlen? ({G.pendingOptionalCost.cost.energy} Energy
             {G.pendingOptionalCost.cost.runeDomain ? ` + ${G.pendingOptionalCost.cost.runeDomain} Rune` : ""}
-            {G.pendingOptionalCost.cost.exhaustSourceInstanceId ? " + Erschöpfen" : ""})
+            {G.pendingOptionalCost.cost.exhaustSourceInstanceId ? " + Erschöpfen" : ""}
+            {G.pendingOptionalCost.cost.discardCount ? ` + ${G.pendingOptionalCost.cost.discardCount} abwerfen` : ""})
           </div>
           <button onClick={payOptionalCost}>Bezahlen</button>
           <button className="cancel" style={{ marginLeft: 6 }} onClick={declineOptionalCost}>
