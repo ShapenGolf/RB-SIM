@@ -6,7 +6,7 @@ import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { beginCombatDamageAssignment, finishCombatResolution, isValidDamageOrder, destroyInstance } from "./combat";
 import { computeMight } from "./might";
 import { createInstance, shuffle, buildPlayerFromDeckList } from "./setup";
-import { fireTemplatedEffect, runTemplatedActions, candidatesForTarget } from "./templatedEffectEngine";
+import { fireTemplatedEffect, runTemplatedActions, candidatesForTarget, recycleRune } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
 import { attachEquipment } from "./equip";
 import { checkBecameMighty } from "./mightTransition";
@@ -432,7 +432,7 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   for (const runeId of args.powerRuneIds) {
     const idx = player.runePool.findIndex((r) => r.instanceId === runeId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
   for (const runeId of repeatEnergyIds) {
     player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
@@ -440,7 +440,7 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   if (args.payRepeatCost && args.repeatPowerRuneId) {
     const idx = player.runePool.findIndex((r) => r.instanceId === args.repeatPowerRuneId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
   const repeatCount = args.payRepeatCost ? 2 : 1;
 
@@ -600,7 +600,7 @@ export const hideCard: MoveFn<GameState> = ({ G, ctx, playerID }, args: HideCard
   if (runeIndex === -1) return INVALID_MOVE;
 
   const [rune] = player.runePool.splice(runeIndex, 1);
-  player.runeDeck.push(rune);
+  recycleRune(player, rune);
   player.hand.splice(args.handIndex, 1);
   player.hiddenZone.push({ cardId, battlefieldIndex: args.battlefieldIndex, hiddenOnGameTurn: ctx.turn });
   SpecialCaseEngine.onAllyHideCard(G, getCard, player.id, getCard(cardId));
@@ -741,7 +741,7 @@ export const playFromTrash: MoveFn<GameState> = ({ G, playerID }, args: PlayFrom
   for (const runeId of [...args.runeDomainRuneIds, ...args.anyDomainRuneIds]) {
     const idx = player.runePool.findIndex((r) => r.instanceId === runeId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
 
   player.trash.splice(args.trashIndex, 1);
@@ -921,7 +921,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (args.powerRuneId) {
     const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
   if (cost.exhaustSelf) instance.exhausted = true;
   if (cost.spendBuff) instance.statuses.buffed = false;
@@ -1008,7 +1008,7 @@ export const empowerInstance: MoveFn<GameState> = ({ G, playerID }, args: Empowe
   if (args.powerRuneId) {
     const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
   if (cost.exhaustSelf) instance.exhausted = true;
   for (let i = 0; i < (cost.discardCount ?? 0); i += 1) {
@@ -1074,7 +1074,7 @@ export const activateLegendAbility: MoveFn<GameState> = ({ G, playerID }, args: 
   if (args.powerRuneId) {
     const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
   if (cost.exhaustSelf) legend.exhausted = true;
   for (let i = 0; i < (cost.recycleFromTrash ?? 0); i += 1) {
@@ -1136,7 +1136,7 @@ export const equipGear: MoveFn<GameState> = ({ G, playerID }, args: EquipGearArg
   if (args.powerRuneId) {
     const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
 
   attachEquipment(G, getCard, args.gearInstanceId, args.targetInstanceId);
@@ -1187,7 +1187,7 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
   if (args.powerRuneId) {
     const idx = player.runePool.findIndex((r) => r.instanceId === args.powerRuneId);
     const [rune] = player.runePool.splice(idx, 1);
-    player.runeDeck.push(rune);
+    recycleRune(player, rune);
   }
   if (exhaustSource) exhaustSource.exhausted = true;
   if (cost.exhaustLegend && player.legend) player.legend.exhausted = true;

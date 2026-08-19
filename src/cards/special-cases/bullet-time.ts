@@ -1,5 +1,6 @@
 import { getCard } from "../db";
 import { dealSpellDamage } from "../../game/spellDamage";
+import { recycleRune } from "../../game/templatedEffectEngine";
 import type { SpecialCaseHandler } from "./types";
 
 /**
@@ -33,7 +34,7 @@ export const bulletTime: SpecialCaseHandler = {
 
     for (let i = 0; i < amount; i += 1) {
       const rune = player.runePool.shift();
-      if (rune) player.runeDeck.push(rune);
+      if (rune) recycleRune(player, rune);
     }
     for (const instanceId of [...ctx.game.battlefields[bestIndex].units[opponentId]]) {
       dealSpellDamage(ctx.game, getCard, instanceId, amount, ctx.instance.controller);

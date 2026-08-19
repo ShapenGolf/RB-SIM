@@ -1,3 +1,4 @@
+import { recycleRune } from "../../game/templatedEffectEngine";
 import type { SpecialCaseHandler } from "./types";
 
 const RUNE_COST = 4;
@@ -18,7 +19,7 @@ export const powerNexus: SpecialCaseHandler = {
     if (player.runePool.length < RUNE_COST) return;
     for (let i = 0; i < RUNE_COST; i += 1) {
       const rune = player.runePool.shift();
-      if (rune) player.runeDeck.push(rune);
+      if (rune) recycleRune(player, rune);
     }
     player.points += 1;
   },

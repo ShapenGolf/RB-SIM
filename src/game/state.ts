@@ -135,6 +135,8 @@ export interface PlayerState {
   cardsPlayedThisTurn: number;
   /** Set true once this player has gained XP this turn (e.g. Wily Newtfish: "If you've gained XP this turn, I have +1 Might and [Ganking]."). Set via templatedEffectEngine.ts's gainXP helper, the chokepoint for every XP-gain site. Reset at Awaken. */
   gainedXPThisTurn: boolean;
+  /** Count of Runes RECYCLED (removed from the pool to pay a Power cost or similar — "spent", as distinct from merely exhausted for Energy) this turn, e.g. Sivir, Mercenary: "If you've spent at least 2 Rune this turn, I have +2 Might and [Ganking]." Set via templatedEffectEngine.ts's recycleRune helper, the chokepoint for every rune-recycle site. Reset at Awaken. */
+  runesSpentThisTurn: number;
   /** One-shot: the next unit/champion this player plays this turn enters ready. Consumed on use, reset at Awaken. */
   nextUnitEntersReady: boolean;
   /** One-shot: the next unit/champion this player plays this turn is buffed (e.g. Nami, Headstrong: "the next time you play a unit this turn, ready it and [Buff] it."). Consumed on use, reset at Awaken. */

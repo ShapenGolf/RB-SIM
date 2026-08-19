@@ -1,16 +1,9 @@
 import type { Card, Domain } from "../cards/types";
 import type { TemplatedAction, TemplatedTargetSpec, TemplatedTrigger } from "../cards/templatedEffects";
-import type { CardInstance, GameState, PlayerId, PlayerState } from "./state";
+import type { CardInstance, GameState, PlayerId, PlayerState, RuneInstance } from "./state";
 import { destroyInstance } from "./combat";
 import { discardCardToTrash } from "./discardEngine";
 
-/**
- * [Add] (rule 429): puts a new, ready Rune of `domain` directly into `playerId`'s Rune Pool — use
- * "Colorless" for plain Energy (Energy payment doesn't check rune domain, see moves.ts's
- * playCard/activateAbility cost validation, so a Colorless rune spends exactly like Energy).
- * Shared by the generic "gainRune" templated action below and several bespoke special-case
- * handlers whose card text uses [Add] directly (e.g. dragonsoul-sage.ts, lux-crownguard.ts).
- */
 /**
  * Grants `amount` XP to `player` — the chokepoint for every XP-gain site (combat.ts's conquer/
  * survive-combat/hold XP, this file's generic "gainXP" templated action, and every special-case
@@ -23,6 +16,25 @@ export function gainXP(player: PlayerState, amount: number): void {
   if (amount > 0) player.gainedXPThisTurn = true;
 }
 
+/**
+ * Recycles `rune` (removes it from `player`'s Rune Pool, returning it to the Rune Deck) — the
+ * chokepoint for every rune-recycle site (paying a Power cost, [Repeat]/[Flow]/[Equip]'s own rune
+ * slots, hiding a card, etc.), so cards reacting to "if you've spent N Rune this turn" (e.g.
+ * Sivir, Mercenary) see every recycle regardless of source. "Spent" specifically means recycled —
+ * an Energy-exhausted rune (still in the pool, just tapped) doesn't count.
+ */
+export function recycleRune(player: PlayerState, rune: RuneInstance): void {
+  player.runeDeck.push(rune);
+  player.runesSpentThisTurn += 1;
+}
+
+/**
+ * [Add] (rule 429): puts a new, ready Rune of `domain` directly into `playerId`'s Rune Pool — use
+ * "Colorless" for plain Energy (Energy payment doesn't check rune domain, see moves.ts's
+ * playCard/activateAbility cost validation, so a Colorless rune spends exactly like Energy).
+ * Shared by the generic "gainRune" templated action below and several bespoke special-case
+ * handlers whose card text uses [Add] directly (e.g. dragonsoul-sage.ts, lux-crownguard.ts).
+ */
 export function addRuneToPool(game: GameState, playerId: PlayerId, domain: Domain): void {
   game.nextInstanceSeq += 1;
   game.players[playerId].runePool.push({

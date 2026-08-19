@@ -84,6 +84,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     chosenEnemyUnitThisTurn: false,
     cardsPlayedThisTurn: 0,
     gainedXPThisTurn: false,
+    runesSpentThisTurn: 0,
     nextUnitEntersReady: false,
     nextUnitBuffed: false,
     nextSpellCostReduction: 0,
