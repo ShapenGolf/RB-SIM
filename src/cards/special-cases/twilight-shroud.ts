@@ -6,8 +6,8 @@ import type { SpecialCaseHandler } from "./types";
 /**
  * Give a friendly unit +1 Might this turn. It can't be chosen by enemy spells and abilities
  * this turn.
- * Flow (play from trash for its Flow cost, then banish) isn't wired up yet — see
- * docs/data-sourcing.md; this covers the card's baseline effect.
+ * [Flow] is now wired generically (see game/moves.ts playFromTrash, cards/db.ts parseFlowCost) —
+ * this handler's onPlay is reused verbatim whether played from hand or from trash via Flow.
  *
  * Known gap: the target-immunity clause isn't modeled (no hook for "can't be chosen" — see
  * docs/data-sourcing.md). Simplification: no player choice of target — picks the controller's

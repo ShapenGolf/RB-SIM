@@ -9,8 +9,9 @@ const BURN_AMOUNT = 3;
  * [Assault 4] this turn.") [Flow] 1 Energy Rune Rune (You may play this from your trash for its
  * Flow cost. Then banish it.)
  *
- * [Flow] (playing a spell again from the trash) isn't wired up as a generic mechanic — a
- * documented gap. The Shadow Clone token's own bespoke "When I attack..." text is deliberately
+ * [Flow] is now wired generically (see game/moves.ts playFromTrash, cards/db.ts parseFlowCost) —
+ * this handler's onPlay is reused verbatim whether played from hand or from trash via Flow. The
+ * Shadow Clone token's own bespoke "When I attack..." text is deliberately
  * unmodeled — it plays as a vanilla 0 Might token, matching the established precedent in
  * zed-without-a-sound.ts.
  */

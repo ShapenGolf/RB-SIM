@@ -98,6 +98,16 @@ export interface Card {
    */
   repeatCost?: { energy: number; runeDomain?: Domain };
   /**
+   * Auto-matched cost for a Spell's "[Flow] <cost>" keyword — you may play this spell from your
+   * trash for this cost instead of its printed cost, then banish it instead of returning it to
+   * trash (see game/moves.ts playFromTrash). Computed in cards/db.ts for "N Energy", "N
+   * Energy<Domain> Rune", "N Energy<Domain> Rune<Domain> Rune" (same domain twice), "N EnergyRune"
+   * and "N EnergyRuneRune" (domain-less — pay a Rune of ANY domain per slot, a cost shape unique
+   * to Flow; runeDomain is unset for these). Always fully specified: runeDomainCount/
+   * anyDomainRuneCount default to 0 rather than being left undefined.
+   */
+  flowCost?: { energy: number; runeDomain?: Domain; runeDomainCount: number; anyDomainRuneCount: number };
+  /**
    * Provenance note for this data entry. Real cards researched via web
    * search are cited here; cards without a confirmed official source are
    * marked "unverified" and exist only to exercise the keyword engine.

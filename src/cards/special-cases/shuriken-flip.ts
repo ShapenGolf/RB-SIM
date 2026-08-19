@@ -9,7 +9,8 @@ const DAMAGE = 2;
  * Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit. [Flow] 3
  * Energy Rune (You may play this from your trash for its Flow cost. Then banish it.)
  *
- * [Flow] isn't wired up as a generic mechanic (a documented gap — see docs/data-sourcing.md).
+ * [Flow] is now wired generically (see game/moves.ts playFromTrash, cards/db.ts parseFlowCost) —
+ * this handler's onPlay is reused verbatim whether played from hand or from trash via Flow.
  * Simplification: no stated destination for "move a friendly unit" = send to base (established
  * precedent, see charm.ts). No player choice of which units — picks the first ones found.
  */

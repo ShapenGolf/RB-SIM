@@ -417,6 +417,17 @@ export interface SpecialCaseHandler {
   repeatCostReductionForController?(ctx: SpecialCaseContext): number;
 
   /**
+   * Energy cost REDUCTION applied to a spell's [Flow] cost (game/moves.ts playFromTrash,
+   * Card.flowCost) when `ctx.instance`'s CONTROLLER plays it, from any board instance they
+   * control with this hook (e.g. Stargazer: "Spells with [Flow] you play from your trash cost 2
+   * Energy less, to a minimum of 1 Energy."). `flowEnergyCost` is the specific spell's printed
+   * Flow Energy cost — needed because "to a minimum of 1" is THIS card's own clause to enforce
+   * (matching the established costReduction precedent, e.g. battering-ram.ts), not a generic
+   * floor the caller applies. See registry.ts flowEnergyReductionForController.
+   */
+  flowCostReductionForController?(ctx: SpecialCaseContext, flowEnergyCost: number): number;
+
+  /**
    * Energy cost reduction for a spell about to be played, if THIS instance is the spell's
    * chosen target (e.g. Irelia, Graceful: "Your spells that choose me cost 1 Energy or Rune
    * less."). Checked in game/moves.ts playCard against `args.targetInstanceId` before the

@@ -66,6 +66,35 @@ function parseRepeatCost(grantedText: string): { energy: number; runeDomain?: Do
   return undefined;
 }
 
+/**
+ * Parses the "flow" keyword's `grantedText` (play this spell from your trash for this cost
+ * instead) for its 5 observed shapes: "N Energy", "N Energy<Domain> Rune", "N Energy<Domain>
+ * Rune<Domain> Rune" (same domain twice), "N EnergyRune" and "N EnergyRuneRune" (domain-less —
+ * pay a Rune of ANY domain per slot, unlike every other cost in this card pool). See
+ * cards/types.ts `Card.flowCost`.
+ */
+function parseFlowCost(
+  grantedText: string,
+): { energy: number; runeDomain?: Domain; runeDomainCount: number; anyDomainRuneCount: number } | undefined {
+  const trimmed = grantedText.replace(/\.$/, "").trim();
+  const domainPattern = RUNE_DOMAINS.join("|");
+  const sameDomainTwice = trimmed.match(new RegExp(`^(\\d+) Energy(${domainPattern}) Rune\\2 Rune$`));
+  if (sameDomainTwice) {
+    return { energy: Number(sameDomainTwice[1]), runeDomain: sameDomainTwice[2] as Domain, runeDomainCount: 2, anyDomainRuneCount: 0 };
+  }
+  const namedDomainOnce = trimmed.match(new RegExp(`^(\\d+) Energy(${domainPattern}) Rune$`));
+  if (namedDomainOnce) {
+    return { energy: Number(namedDomainOnce[1]), runeDomain: namedDomainOnce[2] as Domain, runeDomainCount: 1, anyDomainRuneCount: 0 };
+  }
+  const anyDomainTwice = trimmed.match(/^(\d+) EnergyRuneRune$/);
+  if (anyDomainTwice) return { energy: Number(anyDomainTwice[1]), runeDomainCount: 0, anyDomainRuneCount: 2 };
+  const anyDomainOnce = trimmed.match(/^(\d+) EnergyRune$/);
+  if (anyDomainOnce) return { energy: Number(anyDomainOnce[1]), runeDomainCount: 0, anyDomainRuneCount: 1 };
+  const energyOnly = trimmed.match(/^(\d+) Energy$/);
+  if (energyOnly) return { energy: Number(energyOnly[1]), runeDomainCount: 0, anyDomainRuneCount: 0 };
+  return undefined;
+}
+
 export const cardDatabase: CardDatabase = Object.fromEntries(
   [...officialCatalog, ...starterSet, ...tokens].map((card) => {
     const extras: Partial<Card> = {};
@@ -81,6 +110,11 @@ export const cardDatabase: CardDatabase = Object.fromEntries(
     if (repeatKeyword?.grantedText) {
       const cost = parseRepeatCost(repeatKeyword.grantedText);
       if (cost) extras.repeatCost = cost;
+    }
+    const flowKeyword = card.keywords.find((k) => k.keyword === "flow");
+    if (flowKeyword?.grantedText) {
+      const cost = parseFlowCost(flowKeyword.grantedText);
+      if (cost) extras.flowCost = cost;
     }
     return [card.id, Object.keys(extras).length > 0 ? { ...card, ...extras } : card];
   }),

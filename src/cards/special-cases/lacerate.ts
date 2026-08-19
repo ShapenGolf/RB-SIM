@@ -7,7 +7,8 @@ const MIGHT_THRESHOLD = 3;
 
 /**
  * Choose a unit. If it's Empowered, disempower it. Then kill it if it has 3 Might or less.
- * Flow (play from trash) isn't wired up yet — see docs/data-sourcing.md; covers the baseline effect.
+ * [Flow] is now wired generically (see game/moves.ts playFromTrash, cards/db.ts parseFlowCost) —
+ * this handler's onPlay is reused verbatim whether played from hand or from trash via Flow.
  */
 export const lacerate: SpecialCaseHandler = {
   cardId: "lacerate",

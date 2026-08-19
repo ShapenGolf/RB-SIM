@@ -56,6 +56,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     payRepeatCost?: boolean;
     repeatEnergyRuneIds?: string[];
     repeatPowerRuneId?: string;
+    /** Set by playFromTrashAuto for a [Flow]-cost spell needing a target — confirmTarget dispatches moves.playFromTrash instead of moves.playCard when this is set. */
+    fromTrashIndex?: number;
+    trashEnergyRuneIds?: string[];
+    trashRuneDomainRuneIds?: string[];
+    trashAnyDomainRuneIds?: string[];
   } | null>(null);
   const [pendingAbility, setPendingAbility] = useState<{ instanceId: string } | null>(null);
   const [pendingEquip, setPendingEquip] = useState<{ gearInstanceId: string } | null>(null);
@@ -320,6 +325,67 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     });
   }
 
+  /**
+   * [Flow]: auto-pays a trashed spell's Flow cost (Card.flowCost) and plays it from trash. Picks
+   * domain-specific rune slots first, then any-domain slots (the one cost shape unique to Flow —
+   * pay a Rune of ANY domain per slot), then Energy last from whatever's left, so scarcer
+   * domain-specific runes aren't accidentally consumed by the Energy portion first.
+   */
+  function playFromTrashAuto(trashIndex: number) {
+    const cardId = player.trash[trashIndex];
+    const card = getCard(cardId);
+    if (card.type !== "spell" || !card.flowCost) return;
+    const flowCost = card.flowCost;
+    const dummyInstance = blankInstance(cardId, me!);
+    if (blocksPlayForMissingTarget(card, dummyInstance)) {
+      window.alert("Kein gültiges Ziel verfügbar — dieser Spruch kann so nicht gespielt werden.");
+      return;
+    }
+    const used = new Set<string>();
+    const trashRuneDomainRuneIds = player.runePool
+      .filter((r) => !used.has(r.instanceId) && r.domain === flowCost.runeDomain)
+      .slice(0, flowCost.runeDomainCount)
+      .map((r) => r.instanceId);
+    trashRuneDomainRuneIds.forEach((id) => used.add(id));
+    const trashAnyDomainRuneIds = player.runePool
+      .filter((r) => !used.has(r.instanceId))
+      .slice(0, flowCost.anyDomainRuneCount)
+      .map((r) => r.instanceId);
+    trashAnyDomainRuneIds.forEach((id) => used.add(id));
+    const energyNeeded = Math.max(
+      0,
+      flowCost.energy - SpecialCaseEngine.flowEnergyReductionForController(G, getCard, me!, flowCost.energy),
+    );
+    const trashEnergyRuneIds = player.runePool
+      .filter((r) => !r.exhausted && !used.has(r.instanceId))
+      .slice(0, energyNeeded)
+      .map((r) => r.instanceId);
+    if (
+      trashRuneDomainRuneIds.length !== flowCost.runeDomainCount ||
+      trashAnyDomainRuneIds.length !== flowCost.anyDomainRuneCount ||
+      trashEnergyRuneIds.length !== energyNeeded
+    ) {
+      window.alert("Nicht genug Runen, um diese Karte per [Flow] zu spielen.");
+      return;
+    }
+    if (specialCaseNeedsPlayTarget(card)) {
+      setPendingTarget({
+        payAdditionalCost: false,
+        fromTrashIndex: trashIndex,
+        trashEnergyRuneIds,
+        trashRuneDomainRuneIds,
+        trashAnyDomainRuneIds,
+      });
+      return;
+    }
+    moves.playFromTrash({
+      trashIndex,
+      energyRuneIds: trashEnergyRuneIds,
+      runeDomainRuneIds: trashRuneDomainRuneIds,
+      anyDomainRuneIds: trashAnyDomainRuneIds,
+    });
+  }
+
   function startManualPayment(handIndex: number, payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
     setPendingManualPayment({ handIndex, payAdditionalCost, ambushBattlefieldIndex });
     setManualEnergyRuneIds([]);
@@ -429,6 +495,17 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       moves.playFromHidden({
         hiddenIndex: pendingTarget.fromHiddenIndex,
         targetInstanceId,
+      });
+      setPendingTarget(null);
+      return;
+    }
+    if (pendingTarget.fromTrashIndex !== undefined) {
+      moves.playFromTrash({
+        trashIndex: pendingTarget.fromTrashIndex,
+        targetInstanceId,
+        energyRuneIds: pendingTarget.trashEnergyRuneIds ?? [],
+        runeDomainRuneIds: pendingTarget.trashRuneDomainRuneIds ?? [],
+        anyDomainRuneIds: pendingTarget.trashAnyDomainRuneIds ?? [],
       });
       setPendingTarget(null);
       return;
@@ -1468,9 +1545,28 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             Trash <span className="rb-count">{player.trash.length}</span>
           </div>
           <div className="rb-row">
-            {[...player.trash].reverse().map((cardId, i) => (
-              <CardFace key={i} card={getCard(cardId)} size="sm" />
-            ))}
+            {player.trash
+              .map((cardId, trashIndex) => ({ cardId, trashIndex }))
+              .reverse()
+              .map(({ cardId, trashIndex }) => {
+                const card = getCard(cardId);
+                return (
+                  <CardFace
+                    key={trashIndex}
+                    card={card}
+                    size="sm"
+                    footer={
+                      canAct && card.flowCost ? (
+                        <button onClick={() => playFromTrashAuto(trashIndex)}>
+                          +Flow ({Math.max(0, card.flowCost.energy - SpecialCaseEngine.flowEnergyReductionForController(G, getCard, me!, card.flowCost.energy))}E
+                          {card.flowCost.runeDomain ? `+${card.flowCost.runeDomainCount > 1 ? card.flowCost.runeDomainCount : ""}${card.flowCost.runeDomain}` : ""}
+                          {card.flowCost.anyDomainRuneCount > 0 ? `+${card.flowCost.anyDomainRuneCount}Rune` : ""})
+                        </button>
+                      ) : undefined
+                    }
+                  />
+                );
+              })}
           </div>
         </>
       )}

@@ -6,8 +6,8 @@ const LOOK_COUNT = 3;
 /**
  * Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw
  * it. Put the rest into your trash.
- * Flow (play from trash for its Flow cost, then banish) isn't wired up yet — see
- * docs/data-sourcing.md; this covers the card's baseline effect.
+ * [Flow] is now wired generically (see game/moves.ts playFromTrash, cards/db.ts parseFlowCost) —
+ * this handler's onPlay is reused verbatim whether played from hand or from trash via Flow.
  *
  * Simplification: no player choice — draws the highest-Energy-cost card among the 3 (usually
  * the best value), trashes the rest.

@@ -8,8 +8,8 @@ const MIGHT_THRESHOLD = 3;
 
 /**
  * Move a unit with 3 Might or less.
- * Flow (play from trash for its Flow cost, then banish) isn't wired up yet — see
- * docs/data-sourcing.md; this covers the card's baseline effect.
+ * [Flow] is now wired generically (see game/moves.ts playFromTrash, cards/db.ts parseFlowCost) —
+ * this handler's onPlay is reused verbatim whether played from hand or from trash via Flow.
  *
  * Assumption (see charm.ts): "Move" with no destination given means send to base.
  * Simplification: no player choice of target — moves the strongest eligible ENEMY unit at a

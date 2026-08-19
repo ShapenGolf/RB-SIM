@@ -7,7 +7,9 @@ import { destroyInstance } from "../../game/combat";
  * Choose a friendly unit. Kill an enemy unit with less Might than it.
  * Simplification: no player choice of which friendly unit to compare against (see
  * docs/data-sourcing.md discard-choice simplification) — uses the controller's highest-Might
- * unit/champion in play. Flow isn't wired up yet.
+ * unit/champion in play. [Flow] is now wired generically (see game/moves.ts playFromTrash,
+ * cards/db.ts parseFlowCost) — this handler's onPlay is reused verbatim whether played from
+ * hand or from trash via Flow.
  */
 export const publicExecution: SpecialCaseHandler = {
   cardId: "public-execution",

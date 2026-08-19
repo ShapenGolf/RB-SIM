@@ -1882,6 +1882,19 @@ export const SpecialCaseEngine = {
     return total;
   },
 
+  /** Energy cost reduction for a spell's [Flow] cost, from any board instance `playerId` controls with a flowCostReductionForController hook (e.g. Stargazer). See game/moves.ts playFromTrash. */
+  flowEnergyReductionForController: (game: GameState, getCard: (id: string) => Card, playerId: PlayerId, flowEnergyCost: number): number => {
+    let total = 0;
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== playerId) continue;
+      const card = getCard(instance.cardId);
+      const fn = getSpecialCaseHandler(card)?.flowCostReductionForController;
+      if (!fn) continue;
+      total += fn(ctxFor(game, card, instance), flowEnergyCost);
+    }
+    return total;
+  },
+
   /** Energy cost reduction for `playedCard` if `targetInstanceId` is the spell's chosen target, that target is controlled by the same player casting the spell, and its handler grants a reduction for being chosen this way (e.g. Irelia, Graceful: "Your spells that choose me..."). See game/moves.ts playCard. */
   costReductionIfTargeted: (
     game: GameState,

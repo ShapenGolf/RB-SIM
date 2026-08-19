@@ -75,6 +75,8 @@ export function resolvePlayedCard(
    * etc. below still fire once regardless of this value.
    */
   repeatCount = 1,
+  /** [Flow]: true when this spell was played from trash via its Flow cost (game/moves.ts playFromTrash) — banishes on resolve instead of returning to trash, per "Then banish it." */
+  forceBanish = false,
 ): void {
   instance.statuses.paidAdditionalCostThisTurn = payAdditionalCost;
   if (player.nextCardCostReduction > 0) player.nextCardCostReduction = 0;
@@ -95,7 +97,7 @@ export function resolvePlayedCard(
     }
     if (player.nextSpellBonusDamage > 0) player.nextSpellBonusDamage = 0;
     delete G.instances[instance.instanceId];
-    if (SpecialCaseEngine.banishSelfOnResolve(G, card, instance)) {
+    if (forceBanish || SpecialCaseEngine.banishSelfOnResolve(G, card, instance)) {
       player.banishment.push(instance.cardId);
     } else {
       player.trash.push(instance.cardId);
@@ -668,6 +670,82 @@ export const playFromHidden: MoveFn<GameState> = ({ G, ctx, playerID }, args: Pl
   player.hiddenZone.splice(args.hiddenIndex, 1);
   resolvePlayedCard(G, player, card, instance, args.targetInstanceId, false, deploysToHiddenBattlefield ? hidden.battlefieldIndex : undefined);
   SpecialCaseEngine.onAllyPlayFromHidden(G, getCard, player.id, card);
+  return undefined;
+};
+
+export interface PlayFromTrashArgs {
+  trashIndex: number;
+  targetInstanceId?: string;
+  /** Runes paying card.flowCost.energy. */
+  energyRuneIds: string[];
+  /** Runes paying card.flowCost.runeDomainCount (each must match card.flowCost.runeDomain). Empty when the card has no domain-specific Flow rune requirement. */
+  runeDomainRuneIds: string[];
+  /** Runes paying card.flowCost.anyDomainRuneCount — ANY domain is acceptable per slot, the one cost shape in this card pool that isn't domain-specific. Empty when the card has no domain-less Flow rune requirement. */
+  anyDomainRuneIds: string[];
+}
+
+/**
+ * [Flow]: plays a spell from `player.trash` for its printed Flow cost (Card.flowCost, see
+ * cards/db.ts parseFlowCost) INSTEAD of its normal cost, then banishes it instead of returning it
+ * to trash (see resolvePlayedCard's forceBanish). Sorcery-speed only, same simplification as
+ * playFromHidden — no reaction-window entry modeled for a Flow play.
+ */
+export const playFromTrash: MoveFn<GameState> = ({ G, playerID }, args: PlayFromTrashArgs) => {
+  const player = G.players[playerID as "0" | "1"];
+  if (G.pendingDamageAssignment || G.pendingSpellReaction || G.pendingCombatReaction) return INVALID_MOVE;
+  if (player.pendingPredict) return INVALID_MOVE;
+
+  const cardId = player.trash[args.trashIndex];
+  if (!cardId) return INVALID_MOVE;
+  const card = getCard(cardId);
+  if (card.type !== "spell" || !card.flowCost) return INVALID_MOVE;
+  if (player.cantPlaySpellsThisTurn) return INVALID_MOVE;
+
+  const instance = createInstance(G, cardId, player.id);
+  if (SpecialCaseEngine.blocksSelfPlay(G, card, instance)) return INVALID_MOVE;
+  if (card.templatedEffect?.trigger === "onPlay") {
+    if (rejectsInvalidTemplatedTarget(G, card.templatedEffect.actions, instance, args.targetInstanceId, true)) {
+      return INVALID_MOVE;
+    }
+  }
+
+  const flowCost = card.flowCost;
+  const reduction = SpecialCaseEngine.flowEnergyReductionForController(G, getCard, player.id, flowCost.energy);
+  const energyNeeded = Math.max(0, flowCost.energy - reduction);
+  if (args.energyRuneIds.length !== energyNeeded) return INVALID_MOVE;
+  if (args.runeDomainRuneIds.length !== flowCost.runeDomainCount) return INVALID_MOVE;
+  if (args.anyDomainRuneIds.length !== flowCost.anyDomainRuneCount) return INVALID_MOVE;
+
+  const usedRuneIds = new Set<string>();
+  for (const runeId of args.energyRuneIds) {
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune || rune.exhausted || usedRuneIds.has(runeId)) return INVALID_MOVE;
+    usedRuneIds.add(runeId);
+  }
+  for (const runeId of args.runeDomainRuneIds) {
+    if (usedRuneIds.has(runeId)) return INVALID_MOVE;
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune || rune.domain !== flowCost.runeDomain) return INVALID_MOVE;
+    usedRuneIds.add(runeId);
+  }
+  for (const runeId of args.anyDomainRuneIds) {
+    if (usedRuneIds.has(runeId)) return INVALID_MOVE;
+    const rune = player.runePool.find((r) => r.instanceId === runeId);
+    if (!rune) return INVALID_MOVE;
+    usedRuneIds.add(runeId);
+  }
+
+  for (const runeId of args.energyRuneIds) {
+    player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  for (const runeId of [...args.runeDomainRuneIds, ...args.anyDomainRuneIds]) {
+    const idx = player.runePool.findIndex((r) => r.instanceId === runeId);
+    const [rune] = player.runePool.splice(idx, 1);
+    player.runeDeck.push(rune);
+  }
+
+  player.trash.splice(args.trashIndex, 1);
+  resolvePlayedCard(G, player, card, instance, args.targetInstanceId, false, undefined, 1, true);
   return undefined;
 };
 
