@@ -3,6 +3,7 @@ import { ActivePlayers } from "boardgame.io/core";
 import { setupGame, type SetupOptions } from "./setup";
 import { getPendingSetupOptions } from "./pendingSetup";
 import { runTurnStart, markFirstTurnTaken } from "./turnFlow";
+import { playerView } from "./playerView";
 import {
   playCard,
   attackBattlefield,
@@ -35,6 +36,8 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
   // `/create` call was given, but online matches are created with none — decks arrive later,
   // per-player, via the "deckSelect" phase's `submitDeck` move below.
   setup: (_context, setupData) => setupGame(setupData ?? getPendingSetupOptions()),
+
+  playerView,
 
   phases: {
     // Online-only in practice: each player submits their own locally-saved deck. A local
