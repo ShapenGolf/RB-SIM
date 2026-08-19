@@ -1,11 +1,14 @@
 import type { SpecialCaseHandler } from "./types";
+import { getCard } from "../db";
 
-/**
- * When you ready a friendly unit, give it +1 Might this turn.
- *
- * Moot — this engine has no "became ready" broadcast (deferred, see mageseeker-warden.ts's
- * identical note). No fallback mode.
- */
+const MIGHT_BONUS = 1;
+
+/** When you ready a friendly unit, give it +1 Might this turn. */
 export const piratesHaven: SpecialCaseHandler = {
   cardId: "pirates-haven",
+  onAllyBecameReady: (_ctx, readiedInstance) => {
+    const type = getCard(readiedInstance.cardId).type;
+    if (type !== "unit" && type !== "champion") return;
+    readiedInstance.tempMightBonus += MIGHT_BONUS;
+  },
 };
