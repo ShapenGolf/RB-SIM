@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import type { SpecialCaseHandler } from "./types";
 
 /**
@@ -20,7 +21,7 @@ export const overtOperation: SpecialCaseHandler = {
     for (const unit of friendlies) {
       if (unit.statuses.buffed && unit.exhausted) {
         unit.statuses.buffed = false;
-        unit.exhausted = false;
+        readyInstance(ctx.game, getCard, unit.instanceId);
       }
     }
     for (const unit of friendlies) {

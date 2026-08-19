@@ -1,4 +1,5 @@
 import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 import type { SpecialCaseHandler } from "./types";
 
 const MAX_READIED = 4;
@@ -20,7 +21,7 @@ export const accelerationGate: SpecialCaseHandler = {
       if (!instance.exhausted) continue;
       const type = getCard(instance.cardId).type;
       if (type !== "unit" && type !== "champion" && type !== "gear") continue;
-      instance.exhausted = false;
+      readyInstance(ctx.game, getCard, instance.instanceId);
       readied += 1;
     }
     for (const rune of player.runePool) {

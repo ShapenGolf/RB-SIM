@@ -1,5 +1,7 @@
 import type { SpecialCaseHandler } from "./types";
 import { SpecialCaseEngine } from "./registry";
+import { getCard } from "../db";
+import { readyInstance } from "./ready-helpers";
 
 const READY_COST_XP = 3;
 
@@ -28,6 +30,6 @@ export const bloodRose: SpecialCaseHandler = {
     if (!targetInstanceId) return;
     const target = ctx.game.instances[targetInstanceId];
     if (!target || target.controller !== ctx.instance.controller) return;
-    target.exhausted = false;
+    readyInstance(ctx.game, getCard, target.instanceId);
   },
 };
