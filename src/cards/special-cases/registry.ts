@@ -1868,6 +1868,20 @@ export const SpecialCaseEngine = {
     return total;
   },
 
+  /** Energy cost reduction for a spell's [Repeat] cost, from any Battlefield `playerId` controls with a repeatCostReductionForController hook (e.g. Marai Spire). See game/moves.ts playCard. */
+  repeatEnergyReductionFromControlledBattlefields: (game: GameState, getCard: (id: string) => Card, playerId: PlayerId): number => {
+    let total = 0;
+    game.battlefields.forEach((slot, index) => {
+      if (slot.controller !== playerId) return;
+      const card = getCard(slot.cardId);
+      const handler = getSpecialCaseHandler(card);
+      const fn = handler?.repeatCostReductionForController;
+      if (!fn) return;
+      total += fn(ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, playerId, index)));
+    });
+    return total;
+  },
+
   /** Energy cost reduction for `playedCard` if `targetInstanceId` is the spell's chosen target, that target is controlled by the same player casting the spell, and its handler grants a reduction for being chosen this way (e.g. Irelia, Graceful: "Your spells that choose me..."). See game/moves.ts playCard. */
   costReductionIfTargeted: (
     game: GameState,

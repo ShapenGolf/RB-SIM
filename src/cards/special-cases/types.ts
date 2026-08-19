@@ -408,6 +408,15 @@ export interface SpecialCaseHandler {
   costIncreaseForControllerUnit?(ctx: SpecialCaseContext, playedCard: Card): number;
 
   /**
+   * Energy cost REDUCTION applied to a spell's [Repeat] cost (rule 820, Card.repeatCost) when
+   * `ctx.instance`'s CONTROLLER pays it, from a Battlefield they control (e.g. Marai Spire:
+   * "While you control this battlefield, friendly [Repeat] costs cost 1 Energy less."). Floored
+   * at 0 (never a negative Energy requirement), same as every other cost-reduction hook. See
+   * registry.ts repeatEnergyReductionFromControlledBattlefields / game/moves.ts playCard.
+   */
+  repeatCostReductionForController?(ctx: SpecialCaseContext): number;
+
+  /**
    * Energy cost reduction for a spell about to be played, if THIS instance is the spell's
    * chosen target (e.g. Irelia, Graceful: "Your spells that choose me cost 1 Energy or Rune
    * less."). Checked in game/moves.ts playCard against `args.targetInstanceId` before the

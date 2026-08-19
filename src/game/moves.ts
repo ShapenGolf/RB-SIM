@@ -400,8 +400,15 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   // card.repeatCost (see cards/db.ts's parseRepeatCost) — paying it doubles the onPlay execution.
   const repeatEnergyIds = args.payRepeatCost ? (args.repeatEnergyRuneIds ?? []) : [];
   if (args.payRepeatCost) {
-    if (!card.repeatCost) return INVALID_MOVE;
-    if (repeatEnergyIds.length !== card.repeatCost.energy) return INVALID_MOVE;
+    // Spells only — a non-spell card can end up with a parsed repeatCost purely as a data
+    // artifact (e.g. Syndra, Transcendent's OWN keyword list mentions "repeat" because she GRANTS
+    // it to other cards' spells, not because she has it herself; see syndra-transcendent.ts).
+    if (card.type !== "spell" || !card.repeatCost) return INVALID_MOVE;
+    const repeatEnergyNeeded = Math.max(
+      0,
+      card.repeatCost.energy - SpecialCaseEngine.repeatEnergyReductionFromControlledBattlefields(G, getCard, player.id),
+    );
+    if (repeatEnergyIds.length !== repeatEnergyNeeded) return INVALID_MOVE;
     if (Boolean(card.repeatCost.runeDomain) !== Boolean(args.repeatPowerRuneId)) return INVALID_MOVE;
     for (const runeId of repeatEnergyIds) {
       if (usedRuneIds.has(runeId)) return INVALID_MOVE;

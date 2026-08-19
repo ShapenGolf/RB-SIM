@@ -275,7 +275,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     const cardId = player.hand[handIndex];
     const card = getCard(cardId);
     const dummyInstance = blankInstance(cardId, me!);
-    if (!card.repeatCost) return;
+    if (card.type !== "spell" || !card.repeatCost) return;
     if (blocksPlayForMissingTarget(card, dummyInstance)) {
       window.alert("Kein gültiges Ziel verfügbar — dieser Spruch kann so nicht gespielt werden.");
       return;
@@ -294,11 +294,15 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       return;
     }
     if (repeatPowerRuneId) used.add(repeatPowerRuneId);
+    const repeatEnergyNeeded = Math.max(
+      0,
+      card.repeatCost.energy - SpecialCaseEngine.repeatEnergyReductionFromControlledBattlefields(G, getCard, me!),
+    );
     const repeatEnergyRuneIds = player.runePool
       .filter((r) => !r.exhausted && !used.has(r.instanceId))
-      .slice(0, card.repeatCost.energy)
+      .slice(0, repeatEnergyNeeded)
       .map((r) => r.instanceId);
-    if (repeatEnergyRuneIds.length !== card.repeatCost.energy) {
+    if (repeatEnergyRuneIds.length !== repeatEnergyNeeded) {
       window.alert("Nicht genug Runen für den Repeat-Zusatzkosten.");
       return;
     }
@@ -1532,9 +1536,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                     {bonusEffectEnergy !== undefined && (
                       <button onClick={() => playCardAuto(idx, true)}>+{bonusEffectEnergy}E Bonus</button>
                     )}
-                    {card.repeatCost && (
+                    {card.type === "spell" && card.repeatCost && (
                       <button onClick={() => playCardAutoWithRepeat(idx)}>
-                        +Repeat ({card.repeatCost.energy}E{card.repeatCost.runeDomain ? `+${card.repeatCost.runeDomain}` : ""})
+                        +Repeat (
+                        {Math.max(0, card.repeatCost.energy - SpecialCaseEngine.repeatEnergyReductionFromControlledBattlefields(G, getCard, me!))}E
+                        {card.repeatCost.runeDomain ? `+${card.repeatCost.runeDomain}` : ""})
                       </button>
                     )}
                     {ambushBattlefields.map((index) => (
