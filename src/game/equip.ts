@@ -1,5 +1,6 @@
 import type { Card } from "../cards/types";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
+import { checkBecameMighty } from "./mightTransition";
 import type { GameState } from "./state";
 
 /**
@@ -31,4 +32,5 @@ export function attachEquipment(
   gear.attachedTo = targetInstanceId;
   target.equipment.push(gearInstanceId);
   SpecialCaseEngine.onEquip(game, getCard(target.cardId), target, gear);
+  checkBecameMighty(game, getCard);
 }

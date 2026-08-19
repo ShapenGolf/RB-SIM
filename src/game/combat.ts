@@ -4,6 +4,7 @@ import type { Card } from "../cards/types";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { computeMight } from "./might";
+import { checkBecameMighty } from "./mightTransition";
 import { fireTemplatedEffect } from "./templatedEffectEngine";
 import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
 import type { CardInstance, CombatHit, GameState, PlayerId } from "./state";
@@ -513,6 +514,7 @@ export function finishCombatResolution(
     hits,
     conqueredBy,
   };
+  checkBecameMighty(game, getCard);
 }
 
 /** Fires Hunt-style Hold triggers for every unit a player has on Battlefields they control, at their Beginning step. */
@@ -542,4 +544,5 @@ export function resolveHoldTriggers(game: GameState, getCard: (id: string) => Ca
       }
     }
   });
+  checkBecameMighty(game, getCard);
 }

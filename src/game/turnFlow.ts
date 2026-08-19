@@ -4,6 +4,7 @@ import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
 import { shuffle } from "./setup";
 import { fireTemplatedEffect } from "./templatedEffectEngine";
+import { checkBecameMighty } from "./mightTransition";
 import type { Card } from "../cards/types";
 import type { GameState, PlayerId } from "./state";
 
@@ -236,6 +237,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   game.turnPhase = "main";
   game.activePlayer = player;
   SpecialCaseEngine.onMainPhaseStart(game, getCard, player);
+  checkBecameMighty(game, getCard);
 }
 
 export function markFirstTurnTaken(game: GameState, player: PlayerId): void {

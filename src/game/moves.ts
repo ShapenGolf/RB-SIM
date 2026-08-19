@@ -9,6 +9,7 @@ import { createInstance, shuffle, buildPlayerFromDeckList } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions, candidatesForTarget } from "./templatedEffectEngine";
 import { discardCardToTrash } from "./discardEngine";
 import { attachEquipment } from "./equip";
+import { checkBecameMighty } from "./mightTransition";
 import { legendPseudoInstance } from "./pseudoInstance";
 import { validateDeck, type DeckList } from "../cards/deckValidation";
 import { firstChooseTargetSpec } from "../cards/templatedEffects";
@@ -134,6 +135,7 @@ export function resolvePlayedCard(
   if (instance.battlefieldIndex !== null) {
     SpecialCaseEngine.onCardPlayedHere(G, getCard, instance.battlefieldIndex, card, instance, player.id);
   }
+  checkBecameMighty(G, getCard);
 }
 
 function otherPlayerId(id: PlayerId): PlayerId {
@@ -724,6 +726,7 @@ export const attackBattlefield: MoveFn<GameState> = (
       SpecialCaseEngine.onEnemyAttackHere(G, getCard, defendingController, instance);
     }
   }
+  checkBecameMighty(G, getCard);
 
   SpecialCaseEngine.onShowdownBegin(G, getCard, args.battlefieldIndex);
 
@@ -856,6 +859,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (card.type === "gear") {
     SpecialCaseEngine.onAllyActivatedGearAbility(G, getCard, player.id, instance.instanceId);
   }
+  checkBecameMighty(G, getCard);
   return undefined;
 };
 
@@ -1074,6 +1078,9 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
   if (args.energyRuneIds.length !== cost.energy) return INVALID_MOVE;
   if (Boolean(cost.runeDomain) !== Boolean(args.powerRuneId)) return INVALID_MOVE;
 
+  const exhaustSource = cost.exhaustSourceInstanceId ? G.instances[cost.exhaustSourceInstanceId] : undefined;
+  if (cost.exhaustSourceInstanceId && (!exhaustSource || exhaustSource.exhausted)) return INVALID_MOVE;
+
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
     const rune = player.runePool.find((r) => r.instanceId === runeId);
@@ -1094,6 +1101,7 @@ export const resolveOptionalCost: MoveFn<GameState> = ({ G, playerID }, args: Re
     const [rune] = player.runePool.splice(idx, 1);
     player.runeDeck.push(rune);
   }
+  if (exhaustSource) exhaustSource.exhausted = true;
 
   G.pendingOptionalCost = null;
   SpecialCaseEngine.onOptionalCostPaid(G, pending.specialCaseId, player.id, pending.payload);

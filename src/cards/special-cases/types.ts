@@ -706,6 +706,15 @@ export interface SpecialCaseHandler {
   onAllyBecameReady?(ctx: SpecialCaseContext, readiedInstance: CardInstance): void;
 
   /**
+   * Called on EVERY board instance `mightyInstance`'s controller owns — INCLUDING `mightyInstance`
+   * itself (unlike `onAllyBecameReady`, since "a unit you control becomes Mighty" naturally
+   * includes the ability's own source unit, e.g. Fiora, Worthy reacting to her own transition) —
+   * whenever a unit/champion crosses the 5+ Might threshold. See game/mightTransition.ts
+   * checkBecameMighty for the checkpoint-scan design and its documented limitations.
+   */
+  onAllyBecameMighty?(ctx: SpecialCaseContext, mightyInstance: CardInstance): void;
+
+  /**
    * Broadcast to every board instance (and the Legend, via its pseudo-instance) the WINNING
    * player of a real Showdown (both sides had committed units) controls, right after that
    * Showdown resolves (e.g. Glorious Executioner: "When you win a combat, draw 1. (You win if

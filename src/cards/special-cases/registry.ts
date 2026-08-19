@@ -2141,7 +2141,7 @@ export const SpecialCaseEngine = {
     game: GameState,
     playerId: PlayerId,
     specialCaseId: string,
-    cost: { energy: number; runeDomain?: Domain },
+    cost: { energy: number; runeDomain?: Domain; exhaustSourceInstanceId?: string },
     payload?: string,
   ) => {
     game.pendingOptionalCost = { playerId, specialCaseId, cost, payload };
@@ -2708,6 +2708,15 @@ export const SpecialCaseEngine = {
       if (instance.controller !== controller || instance.instanceId === readiedInstance.instanceId) continue;
       const card = getCard(instance.cardId);
       getSpecialCaseHandler(card)?.onAllyBecameReady?.(ctxFor(game, card, instance), readiedInstance);
+    }
+  },
+
+  /** Broadcasts a "became Mighty" transition to every board instance `mightyInstance`'s controller owns, INCLUDING mightyInstance itself, for onAllyBecameMighty hooks (e.g. Fiora, Worthy; Grand Duelist). See game/mightTransition.ts. */
+  onAllyBecameMighty: (game: GameState, getCard: (id: string) => Card, controller: PlayerId, mightyInstance: CardInstance): void => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== controller) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onAllyBecameMighty?.(ctxFor(game, card, instance), mightyInstance);
     }
   },
 

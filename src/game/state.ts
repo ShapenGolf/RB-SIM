@@ -195,7 +195,12 @@ export interface PendingOptionalCost {
   playerId: PlayerId;
   /** specialCaseId of the handler to resolve against (see cards/special-cases/registry.ts getSpecialCaseHandlerById). */
   specialCaseId: string;
-  cost: { energy: number; runeDomain?: Domain };
+  cost: {
+    energy: number;
+    runeDomain?: Domain;
+    /** If set, paying this cost ALSO requires exhausting this specific instance (e.g. Grand Duelist: "you may exhaust me to..." — the reactive-trigger equivalent of activatedAbilityCost's exhaustSelf, since this isn't a player-initiated activateAbility call). Rejected if that instance no longer exists or is already exhausted. */
+    exhaustSourceInstanceId?: string;
+  };
   /** Arbitrary bookkeeping the offering handler needs at resolution time (e.g. a trash cardId). */
   payload?: string;
 }
