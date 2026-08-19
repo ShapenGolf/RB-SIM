@@ -71,16 +71,57 @@ Danach freie Aktionsphase (Main Phase) mit Chain/Priority-System (siehe unten).
     (nur im Open State).
   - **Reaction** – wie Action, zusätzlich auch im Closed State spielbar
     (universelles "Instant").
-  - **Hidden** – verdeckt spielbar, später aufdeckbar.
+  - **Hidden** – verdeckt an einem selbst kontrollierten Battlefield spielbar
+    (max. 1 pro Battlefield, außer ein Effekt erlaubt mehr), ab dem
+    nächsten Zug aufdeckbar; wird sofort zum Trash verworfen, sobald die
+    Kontrolle über das gebundene Battlefield wechselt (Regel 811, 323.7).
+
+### Implementierungsstand (Stand nach Rules-Audit gegen die offizielle PDF, 2026-08-19)
+
+Der volle Chain/Priority-Prozess (Regeln 325–340, "HOT FEPR": Handle Outstanding
+Tasks, Finalize, Execute, Pass, Resolve) ist **nicht** implementiert — das ist die
+größte verbleibende architektonische Lücke gegenüber den offiziellen Regeln.
+Ein echtes Chain-System bräuchte: einen echten Stack ausstehender Chain-Items
+(nicht sofortige Resolution), beliebig viele Focus/Priority-Wechsel zwischen
+beiden Spielern bis beide in Folge passen (nicht nur eine Reaktion), sowie
+jede Karte/Ability als potenzielles Chain-Item statt nur Spells/Combat.
+
+Stattdessen existieren drei gezielte, **einmalige** Reaktionsfenster, die die
+häufigsten Fälle abdecken, ohne das volle System nachzubauen (siehe
+`src/game/state.ts`, `PendingSpellReaction`/`PendingCombatReaction`/
+`PendingDamageAssignment`):
+
+1. **Spell Reaction** – nach dem Bezahlen eines Spells bekommt der Gegner
+   genau einmal die Chance, mit einer `[Reaction]`-Karte zu antworten (u.a.
+   "Counter a spell"-Effekte), bevor der Spell auflöst.
+2. **Combat/Showdown Reaction** – nach einem deklarierten Angriff (inkl.
+   eines unverteidigten Walk-ins in ein unkontrolliertes Battlefield, Regel
+   344.2/348.2) bekommt der Verteidiger genau einmal die Chance, mit einer
+   `[Reaction]`- oder `[Action]`-Karte zu antworten, bevor der Showdown
+   auflöst.
+3. **Damage Assignment** – wenn eine Seite bei der Schadensverteilung
+   tatsächlich eine Wahl hat (2+ Einheiten im selben Tank/normal/Backline-Rang,
+   Regel 460.2.c), pausiert die Auflösung, bis beide Seiten ihre Reihenfolge
+   festgelegt haben.
+
+Was dadurch bewusst NICHT abgedeckt ist: mehrfache Reaktionsrunden (eine
+Reaktion auf eine Reaktion), Aktivierte Fähigkeiten als Chain-Items außerhalb
+dieser drei Fenster, sowie generelles Spielen von Karten während eines
+Showdowns durch den Attacker selbst (nur der Verteidiger bekommt aktuell ein
+Fenster). Ein Upgrade auf das volle System wäre ein eigenständiges,
+größeres Feature.
 
 ## Kampf (Showdown)
 
 1. Attacker bewegt Unit(s) zu einem Battlefield.
-2. Ist das Battlefield leer → sofortige Conquer, 1 Punkt, kein Kampf.
+2. Ist das Battlefield leer/unverteidigt → Non-Combat Showdown (Regel 344.2):
+   der Verteidiger bekommt ein einmaliges Reaktionsfenster (siehe oben), falls
+   er eine passende Karte hat; danach Conquer, 1 Punkt, kein echter Kampf.
 3. Sonst: Summe Might aller Attacker vs. Summe Might aller Defender.
-4. Attacker vergibt zuerst Schaden (Might) an Defender-Units (frei verteilbar,
+4. Attacker vergibt zuerst Schaden (Might) an Defender-Units — frei verteilbar
+   innerhalb der Tank-zuerst/Backline-zuletzt-Reihenfolge (Regel 460.2.c,
    Overkill fließt zur nächsten Unit), danach Defender (falls noch lebend)
-   an Attacker-Units.
+   an Attacker-Units, ebenso frei wählbar.
 5. Units mit Schaden ≥ Might werden zerstört (Deathknell triggert danach).
 6. Nach Combat: alle überlebenden Units heilen vollständig (Schaden bleibt nicht
    zwischen Combats bestehen); Heilung passiert **vor** Deathknell-Resolution.
@@ -90,6 +131,19 @@ Danach freie Aktionsphase (Main Phase) mit Chain/Priority-System (siehe unten).
 ## Siegbedingung
 
 Erster Spieler mit **8 Punkten** gewinnt.
+
+### Burn Out (Regel 431)
+
+Muss ein Spieler mehr Karten aus dem Main Deck ziehen/bewegen als noch
+vorhanden sind (z.B. beim regulären Draw), passiert Folgendes: so viele wie
+möglich ziehen, dann Trash gemischt ins Main Deck recyceln, dann bekommt der
+Gegner 1 Punkt (nicht verhinderbar, kann sofort das Spiel gewinnen), dann
+den Rest der ursprünglichen Aktion abschließen — wiederholt sich, falls auch
+der recycelte Trash nicht reicht. Implementiert für die beiden systemischen
+Zieh-Stellen (Draw-Phase, Scoring-als-Draw); die ca. 100+ Karten-eigenen
+Zieheffekte in `src/cards/special-cases/*.ts` hängen (wie schon vor diesem
+Feature) an keiner gemeinsamen Zieh-Stelle und lösen daher kein Burn Out aus
+(siehe `frigid-jewel.ts`'s Doc-Kommentar zur selben Lücke).
 
 ## Keyword-Glossar
 
