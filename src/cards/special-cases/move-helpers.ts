@@ -57,5 +57,6 @@ export function moveInstanceToBattlefield(game: GameState, instanceId: string, b
   if (wasAtBattlefield && previousBattlefieldIndex !== null) {
     SpecialCaseEngine.onMoveFromBattlefield(game, getCard, getCard(instance.cardId), instance, previousBattlefieldIndex);
   }
+  SpecialCaseEngine.onAnyoneArrivedAtBattlefield(game, getCard, instance.controller, battlefieldIndex);
   return true;
 }

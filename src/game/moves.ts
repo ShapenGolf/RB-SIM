@@ -725,6 +725,7 @@ export const attackBattlefield: MoveFn<GameState> = (
     if (defendingController && defendingController !== player.id) {
       SpecialCaseEngine.onEnemyAttackHere(G, getCard, defendingController, instance);
     }
+    SpecialCaseEngine.onAnyoneArrivedAtBattlefield(G, getCard, player.id, args.battlefieldIndex);
   }
   checkBecameMighty(G, getCard);
 

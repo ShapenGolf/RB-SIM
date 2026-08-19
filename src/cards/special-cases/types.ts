@@ -715,6 +715,18 @@ export interface SpecialCaseHandler {
   onAllyBecameMighty?(ctx: SpecialCaseContext, mightyInstance: CardInstance): void;
 
   /**
+   * Called on EVERY board instance in the game (both players) whenever any unit/champion arrives
+   * at a Battlefield — via an attack/Ganking move (game/moves.ts attackBattlefield) or a forced
+   * relocation (cards/special-cases/move-helpers.ts moveInstanceToBattlefield). Unlike
+   * `onEnemyAttackHere` (scoped to the specific Battlefield's defender, only when there IS a
+   * defender), this fires unconditionally for every arrival anywhere — handlers filter by
+   * relationship themselves (e.g. Volibear, Imposing: "When an opponent moves to a battlefield
+   * OTHER than mine, draw 1." checks both that the mover isn't its own controller AND that the
+   * destination isn't its own current Battlefield).
+   */
+  onAnyoneArrivedAtBattlefield?(ctx: SpecialCaseContext, moverController: PlayerId, battlefieldIndex: number): void;
+
+  /**
    * Broadcast to every board instance (and the Legend, via its pseudo-instance) the WINNING
    * player of a real Showdown (both sides had committed units) controls, right after that
    * Showdown resolves (e.g. Glorious Executioner: "When you win a combat, draw 1. (You win if

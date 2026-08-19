@@ -2720,6 +2720,14 @@ export const SpecialCaseEngine = {
     }
   },
 
+  /** Broadcasts a Battlefield arrival to every board instance in the game, for onAnyoneArrivedAtBattlefield hooks (e.g. Volibear, Imposing). See game/moves.ts attackBattlefield / cards/special-cases/move-helpers.ts. */
+  onAnyoneArrivedAtBattlefield: (game: GameState, getCard: (id: string) => Card, moverController: PlayerId, battlefieldIndex: number): void => {
+    for (const instance of Object.values(game.instances)) {
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onAnyoneArrivedAtBattlefield?.(ctxFor(game, card, instance), moverController, battlefieldIndex);
+    }
+  },
+
   /** Broadcasts a Showdown win to every board instance and the Legend pseudo-instance of `winner`. See combat.ts resolveCombat. */
   onWinCombat: (game: GameState, getCard: (id: string) => Card, winner: PlayerId): void => {
     for (const instance of Object.values(game.instances)) {
