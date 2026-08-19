@@ -210,6 +210,31 @@ export interface PendingCombatReaction {
   battlefieldIndex: number;
 }
 
+/**
+ * Combat math has finished computing totals but damage hasn't been applied yet, because one or
+ * both sides have a REAL choice in how to order their damage assignment — rule 460.2.c: "Starting
+ * with the Attacker, each player assigns damage dealt by their units to the units they're fighting,
+ * in any order they choose", constrained by Tank (815, assigned first) and Backline (826, assigned
+ * last). When a side's targets have at most one unit per Tank/normal/Backline rank, there's only
+ * one legal order, so combat.ts's beginCombatDamageAssignment resolves it immediately without ever
+ * setting this — this type only exists for the genuinely-ambiguous case (2+ units sharing a rank).
+ *
+ * Unlike PendingSpellReaction/PendingCombatReaction, this window can require BOTH players to act
+ * (each choosing how to order damage against the OTHER side's units), so combat.ts opens it with
+ * `events.setActivePlayers({all: Stage.NULL})` rather than excluding one side. Each side submits at
+ * most once via moves.ts's submitDamageAssignment; once both orders are non-null, combat resolves
+ * via combat.ts's finishCombatResolution and the window closes.
+ */
+export interface PendingDamageAssignment {
+  battlefieldIndex: number;
+  attacker: PlayerId;
+  defender: PlayerId;
+  /** Attacker's chosen order for assigning their damage across the defender's units. Null while a real choice exists and hasn't been submitted yet; pre-filled with the only-legal order when there was nothing to choose. */
+  attackerOrder: string[] | null;
+  /** Same idea, for the defender's damage across the attacker's units. */
+  defenderOrder: string[] | null;
+}
+
 export interface GameState {
   players: Record<PlayerId, PlayerState>;
   battlefields: BattlefieldSlot[];
@@ -224,6 +249,8 @@ export interface GameState {
   pendingSpellReaction: PendingSpellReaction | null;
   /** See PendingCombatReaction's doc comment. Null when no Showdown is currently paused for a reaction window. */
   pendingCombatReaction: PendingCombatReaction | null;
+  /** See PendingDamageAssignment's doc comment. Null when no Showdown is currently paused for a damage-ordering choice. */
+  pendingDamageAssignment: PendingDamageAssignment | null;
   /** Set by "take a turn after this one" effects (e.g. Time Warp) — game.ts's turn.order.next reads this to repeat the same player instead of alternating, then clears it in onBegin once consumed. */
   extraTurnFor: PlayerId | null;
   /** True once any unit/champion (either player's) has died this turn, e.g. Towering Pairofant: "If a unit died this turn, I enter ready." Set in combat.ts destroyInstance, reset in turnFlow.ts runTurnStart — global, not per-player, unlike PlayerState.enemyUnitDiedThisTurn. */

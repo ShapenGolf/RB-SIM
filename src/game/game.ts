@@ -20,6 +20,7 @@ import {
   playFromHidden,
   passReaction,
   passCombatReaction,
+  submitDamageAssignment,
 } from "./moves";
 import type { GameState, PlayerId } from "./state";
 
@@ -96,6 +97,7 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
         playFromHidden,
         passReaction,
         passCombatReaction,
+        submitDamageAssignment,
       },
     },
   },

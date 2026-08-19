@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { BoardProps } from "boardgame.io/react";
 import type { GameState, PlayerId, CardInstance } from "../game/state";
 import type { Card, Domain } from "../cards/types";
@@ -89,9 +89,21 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   // what just happened. Separate from dismissedCombatSeq (below), which only controls the little
   // topbar recap SHOWN AFTER review — per-unit detail belongs on the battlefield, not up there.
   const [combatReviewedSeq, setCombatReviewedSeq] = useState<number | null>(null);
+  // The click-order this player is building for the open PendingDamageAssignment window (see
+  // game/state.ts) — an ORDERED list, unlike attackMode's unordered Set, since rule 460.2.c's
+  // Tank-first/Backline-last constraint is about sequence, not just membership. Reset whenever a
+  // fresh window opens (or none is open) so stale picks from an earlier Showdown never leak in.
+  const [damageOrderPicks, setDamageOrderPicks] = useState<string[]>([]);
+  useEffect(() => {
+    setDamageOrderPicks([]);
+  }, [G.pendingDamageAssignment?.battlefieldIndex, G.pendingDamageAssignment?.attacker, G.pendingDamageAssignment === null]);
 
   const me = playerID as PlayerId | null;
-  const canAct = isActive && me !== null && ctx.currentPlayer === me;
+  // `{all: Stage.NULL}` (see combat.ts's beginCombatDamageAssignment) keeps BOTH players
+  // `isActive` during a damage-assignment window, unlike the spell/combat reaction windows above
+  // (which exclude one side) — so canAct explicitly closes off normal turn actions here instead of
+  // relying on boardgame.io's activePlayers to do it.
+  const canAct = isActive && me !== null && ctx.currentPlayer === me && !G.pendingDamageAssignment;
 
   if (ctx.gameover) {
     return (
@@ -831,6 +843,76 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           )}
         </div>
       )}
+
+      {/* Damage-assignment window (see game/state.ts's PendingDamageAssignment, rule 460.2.c) —
+          opens only when a side's targets have 2+ units sharing a Tank/normal/Backline rank, so
+          there's an actual choice; otherwise combat resolves without ever pausing here. Either or
+          both sides may need to pick — `{all: Stage.NULL}` keeps both isActive, see canAct above. */}
+      {G.pendingDamageAssignment &&
+        (() => {
+          const pending = G.pendingDamageAssignment;
+          const iAmAttacker = pending.attacker === me;
+          const iAmDefender = pending.defender === me;
+          const myOrder = iAmAttacker ? pending.attackerOrder : iAmDefender ? pending.defenderOrder : undefined;
+          if (!iAmAttacker && !iAmDefender) return null;
+          if (myOrder !== null) {
+            return (
+              <div className="rb-callout warn">
+                <div className="rb-callout-title">Schadensverteilung wird festgelegt — warte auf den Gegner…</div>
+              </div>
+            );
+          }
+
+          const targets = G.battlefields[pending.battlefieldIndex].units[iAmAttacker ? pending.defender : pending.attacker];
+          const orderedIds = damageOrderPicks.filter((id) => targets.includes(id));
+
+          function toggleDamageTarget(instanceId: string) {
+            setDamageOrderPicks((prev) =>
+              prev.includes(instanceId) ? prev.filter((id) => id !== instanceId) : [...prev, instanceId],
+            );
+          }
+
+          return (
+            <div className="rb-callout warn">
+              <div className="rb-callout-title">
+                Schaden verteilen: klicke die gegnerischen Einheiten in der Reihenfolge an, in der sie Schaden
+                erhalten sollen (Tank zuerst, Backline zuletzt).
+              </div>
+              <div className="rb-row">
+                {targets.map((instanceId) => {
+                  const instance = G.instances[instanceId];
+                  if (!instance) return null;
+                  const orderIndex = orderedIds.indexOf(instanceId);
+                  return (
+                    <CardFace
+                      key={instanceId}
+                      card={getCard(instance.cardId)}
+                      instance={instance}
+                      size="sm"
+                      selected={orderIndex !== -1}
+                      onClick={() => toggleDamageTarget(instanceId)}
+                      footer={orderIndex !== -1 ? <span>#{orderIndex + 1}</span> : undefined}
+                    />
+                  );
+                })}
+              </div>
+              <div className="rb-row">
+                <button
+                  disabled={orderedIds.length !== targets.length}
+                  onClick={() => {
+                    moves.submitDamageAssignment({ order: orderedIds });
+                    setDamageOrderPicks([]);
+                  }}
+                >
+                  Bestätigen
+                </button>
+                <button className="cancel" onClick={() => setDamageOrderPicks([])}>
+                  Zurücksetzen
+                </button>
+              </div>
+            </div>
+          );
+        })()}
 
       {/* Opponent sits across the table: their hand (face down, count only) and base up top. */}
       <div className="rb-opponent-zone">

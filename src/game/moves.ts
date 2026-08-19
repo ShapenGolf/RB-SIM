@@ -3,7 +3,7 @@ import type { MoveFn } from "boardgame.io";
 import { getCard } from "../cards/db";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
-import { resolveCombat, destroyInstance } from "./combat";
+import { beginCombatDamageAssignment, finishCombatResolution, isValidDamageOrder, destroyInstance } from "./combat";
 import { computeMight } from "./might";
 import { createInstance, shuffle, buildPlayerFromDeckList } from "./setup";
 import { fireTemplatedEffect, runTemplatedActions, candidatesForTarget } from "./templatedEffectEngine";
@@ -210,6 +210,9 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   // and the openXReactionWindow logic below — this is defense in depth for direct move calls,
   // e.g. tests). At most one of the two is ever set at once — see PendingCombatReaction's doc
   // comment on why they can't overlap.
+  // A damage-assignment window (see PendingDamageAssignment) is a pure ordering choice, not a
+  // reaction opportunity — nobody plays cards during it.
+  if (G.pendingDamageAssignment) return INVALID_MOVE;
   if (G.pendingSpellReaction && G.pendingSpellReaction.casterId === player.id) return INVALID_MOVE;
   if (G.pendingCombatReaction && G.pendingCombatReaction.attacker === player.id) return INVALID_MOVE;
   const reactingToSpell = G.pendingSpellReaction && G.pendingSpellReaction.casterId !== player.id ? G.pendingSpellReaction : null;
@@ -383,8 +386,11 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
     // PendingCombatReaction's doc comment).
     resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
     G.pendingCombatReaction = null;
-    resolveCombat(G, getCard, reactingToCombat.battlefieldIndex, reactingToCombat.attacker);
+    // Revert the combat-reaction window's activePlayers override first; beginCombatDamageAssignment
+    // overrides it again with its own (setActivePlayers calls replace, not merge) if a damage-order
+    // choice needs to open right after.
     events.setActivePlayers({ currentPlayer: Stage.NULL });
+    beginCombatDamageAssignment(G, getCard, events, reactingToCombat.battlefieldIndex, reactingToCombat.attacker);
     return undefined;
   }
 
@@ -426,8 +432,47 @@ export const passCombatReaction: MoveFn<GameState> = ({ G, events, playerID }) =
   const pending = G.pendingCombatReaction;
   if (!pending || pending.attacker === playerID) return INVALID_MOVE;
   G.pendingCombatReaction = null;
-  resolveCombat(G, getCard, pending.battlefieldIndex, pending.attacker);
   events.setActivePlayers({ currentPlayer: Stage.NULL });
+  beginCombatDamageAssignment(G, getCard, events, pending.battlefieldIndex, pending.attacker);
+  return undefined;
+};
+
+export interface SubmitDamageAssignmentArgs {
+  /** This player's chosen permutation of the OTHER side's unit instanceIds — see PendingDamageAssignment's doc comment. Must respect Tank-first/Backline-last rank-monotonicity; validated by combat.ts's isValidDamageOrder. */
+  order: string[];
+}
+
+/**
+ * Submits this player's damage order for the currently-open PendingDamageAssignment window (rule
+ * 460.2.c). Each side may submit at most once. Once both sides' orders are known — submitted here,
+ * or pre-filled at window-open time because that side had no real choice (see
+ * combat.ts's hasRealDamageChoice) — combat resolves via finishCombatResolution and the window
+ * closes.
+ */
+export const submitDamageAssignment: MoveFn<GameState> = ({ G, events, playerID }, args: SubmitDamageAssignmentArgs) => {
+  const pending = G.pendingDamageAssignment;
+  if (!pending) return INVALID_MOVE;
+  const slot = G.battlefields[pending.battlefieldIndex];
+
+  if (playerID === pending.attacker) {
+    if (pending.attackerOrder !== null) return INVALID_MOVE;
+    const targets = slot.units[pending.defender];
+    if (!isValidDamageOrder(G, getCard, targets, args.order, pending.battlefieldIndex, pending.attacker)) return INVALID_MOVE;
+    pending.attackerOrder = args.order;
+  } else if (playerID === pending.defender) {
+    if (pending.defenderOrder !== null) return INVALID_MOVE;
+    const targets = slot.units[pending.attacker];
+    if (!isValidDamageOrder(G, getCard, targets, args.order, pending.battlefieldIndex, pending.defender)) return INVALID_MOVE;
+    pending.defenderOrder = args.order;
+  } else {
+    return INVALID_MOVE;
+  }
+
+  if (pending.attackerOrder !== null && pending.defenderOrder !== null) {
+    G.pendingDamageAssignment = null;
+    events.setActivePlayers({ currentPlayer: Stage.NULL });
+    finishCombatResolution(G, getCard, pending.battlefieldIndex, pending.attacker, pending.attackerOrder, pending.defenderOrder);
+  }
   return undefined;
 };
 
@@ -512,7 +557,7 @@ export const attackBattlefield: MoveFn<GameState> = (
   args: AttackBattlefieldArgs,
 ) => {
   const player = G.players[playerID as "0" | "1"];
-  if (G.pendingSpellReaction || G.pendingCombatReaction) return INVALID_MOVE;
+  if (G.pendingSpellReaction || G.pendingCombatReaction || G.pendingDamageAssignment) return INVALID_MOVE;
   const slot = G.battlefields[args.battlefieldIndex];
   if (!slot || args.unitInstanceIds.length === 0) return INVALID_MOVE;
   const defendingController = slot.controller;
@@ -572,7 +617,7 @@ export const attackBattlefield: MoveFn<GameState> = (
     return undefined;
   }
 
-  resolveCombat(G, getCard, args.battlefieldIndex, player.id);
+  beginCombatDamageAssignment(G, getCard, events, args.battlefieldIndex, player.id);
   return undefined;
 };
 

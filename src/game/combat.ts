@@ -1,3 +1,5 @@
+import type { ActivePlayersArg } from "boardgame.io";
+import { Stage } from "boardgame.io/core";
 import type { Card } from "../cards/types";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
@@ -7,12 +9,11 @@ import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstanc
 import type { CardInstance, CombatHit, GameState, PlayerId } from "./state";
 
 /**
- * Combat resolution assumption (unverified against the full official rules
- * text, which we could not fetch): both sides' total Might is computed once
- * at the start of the Showdown and damage is assigned simultaneously, mirroring
- * Legends of Runeterra-style combat (Riftbound is built by the same team).
- * The alternative — a strictly sequential attacker-then-defender strike where
- * a wiped-out side never swings back — would need a rules citation to adopt.
+ * Confirmed against the official Riftbound Core Rules (rule 460.2.a/b/c): both sides' total Might
+ * is summed once at the start of the Showdown, then, starting with the Attacker, each player
+ * assigns their damage to the units they're fighting — simultaneously in the sense that a wiped-out
+ * side still deals its full damage back, not a strictly sequential strike where death cuts short a
+ * side's own swing.
  */
 
 function otherPlayer(id: PlayerId): PlayerId {
@@ -23,10 +24,29 @@ function hasActiveKeyword(card: Card, instance: CardInstance, name: string): boo
   return KeywordEngine.hasKeyword(card, name) || instance.grantedThisTurn.some((k) => k.keyword === name);
 }
 
+/** [Tank] units rank first (0), [Backline] units rank last (2), everyone else in between (1). */
+function rankForDamageAssignment(
+  game: GameState,
+  getCard: (id: string) => Card,
+  instanceId: string,
+  battlefieldIndex: number,
+  assigningPlayer: PlayerId,
+): number {
+  const instance = game.instances[instanceId];
+  if (!instance) return 1;
+  const card = getCard(instance.cardId);
+  const ignoreTank = SpecialCaseEngine.ignoresTankHere(game, getCard, battlefieldIndex, assigningPlayer);
+  if (hasActiveKeyword(card, instance, "tank") && !ignoreTank) return 0;
+  if (hasActiveKeyword(card, instance, "backline") || SpecialCaseEngine.hasConditionalBackline(game, card, instance)) return 2;
+  return 1;
+}
+
 /**
  * [Tank] units are assigned combat damage first, [Backline] units last, everyone else in
  * between — stable within each group (see e.g. Xin Zhao, Vigilant / Galio, Indefatigable for
- * Tank, LeBlanc, Everywhere at Once / Enthusiastic Promoter for Backline).
+ * Tank, LeBlanc, Everywhere at Once / Enthusiastic Promoter for Backline). This is the DEFAULT
+ * order used when a side has no real choice to make (see hasRealDamageChoice below) — when they
+ * do, the player's submitted order (validated by isValidDamageOrder) is used instead.
  */
 function orderForDamageAssignment(
   game: GameState,
@@ -35,20 +55,57 @@ function orderForDamageAssignment(
   battlefieldIndex: number,
   assigningPlayer: PlayerId,
 ): string[] {
-  const ignoreTank = SpecialCaseEngine.ignoresTankHere(game, getCard, battlefieldIndex, assigningPlayer);
   return targets
-    .map((instanceId, index) => {
-      const instance = game.instances[instanceId];
-      let rank = 1;
-      if (instance) {
-        const card = getCard(instance.cardId);
-        if (hasActiveKeyword(card, instance, "tank") && !ignoreTank) rank = 0;
-        else if (hasActiveKeyword(card, instance, "backline") || SpecialCaseEngine.hasConditionalBackline(game, card, instance)) rank = 2;
-      }
-      return { instanceId, rank, index };
-    })
+    .map((instanceId, index) => ({ instanceId, rank: rankForDamageAssignment(game, getCard, instanceId, battlefieldIndex, assigningPlayer), index }))
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
     .map((entry) => entry.instanceId);
+}
+
+/**
+ * True when `targets` has 2+ units sharing the same Tank/normal/Backline rank — i.e. rule
+ * 460.2.c's "in any order they choose" is actually ambiguous. When every rank has at most one
+ * unit, there's exactly one legal order and no real choice exists, so no player-facing window
+ * is needed.
+ */
+export function hasRealDamageChoice(
+  game: GameState,
+  getCard: (id: string) => Card,
+  targets: string[],
+  battlefieldIndex: number,
+  assigningPlayer: PlayerId,
+): boolean {
+  const counts = new Map<number, number>();
+  for (const instanceId of targets) {
+    const rank = rankForDamageAssignment(game, getCard, instanceId, battlefieldIndex, assigningPlayer);
+    counts.set(rank, (counts.get(rank) ?? 0) + 1);
+  }
+  return [...counts.values()].some((count) => count >= 2);
+}
+
+/**
+ * Validates a player-submitted damage order: must be a permutation of `targets`, and must respect
+ * Tank-first/Backline-last rank-monotonicity (rule 460.2.c, 815, 826) — free choice within a rank,
+ * no reordering across ranks.
+ */
+export function isValidDamageOrder(
+  game: GameState,
+  getCard: (id: string) => Card,
+  targets: string[],
+  order: string[],
+  battlefieldIndex: number,
+  assigningPlayer: PlayerId,
+): boolean {
+  if (order.length !== targets.length) return false;
+  if (new Set(order).size !== order.length) return false;
+  const targetSet = new Set(targets);
+  if (!order.every((id) => targetSet.has(id))) return false;
+  let lastRank = -1;
+  for (const instanceId of order) {
+    const rank = rankForDamageAssignment(game, getCard, instanceId, battlefieldIndex, assigningPlayer);
+    if (rank < lastRank) return false;
+    lastRank = rank;
+  }
+  return true;
 }
 
 function livingDamageDealers(
@@ -82,18 +139,17 @@ function toughness(
   return computeMight(game, getCard, instance, role);
 }
 
-/** Assigns damage to each target up to its toughness, in order. Returns the leftover damage that couldn't be assigned to anyone (the "excess damage" referenced by conquer-time triggers like Tryndamere). */
+/** Assigns damage to each target up to its toughness, in the given order (already resolved — either the only legal order, or a validated player choice). Returns the leftover damage that couldn't be assigned to anyone (the "excess damage" referenced by conquer-time triggers like Tryndamere). */
 function assignDamage(
   game: GameState,
   getCard: (id: string) => Card,
   totalDamage: number,
-  targets: string[],
+  order: string[],
   role: "attacking" | "defending",
-  battlefieldIndex: number,
   assigningPlayer: PlayerId,
 ): number {
   let remaining = totalDamage;
-  for (const instanceId of orderForDamageAssignment(game, getCard, targets, battlefieldIndex, assigningPlayer)) {
+  for (const instanceId of order) {
     if (remaining <= 0) break;
     const instance = game.instances[instanceId];
     if (!instance) continue;
@@ -242,13 +298,21 @@ function conquerBattlefield(
   }
 }
 
-/** Resolves a Showdown at the given battlefield between its two committed unit groups. */
-export function resolveCombat(
-  game: GameState,
-  getCard: (id: string) => Card,
-  battlefieldIndex: number,
-  attacker: PlayerId,
-): void {
+interface CombatPrep {
+  defaultAttackerOrder: string[];
+  defaultDefenderOrder: string[];
+  attackerHasChoice: boolean;
+  defenderHasChoice: boolean;
+}
+
+/**
+ * Shared setup for both resolveCombat (legacy/test-only immediate path) and
+ * beginCombatDamageAssignment (the real move-driven path): resolves the undefended walk-in case
+ * outright, runs onDefend hooks, and computes each side's default damage order plus whether that
+ * side actually has a choice to make. Returns null when the walk-in case already handled
+ * everything (nothing left to resolve).
+ */
+function prepareCombat(game: GameState, getCard: (id: string) => Card, battlefieldIndex: number, attacker: PlayerId): CombatPrep | null {
   const slot = game.battlefields[battlefieldIndex];
   const defender = otherPlayer(attacker);
   const attackerIds = slot.units[attacker];
@@ -259,7 +323,7 @@ export function resolveCombat(
     // No defenders means no actual Showdown — clear any stale summary from an earlier fight so the
     // UI doesn't re-show it (see GameState.lastCombatResult).
     game.lastCombatResult = null;
-    return;
+    return null;
   }
 
   for (const instanceId of defenderIds) {
@@ -280,13 +344,83 @@ export function resolveCombat(
     );
   }
 
+  return {
+    defaultAttackerOrder: orderForDamageAssignment(game, getCard, defenderIds, battlefieldIndex, attacker),
+    defaultDefenderOrder: orderForDamageAssignment(game, getCard, attackerIds, battlefieldIndex, defender),
+    attackerHasChoice: hasRealDamageChoice(game, getCard, defenderIds, battlefieldIndex, attacker),
+    defenderHasChoice: hasRealDamageChoice(game, getCard, attackerIds, battlefieldIndex, defender),
+  };
+}
+
+/**
+ * Legacy/test-only entry point: resolves a Showdown immediately using each side's default
+ * (Tank-first/Backline-last) damage order, without ever pausing for a player choice — used
+ * throughout the test suite to drive combat directly. The real move-driven path
+ * (moves.ts's attackBattlefield/passCombatReaction/playCard) calls beginCombatDamageAssignment
+ * instead, which pauses when a side has a genuine choice to make (see hasRealDamageChoice).
+ */
+export function resolveCombat(game: GameState, getCard: (id: string) => Card, battlefieldIndex: number, attacker: PlayerId): void {
+  const prep = prepareCombat(game, getCard, battlefieldIndex, attacker);
+  if (!prep) return;
+  finishCombatResolution(game, getCard, battlefieldIndex, attacker, prep.defaultAttackerOrder, prep.defaultDefenderOrder);
+}
+
+/**
+ * Begins resolving a Showdown at the given battlefield: runs onDefend hooks and computes damage
+ * totals, then either finishes immediately (when neither side has a real damage-order choice — see
+ * hasRealDamageChoice) or pauses on `game.pendingDamageAssignment` for one or both players to
+ * submit an order via moves.ts's submitDamageAssignment (rule 460.2.c).
+ */
+export function beginCombatDamageAssignment(
+  game: GameState,
+  getCard: (id: string) => Card,
+  events: { setActivePlayers: (arg: ActivePlayersArg) => void },
+  battlefieldIndex: number,
+  attacker: PlayerId,
+): void {
+  const prep = prepareCombat(game, getCard, battlefieldIndex, attacker);
+  if (!prep) return;
+
+  if (!prep.attackerHasChoice && !prep.defenderHasChoice) {
+    finishCombatResolution(game, getCard, battlefieldIndex, attacker, prep.defaultAttackerOrder, prep.defaultDefenderOrder);
+    return;
+  }
+
+  game.pendingDamageAssignment = {
+    battlefieldIndex,
+    attacker,
+    defender: otherPlayer(attacker),
+    attackerOrder: prep.attackerHasChoice ? null : prep.defaultAttackerOrder,
+    defenderOrder: prep.defenderHasChoice ? null : prep.defaultDefenderOrder,
+  };
+  events.setActivePlayers({ all: Stage.NULL });
+}
+
+/**
+ * Finishes resolving a Showdown once both sides' damage orders are known (either the only legal
+ * order, or a player's validated choice — see beginCombatDamageAssignment/isValidDamageOrder).
+ * Applies damage, destroys the dead, resets survivors, and settles conquest.
+ */
+export function finishCombatResolution(
+  game: GameState,
+  getCard: (id: string) => Card,
+  battlefieldIndex: number,
+  attacker: PlayerId,
+  attackerOrder: string[],
+  defenderOrder: string[],
+): void {
+  const slot = game.battlefields[battlefieldIndex];
+  const defender = otherPlayer(attacker);
+  const attackerIds = slot.units[attacker];
+  const defenderIds = slot.units[defender];
+
   const attackerDealers = livingDamageDealers(game, getCard, attackerIds, "attacking");
   const defenderDealers = livingDamageDealers(game, getCard, defenderIds, "defending");
   const attackerTotalDamage = attackerDealers.reduce((sum, d) => sum + d.might, 0);
   const defenderTotalDamage = defenderDealers.reduce((sum, d) => sum + d.might, 0);
 
-  const attackerExcessDamage = assignDamage(game, getCard, attackerTotalDamage, defenderIds, "defending", battlefieldIndex, attacker);
-  assignDamage(game, getCard, defenderTotalDamage, attackerIds, "attacking", battlefieldIndex, defender);
+  const attackerExcessDamage = assignDamage(game, getCard, attackerTotalDamage, attackerOrder, "defending", attacker);
+  assignDamage(game, getCard, defenderTotalDamage, defenderOrder, "attacking", defender);
 
   // Snapshot per-unit damage now, before the end-of-Showdown reset-to-0 loop below overwrites it —
   // this is what powers the UI's post-combat summary (GameState.lastCombatResult).
