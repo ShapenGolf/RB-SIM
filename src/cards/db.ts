@@ -47,6 +47,25 @@ function parseEquipCost(grantedText: string): { energy: number; runeDomain?: Dom
   return undefined;
 }
 
+/**
+ * Parses the "repeat" keyword's `grantedText` (rule 820's Repeat cost) for the common shapes: "N
+ * Energy", "<Domain> Rune", and "N Energy<Domain> Rune" — same spirit as parseEquipCost, plus the
+ * Energy-only case (Equip costs always include a Rune; Repeat costs often don't). Anything else
+ * (a bare "Rune" with no domain, a discard cost, or a cost defined relative to the spell's own
+ * printed cost like "equal to its cost") is left unmatched. See cards/types.ts `Card.repeatCost`.
+ */
+function parseRepeatCost(grantedText: string): { energy: number; runeDomain?: Domain } | undefined {
+  const trimmed = grantedText.replace(/\.$/, "").trim();
+  const domainPattern = RUNE_DOMAINS.join("|");
+  const withEnergy = trimmed.match(new RegExp(`^(\\d+) Energy(${domainPattern}) Rune$`));
+  if (withEnergy) return { energy: Number(withEnergy[1]), runeDomain: withEnergy[2] as Domain };
+  const energyOnly = trimmed.match(/^(\d+) Energy$/);
+  if (energyOnly) return { energy: Number(energyOnly[1]) };
+  const runeOnly = trimmed.match(new RegExp(`^(${domainPattern}) Rune$`));
+  if (runeOnly) return { energy: 0, runeDomain: runeOnly[1] as Domain };
+  return undefined;
+}
+
 export const cardDatabase: CardDatabase = Object.fromEntries(
   [...officialCatalog, ...starterSet, ...tokens].map((card) => {
     const extras: Partial<Card> = {};
@@ -57,6 +76,11 @@ export const cardDatabase: CardDatabase = Object.fromEntries(
     if (equipKeyword?.grantedText) {
       const cost = parseEquipCost(equipKeyword.grantedText);
       if (cost) extras.equipCost = cost;
+    }
+    const repeatKeyword = card.keywords.find((k) => k.keyword === "repeat");
+    if (repeatKeyword?.grantedText) {
+      const cost = parseRepeatCost(repeatKeyword.grantedText);
+      if (cost) extras.repeatCost = cost;
     }
     return [card.id, Object.keys(extras).length > 0 ? { ...card, ...extras } : card];
   }),

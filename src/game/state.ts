@@ -220,6 +220,8 @@ export interface PendingSpellReaction {
   instanceId: string;
   targetInstanceId?: string;
   payAdditionalCost: boolean;
+  /** [Repeat] (rule 820): 2 if the caster paid to execute this spell's onPlay effect twice, 1 otherwise — see moves.ts's playCard/resolvePlayedCard. */
+  repeatCount: number;
 }
 
 /**

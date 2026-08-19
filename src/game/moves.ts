@@ -67,19 +67,31 @@ export function resolvePlayedCard(
   targetInstanceId: string | undefined,
   payAdditionalCost: boolean,
   ambushBattlefieldIndex?: number,
+  /**
+   * [Repeat] (rule 820, spells only): how many times to execute the onPlay resolution — 1
+   * normally, 2 if the Repeat cost was paid (see moves.ts's playCard, card.repeatCost). Per rule
+   * 820.3.a, repeating the EFFECT doesn't repeat the PLAY — cardsPlayedThisTurn/onAllyCardPlayed
+   * etc. below still fire once regardless of this value.
+   */
+  repeatCount = 1,
 ): void {
   instance.statuses.paidAdditionalCostThisTurn = payAdditionalCost;
   if (player.nextCardCostReduction > 0) player.nextCardCostReduction = 0;
   if (card.type === "spell") {
     player.playedSpellThisTurn = true;
     if (player.nextSpellCostReduction > 0) player.nextSpellCostReduction = 0;
-    // "Choosing" happens at cast time, before the spell's own effect resolves — fire this first
-    // so "when you choose X" triggers (e.g. Jae Medarda) still see the target even if the spell's
-    // own effect goes on to destroy/move it.
-    if (targetInstanceId) SpecialCaseEngine.onChosen(G, getCard, player.id, targetInstanceId, card);
-    KeywordEngine.fireOnPlay(G, card, instance);
-    SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
-    fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
+    for (let i = 0; i < repeatCount; i += 1) {
+      // "Choosing" happens at cast time, before the spell's own effect resolves — fire this first
+      // so "when you choose X" triggers (e.g. Jae Medarda) still see the target even if the
+      // spell's own effect goes on to destroy/move it. Repeated in full for each execution (rule
+      // 820.1.d.1: "as though the card says [instruction] twice"), reusing the same
+      // targetInstanceId both times rather than offering an independent second target choice
+      // (rule 820.2.a — documented simplification, see PlayCardArgs.repeatEnergyRuneIds).
+      if (targetInstanceId) SpecialCaseEngine.onChosen(G, getCard, player.id, targetInstanceId, card);
+      KeywordEngine.fireOnPlay(G, card, instance);
+      SpecialCaseEngine.onPlay(G, card, instance, targetInstanceId);
+      fireTemplatedEffect(G, getCard, card, instance, "onPlay", targetInstanceId);
+    }
     if (player.nextSpellBonusDamage > 0) player.nextSpellBonusDamage = 0;
     delete G.instances[instance.instanceId];
     if (SpecialCaseEngine.banishSelfOnResolve(G, card, instance)) {
@@ -177,7 +189,7 @@ function settlePendingSpellReaction(
       casterPlayer.trash.push(pending.cardId);
     }
   } else if (instance) {
-    resolvePlayedCard(G, casterPlayer, card, instance, pending.targetInstanceId, pending.payAdditionalCost);
+    resolvePlayedCard(G, casterPlayer, card, instance, pending.targetInstanceId, pending.payAdditionalCost, undefined, pending.repeatCount);
   }
   G.pendingSpellReaction = null;
 }
@@ -219,6 +231,17 @@ export interface PlayCardArgs {
   powerRuneIds: string[];
   payAdditionalCost?: boolean;
   targetInstanceId?: string;
+  /**
+   * Pays this spell's [Repeat] cost (rule 820, card.repeatCost — see cards/db.ts's
+   * parseRepeatCost) as an ADDITIONAL cost on top of energyRuneIds/powerRuneIds — separate physical
+   * runes from those, never overlapping. If true, resolvePlayedCard executes the spell's onPlay
+   * effect a second time, reusing the SAME targetInstanceId rather than offering an independent
+   * second target choice (rule 820.2.a's "choices don't have to match" isn't modeled — documented
+   * simplification).
+   */
+  payRepeatCost?: boolean;
+  repeatEnergyRuneIds?: string[];
+  repeatPowerRuneId?: string;
   /** Play a unit/champion directly to this Battlefield instead of base — only legal with Ambush (see keywords/handlers/ambush.ts), and only onto a Battlefield where the controller already has a unit. */
   ambushBattlefieldIndex?: number;
 }
@@ -370,6 +393,28 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
     if ((suppliedByDomain.get(domain) ?? 0) < amount) return INVALID_MOVE;
   }
 
+  // [Repeat] (rule 820): an optional ADDITIONAL cost, paid with its own runes (never overlapping
+  // the base cost's — usedRuneIds already has those). Only meaningful for spells with a parsed
+  // card.repeatCost (see cards/db.ts's parseRepeatCost) — paying it doubles the onPlay execution.
+  const repeatEnergyIds = args.payRepeatCost ? (args.repeatEnergyRuneIds ?? []) : [];
+  if (args.payRepeatCost) {
+    if (!card.repeatCost) return INVALID_MOVE;
+    if (repeatEnergyIds.length !== card.repeatCost.energy) return INVALID_MOVE;
+    if (Boolean(card.repeatCost.runeDomain) !== Boolean(args.repeatPowerRuneId)) return INVALID_MOVE;
+    for (const runeId of repeatEnergyIds) {
+      if (usedRuneIds.has(runeId)) return INVALID_MOVE;
+      const rune = player.runePool.find((r) => r.instanceId === runeId);
+      if (!rune || rune.exhausted) return INVALID_MOVE;
+      usedRuneIds.add(runeId);
+    }
+    if (args.repeatPowerRuneId) {
+      if (usedRuneIds.has(args.repeatPowerRuneId)) return INVALID_MOVE;
+      const rune = player.runePool.find((r) => r.instanceId === args.repeatPowerRuneId);
+      if (!rune || rune.domain !== card.repeatCost.runeDomain) return INVALID_MOVE;
+      usedRuneIds.add(args.repeatPowerRuneId);
+    }
+  }
+
   for (const runeId of args.energyRuneIds) {
     player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
   }
@@ -378,6 +423,15 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
     const [rune] = player.runePool.splice(idx, 1);
     player.runeDeck.push(rune);
   }
+  for (const runeId of repeatEnergyIds) {
+    player.runePool.find((r) => r.instanceId === runeId)!.exhausted = true;
+  }
+  if (args.payRepeatCost && args.repeatPowerRuneId) {
+    const idx = player.runePool.findIndex((r) => r.instanceId === args.repeatPowerRuneId);
+    const [rune] = player.runePool.splice(idx, 1);
+    player.runeDeck.push(rune);
+  }
+  const repeatCount = args.payRepeatCost ? 2 : 1;
 
   if (args.fromChampionZone) {
     player.championZone = null;
@@ -401,7 +455,7 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
     // Resolve the reacting card's own effect first (e.g. Riposte's onPlay reads
     // G.pendingSpellReaction — still set here — to buff its chosen unit by the countered spell's
     // Energy cost), THEN settle the spell it was reacting to.
-    resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
+    resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost), undefined, repeatCount);
     const counterDestination = SpecialCaseEngine.hasCounterIntent(card) ? SpecialCaseEngine.counterDestination(card) : undefined;
     settlePendingSpellReaction(G, reactingToSpell, counterDestination);
     events.setActivePlayers({ currentPlayer: Stage.NULL });
@@ -412,7 +466,7 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
     // Resolve the reacting card's own effect (e.g. a removal/damage spell on the attacker) BEFORE
     // the Showdown itself resolves — this is the whole point of the window (see
     // PendingCombatReaction's doc comment).
-    resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost));
+    resolvePlayedCard(G, player, card, instance, args.targetInstanceId, Boolean(args.payAdditionalCost), undefined, repeatCount);
     G.pendingCombatReaction = null;
     // Revert the combat-reaction window's activePlayers override first; beginCombatDamageAssignment
     // overrides it again with its own (setActivePlayers calls replace, not merge) if a damage-order
@@ -429,6 +483,7 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
       instanceId: instance.instanceId,
       targetInstanceId: args.targetInstanceId,
       payAdditionalCost: Boolean(args.payAdditionalCost),
+      repeatCount,
     };
     events.setActivePlayers({ others: Stage.NULL });
     return undefined;
@@ -442,6 +497,7 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
     args.targetInstanceId,
     Boolean(args.payAdditionalCost),
     args.ambushBattlefieldIndex,
+    repeatCount,
   );
   return undefined;
 };

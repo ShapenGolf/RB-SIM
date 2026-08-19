@@ -51,6 +51,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     /** Set when the payment was chosen manually (see pendingManualPayment below) — confirmTarget uses these verbatim instead of calling computeAutoPayment. */
     manualEnergyRuneIds?: string[];
     manualPowerRuneIds?: string[];
+    /** Set by playCardAutoWithRepeat when this spell's [Repeat] cost (rule 820) is also being paid — confirmTarget passes these through to moves.playCard verbatim. */
+    payRepeatCost?: boolean;
+    repeatEnergyRuneIds?: string[];
+    repeatPowerRuneId?: string;
   } | null>(null);
   const [pendingAbility, setPendingAbility] = useState<{ instanceId: string } | null>(null);
   const [pendingEquip, setPendingEquip] = useState<{ gearInstanceId: string } | null>(null);
@@ -260,6 +264,57 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     });
   }
 
+  /**
+   * Same as playCardAuto, but ALSO pays the spell's [Repeat] cost (rule 820, card.repeatCost) as
+   * an additional cost on top of the base payment — auto-picking the extra runes from whatever's
+   * left in the pool after the base cost's picks, same greedy spirit as computeAutoPayment. Only
+   * offered when both the base cost and the Repeat cost can be covered simultaneously.
+   */
+  function playCardAutoWithRepeat(handIndex: number) {
+    const cardId = player.hand[handIndex];
+    const card = getCard(cardId);
+    const dummyInstance = blankInstance(cardId, me!);
+    if (!card.repeatCost) return;
+    if (blocksPlayForMissingTarget(card, dummyInstance)) {
+      window.alert("Kein gültiges Ziel verfügbar — dieser Spruch kann so nicht gespielt werden.");
+      return;
+    }
+    const payment = computeAutoPayment(G, card, dummyInstance, player.runePool, false);
+    if (!payment) {
+      window.alert("Nicht genug Runen, um diese Karte zu bezahlen.");
+      return;
+    }
+    const used = new Set([...payment.energyRuneIds, ...payment.powerRuneIds]);
+    const repeatPowerRuneId = card.repeatCost.runeDomain
+      ? player.runePool.find((r) => r.domain === card.repeatCost!.runeDomain && !used.has(r.instanceId))?.instanceId
+      : undefined;
+    if (card.repeatCost.runeDomain && !repeatPowerRuneId) {
+      window.alert("Nicht genug Runen für den Repeat-Zusatzkosten.");
+      return;
+    }
+    if (repeatPowerRuneId) used.add(repeatPowerRuneId);
+    const repeatEnergyRuneIds = player.runePool
+      .filter((r) => !r.exhausted && !used.has(r.instanceId))
+      .slice(0, card.repeatCost.energy)
+      .map((r) => r.instanceId);
+    if (repeatEnergyRuneIds.length !== card.repeatCost.energy) {
+      window.alert("Nicht genug Runen für den Repeat-Zusatzkosten.");
+      return;
+    }
+    if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
+      setPendingTarget({ handIndex, payAdditionalCost: false, payRepeatCost: true, repeatEnergyRuneIds, repeatPowerRuneId });
+      return;
+    }
+    moves.playCard({
+      handIndex,
+      energyRuneIds: payment.energyRuneIds,
+      powerRuneIds: payment.powerRuneIds,
+      payRepeatCost: true,
+      repeatEnergyRuneIds,
+      repeatPowerRuneId,
+    });
+  }
+
   function startManualPayment(handIndex: number, payAdditionalCost: boolean, ambushBattlefieldIndex?: number) {
     setPendingManualPayment({ handIndex, payAdditionalCost, ambushBattlefieldIndex });
     setManualEnergyRuneIds([]);
@@ -392,6 +447,9 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       payAdditionalCost: pendingTarget.payAdditionalCost,
       targetInstanceId,
       ambushBattlefieldIndex: pendingTarget.ambushBattlefieldIndex,
+      payRepeatCost: pendingTarget.payRepeatCost,
+      repeatEnergyRuneIds: pendingTarget.repeatEnergyRuneIds,
+      repeatPowerRuneId: pendingTarget.repeatPowerRuneId,
     });
     setPendingTarget(null);
   }
@@ -1470,6 +1528,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                     )}
                     {bonusEffectEnergy !== undefined && (
                       <button onClick={() => playCardAuto(idx, true)}>+{bonusEffectEnergy}E Bonus</button>
+                    )}
+                    {card.repeatCost && (
+                      <button onClick={() => playCardAutoWithRepeat(idx)}>
+                        +Repeat ({card.repeatCost.energy}E{card.repeatCost.runeDomain ? `+${card.repeatCost.runeDomain}` : ""})
+                      </button>
                     )}
                     {ambushBattlefields.map((index) => (
                       <button key={index} onClick={() => playCardAuto(idx, false, index)}>

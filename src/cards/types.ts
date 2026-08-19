@@ -88,6 +88,16 @@ export interface Card {
    */
   equipCost?: { energy: number; runeDomain?: Domain };
   /**
+   * Auto-matched cost for a Spell's "[Repeat] <cost>" keyword (rule 820) — an optional additional
+   * cost paid while playing the spell that, if paid, executes the spell's onPlay effect a second
+   * time. Computed in cards/db.ts for the common "N Energy" / "<Domain> Rune" / "N Energy<Domain>
+   * Rune" patterns; a Repeat cost with a non-Energy/Rune shape (e.g. "Discard 1") or a
+   * cost defined relative to the spell's own printed cost ("equal to its cost") is left unset and
+   * stays an unimplemented, documented gap for that card — see game/moves.ts playCard's
+   * repeatEnergyRuneIds/repeatPowerRuneId handling.
+   */
+  repeatCost?: { energy: number; runeDomain?: Domain };
+  /**
    * Provenance note for this data entry. Real cards researched via web
    * search are cited here; cards without a confirmed official source are
    * marked "unverified" and exist only to exercise the keyword engine.
