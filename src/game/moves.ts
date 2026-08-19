@@ -37,10 +37,15 @@ function rejectsInvalidTemplatedTarget(
   source: CardInstance,
   targetInstanceId: string | undefined,
   requiresTargetToExist: boolean,
+  /** Rule 811.1.d.2: playing from Hidden restricts a target choice to candidates at this Battlefield — see playFromHidden. Omitted for a normal (non-Hidden) play. */
+  restrictToBattlefieldIndex?: number,
 ): boolean {
   const spec = actions ? firstChooseTargetSpec(actions) : undefined;
   if (!spec) return false;
-  const candidates = candidatesForTarget(G, getCard, source, spec);
+  let candidates = candidatesForTarget(G, getCard, source, spec);
+  if (restrictToBattlefieldIndex !== undefined) {
+    candidates = candidates.filter((c) => c.battlefieldIndex === restrictToBattlefieldIndex);
+  }
   if (targetInstanceId) return !candidates.some((c) => c.instanceId === targetInstanceId);
   if (spec.optional) return false;
   if (candidates.length === 0) return requiresTargetToExist;
@@ -500,14 +505,26 @@ export interface HideCardArgs {
   handIndex: number;
   /** Which Rune from the pool to recycle as the cost — any domain, doesn't need to be un-exhausted (matching the normal recycle-for-Power rule: only exhausting-for-Energy cares about prior exhaustion). No Power is gained from it; the rune itself IS the payment. */
   runeId: string;
+  /** Rule 811.1.b: a Battlefield this player controls, without already having a facedown card hidden there (see SpecialCaseEngine.maxHiddenCardsAtBattlefield for the rare battlefield that raises this cap to 2, e.g. Bandle Tree). */
+  battlefieldIndex: number;
 }
 
-/** Plays a [Hidden] card face-down into `player.hiddenZone` — a private reserve (see state.ts's doc comment) — instead of resolving it immediately. Costs recycling 1 Rune (any domain); the card itself is played later, for free, via `playFromHidden`. */
-export const hideCard: MoveFn<GameState> = ({ G, playerID }, args: HideCardArgs) => {
+/**
+ * Plays a [Hidden] card face-down into `player.hiddenZone`, bound to `args.battlefieldIndex` (see
+ * state.ts's HiddenCard doc comment) — a private reserve, instead of resolving it immediately.
+ * Costs recycling 1 Rune (any domain); the card itself is played later, for free, via
+ * `playFromHidden`, no earlier than next turn (rule 811.1.b).
+ */
+export const hideCard: MoveFn<GameState> = ({ G, ctx, playerID }, args: HideCardArgs) => {
   const player = G.players[playerID as "0" | "1"];
   const cardId = player.hand[args.handIndex];
   if (!cardId) return INVALID_MOVE;
   if (!KeywordEngine.hasKeyword(getCard(cardId), "hidden")) return INVALID_MOVE;
+
+  const slot = G.battlefields[args.battlefieldIndex];
+  if (!slot || slot.controller !== player.id) return INVALID_MOVE;
+  const alreadyHiddenHere = player.hiddenZone.filter((h) => h.battlefieldIndex === args.battlefieldIndex).length;
+  if (alreadyHiddenHere >= SpecialCaseEngine.maxHiddenCardsAtBattlefield(G, getCard, args.battlefieldIndex)) return INVALID_MOVE;
 
   const runeIndex = player.runePool.findIndex((r) => r.instanceId === args.runeId);
   if (runeIndex === -1) return INVALID_MOVE;
@@ -515,7 +532,7 @@ export const hideCard: MoveFn<GameState> = ({ G, playerID }, args: HideCardArgs)
   const [rune] = player.runePool.splice(runeIndex, 1);
   player.runeDeck.push(rune);
   player.hand.splice(args.handIndex, 1);
-  player.hiddenZone.push(cardId);
+  player.hiddenZone.push({ cardId, battlefieldIndex: args.battlefieldIndex, hiddenOnGameTurn: ctx.turn });
   SpecialCaseEngine.onAllyHideCard(G, getCard, player.id, getCard(cardId));
   return undefined;
 };
@@ -523,21 +540,47 @@ export const hideCard: MoveFn<GameState> = ({ G, playerID }, args: HideCardArgs)
 export interface PlayFromHiddenArgs {
   hiddenIndex: number;
   targetInstanceId?: string;
-  /** Same as PlayCardArgs.ambushBattlefieldIndex — a unit/champion may still only skip Base with an actual grant (see eligibleAmbushBattlefields). */
-  ambushBattlefieldIndex?: number;
 }
 
-/** Plays a card out of `player.hiddenZone` for free (0 Energy/Power) — same resolution as a normal hand play (resolvePlayedCard), just sourced from the hidden reserve instead of hand. */
-export const playFromHidden: MoveFn<GameState> = ({ G, playerID }, args: PlayFromHiddenArgs) => {
+/**
+ * Plays a card out of `player.hiddenZone` for free (0 Energy/Power) — same resolution as a normal
+ * hand play (resolvePlayedCard), just sourced from the hidden reserve instead of hand.
+ *
+ * Rule 811.1.d: a permanent (unit/champion) must deploy straight to the Battlefield it was hidden
+ * at — no player choice, unlike a normal Ambush — and any onPlay target (for a hidden spell, or a
+ * hidden permanent's own play effect) must be chosen from among that same Battlefield's candidates;
+ * if that yields none, the play is illegal (811.1.d's stated baseline — this engine's generic
+ * target-spec vocabulary has no case matching 811.1.d.2's narrower "the ability's own restriction
+ * structurally excludes the hidden battlefield" exception, so that fallback isn't attempted).
+ *
+ * Scope notes: hidden GEAR still deploys to Base as normal, not to the hidden battlefield —
+ * 811.1.d.1.a's override would need a new "unattached gear sitting at a battlefield" board-state
+ * concept this engine doesn't have (BattlefieldSlot only tracks `units`), which is out of
+ * proportion to this pass; only the battlefield-binding/timing/discard-on-lost-control rules apply
+ * to hidden gear here, not the deploy-location override. Rule 811.1.d.3 (a hidden card's effect
+ * that itself causes playing ANOTHER unit must also target the hidden battlefield) and rule 811.6
+ * (Hidden cards gain [Reaction] and may be played into a reaction window) are both unimplemented —
+ * the latter would need the same plumbing as playCard's reactingToSpell/reactingToCombat branches,
+ * which is more than this pass attempts; a hidden card today can only be played during this
+ * player's own normal main-phase action, same as before this rework.
+ */
+export const playFromHidden: MoveFn<GameState> = ({ G, ctx, playerID }, args: PlayFromHiddenArgs) => {
   const player = G.players[playerID as "0" | "1"];
-  const cardId = player.hiddenZone[args.hiddenIndex];
-  if (!cardId) return INVALID_MOVE;
+  const hidden = player.hiddenZone[args.hiddenIndex];
+  if (!hidden) return INVALID_MOVE;
+  if (ctx.turn <= hidden.hiddenOnGameTurn) return INVALID_MOVE;
+  if (SpecialCaseEngine.blocksHiddenRevealHere(G, getCard, hidden.battlefieldIndex, player.id)) return INVALID_MOVE;
 
-  const card = getCard(cardId);
+  const card = getCard(hidden.cardId);
   if (card.type === "rune" || card.type === "legend" || card.type === "battlefield") return INVALID_MOVE;
 
-  const instance = createInstance(G, cardId, player.id);
+  const instance = createInstance(G, hidden.cardId, player.id);
   if (SpecialCaseEngine.blocksSelfPlay(G, card, instance)) return INVALID_MOVE;
+
+  const deploysToHiddenBattlefield = card.type === "unit" || card.type === "champion";
+  if (deploysToHiddenBattlefield && SpecialCaseEngine.blocksUnitsPlayedHere(G, getCard, hidden.battlefieldIndex, player.id)) {
+    return INVALID_MOVE;
+  }
 
   if (card.templatedEffect?.trigger === "onPlay") {
     if (
@@ -547,22 +590,15 @@ export const playFromHidden: MoveFn<GameState> = ({ G, playerID }, args: PlayFro
         instance,
         args.targetInstanceId,
         card.type === "spell",
+        hidden.battlefieldIndex,
       )
     ) {
       return INVALID_MOVE;
     }
   }
 
-  if (args.ambushBattlefieldIndex !== undefined) {
-    if (card.type !== "unit" && card.type !== "champion") return INVALID_MOVE;
-    const slot = G.battlefields[args.ambushBattlefieldIndex];
-    if (!slot) return INVALID_MOVE;
-    if (SpecialCaseEngine.blocksUnitsPlayedHere(G, getCard, args.ambushBattlefieldIndex, player.id)) return INVALID_MOVE;
-    if (!eligibleAmbushBattlefields(G, card, instance).includes(args.ambushBattlefieldIndex)) return INVALID_MOVE;
-  }
-
   player.hiddenZone.splice(args.hiddenIndex, 1);
-  resolvePlayedCard(G, player, card, instance, args.targetInstanceId, false, args.ambushBattlefieldIndex);
+  resolvePlayedCard(G, player, card, instance, args.targetInstanceId, false, deploysToHiddenBattlefield ? hidden.battlefieldIndex : undefined);
   SpecialCaseEngine.onAllyPlayFromHidden(G, getCard, player.id, card);
   return undefined;
 };

@@ -297,31 +297,38 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     setPendingManualPayment(null);
   }
 
-  /** Plays a [Hidden] hand card face-down into the player's Hidden zone (see state.ts's `hiddenZone`) instead of resolving it — costs recycling 1 Rune, any domain (no player choice, matching this codebase's established auto-payment convention). */
-  function hideCardAuto(handIndex: number) {
+  /** Battlefields this player controls that don't already have a facedown card hidden there (rule 811.1.b) — the legal targets for hideCardAuto below. */
+  function eligibleHideBattlefields(): number[] {
+    return G.battlefields
+      .map((_slot, index) => index)
+      .filter((index) => G.battlefields[index].controller === me && !player.hiddenZone.some((h) => h.battlefieldIndex === index));
+  }
+
+  /** Plays a [Hidden] hand card face-down into the player's Hidden zone, bound to `battlefieldIndex` (see state.ts's `HiddenCard`) — instead of resolving it. Costs recycling 1 Rune, any domain (no player choice, matching this codebase's established auto-payment convention). */
+  function hideCardAuto(handIndex: number, battlefieldIndex: number) {
     const rune = player.runePool[0];
     if (!rune) {
       window.alert("Keine Rune zum Verdecken verfügbar.");
       return;
     }
-    moves.hideCard({ handIndex, runeId: rune.instanceId });
+    moves.hideCard({ handIndex, runeId: rune.instanceId, battlefieldIndex });
   }
 
-  /** Plays a card out of the Hidden zone for free (0 Energy/Power) — same target-picker handling as playCardAuto, just via moves.playFromHidden instead of moves.playCard. */
-  function playFromHiddenAuto(hiddenIndex: number, ambushBattlefieldIndex?: number) {
-    const cardId = player.hiddenZone[hiddenIndex];
-    if (!cardId) return;
-    const card = getCard(cardId);
-    const dummyInstance = blankInstance(cardId, me!);
-    if (blocksPlayForMissingTarget(card, dummyInstance)) {
+  /** Plays a card out of the Hidden zone for free (0 Energy/Power) — same target-picker handling as playCardAuto, just via moves.playFromHidden instead of moves.playCard. Deploy location (for a unit/champion) is forced to the Battlefield it was hidden at (rule 811.1.d) — no ambush choice here, unlike a normal play. */
+  function playFromHiddenAuto(hiddenIndex: number) {
+    const hidden = player.hiddenZone[hiddenIndex];
+    if (!hidden) return;
+    const card = getCard(hidden.cardId);
+    const dummyInstance = blankInstance(hidden.cardId, me!);
+    if (blocksPlayForMissingTarget(card, dummyInstance, hidden.battlefieldIndex)) {
       window.alert("Kein gültiges Ziel verfügbar — dieser Spruch kann so nicht gespielt werden.");
       return;
     }
     if (specialCaseNeedsPlayTarget(card) || templatedEffectNeedsPlayTarget(card.templatedEffect)) {
-      setPendingTarget({ fromHiddenIndex: hiddenIndex, payAdditionalCost: false, ambushBattlefieldIndex });
+      setPendingTarget({ fromHiddenIndex: hiddenIndex, payAdditionalCost: false });
       return;
     }
-    moves.playFromHidden({ hiddenIndex, ambushBattlefieldIndex });
+    moves.playFromHidden({ hiddenIndex });
   }
 
   /** Same as playCardAuto, but sourcing the card from the player's Champion Zone (see state.ts's `championZone`) instead of a hand index — the Chosen Champion is playable any time it's affordable, not just when drawn into hand. */
@@ -354,7 +361,6 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
       moves.playFromHidden({
         hiddenIndex: pendingTarget.fromHiddenIndex,
         targetInstanceId,
-        ambushBattlefieldIndex: pendingTarget.ambushBattlefieldIndex,
       });
       setPendingTarget(null);
       return;
@@ -577,10 +583,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
    * "show every board instance" picker (see targetPicker below), since there's no eligibility rule
    * exposed to filter by.
    */
-  function templatedTargetInfo(actions: import("../cards/templatedEffects").TemplatedAction[] | undefined, source: CardInstance) {
+  /** `restrictToBattlefieldIndex` mirrors moves.ts's rejectsInvalidTemplatedTarget — rule 811.1.d.2, for a card played from Hidden (see playFromHiddenAuto/the pendingTarget picker below). */
+  function templatedTargetInfo(
+    actions: import("../cards/templatedEffects").TemplatedAction[] | undefined,
+    source: CardInstance,
+    restrictToBattlefieldIndex?: number,
+  ) {
     const spec = actions ? firstChooseTargetSpec(actions) : undefined;
     if (!spec) return null;
-    return { spec, candidates: candidatesForTarget(G, getCard, source, spec) };
+    let candidates = candidatesForTarget(G, getCard, source, spec);
+    if (restrictToBattlefieldIndex !== undefined) {
+      candidates = candidates.filter((c) => c.battlefieldIndex === restrictToBattlefieldIndex);
+    }
+    return { spec, candidates };
   }
 
   /**
@@ -590,9 +605,9 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
    * a unit/champion/gear's onPlay trigger is a bonus on top of deploying the card, which still
    * happens even if the trigger fizzles).
    */
-  function blocksPlayForMissingTarget(card: Card, source: CardInstance): boolean {
+  function blocksPlayForMissingTarget(card: Card, source: CardInstance, restrictToBattlefieldIndex?: number): boolean {
     if (card.type !== "spell" || card.templatedEffect?.trigger !== "onPlay") return false;
-    const info = templatedTargetInfo(card.templatedEffect.actions, source);
+    const info = templatedTargetInfo(card.templatedEffect.actions, source, restrictToBattlefieldIndex);
     return Boolean(info && !info.spec.optional && info.candidates.length === 0);
   }
 
@@ -1006,18 +1021,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
 
       {pendingTarget &&
         (() => {
-          const cardId =
-            pendingTarget.fromHiddenIndex !== undefined
-              ? player.hiddenZone[pendingTarget.fromHiddenIndex]
-              : pendingTarget.fromChampionZone
-                ? player.championZone
-                : player.hand[pendingTarget.handIndex ?? -1];
+          const hiddenCard = pendingTarget.fromHiddenIndex !== undefined ? player.hiddenZone[pendingTarget.fromHiddenIndex] : undefined;
+          const cardId = hiddenCard
+            ? hiddenCard.cardId
+            : pendingTarget.fromChampionZone
+              ? player.championZone
+              : player.hand[pendingTarget.handIndex ?? -1];
           const card = cardId ? getCard(cardId) : null;
           const info =
             card && cardId
               ? templatedTargetInfo(
                   card.templatedEffect?.trigger === "onPlay" ? card.templatedEffect.actions : undefined,
                   blankInstance(cardId, me!),
+                  hiddenCard?.battlefieldIndex,
                 )
               : null;
           return (
@@ -1422,9 +1438,13 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                         {isChampion ? "Zu" : "Ambush →"} Battlefield {index + 1}
                       </button>
                     ))}
-                    {hasHidden && player.runePool.length > 0 && (
-                      <button onClick={() => hideCardAuto(idx)}>Verdeckt spielen (1 Rune)</button>
-                    )}
+                    {hasHidden &&
+                      player.runePool.length > 0 &&
+                      eligibleHideBattlefields().map((index) => (
+                        <button key={index} onClick={() => hideCardAuto(idx, index)}>
+                          Verdeckt spielen (1 Rune) → Battlefield {index + 1}
+                        </button>
+                      ))}
                   </>
                 ) : undefined
               }
@@ -1439,25 +1459,23 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             Verdeckte Karten <span className="rb-count">{player.hiddenZone.length}</span>
           </div>
           <div className="rb-row">
-            {player.hiddenZone.map((cardId, idx) => {
-              const card = getCard(cardId);
-              const isChampion = card.type === "champion";
-              const dummyInstance = blankInstance(cardId, me!);
-              const ambushBattlefields = eligibleAmbushBattlefields(G, card, dummyInstance);
+            {player.hiddenZone.map((hidden, idx) => {
+              const card = getCard(hidden.cardId);
+              // Rule 811.1.b: playable no earlier than the turn AFTER it was hidden.
+              const eligible = ctx.turn > hidden.hiddenOnGameTurn;
               return (
                 <CardFace
                   key={idx}
                   card={card}
                   footer={
                     canAct ? (
-                      <>
-                        <button onClick={() => playFromHiddenAuto(idx)}>Aufdecken (kostenlos)</button>
-                        {ambushBattlefields.map((index) => (
-                          <button key={index} onClick={() => playFromHiddenAuto(idx, index)}>
-                            {isChampion ? "Zu" : "Ambush →"} Battlefield {index + 1}
-                          </button>
-                        ))}
-                      </>
+                      eligible ? (
+                        <button onClick={() => playFromHiddenAuto(idx)}>
+                          Aufdecken (kostenlos) → Battlefield {hidden.battlefieldIndex + 1}
+                        </button>
+                      ) : (
+                        <span>Ab nächstem Zug spielbar (Battlefield {hidden.battlefieldIndex + 1})</span>
+                      )
                     ) : undefined
                   }
                 />

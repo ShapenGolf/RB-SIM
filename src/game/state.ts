@@ -66,6 +66,28 @@ export interface LegendState {
   exhausted: boolean;
 }
 
+/**
+ * One card sitting face-down in `PlayerState.hiddenZone` (rule 811). Bound to a specific
+ * Battlefield the player controlled at the moment it was hidden — rule 811.1.b: "hide this
+ * facedown at a battlefield you control that doesn't already have a facedown card hidden there
+ * for as long as you control that battlefield" (moves.ts's hideCard enforces the control +
+ * max-one-per-battlefield requirements; combat.ts's conquerBattlefield auto-discards this to trash
+ * the instant that battlefield's control changes to someone else, per rule 323.7/461.5.c — so by
+ * the time this is still sitting in hiddenZone, its owner is guaranteed to still control
+ * `battlefieldIndex`). Also governs where a permanent must deploy, and where a play-time target
+ * must be chosen from, once played (see moves.ts's playFromHidden, rule 811.1.d).
+ */
+export interface HiddenCard {
+  cardId: string;
+  battlefieldIndex: number;
+  /** boardgame.io's ctx.turn at the moment this was hidden. Rule 811.1.b: playable "beginning on
+   * the next turn" — moves.ts's playFromHidden requires ctx.turn to have advanced past this value.
+   * ctx.turn is a GLOBAL counter (increments every player's turn, not just this player's own), which
+   * matches the rule: Hidden cards gain [Reaction] once eligible, meaning they're playable on
+   * either player's turn, not just this player's next one. */
+  hiddenOnGameTurn: number;
+}
+
 export interface PlayerState {
   id: PlayerId;
   mainDeck: string[];
@@ -74,8 +96,8 @@ export interface PlayerState {
   championZone: string | null;
   /** The card id designating which name is this player's Chosen Champion for the whole game — set once at setup and never cleared (unlike `championZone`, which empties once played). Per the rules, every copy of that name counts as the Chosen Champion, not just the physical card that started in the zone (see docs/deck-building-rules.md) — cards like Hallowed Tomb ("return your Chosen Champion from trash to your Champion Zone") match on this. Null for the MVP domain-cycling setup fallback. */
   chosenChampionId: string | null;
-  /** Cards played face-down via the [Hidden] keyword — a private reserve, only visible to this player (see ui/Board.tsx: opponents just see a count of card backs, same treatment as `hand`). Hidden with `hideCard` (recycles 1 Rune, any domain, as the cost), later played for free with `playFromHidden` (see game/moves.ts) — same onPlay resolution as a normal hand play (resolvePlayedCard), just sourced from here instead of `hand` and always 0 Energy/Power. */
-  hiddenZone: string[];
+  /** Cards played face-down via the [Hidden] keyword — a private reserve, only visible to this player (see ui/Board.tsx: opponents just see a count of card backs, same treatment as `hand`). Hidden with `hideCard` (recycles 1 Rune, any domain, as the cost), later played for free with `playFromHidden` (see game/moves.ts) — same onPlay resolution as a normal hand play (resolvePlayedCard), just sourced from here instead of `hand` and always 0 Energy/Power. Each entry is bound to the Battlefield it was hidden at (rule 811.1.b) — see HiddenCard. */
+  hiddenZone: HiddenCard[];
   trash: string[];
   banishment: string[];
   /** instanceIds of units/gear/champions on this player's base (in play, not on a battlefield). */

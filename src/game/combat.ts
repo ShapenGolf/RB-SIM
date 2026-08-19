@@ -253,6 +253,28 @@ export function destroyInstance(game: GameState, getCard: (id: string) => Card, 
   }
 }
 
+/**
+ * Rule 323.7/461.5.c: a Hidden card only stays hidden "for as long as you control" the Battlefield
+ * it's bound to (see state.ts's HiddenCard) — the instant control changes to someone else, it's
+ * discarded to its owner's trash, face down or not. conquerBattlefield is the only place
+ * `slot.controller` is ever reassigned, so it's the single chokepoint for this.
+ */
+function discardHiddenCardsLosingControl(game: GameState, battlefieldIndex: number, newController: PlayerId): void {
+  for (const playerId of Object.keys(game.players) as PlayerId[]) {
+    if (playerId === newController) continue;
+    const state = game.players[playerId];
+    const kept: typeof state.hiddenZone = [];
+    for (const hidden of state.hiddenZone) {
+      if (hidden.battlefieldIndex === battlefieldIndex) {
+        state.trash.push(hidden.cardId);
+      } else {
+        kept.push(hidden);
+      }
+    }
+    state.hiddenZone = kept;
+  }
+}
+
 function conquerBattlefield(
   game: GameState,
   getCard: (id: string) => Card,
@@ -262,6 +284,7 @@ function conquerBattlefield(
 ): void {
   const slot = game.battlefields[battlefieldIndex];
   slot.controller = newController;
+  discardHiddenCardsLosingControl(game, battlefieldIndex, newController);
   game.players[newController].points += 1;
   for (const instanceId of slot.units[newController]) {
     const instance = game.instances[instanceId];

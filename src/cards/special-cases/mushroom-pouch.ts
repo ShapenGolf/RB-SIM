@@ -1,14 +1,18 @@
-import type { SpecialCaseHandler } from "./types";
+import type { SpecialCaseHandler, SpecialCaseContext } from "./types";
 
-/**
- * At the start of your Beginning Phase, if you control a facedown card at a battlefield, draw 1.
- *
- * Moot — this engine's Hidden zone (game/state.ts's `hiddenZone`) is a private reserve, not a
- * face-down occupant of an actual Battlefield slot (a simplification: real Hidden units are
- * played face-down directly onto a Battlefield, occupying a real board position; here they just
- * sit in a hand-like list until played for free). "A facedown card at a battlefield" therefore
- * isn't a state this engine can query. No fallback mode.
- */
+/** At the start of your Beginning Phase, if you control a facedown card at a battlefield, draw 1. */
+function drawIfHidingAtABattlefield(ctx: SpecialCaseContext): void {
+  const player = ctx.game.players[ctx.instance.controller];
+  // Every entry in hiddenZone is already guaranteed to be at a battlefield this player still
+  // controls — combat.ts's conquerBattlefield discards a hidden card to trash the instant control
+  // of its bound battlefield changes (rule 323.7/461.5.c) — so simply having any entry here IS
+  // "control a facedown card at a battlefield" per this card's text.
+  if (player.hiddenZone.length === 0) return;
+  const card = player.mainDeck.shift();
+  if (card) player.hand.push(card);
+}
+
 export const mushroomPouch: SpecialCaseHandler = {
   cardId: "mushroom-pouch",
+  onBeginning: (ctx) => drawIfHidingAtABattlefield(ctx),
 };

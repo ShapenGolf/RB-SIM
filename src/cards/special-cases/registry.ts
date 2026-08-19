@@ -2313,6 +2313,36 @@ export const SpecialCaseEngine = {
     return false;
   },
 
+  /** True if any unit at `battlefieldIndex` blocks `revealingPlayer` from playing a card out of Hidden there (e.g. Noxus Saboteur). */
+  blocksHiddenRevealHere: (
+    game: GameState,
+    getCard: (id: string) => Card,
+    battlefieldIndex: number,
+    revealingPlayer: PlayerId,
+  ): boolean => {
+    const slot = game.battlefields[battlefieldIndex];
+    for (const side of ["0", "1"] as PlayerId[]) {
+      for (const instanceId of slot.units[side]) {
+        const instance = game.instances[instanceId];
+        if (!instance) continue;
+        const unitCard = getCard(instance.cardId);
+        const handler = getSpecialCaseHandler(unitCard);
+        if (handler?.blocksHiddenRevealHere?.(ctxFor(game, unitCard, instance), revealingPlayer)) return true;
+      }
+    }
+    return false;
+  },
+
+  /** Max number of cards any one player may have hidden at `battlefieldIndex` simultaneously — normally 1 (rule 811.1.b), or 2 if the Battlefield itself grants an extra slot (e.g. Bandle Tree). */
+  maxHiddenCardsAtBattlefield: (game: GameState, getCard: (id: string) => Card, battlefieldIndex: number): number => {
+    const slot = game.battlefields[battlefieldIndex];
+    const card = getCard(slot.cardId);
+    const extra = getSpecialCaseHandler(card)?.allowsExtraHiddenCardHere?.(
+      ctxFor(game, card, battlefieldPseudoInstance(slot.cardId, slot.controller ?? "0", battlefieldIndex)),
+    );
+    return extra ? 2 : 1;
+  },
+
   /** True if `scoringPlayer` is blocked from scoring the point they'd otherwise get for holding the Battlefield at `battlefieldIndex`. */
   blocksScoringFor: (
     game: GameState,

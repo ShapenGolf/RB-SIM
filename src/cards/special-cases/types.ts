@@ -611,6 +611,22 @@ export interface SpecialCaseHandler {
   blocksUnitsPlayedByOpponentHere?(ctx: SpecialCaseContext, attemptingPlayer: PlayerId): boolean;
 
   /**
+   * True if `ctx.instance` (a UNIT sitting at a battlefield) blocks `revealingPlayer` from playing
+   * a card out of Hidden at that same battlefield — only meaningful when `revealingPlayer` differs
+   * from `ctx.instance.controller` (e.g. Noxus Saboteur: "Your opponents' [Hidden] cards can't be
+   * revealed here."). Checked in moves.ts's playFromHidden via registry.ts's blocksHiddenRevealHere.
+   */
+  blocksHiddenRevealHere?(ctx: SpecialCaseContext, revealingPlayer: PlayerId): boolean;
+
+  /**
+   * Battlefield-only: true if this Battlefield allows a SECOND card to be hidden there
+   * simultaneously, beyond the normal 1-per-battlefield cap (rule 811.1.b) — e.g. Bandle Tree:
+   * "You may hide an additional card here." Checked in moves.ts's hideCard via registry.ts's
+   * maxHiddenCardsAtBattlefield.
+   */
+  allowsExtraHiddenCardHere?(ctx: SpecialCaseContext): boolean;
+
+  /**
    * Battlefield-only: true if `ctx.instance.controller` (the player attempting to score) can't
    * score from holding this specific Battlefield right now (e.g. Forgotten Monument: "Players
    * can't score here until their third turn.").
