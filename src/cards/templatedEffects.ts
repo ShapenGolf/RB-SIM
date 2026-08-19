@@ -28,8 +28,10 @@ export type TemplatedTargetKind =
 
 export interface TemplatedTargetSpec {
   kind: TemplatedTargetKind;
-  /** Restrict candidates to units at the same battlefield as the source instance. */
+  /** Restrict candidates to units at the same battlefield as the source instance — card text "...a unit here" (e.g. Crackshot Corsair: "When I attack, deal 1 to an enemy unit here."). Distinct from anyBattlefieldOnly below — don't confuse the two when hand-authoring or pattern-matching a new card. */
   atBattlefieldOnly?: boolean;
+  /** Restrict candidates to units at ANY battlefield (i.e. not in Base), independent of the source's own location — card text "...a unit at a battlefield" (e.g. Hextech Ray: "Deal 3 to a unit at a battlefield."). A hand-cast spell has no battlefield of its own (source.battlefieldIndex is always null), so this must NOT be confused with atBattlefieldOnly — that would make the target spec unsatisfiable for every hand-cast spell using this phrasing (this was a real bug: scripts/lib/action-patterns.mjs used to fold both phrasings into one atBattlefieldOnly flag). */
+  anyBattlefieldOnly?: boolean;
   /**
    * Set for "you may [target something]" text (e.g. Grim Apothecary: "you may return a friendly
    * unit"), as opposed to a plain "[target something]" — matters for moves.ts's server-side target

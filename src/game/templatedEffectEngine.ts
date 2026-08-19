@@ -38,7 +38,8 @@ export function candidatesForTarget(
   spec: TemplatedTargetSpec,
 ): CardInstance[] {
   const sameBattlefield = (instance: CardInstance) =>
-    !spec.atBattlefieldOnly || instance.battlefieldIndex === source.battlefieldIndex;
+    (!spec.atBattlefieldOnly || instance.battlefieldIndex === source.battlefieldIndex) &&
+    (!spec.anyBattlefieldOnly || instance.battlefieldIndex !== null);
 
   switch (spec.kind) {
     case "self":

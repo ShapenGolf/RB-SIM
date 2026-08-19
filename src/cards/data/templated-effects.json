@@ -67,7 +67,7 @@
         "type": "killTarget",
         "target": {
           "kind": "chooseUnit",
-          "atBattlefieldOnly": true
+          "anyBattlefieldOnly": true
         }
       }
     ]
@@ -247,7 +247,7 @@
         "type": "dealDamage",
         "target": {
           "kind": "chooseUnit",
-          "atBattlefieldOnly": true
+          "anyBattlefieldOnly": true
         },
         "amount": 6
       }
@@ -371,7 +371,7 @@
         "type": "dealDamage",
         "target": {
           "kind": "chooseUnit",
-          "atBattlefieldOnly": true
+          "anyBattlefieldOnly": true
         },
         "amount": 3
       }
@@ -384,7 +384,7 @@
         "type": "dealDamage",
         "target": {
           "kind": "chooseUnit",
-          "atBattlefieldOnly": true
+          "anyBattlefieldOnly": true
         },
         "amount": 2
       }
@@ -583,7 +583,7 @@
         "type": "dealDamage",
         "target": {
           "kind": "chooseEnemyUnit",
-          "atBattlefieldOnly": true
+          "anyBattlefieldOnly": true
         },
         "amount": 6
       }
@@ -737,7 +737,7 @@
         "type": "dealDamage",
         "target": {
           "kind": "chooseUnit",
-          "atBattlefieldOnly": true
+          "anyBattlefieldOnly": true
         },
         "amount": 4
       },

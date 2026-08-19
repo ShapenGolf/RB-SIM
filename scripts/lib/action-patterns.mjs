@@ -71,11 +71,20 @@ export const ACTION_PATTERNS = [
     ],
   },
   {
+    // "...unit here" means the same battlefield as the effect's source (atBattlefieldOnly);
+    // "...unit at a battlefield" means ANY battlefield, unrelated to the source's own location
+    // (anyBattlefieldOnly) — a hand-cast spell has no battlefield of its own, so conflating the
+    // two (as this pattern used to) makes the "at a battlefield" phrasing unsatisfiable for every
+    // spell that uses it. Keep these as two distinct capture groups, not one.
     re: /^deal (\d+) to (?:a|an) (enemy )?unit( here| at a battlefield)?\.?$/i,
     build: (m) => [
       {
         type: "dealDamage",
-        target: { kind: m[2] ? "chooseEnemyUnit" : "chooseUnit", atBattlefieldOnly: Boolean(m[3]) },
+        target: {
+          kind: m[2] ? "chooseEnemyUnit" : "chooseUnit",
+          atBattlefieldOnly: m[3] === " here",
+          anyBattlefieldOnly: m[3] === " at a battlefield",
+        },
         amount: Number(m[1]),
       },
     ],
@@ -85,13 +94,15 @@ export const ACTION_PATTERNS = [
     build: () => [{ type: "killTarget", target: { kind: "chooseFriendlyGear" } }],
   },
   {
+    // Same "here" vs "at a battlefield" distinction as the dealDamage pattern above.
     re: /^kill (?:a|an) (friendly |enemy )?unit( here| at a battlefield)?\.?$/i,
     build: (m) => [
       {
         type: "killTarget",
         target: {
           kind: m[1]?.trim() === "enemy" ? "chooseEnemyUnit" : m[1]?.trim() === "friendly" ? "chooseFriendlyUnit" : "chooseUnit",
-          atBattlefieldOnly: Boolean(m[2]),
+          atBattlefieldOnly: m[2] === " here",
+          anyBattlefieldOnly: m[2] === " at a battlefield",
         },
       },
     ],
