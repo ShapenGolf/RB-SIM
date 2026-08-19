@@ -137,6 +137,8 @@ export interface PlayerState {
   gainedXPThisTurn: boolean;
   /** Count of Runes RECYCLED (removed from the pool to pay a Power cost or similar — "spent", as distinct from merely exhausted for Energy) this turn, e.g. Sivir, Mercenary: "If you've spent at least 2 Rune this turn, I have +2 Might and [Ganking]." Set via templatedEffectEngine.ts's recycleRune helper, the chokepoint for every rune-recycle site. Reset at Awaken. */
   runesSpentThisTurn: number;
+  /** Count of enemy units/champions/gear this player has chosen as a target with a spell or a UNIT's activated ability this turn (e.g. Prodigal Explorer: "Use only if you've chosen enemy units and/or gear twice this turn with spells or unit abilities."). Champion/Legend-ability and non-enemy choices don't count. Incremented in cards/special-cases/registry.ts onChosen, the chokepoint for every "chosen as a target" event. Reset at Awaken. */
+  chosenEnemyTargetsThisTurn: number;
   /** One-shot: the next unit/champion this player plays this turn enters ready. Consumed on use, reset at Awaken. */
   nextUnitEntersReady: boolean;
   /** One-shot: the next unit/champion this player plays this turn is buffed (e.g. Nami, Headstrong: "the next time you play a unit this turn, ready it and [Buff] it."). Consumed on use, reset at Awaken. */

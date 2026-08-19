@@ -35,6 +35,8 @@ export interface ActivatedAbilityCost {
   discardCount?: number;
   /** "Spend N XP" as part of this ability's cost (e.g. Crowd Favorite: "Spend 2 XP: [Buff] me."), paid from this instance's own CardInstance.xp counter (Hunt/Level pool), not the controller's player-level XP. */
   spendXP?: number;
+  /** "Kill a friendly unit or gear" as part of this ability's cost (e.g. Malzahar, Fanatic: "Kill a friendly unit or gear, Exhaust: ..."). No choice of which (see docs/data-sourcing.md discard-choice-style simplification) — kills the controller's weakest OTHER friendly unit if one exists, else the first friendly gear found; rejected if neither exists. */
+  killFriendlyUnitOrGear?: boolean;
 }
 
 /**

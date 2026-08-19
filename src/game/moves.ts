@@ -903,6 +903,25 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   if (instance.xp < (cost.spendXP ?? 0)) return INVALID_MOVE;
   if (cost.spendBuff && !instance.statuses.buffed) return INVALID_MOVE;
 
+  let killCostTarget: CardInstance | undefined;
+  if (cost.killFriendlyUnitOrGear) {
+    let weakestUnit: CardInstance | undefined;
+    let firstGear: CardInstance | undefined;
+    for (const other of Object.values(G.instances)) {
+      if (other.controller !== player.id || other.instanceId === instance.instanceId) continue;
+      const t = getCard(other.cardId).type;
+      if (t === "unit" || t === "champion") {
+        if (!weakestUnit || computeMight(G, getCard, other, "none") < computeMight(G, getCard, weakestUnit, "none")) {
+          weakestUnit = other;
+        }
+      } else if (t === "gear" && !firstGear) {
+        firstGear = other;
+      }
+    }
+    killCostTarget = weakestUnit ?? firstGear;
+    if (!killCostTarget) return INVALID_MOVE;
+  }
+
   const seen = new Set<string>();
   for (const runeId of args.energyRuneIds) {
     const rune = player.runePool.find((r) => r.instanceId === runeId);
@@ -935,6 +954,7 @@ export const activateAbility: MoveFn<GameState> = ({ G, playerID }, args: Activa
   }
   instance.xp -= cost.spendXP ?? 0;
   if (cost.killSelf) destroyInstance(G, getCard, instance.instanceId);
+  if (killCostTarget) destroyInstance(G, getCard, killCostTarget.instanceId);
 
   if (args.targetInstanceId) SpecialCaseEngine.onChosen(G, getCard, player.id, args.targetInstanceId, card);
   if (card.activatedAbility) {

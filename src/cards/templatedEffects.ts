@@ -98,6 +98,7 @@ export interface ActivatedAbility {
     killSelf?: boolean;
     discardCount?: number;
     spendXP?: number;
+    killFriendlyUnitOrGear?: boolean;
   };
   actions: TemplatedAction[];
 }

@@ -200,6 +200,7 @@ export function runTurnStart(game: GameState, player: PlayerId): void {
   game.players[player].cardsPlayedThisTurn = 0;
   game.players[player].gainedXPThisTurn = false;
   game.players[player].runesSpentThisTurn = 0;
+  game.players[player].chosenEnemyTargetsThisTurn = 0;
   game.players[player].nextUnitEntersReady = false;
   game.players[player].nextUnitBuffed = false;
   game.players[player].nextSpellCostReduction = 0;

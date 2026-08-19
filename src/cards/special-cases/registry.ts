@@ -2050,6 +2050,15 @@ export const SpecialCaseEngine = {
     if (!target) return;
 
     const targetCard = getCard(target.cardId);
+    // Prodigal Explorer's counter: enemy units/champions/gear chosen with a spell or a UNIT's
+    // (not champion's/Legend's) activated ability. See PlayerState.chosenEnemyTargetsThisTurn.
+    if (
+      target.controller !== chooser &&
+      (targetCard.type === "unit" || targetCard.type === "champion" || targetCard.type === "gear") &&
+      (sourceCard.type === "spell" || sourceCard.type === "unit")
+    ) {
+      game.players[chooser].chosenEnemyTargetsThisTurn += 1;
+    }
     getSpecialCaseHandler(targetCard)?.onChosenAsTarget?.(ctxFor(game, targetCard, target), chooser, sourceCard);
 
     for (const instance of Object.values(game.instances)) {
