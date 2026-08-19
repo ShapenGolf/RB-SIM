@@ -2,7 +2,13 @@ import { getCard } from "../cards/db";
 import { resolveHoldTriggers, destroyInstance } from "./combat";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
+import { shuffle } from "./setup";
+import type { Card } from "../cards/types";
 import type { GameState, PlayerId } from "./state";
+
+function otherPlayerId(id: PlayerId): PlayerId {
+  return id === "0" ? "1" : "0";
+}
 
 const CHANNEL_AMOUNT = 2;
 const SECOND_PLAYER_FIRST_TURN_CHANNEL_AMOUNT = 3;
@@ -62,10 +68,7 @@ export function runBeginning(game: GameState, player: PlayerId): void {
     scoredPoints += 1;
   });
   if (scoredPoints > 0 && SpecialCaseEngine.scoringConvertedToDraw(game, getCard, player)) {
-    for (let i = 0; i < scoredPoints; i += 1) {
-      const drawn = game.players[player].mainDeck.shift();
-      if (drawn) game.players[player].hand.push(drawn);
-    }
+    drawCardsWithBurnOut(game, getCard, player, scoredPoints);
   } else {
     game.players[player].points += scoredPoints;
     if (scoredPoints > 0) SpecialCaseEngine.onOpponentScored(game, getCard, player, scoredPoints);
@@ -113,13 +116,66 @@ export function runChannel(game: GameState, player: PlayerId): void {
   }
 }
 
-/** Draw: draw 1 card from the Main Deck. */
+/** Rule 431.2.b: recycles a player's trash into their Main Deck, then shuffles ("randomizes", per the rule's reminder). A no-op if the trash is empty — see drawCardsWithBurnOut's Burn Out-repeats-with-nothing-to-recycle case. */
+function recycleTrashIntoMainDeck(game: GameState, player: PlayerId): void {
+  const state = game.players[player];
+  if (state.trash.length === 0) return;
+  state.mainDeck = shuffle([...state.mainDeck, ...state.trash]);
+  state.trash = [];
+}
+
+/**
+ * Rule 431.2.c/431.3.b: gives the OTHER player 1 point for a Burn Out. This point can't be
+ * replaced or prevented by any means, and can win the game immediately (without waiting for
+ * Cleanup) if it brings the recipient to/past the Victory Score with strictly more points than
+ * the player who burned out.
+ */
+function burnOutGivePoint(game: GameState, getCard: (id: string) => Card, burningOutPlayer: PlayerId): void {
+  const recipient = otherPlayerId(burningOutPlayer);
+  game.players[recipient].points += 1;
+  const winScore = WIN_SCORE + SpecialCaseEngine.winScoreBonus(game, getCard);
+  if (game.players[recipient].points >= winScore && game.players[recipient].points > game.players[burningOutPlayer].points) {
+    game.winner = recipient;
+  }
+}
+
+/**
+ * Burn Out (rule 431): draws up to `count` cards for `player`. Whenever the Main Deck runs dry
+ * mid-draw, the player first recycles their trash into the Main Deck and gives the OTHER player 1
+ * point (rule 431.2) before continuing — and this can repeat multiple times in the same draw if
+ * the recycled trash doesn't cover the remaining shortfall (rule 431.3.a), each repeat giving
+ * another point, potentially ending the game outright (see burnOutGivePoint).
+ *
+ * Only wired into the game's own systemic multi-card draws — this function (used by runDraw below
+ * and Beginning's scoring-converted-to-draw) — not the ~100+ bespoke per-card draw effects across
+ * cards/special-cases/*.ts, which predate any shared draw chokepoint (see frigid-jewel.ts's doc
+ * comment on the same gap) and are not migrated here. A deck-out during one of those still just
+ * silently draws nothing, unchanged from before this function existed.
+ */
+export function drawCardsWithBurnOut(game: GameState, getCard: (id: string) => Card, player: PlayerId, count: number): string[] {
+  const state = game.players[player];
+  const drawn: string[] = [];
+  for (let i = 0; i < count; i += 1) {
+    if (game.winner) break;
+    if (state.mainDeck.length === 0) {
+      recycleTrashIntoMainDeck(game, player);
+      burnOutGivePoint(game, getCard, player);
+      if (game.winner) break;
+    }
+    const card = state.mainDeck.shift();
+    if (card) {
+      state.hand.push(card);
+      drawn.push(card);
+    }
+  }
+  return drawn;
+}
+
+/** Draw: draw 1 card from the Main Deck, Burning Out (rule 431) if it's empty. */
 export function runDraw(game: GameState, player: PlayerId): void {
   game.turnPhase = "draw";
   if (SpecialCaseEngine.skipsOwnDrawPhase(game, getCard, player)) return;
-  const state = game.players[player];
-  const card = state.mainDeck.shift();
-  if (card) state.hand.push(card);
+  drawCardsWithBurnOut(game, getCard, player, 1);
 }
 
 /** Runs the full Awaken -> Beginning -> Channel -> Draw sequence for the player whose turn is starting. */
