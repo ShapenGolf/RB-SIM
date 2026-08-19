@@ -11,6 +11,6 @@ export const forecaster: SpecialCaseHandler = {
   cardId: "forecaster",
   onAllyCardPlayed: (ctx, playedCard) => {
     if (!(playedCard.tags ?? []).includes("Mech")) return;
-    ctx.game.players[ctx.instance.controller].pendingPredict = true;
+    ctx.game.players[ctx.instance.controller].pendingPredict = 1;
   },
 };

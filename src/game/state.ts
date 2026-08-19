@@ -110,8 +110,19 @@ export interface PlayerState {
   playedMainDeckCardThisTurn: boolean;
   /** Controller-level XP pool, gained via Hunt and spent on Champion Level-ups. */
   xp: number;
-  /** Set by Vision while a predict (look-at-top-card) decision is pending. */
-  pendingPredict: boolean;
+  /**
+   * How many cards of this player's own Main Deck are currently pending a Predict decision (rule
+   * 436) — 0 when none is pending. Set by [Vision]/[Predict N]-granting effects (e.g. vision.ts,
+   * clairvoyance.ts) to the N their card specifies; resolved by moves.ts's resolvePredict, which
+   * lets the player recycle any subset of the top N cards (to the bottom, rule 416) and reorder
+   * the rest freely on top. Like PendingOptionalCost, this is a single slot, not a queue — two
+   * Predict-granting triggers resolving in the exact same engine tick (e.g. two Dramatic
+   * Visionaries dying simultaneously) would have the second overwrite the first; moves.ts guards
+   * playCard/attackBattlefield against starting a new action while this is pending specifically to
+   * keep that scenario rare (it still requires two SIMULTANEOUS triggers, not just two in
+   * sequence).
+   */
+  pendingPredict: number;
   /** True once this player has completed their first turn (used for the second player's +1 Channel rule). */
   hasTakenFirstTurn: boolean;
   /** Set true once this player has discarded a card this turn (e.g. "If you've discarded a card this turn, ..."). Reset at Awaken. */

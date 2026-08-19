@@ -37,7 +37,7 @@ describe("Clairvoyance (ven-56)", () => {
     SpecialCaseEngine.onPlay(game, card, spell);
 
     expect(game.players["0"].hand.length).toBe(2);
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(5);
   });
 });
 

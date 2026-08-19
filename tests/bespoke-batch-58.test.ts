@@ -19,7 +19,7 @@ describe("Dramatic Visionary (unl-62)", () => {
     const unit = putOnBase(game, "unl-62", "0");
     const card = getCard(unit.cardId);
     SpecialCaseEngine.onDestroy(game, card, unit);
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(2);
   });
 });
 
@@ -94,7 +94,7 @@ describe("Forecaster (sfd-65)", () => {
     putOnBase(game, "sfd-65", "0");
     const mechCard = getCard("ogn-56"); // Adaptatron, tagged Mech
     SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", mechCard, 1);
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(1);
   });
 
   it("doesn't trigger for non-Mech units", () => {
@@ -102,7 +102,7 @@ describe("Forecaster (sfd-65)", () => {
     putOnBase(game, "sfd-65", "0");
     const unitCard = getCard("unit-doomed-recruit");
     SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", unitCard, 1);
-    expect(game.players["0"].pendingPredict).toBe(false);
+    expect(game.players["0"].pendingPredict).toBe(0);
   });
 });
 

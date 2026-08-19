@@ -28,7 +28,7 @@ describe("Scryer's Bloom (unl-136)", () => {
 
     SpecialCaseEngine.onActivate(game, card, gear);
 
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(2);
     expect(game.players["0"].hand).toContain("unit-doomed-recruit");
     expect(game.players["0"].xp).toBe(1);
   });

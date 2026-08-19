@@ -109,7 +109,7 @@ describe("Apprentice Mage (ven-47)", () => {
     const mage = putOnBase(game, "ven-47", "0");
     const card = getCard(mage.cardId);
     SpecialCaseEngine.onBecomeEmpowered(game, card, mage);
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(2);
   });
 
   it("has +1 Might while Empowered", () => {

@@ -13,6 +13,6 @@ import type { SpecialCaseHandler } from "./types";
 export const karmaChanneler: SpecialCaseHandler = {
   cardId: "karma-channeler",
   onPlay: (ctx) => {
-    ctx.game.players[ctx.instance.controller].pendingPredict = true;
+    ctx.game.players[ctx.instance.controller].pendingPredict = 1;
   },
 };

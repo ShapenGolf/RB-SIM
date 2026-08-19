@@ -24,10 +24,10 @@ describe("Forgotten Library (unl-211)", () => {
     player.maxEnergySpentOnSpellThisTurn = 4;
 
     SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard("unit-doomed-recruit"), 1);
-    expect(player.pendingPredict).toBe(false);
+    expect(player.pendingPredict).toBe(0);
 
     SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard("spell-dangerous-duo"), 1);
-    expect(player.pendingPredict).toBe(true);
+    expect(player.pendingPredict).toBe(1);
   });
 
   it("does nothing if the player doesn't control the battlefield", () => {
@@ -38,7 +38,7 @@ describe("Forgotten Library (unl-211)", () => {
     player.maxEnergySpentOnSpellThisTurn = 4;
 
     SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard("spell-dangerous-duo"), 1);
-    expect(player.pendingPredict).toBe(false);
+    expect(player.pendingPredict).toBe(0);
   });
 
   it("does nothing if under the 4 Energy threshold", () => {
@@ -49,7 +49,7 @@ describe("Forgotten Library (unl-211)", () => {
     player.maxEnergySpentOnSpellThisTurn = 2;
 
     SpecialCaseEngine.onAllyCardPlayed(game, getCard, "0", getCard("spell-dangerous-duo"), 1);
-    expect(player.pendingPredict).toBe(false);
+    expect(player.pendingPredict).toBe(0);
   });
 });
 

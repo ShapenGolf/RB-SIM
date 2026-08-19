@@ -97,6 +97,14 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
   useEffect(() => {
     setDamageOrderPicks([]);
   }, [G.pendingDamageAssignment?.battlefieldIndex, G.pendingDamageAssignment?.attacker, G.pendingDamageAssignment === null]);
+  // The click-order this player is building for a pending Predict (see PlayerState.pendingPredict,
+  // rule 436) — positions (0-based, from the current top of the deck) clicked so far, in the order
+  // clicked. Whatever's clicked stays on top in that order; whatever isn't gets Recycled. Reset
+  // whenever a fresh Predict opens (or none is open).
+  const [predictKeepOrder, setPredictKeepOrder] = useState<number[]>([]);
+  useEffect(() => {
+    setPredictKeepOrder([]);
+  }, [playerID ? G.players[playerID as PlayerId].pendingPredict : 0]);
 
   const me = playerID as PlayerId | null;
   // `{all: Stage.NULL}` (see combat.ts's beginCombatDamageAssignment) keeps BOTH players
@@ -1264,22 +1272,52 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         {player.mainDeck.length > 0 && <div className="rb-card-back rb-deck-pile" title={`${player.mainDeck.length} Karten`} />}
       </div>
 
-      {/* [Predict]: "Look at the top card of your Main Deck. You may recycle it." — your own top
-          card is never hidden info from you, so this just shows it plainly with two buttons. */}
-      {player.pendingPredict && (
-        <div className="rb-callout warn">
-          <div className="rb-callout-title">Predict — oberste Karte deines Decks</div>
-          {player.mainDeck.length > 0 && (
-            <div className="rb-row">
-              <CardFace card={getCard(player.mainDeck[0])} size="sm" />
+      {/* [Predict N] (rule 436): look at the top N cards of your own Main Deck — never hidden info
+          from yourself — recycle any number of them (to the bottom, random order if 2+), and keep
+          the rest on top in any order you like. Click a card to keep it (in click order); anything
+          left unclicked when you confirm gets recycled. */}
+      {player.pendingPredict > 0 &&
+        (() => {
+          const top = player.mainDeck.slice(0, player.pendingPredict);
+          const keepOrder = predictKeepOrder.filter((p) => p < top.length);
+          function togglePredictCard(position: number) {
+            setPredictKeepOrder((prev) =>
+              prev.includes(position) ? prev.filter((p) => p !== position) : [...prev, position],
+            );
+          }
+          return (
+            <div className="rb-callout warn">
+              <div className="rb-callout-title">
+                Predict {top.length > 1 ? top.length : ""} — oberste {top.length === 1 ? "Karte" : `${top.length} Karten`} deines
+                Decks. Anklicken = oben behalten (in Klickreihenfolge), Rest wird recycelt.
+              </div>
+              <div className="rb-row">
+                {top.map((cardId, position) => {
+                  const keepIndex = keepOrder.indexOf(position);
+                  return (
+                    <CardFace
+                      key={position}
+                      card={getCard(cardId)}
+                      size="sm"
+                      selected={keepIndex !== -1}
+                      onClick={() => togglePredictCard(position)}
+                      footer={keepIndex !== -1 ? <span>#{keepIndex + 1}</span> : <span>recycelt</span>}
+                    />
+                  );
+                })}
+              </div>
+              <button
+                onClick={() => {
+                  const recyclePositions = top.map((_, position) => position).filter((position) => !keepOrder.includes(position));
+                  moves.resolvePredict({ recyclePositions, keepOrder });
+                  setPredictKeepOrder([]);
+                }}
+              >
+                Bestätigen
+              </button>
             </div>
-          )}
-          <button onClick={() => moves.resolvePredict({ keepOnTop: true })}>Oben lassen</button>
-          <button className="cancel" style={{ marginLeft: 6 }} onClick={() => moves.resolvePredict({ keepOnTop: false })}>
-            Nach unten legen
-          </button>
-        </div>
-      )}
+          );
+        })()}
 
       <div className="rb-section-label">
         Rune Pool <span className="rb-count">{player.runePool.length}</span>

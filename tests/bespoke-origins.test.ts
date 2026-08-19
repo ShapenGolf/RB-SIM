@@ -1465,7 +1465,7 @@ describe("Gemcraft Seer (ogn-100): other friendly units have Vision", () => {
 
     playCard(ctx(game, "0"), { handIndex: 0, energyRuneIds: ["r1"], powerRuneIds: [] });
 
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(1);
   });
 
   it("does not trigger for a spell", () => {
@@ -1485,7 +1485,7 @@ describe("Gemcraft Seer (ogn-100): other friendly units have Vision", () => {
       targetInstanceId: target.instanceId,
     });
 
-    expect(game.players["0"].pendingPredict).toBe(false);
+    expect(game.players["0"].pendingPredict).toBe(0);
   });
 });
 

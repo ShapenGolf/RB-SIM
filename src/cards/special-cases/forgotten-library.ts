@@ -19,6 +19,6 @@ export const forgottenLibrary: SpecialCaseHandler = {
     if (playedCard.type !== "spell") return;
     const player = ctx.game.players[ctx.instance.controller];
     if (player.maxEnergySpentOnSpellThisTurn < THRESHOLD) return;
-    player.pendingPredict = true;
+    player.pendingPredict = 1;
   },
 };

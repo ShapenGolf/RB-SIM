@@ -70,7 +70,7 @@ describe("Jhin, Meticulous Killer (unl-89)", () => {
 
     SpecialCaseEngine.onPlay(game, card, jhin);
 
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(1);
   });
 });
 
@@ -83,7 +83,7 @@ describe("Karma, Channeler (sfd-237 / ogn-235)", () => {
     const karma = putOnBase(game, "sfd-237", "0");
     const card = getCard(karma.cardId);
     SpecialCaseEngine.onPlay(game, card, karma);
-    expect(game.players["0"].pendingPredict).toBe(true);
+    expect(game.players["0"].pendingPredict).toBe(1);
   });
 });
 

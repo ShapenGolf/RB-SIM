@@ -119,15 +119,26 @@ describe("attackBattlefield", () => {
 });
 
 describe("resolvePredict", () => {
-  it("moves the top card to the bottom when the player declines to keep it", () => {
+  it("moves the top card to the bottom when the player recycles it", () => {
     const game = makeGame();
     game.players["0"].mainDeck = ["a", "b", "c"];
-    game.players["0"].pendingPredict = true;
+    game.players["0"].pendingPredict = 1;
 
-    resolvePredict(ctx(game, "0"), { keepOnTop: false });
+    resolvePredict(ctx(game, "0"), { recyclePositions: [0], keepOrder: [] });
 
     expect(game.players["0"].mainDeck).toEqual(["b", "c", "a"]);
-    expect(game.players["0"].pendingPredict).toBe(false);
+    expect(game.players["0"].pendingPredict).toBe(0);
+  });
+
+  it("keeps the top card on top when the player declines to recycle it", () => {
+    const game = makeGame();
+    game.players["0"].mainDeck = ["a", "b", "c"];
+    game.players["0"].pendingPredict = 1;
+
+    resolvePredict(ctx(game, "0"), { recyclePositions: [], keepOrder: [0] });
+
+    expect(game.players["0"].mainDeck).toEqual(["a", "b", "c"]);
+    expect(game.players["0"].pendingPredict).toBe(0);
   });
 });
 

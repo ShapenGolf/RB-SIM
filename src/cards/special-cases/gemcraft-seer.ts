@@ -6,6 +6,6 @@ export const gemcraftSeer: SpecialCaseHandler = {
   onAllyCardPlayed: (ctx, playedCard) => {
     if (playedCard.id === ctx.card.id) return; // "other" units only (approximate self-exclusion by card identity)
     if (playedCard.type !== "unit" && playedCard.type !== "champion") return;
-    ctx.game.players[ctx.instance.controller].pendingPredict = true;
+    ctx.game.players[ctx.instance.controller].pendingPredict = 1;
   },
 };

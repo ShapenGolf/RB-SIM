@@ -78,7 +78,7 @@ function emptyPlayerState(id: PlayerId): Omit<PlayerState, "mainDeck" | "hand" |
     points: 0,
     playedMainDeckCardThisTurn: false,
     xp: 0,
-    pendingPredict: false,
+    pendingPredict: 0,
     hasTakenFirstTurn: false,
     discardedCardThisTurn: false,
     chosenEnemyUnitThisTurn: false,

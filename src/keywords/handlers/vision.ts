@@ -10,6 +10,6 @@ export const visionHandler: KeywordHandler = {
   name: "vision",
   onPlay: (ctx) => {
     const player = ctx.game.players[ctx.instance.controller];
-    if (player) player.pendingPredict = true;
+    if (player) player.pendingPredict = 1;
   },
 };

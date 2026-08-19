@@ -234,6 +234,9 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   // A damage-assignment window (see PendingDamageAssignment) is a pure ordering choice, not a
   // reaction opportunity — nobody plays cards during it.
   if (G.pendingDamageAssignment) return INVALID_MOVE;
+  // An unresolved Predict decision (see PlayerState.pendingPredict) is part of resolving whatever
+  // effect granted it — this player can't start a new action until they've made that choice.
+  if (player.pendingPredict) return INVALID_MOVE;
   if (G.pendingSpellReaction && G.pendingSpellReaction.casterId === player.id) return INVALID_MOVE;
   if (G.pendingCombatReaction && G.pendingCombatReaction.attacker === player.id) return INVALID_MOVE;
   const reactingToSpell = G.pendingSpellReaction && G.pendingSpellReaction.casterId !== player.id ? G.pendingSpellReaction : null;
@@ -614,6 +617,7 @@ export const attackBattlefield: MoveFn<GameState> = (
 ) => {
   const player = G.players[playerID as "0" | "1"];
   if (G.pendingSpellReaction || G.pendingCombatReaction || G.pendingDamageAssignment) return INVALID_MOVE;
+  if (player.pendingPredict) return INVALID_MOVE;
   const slot = G.battlefields[args.battlefieldIndex];
   if (!slot || args.unitInstanceIds.length === 0) return INVALID_MOVE;
   const defendingController = slot.controller;
@@ -682,17 +686,43 @@ export const attackBattlefield: MoveFn<GameState> = (
 };
 
 export interface ResolvePredictArgs {
-  keepOnTop: boolean;
+  /**
+   * 0-based positions, counting from the current top of the Main Deck, of the cards to Recycle to
+   * the bottom (rule 436.1.a: any number, including none or all of the predicted cards).
+   */
+  recyclePositions: number[];
+  /**
+   * The remaining (non-recycled) positions, in the exact order the player wants them placed back
+   * on top — the first entry becomes the new top card (rule 436.1.b: "may rearrange any cards not
+   * Recycled"). Together with recyclePositions, must partition every position in the predicted
+   * range exactly once each — every predicted card is accounted for, none repeated.
+   */
+  keepOrder: number[];
 }
 
+/**
+ * Resolves the currently-pending Predict (rule 436): looks at the top `player.pendingPredict`
+ * cards (or fewer, if the Main Deck has fewer — rule 436.4, no Burn Out either way), recycles
+ * whichever ones `args.recyclePositions` names to the bottom in random order (rule 416.5), and
+ * places the rest back on top in `args.keepOrder`'s order.
+ */
 export const resolvePredict: MoveFn<GameState> = ({ G, playerID }, args: ResolvePredictArgs) => {
   const player = G.players[playerID as "0" | "1"];
   if (!player.pendingPredict) return INVALID_MOVE;
-  if (!args.keepOnTop) {
-    const top = player.mainDeck.shift();
-    if (top) player.mainDeck.push(top);
+
+  const top = player.mainDeck.slice(0, player.pendingPredict);
+  const allPositions = new Set([...args.recyclePositions, ...args.keepOrder]);
+  if (allPositions.size !== top.length) return INVALID_MOVE;
+  if (args.recyclePositions.length + args.keepOrder.length !== top.length) return INVALID_MOVE;
+  for (const position of allPositions) {
+    if (!Number.isInteger(position) || position < 0 || position >= top.length) return INVALID_MOVE;
   }
-  player.pendingPredict = false;
+
+  const recycled = shuffle(args.recyclePositions.map((position) => top[position]));
+  const kept = args.keepOrder.map((position) => top[position]);
+  const rest = player.mainDeck.slice(player.pendingPredict);
+  player.mainDeck = [...kept, ...rest, ...recycled];
+  player.pendingPredict = 0;
   return undefined;
 };
 
