@@ -678,6 +678,34 @@ export interface SpecialCaseHandler {
   preventsAllDamage?(ctx: SpecialCaseContext): boolean;
 
   /**
+   * True if an ambient effect (e.g. Mageseeker Warden: "While I'm at a battlefield, spells and
+   * abilities can't ready enemy units and gear.") blocks `target` from being readied right now.
+   * Checked against every in-play instance (same scan-all shape as `preventsMoveToBase`) — but
+   * ONLY from cards/special-cases/ready-helpers.ts `readyInstance`, the chokepoint for
+   * effect-driven readying (spells, abilities, other cards' triggered effects). NOT consulted by
+   * game/turnFlow.ts's Awaken step, since that's the normal turn structure, not "spells and
+   * abilities".
+   */
+  preventsReadyByEffect?(ctx: SpecialCaseContext, target: CardInstance): boolean;
+
+  /**
+   * Called on an instance the moment IT becomes ready (exhausted -> not exhausted), whether from
+   * Awaken or an effect (e.g. Fretful Feline: "When I become ready, give me +2 Might this
+   * turn."). See game/turnFlow.ts runAwaken and cards/special-cases/ready-helpers.ts
+   * readyInstance — the two places this fires, both gated on an actual true->false transition
+   * (never fires for an instance created already ready, e.g. a fresh token).
+   */
+  onBecameReady?(ctx: SpecialCaseContext): void;
+
+  /**
+   * Called on every OTHER board instance the same controller as `readiedInstance` owns, whenever
+   * ANY friendly unit/champion/gear becomes ready (e.g. Pirates Haven: "When you ready a friendly
+   * unit, give it +1 Might this turn." — note the buff targets `readiedInstance`, not `ctx.instance`).
+   * Same two firing sites as `onBecameReady`.
+   */
+  onAllyBecameReady?(ctx: SpecialCaseContext, readiedInstance: CardInstance): void;
+
+  /**
    * Broadcast to every board instance (and the Legend, via its pseudo-instance) the WINNING
    * player of a real Showdown (both sides had committed units) controls, right after that
    * Showdown resolves (e.g. Glorious Executioner: "When you win a combat, draw 1. (You win if

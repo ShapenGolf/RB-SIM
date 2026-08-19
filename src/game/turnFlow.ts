@@ -3,6 +3,7 @@ import { resolveHoldTriggers, destroyInstance } from "./combat";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
 import { shuffle } from "./setup";
+import { fireTemplatedEffect } from "./templatedEffectEngine";
 import type { Card } from "../cards/types";
 import type { GameState, PlayerId } from "./state";
 
@@ -21,7 +22,11 @@ export function runAwaken(game: GameState, player: PlayerId): void {
     if (instance.controller !== player) continue;
     const card = getCard(instance.cardId);
     if (card.specialCaseId && SpecialCaseEngine.preventsSelfReady(game, card, instance)) continue;
+    if (!instance.exhausted) continue; // no true->false transition, nothing "became" ready
     instance.exhausted = false;
+    fireTemplatedEffect(game, getCard, card, instance, "onBecameReady");
+    SpecialCaseEngine.onBecameReady(game, card, instance);
+    SpecialCaseEngine.onAllyBecameReady(game, getCard, player, instance);
   }
   for (const rune of game.players[player].runePool) rune.exhausted = false;
   const legend = game.players[player].legend;

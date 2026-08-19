@@ -174,6 +174,11 @@ function runAction(
       return;
     }
     case "readyTarget": {
+      // Doesn't fire onBecameReady/onAllyBecameReady (see cards/special-cases/ready-helpers.ts
+      // readyInstance) — this file can't import SpecialCaseEngine without an import cycle (many
+      // special-case handlers import from here). No auto-matched card currently needs those
+      // broadcasts from a JSON-driven readyTarget action; every card that does is hand-written
+      // and calls readyInstance directly instead.
       for (const target of resolveTargets(game, getCard, source, action.target, explicitTargetInstanceId)) {
         target.exhausted = false;
       }

@@ -16,7 +16,8 @@ export type TemplatedTrigger =
   | "onDefend"
   | "onAttackOrDefend"
   | "onMove"
-  | "onDestroy";
+  | "onDestroy"
+  | "onBecameReady";
 
 export type TemplatedTargetKind =
   | "self"

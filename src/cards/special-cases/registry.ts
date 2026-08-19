@@ -2687,6 +2687,30 @@ export const SpecialCaseEngine = {
   preventsAllDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
     getSpecialCaseHandler(card)?.preventsAllDamage?.(ctxFor(game, card, instance)) ?? false,
 
+  /** True if any in-play instance (e.g. Mageseeker Warden) blocks `target` from being readied by a spell/ability right now. Only consulted from ready-helpers.ts readyInstance. */
+  preventsReadyByEffect: (game: GameState, getCard: (id: string) => Card, target: CardInstance): boolean => {
+    for (const sourceInstance of Object.values(game.instances)) {
+      const sourceCard = getCard(sourceInstance.cardId);
+      const handler = getSpecialCaseHandler(sourceCard);
+      if (handler?.preventsReadyByEffect?.(ctxFor(game, sourceCard, sourceInstance), target)) return true;
+    }
+    return false;
+  },
+
+  /** Fires on `instance` itself the moment it becomes ready (e.g. Fretful Feline). See ready-helpers.ts readyInstance and turnFlow.ts runAwaken. */
+  onBecameReady: (game: GameState, card: Card, instance: CardInstance): void => {
+    getSpecialCaseHandler(card)?.onBecameReady?.(ctxFor(game, card, instance));
+  },
+
+  /** Broadcasts a readying event to every OTHER board instance `readiedInstance`'s controller owns, for onAllyBecameReady hooks (e.g. Pirates Haven). */
+  onAllyBecameReady: (game: GameState, getCard: (id: string) => Card, controller: PlayerId, readiedInstance: CardInstance): void => {
+    for (const instance of Object.values(game.instances)) {
+      if (instance.controller !== controller || instance.instanceId === readiedInstance.instanceId) continue;
+      const card = getCard(instance.cardId);
+      getSpecialCaseHandler(card)?.onAllyBecameReady?.(ctxFor(game, card, instance), readiedInstance);
+    }
+  },
+
   /** Broadcasts a Showdown win to every board instance and the Legend pseudo-instance of `winner`. See combat.ts resolveCombat. */
   onWinCombat: (game: GameState, getCard: (id: string) => Card, winner: PlayerId): void => {
     for (const instance of Object.values(game.instances)) {
