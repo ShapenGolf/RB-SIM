@@ -674,6 +674,9 @@ export interface SpecialCaseHandler {
   /** True if this instance is immune to damage from ENEMY spells/abilities right now (e.g. Esteemed Hierophant: "While you control 7 or more runes, prevent all damage that enemy spells and abilities would deal to me."). Checked in game/spellDamage.ts dealSpellDamage — only consulted when the damage source's controller differs from this instance's controller. */
   preventsEnemySpellDamage?(ctx: SpecialCaseContext): boolean;
 
+  /** True if this instance takes NO damage at all right now, from either source (e.g. Kayn, Unleashed: "If I have moved twice this turn, I don't take damage."). Unlike `preventsEnemySpellDamage`, not scoped to enemy/spell sources — checked in both game/spellDamage.ts dealSpellDamage and game/combat.ts assignDamage, the two chokepoints for all damage. */
+  preventsAllDamage?(ctx: SpecialCaseContext): boolean;
+
   /**
    * Broadcast to every board instance (and the Legend, via its pseudo-instance) the WINNING
    * player of a real Showdown (both sides had committed units) controls, right after that

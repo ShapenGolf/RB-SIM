@@ -2683,6 +2683,10 @@ export const SpecialCaseEngine = {
   preventsEnemySpellDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
     getSpecialCaseHandler(card)?.preventsEnemySpellDamage?.(ctxFor(game, card, instance)) ?? false,
 
+  /** True if this instance takes no damage at all right now, from either source (e.g. Kayn, Unleashed). Consulted in both spellDamage.ts dealSpellDamage and combat.ts assignDamage. */
+  preventsAllDamage: (game: GameState, card: Card, instance: CardInstance): boolean =>
+    getSpecialCaseHandler(card)?.preventsAllDamage?.(ctxFor(game, card, instance)) ?? false,
+
   /** Broadcasts a Showdown win to every board instance and the Legend pseudo-instance of `winner`. See combat.ts resolveCombat. */
   onWinCombat: (game: GameState, getCard: (id: string) => Card, winner: PlayerId): void => {
     for (const instance of Object.values(game.instances)) {

@@ -153,6 +153,7 @@ function assignDamage(
     if (remaining <= 0) break;
     const instance = game.instances[instanceId];
     if (!instance) continue;
+    if (SpecialCaseEngine.preventsAllDamage(game, getCard(instance.cardId), instance)) continue;
     if (instance.statuses.preventNextDamageThisTurn) {
       instance.statuses.preventNextDamageThisTurn = false;
       continue;

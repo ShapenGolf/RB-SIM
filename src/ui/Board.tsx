@@ -32,6 +32,7 @@ function blankInstance(cardId: string, controller: PlayerId): CardInstance {
     pendingSurviveCombatXP: 0,
     damagePreventionPool: 0,
     damageMultiplier: 1,
+    movesThisTurn: 0,
   };
 }
 

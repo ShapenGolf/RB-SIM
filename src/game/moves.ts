@@ -717,6 +717,7 @@ export const attackBattlefield: MoveFn<GameState> = (
     const card = getCard(instance.cardId);
     fireTemplatedEffect(G, getCard, card, instance, "onAttack");
     SpecialCaseEngine.onAttack(G, card, instance);
+    instance.movesThisTurn += 1;
     fireTemplatedEffect(G, getCard, card, instance, "onMove");
     SpecialCaseEngine.onMove(G, card, instance);
     if (defendingController && defendingController !== player.id) {

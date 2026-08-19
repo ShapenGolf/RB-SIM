@@ -46,6 +46,8 @@ export interface CardInstance {
   damagePreventionPool: number;
   /** Multiplies all incoming damage (spell and combat) this turn, e.g. Lotus Trap: "Double all damage that would be dealt to it this turn." Defaults to 1 (no change); reset to 1 at Awaken. */
   damageMultiplier: number;
+  /** Number of times this instance has moved onto a Battlefield via `attackBattlefield` this turn (the initial attack from base AND any subsequent Ganking move both count — same scope as the `onMove` hook fired at that same call site, see game/moves.ts). Used by "moved N times this turn" text, e.g. Kayn, Unleashed and Yasuo, Windrider. Reset to 0 at Awaken. */
+  movesThisTurn: number;
 }
 
 export interface RuneInstance {
