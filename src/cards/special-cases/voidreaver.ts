@@ -1,4 +1,5 @@
 import type { SpecialCaseHandler } from "./types";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 /**
  * When you win a combat, gain 1 XP.
@@ -13,6 +14,6 @@ import type { SpecialCaseHandler } from "./types";
 export const voidreaver: SpecialCaseHandler = {
   cardId: "voidreaver",
   onWinCombat: (ctx) => {
-    ctx.game.players[ctx.instance.controller].xp += 1;
+    gainXP(ctx.game.players[ctx.instance.controller], 1);
   },
 };

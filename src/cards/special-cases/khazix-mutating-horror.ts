@@ -1,4 +1,5 @@
 import type { SpecialCaseContext, SpecialCaseHandler } from "./types";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 const MIGHT_BONUS = 2;
 const XP_GAIN = 2;
@@ -10,7 +11,7 @@ function checkAloneEnemy(ctx: SpecialCaseContext): void {
   const slot = ctx.game.battlefields[ctx.instance.battlefieldIndex];
   if (slot.units[opponentId].length !== 1) return;
   ctx.instance.tempMightBonus += MIGHT_BONUS;
-  ctx.game.players[ctx.instance.controller].xp += XP_GAIN;
+  gainXP(ctx.game.players[ctx.instance.controller], XP_GAIN);
 }
 
 export const khazixMutatingHorror: SpecialCaseHandler = {

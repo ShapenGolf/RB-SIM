@@ -1,9 +1,10 @@
 import type { SpecialCaseHandler } from "./types";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 /** When another friendly unit dies, gain 1 XP. */
 export const viciousSnapjaws: SpecialCaseHandler = {
   cardId: "vicious-snapjaws",
   onAllyUnitDied: (ctx) => {
-    ctx.game.players[ctx.instance.controller].xp += 1;
+    gainXP(ctx.game.players[ctx.instance.controller], 1);
   },
 };

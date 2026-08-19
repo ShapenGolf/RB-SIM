@@ -5,7 +5,7 @@ import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { computeMight } from "./might";
 import { checkBecameMighty } from "./mightTransition";
-import { fireTemplatedEffect } from "./templatedEffectEngine";
+import { fireTemplatedEffect, gainXP } from "./templatedEffectEngine";
 import { battlefieldPseudoInstance, legendPseudoInstance } from "./pseudoInstance";
 import type { CardInstance, CombatHit, GameState, PlayerId } from "./state";
 
@@ -293,7 +293,7 @@ function conquerBattlefield(
     if (!instance) continue;
     const card = getCard(instance.cardId);
     const xp = KeywordEngine.xpOnConquerOrHold(game, card, instance);
-    if (xp > 0) game.players[newController].xp += xp;
+    if (xp > 0) gainXP(game.players[newController], xp);
     fireTemplatedEffect(game, getCard, card, instance, "onConquer");
     SpecialCaseEngine.onConquer(game, card, instance, excessDamage);
   }
@@ -487,7 +487,7 @@ export function finishCombatResolution(
     const survivorCard = getCard(instance.cardId);
     if (survivorCard.specialCaseId) SpecialCaseEngine.onSurviveCombat(game, survivorCard, instance);
     if (instance.pendingSurviveCombatXP > 0) {
-      game.players[instance.controller].xp += instance.pendingSurviveCombatXP;
+      gainXP(game.players[instance.controller], instance.pendingSurviveCombatXP);
       instance.pendingSurviveCombatXP = 0;
     }
   }
@@ -530,7 +530,7 @@ export function resolveHoldTriggers(game: GameState, getCard: (id: string) => Ca
       if (!instance) continue;
       const card = getCard(instance.cardId);
       const xp = KeywordEngine.xpOnConquerOrHold(game, card, instance);
-      if (xp > 0) game.players[player].xp += xp;
+      if (xp > 0) gainXP(game.players[player], xp);
       fireTemplatedEffect(game, getCard, card, instance, "onHold");
       SpecialCaseEngine.onHold(game, card, instance);
     }

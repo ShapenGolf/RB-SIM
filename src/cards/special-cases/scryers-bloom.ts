@@ -1,4 +1,5 @@
 import type { SpecialCaseHandler } from "./types";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 /**
  * This enters exhausted. Kill this, 1 Energy, Exhaust: [Predict 2], then draw 1. Gain 1 XP.
@@ -14,6 +15,6 @@ export const scryersBloom: SpecialCaseHandler = {
     player.pendingPredict = 2;
     const drawn = player.mainDeck.shift();
     if (drawn) player.hand.push(drawn);
-    player.xp += 1;
+    gainXP(player, 1);
   },
 };

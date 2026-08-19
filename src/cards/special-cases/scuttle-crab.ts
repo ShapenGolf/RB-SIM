@@ -1,4 +1,5 @@
 import type { SpecialCaseHandler } from "./types";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 const XP_GAIN = 1;
 
@@ -20,6 +21,6 @@ export const scuttleCrab: SpecialCaseHandler = {
     if (drawn) player.hand.push(drawn);
   },
   onDestroy: (ctx) => {
-    ctx.game.players[ctx.instance.controller].xp += XP_GAIN;
+    gainXP(ctx.game.players[ctx.instance.controller], XP_GAIN);
   },
 };

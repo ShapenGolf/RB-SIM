@@ -1,6 +1,6 @@
 import type { Card, Domain } from "../cards/types";
 import type { TemplatedAction, TemplatedTargetSpec, TemplatedTrigger } from "../cards/templatedEffects";
-import type { CardInstance, GameState, PlayerId } from "./state";
+import type { CardInstance, GameState, PlayerId, PlayerState } from "./state";
 import { destroyInstance } from "./combat";
 import { discardCardToTrash } from "./discardEngine";
 
@@ -11,6 +11,18 @@ import { discardCardToTrash } from "./discardEngine";
  * Shared by the generic "gainRune" templated action below and several bespoke special-case
  * handlers whose card text uses [Add] directly (e.g. dragonsoul-sage.ts, lux-crownguard.ts).
  */
+/**
+ * Grants `amount` XP to `player` — the chokepoint for every XP-gain site (combat.ts's conquer/
+ * survive-combat/hold XP, this file's generic "gainXP" templated action, and every special-case
+ * handler that grants XP directly), so cards reacting to "if you've gained XP this turn" (e.g.
+ * Wily Newtfish) see every gain regardless of source. Not used for XP COSTS (spendXP-style
+ * deductions) — those aren't a "gain".
+ */
+export function gainXP(player: PlayerState, amount: number): void {
+  player.xp += amount;
+  if (amount > 0) player.gainedXPThisTurn = true;
+}
+
 export function addRuneToPool(game: GameState, playerId: PlayerId, domain: Domain): void {
   game.nextInstanceSeq += 1;
   game.players[playerId].runePool.push({
@@ -205,7 +217,7 @@ function runAction(
       return;
     }
     case "gainXP": {
-      controller.xp += action.amount;
+      gainXP(controller, action.amount);
       return;
     }
     case "channelRunes": {

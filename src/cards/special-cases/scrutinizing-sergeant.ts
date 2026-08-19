@@ -1,5 +1,6 @@
 import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 /** When you play me, gain 1 XP for each friendly unit. */
 export const scrutinizingSergeant: SpecialCaseHandler = {
@@ -10,6 +11,6 @@ export const scrutinizingSergeant: SpecialCaseHandler = {
       const type = getCard(i.cardId).type;
       return type === "unit" || type === "champion";
     }).length;
-    ctx.game.players[ctx.instance.controller].xp += count;
+    gainXP(ctx.game.players[ctx.instance.controller], count);
   },
 };

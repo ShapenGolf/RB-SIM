@@ -1,4 +1,5 @@
 import type { SpecialCaseHandler } from "./types";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 /**
  * When you hold, gain 1 XP.
@@ -13,6 +14,6 @@ import type { SpecialCaseHandler } from "./types";
 export const keeperOfTheHammer: SpecialCaseHandler = {
   cardId: "keeper-of-the-hammer",
   onHold: (ctx) => {
-    ctx.game.players[ctx.instance.controller].xp += 1;
+    gainXP(ctx.game.players[ctx.instance.controller], 1);
   },
 };

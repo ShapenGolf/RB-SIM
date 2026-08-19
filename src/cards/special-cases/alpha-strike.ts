@@ -2,6 +2,7 @@ import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
 import { computeMight } from "../../game/might";
 import { dealDistributedDamage } from "../../game/combat";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 /**
  * [Action] Choose a friendly unit. It deals damage equal to its Might split among enemy units
@@ -22,6 +23,6 @@ export const alphaStrike: SpecialCaseHandler = {
     const enemyIds = ctx.game.battlefields.flatMap((slot) => slot.units[opponentId]);
     const might = computeMight(ctx.game, getCard, source, "none");
     const destroyed = dealDistributedDamage(ctx.game, getCard, enemyIds, might);
-    ctx.game.players[ctx.instance.controller].xp += destroyed.length;
+    gainXP(ctx.game.players[ctx.instance.controller], destroyed.length);
   },
 };

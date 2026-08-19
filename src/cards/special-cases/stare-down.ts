@@ -1,6 +1,7 @@
 import type { SpecialCaseHandler } from "./types";
 import { getCard } from "../db";
 import { computeMight } from "../../game/might";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 const XP_GAIN = 1;
 
@@ -35,6 +36,6 @@ export const stareDown: SpecialCaseHandler = {
       ctx.game.players[opponentId].base.push(id);
     }
 
-    ctx.game.players[ctx.instance.controller].xp += XP_GAIN;
+    gainXP(ctx.game.players[ctx.instance.controller], XP_GAIN);
   },
 };

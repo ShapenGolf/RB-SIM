@@ -1,4 +1,5 @@
 import type { SpecialCaseContext, SpecialCaseHandler } from "./types";
+import { gainXP } from "../../game/templatedEffectEngine";
 
 const XP_GAIN = 3;
 const SCORE_THRESHOLD = 3;
@@ -18,6 +19,6 @@ export const poppyParagon: SpecialCaseHandler = {
   selfEntersReady: (ctx) => opponentNearVictory(ctx),
   onPlay: (ctx) => {
     if (!opponentNearVictory(ctx)) return;
-    ctx.game.players[ctx.instance.controller].xp += XP_GAIN;
+    gainXP(ctx.game.players[ctx.instance.controller], XP_GAIN);
   },
 };

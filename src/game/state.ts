@@ -133,6 +133,8 @@ export interface PlayerState {
   chosenEnemyUnitThisTurn: boolean;
   /** Count of cards this player has played this turn, for "when you play your second card..." effects. Reset at Awaken. */
   cardsPlayedThisTurn: number;
+  /** Set true once this player has gained XP this turn (e.g. Wily Newtfish: "If you've gained XP this turn, I have +1 Might and [Ganking]."). Set via templatedEffectEngine.ts's gainXP helper, the chokepoint for every XP-gain site. Reset at Awaken. */
+  gainedXPThisTurn: boolean;
   /** One-shot: the next unit/champion this player plays this turn enters ready. Consumed on use, reset at Awaken. */
   nextUnitEntersReady: boolean;
   /** One-shot: the next unit/champion this player plays this turn is buffed (e.g. Nami, Headstrong: "the next time you play a unit this turn, ready it and [Buff] it."). Consumed on use, reset at Awaken. */
