@@ -193,7 +193,9 @@ export interface PendingSpellReaction {
  * Same idea as PendingSpellReaction, for a declared attack: units have already moved to the
  * Battlefield (see moves.ts's attackBattlefield) and onAttack/onMove have already fired, but the
  * actual Showdown math (combat.ts's resolveCombat) is paused so the DEFENDER gets a one-shot
- * window to respond with a [Reaction] spell BEFORE damage is calculated — e.g. removing or
+ * window to respond with a [Reaction] spell — OR an [Action] spell, since rule 806.1.b grants
+ * Action cards permission to be played "during Showdowns, even when it is not the Controlling
+ * player's turn", exactly this situation — BEFORE damage is calculated — e.g. removing or
  * weakening the attacker first, instead of finding out too late that a unit died. Countering isn't
  * relevant here (there's no spell to counter) — moves.ts's playCard rejects any counter-intent
  * card played into this window.

@@ -135,6 +135,22 @@ function hasReactionCardInHand(G: GameState, playerId: PlayerId): boolean {
 }
 
 /**
+ * Same idea as hasReactionCardInHand, but for the combat reaction window specifically (see
+ * PendingCombatReaction) — which should also open for an [Action] spell in the defender's hand,
+ * not just [Reaction] ones. Rule 806.1.b: Action grants permission to be played "during Showdowns,
+ * even when it is not the Controlling player's turn" — exactly the defender's situation once an
+ * attack is declared. Scoped to spells only, matching this window's existing card.type === "spell"
+ * legality gate below (see playCard's reactingTo check) — Action-keyword units/gear/legends mid-
+ * Showdown would need more than this window supports and aren't attempted here.
+ */
+function hasReactionOrActionSpellInHand(G: GameState, playerId: PlayerId): boolean {
+  return G.players[playerId].hand.some((cardId) => {
+    const card = getCard(cardId);
+    return card.type === "spell" && (KeywordEngine.hasKeyword(card, "reaction") || KeywordEngine.hasKeyword(card, "action"));
+  });
+}
+
+/**
  * Resolves — or, if countered, discards — the spell paused by an open reaction window, and closes
  * the window. Shared by playCard's "reacted with a counter-capable card" path and passReaction's
  * "declined to react" path.
@@ -226,10 +242,14 @@ export const playCard: MoveFn<GameState> = ({ G, events, playerID }, args: PlayC
   if (card.type === "rune" || card.type === "legend" || card.type === "battlefield") return INVALID_MOVE;
   if (card.type === "spell" && player.cantPlaySpellsThisTurn) return INVALID_MOVE;
 
-  // Playing INTO an open window: only a [Reaction] spell is legal here — units/gear/champions
-  // aren't instant-speed, and nesting a second window (a reaction to a reaction) isn't modeled
-  // (see PendingSpellReaction's doc comment).
-  if (reactingTo && (card.type !== "spell" || !KeywordEngine.hasKeyword(card, "reaction"))) return INVALID_MOVE;
+  // Playing INTO an open window: a [Reaction] spell is always legal here; an [Action] spell is
+  // ALSO legal, but only reacting to a declared attack (rule 806.1.b: Action permits play "during
+  // Showdowns, even when it is not the Controlling player's turn" — not a general license to
+  // respond to any spell). units/gear/champions aren't instant-speed here, and nesting a second
+  // window (a reaction to a reaction) isn't modeled (see PendingSpellReaction's doc comment).
+  const reactingWithAction = Boolean(reactingToCombat) && card.type === "spell" && KeywordEngine.hasKeyword(card, "action");
+  if (reactingTo && card.type !== "spell") return INVALID_MOVE;
+  if (reactingTo && !KeywordEngine.hasKeyword(card, "reaction") && !reactingWithAction) return INVALID_MOVE;
   // A "Counter a spell" card only makes sense reacting to an actual pending SPELL — there's
   // nothing to counter during a combat reaction window.
   if (reactingToCombat && SpecialCaseEngine.hasCounterIntent(card)) return INVALID_MOVE;
@@ -611,7 +631,7 @@ export const attackBattlefield: MoveFn<GameState> = (
   SpecialCaseEngine.onShowdownBegin(G, getCard, args.battlefieldIndex);
 
   const defenderId = otherPlayerId(player.id);
-  if (slot.units[defenderId].length > 0 && hasReactionCardInHand(G, defenderId)) {
+  if (slot.units[defenderId].length > 0 && hasReactionOrActionSpellInHand(G, defenderId)) {
     G.pendingCombatReaction = { attacker: player.id, battlefieldIndex: args.battlefieldIndex };
     events.setActivePlayers({ others: Stage.NULL });
     return undefined;

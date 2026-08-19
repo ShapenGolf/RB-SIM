@@ -679,7 +679,12 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
         .map((cardId, idx) => ({ cardId, idx }))
         .filter(({ cardId }) => {
           const card = getCard(cardId);
-          if (!KeywordEngine.hasKeyword(card, "reaction")) return false;
+          // During a combat window, an [Action] spell is ALSO playable, not just [Reaction] — rule
+          // 806.1.b (see moves.ts's hasReactionOrActionSpellInHand/playCard for the matching
+          // engine-side legality). Spell-only, matching this window's own type restriction.
+          const eligibleKeyword =
+            KeywordEngine.hasKeyword(card, "reaction") || (canReactToCombat && card.type === "spell" && KeywordEngine.hasKeyword(card, "action"));
+          if (!eligibleKeyword) return false;
           // A "Counter a spell" card only makes sense reacting to an actual pending spell —
           // there's nothing to counter during a combat reaction window (see moves.ts's playCard).
           if (canReactToCombat && SpecialCaseEngine.hasCounterIntent(card)) return false;
