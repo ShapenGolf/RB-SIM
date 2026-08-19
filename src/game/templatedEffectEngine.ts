@@ -1,8 +1,24 @@
-import type { Card } from "../cards/types";
+import type { Card, Domain } from "../cards/types";
 import type { TemplatedAction, TemplatedTargetSpec, TemplatedTrigger } from "../cards/templatedEffects";
 import type { CardInstance, GameState, PlayerId } from "./state";
 import { destroyInstance } from "./combat";
 import { discardCardToTrash } from "./discardEngine";
+
+/**
+ * [Add] (rule 429): puts a new, ready Rune of `domain` directly into `playerId`'s Rune Pool — use
+ * "Colorless" for plain Energy (Energy payment doesn't check rune domain, see moves.ts's
+ * playCard/activateAbility cost validation, so a Colorless rune spends exactly like Energy).
+ * Shared by the generic "gainRune" templated action below and several bespoke special-case
+ * handlers whose card text uses [Add] directly (e.g. dragonsoul-sage.ts, lux-crownguard.ts).
+ */
+export function addRuneToPool(game: GameState, playerId: PlayerId, domain: Domain): void {
+  game.nextInstanceSeq += 1;
+  game.players[playerId].runePool.push({
+    instanceId: `rune-added-${game.nextInstanceSeq}`,
+    domain,
+    exhausted: false,
+  });
+}
 
 /**
  * Interpreter for auto-matched TemplatedEffect data (see
@@ -195,14 +211,7 @@ function runAction(
       return;
     }
     case "gainRune": {
-      for (let i = 0; i < action.amount; i += 1) {
-        game.nextInstanceSeq += 1;
-        controller.runePool.push({
-          instanceId: `rune-gained-${game.nextInstanceSeq}`,
-          domain: action.domain,
-          exhausted: false,
-        });
-      }
+      for (let i = 0; i < action.amount; i += 1) addRuneToPool(game, source.controller, action.domain);
       return;
     }
   }
