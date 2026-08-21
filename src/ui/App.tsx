@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { RiftboundClient } from "./client";
+import { BotGame } from "./BotGame";
 import { DeckBuilder } from "./DeckBuilder";
 import { Menu } from "./Menu";
 import { Lobby } from "./Lobby";
 import { OnlineGame } from "./OnlineGame";
 import { setPendingSetupOptions } from "../game/pendingSetup";
 import type { SetupOptions } from "../game/setup";
+import type { BotTier } from "../ai/bots";
+import type { PlayerId } from "../game/state";
 import { loadOnlineSession, saveOnlineSession, clearOnlineSession, leaveMatch, type OnlineSession } from "./onlineLobby";
 import "./cards.css";
 
@@ -13,6 +16,7 @@ type View =
   | { screen: "menu" }
   | { screen: "deckbuilder" }
   | { screen: "game"; matchId: string }
+  | { screen: "bot"; matchId: string; humanPlayerId: PlayerId; botPlayerId: PlayerId; tier: BotTier }
   | { screen: "lobby" }
   | { screen: "online"; session: OnlineSession };
 
@@ -25,6 +29,11 @@ export function App() {
   function startGame(options: SetupOptions) {
     setPendingSetupOptions(options);
     setView({ screen: "game", matchId: `local-${Date.now()}` });
+  }
+
+  function startBotGame(options: SetupOptions, humanPlayerId: PlayerId, botPlayerId: PlayerId, tier: BotTier) {
+    setPendingSetupOptions(options);
+    setView({ screen: "bot", matchId: `bot-${Date.now()}`, humanPlayerId, botPlayerId, tier });
   }
 
   function joinedOnline(session: OnlineSession) {
@@ -86,11 +95,25 @@ export function App() {
     );
   }
 
+  if (view.screen === "bot") {
+    return (
+      <div className="rb-app">
+        <button className="rb-exit-game" onClick={() => setView({ screen: "menu" })}>
+          ← Menü
+        </button>
+        <div className="rb-panel">
+          <BotGame matchId={view.matchId} humanPlayerId={view.humanPlayerId} botPlayerId={view.botPlayerId} tier={view.tier} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="rb-page">
       <Menu
         onOpenDeckBuilder={() => setView({ screen: "deckbuilder" })}
         onStartGame={startGame}
+        onStartBotGame={startBotGame}
         onOpenLobby={() => setView({ screen: "lobby" })}
       />
     </div>
