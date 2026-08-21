@@ -4,7 +4,7 @@ import type { TemplatedAction } from "../cards/templatedEffects";
 import type { CardInstance, GameState, PlayerId, RuneInstance } from "../game/state";
 import { getCard } from "../cards/db";
 import { KeywordEngine } from "../keywords/registry";
-import { computeAutoPayment } from "../ui/autoPay";
+import { computeAutoPayment } from "../game/autoPay";
 import { SpecialCaseEngine, specialCaseNeedsPlayTarget } from "../cards/special-cases/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget, firstChooseTargetSpec } from "../cards/templatedEffects";
 import { candidatesForTarget } from "../game/templatedEffectEngine";
@@ -153,6 +153,27 @@ export function isBotTurn(G: GameState, ctx: Ctx, playerID: PlayerId): boolean {
   if (ctx.phase === "mulligan") return !player.mulliganDone;
   if (ctx.phase === "play") return ctx.currentPlayer === playerID;
   return false;
+}
+
+/**
+ * Same as enumerateBotActions, but NEVER empty — falls back to a harmless endTurn attempt when
+ * there's genuinely nothing to do. Needed specifically at boardgame.io's own bot-integration
+ * boundary (see game/game.ts's `ai.enumerate`, ai/boardgameBot.ts): the FRAMEWORK's own "is it this
+ * bot's turn" check (`Local()`'s internal `GetBotPlayer`, based on `ctx.activePlayers`/
+ * `ctx.currentPlayer`) can occasionally decide to ask a bot to move in a moment `isBotTurn` above
+ * already considers settled — most commonly a PendingDamageAssignment window where THIS side
+ * already submitted its order but the OTHER side hasn't yet, so `ctx.activePlayers` (opened via
+ * `{all: Stage.NULL}`, see combat.ts) still lists both sides until BOTH submit. A boardgame.io
+ * `Bot.play()` MUST return SOME action; an endTurn attempt is always safe here even when it isn't
+ * really legal, since boardgame.io's own Master.onUpdate rejects an out-of-turn move via
+ * `isPlayerActive`/`getMove` before it ever reaches moves.ts — worst case, one wasted, silently
+ * ignored dispatch, never a crash (see ai/boardgameBot.ts's Bot.play doc comment, which is what
+ * this was written to fix: an earlier version could return `{action: undefined}` here and crash
+ * boardgame.io's own LocalMaster).
+ */
+export function enumerateBotActionsOrFallback(G: GameState, ctx: Ctx, playerID: PlayerId): BotAction[] {
+  const actions = enumerateBotActions(G, ctx, playerID);
+  return actions.length > 0 ? actions : [{ move: "endTurn", args: {}, label: "endTurn(fallback — nothing else to do)" }];
 }
 
 const MAX_TARGET_CANDIDATES = 10;

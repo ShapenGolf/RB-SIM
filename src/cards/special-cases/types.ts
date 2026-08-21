@@ -609,7 +609,7 @@ export interface SpecialCaseHandler {
    * `payAdditionalCost` play flag (same as Accelerate/discard-reduction) — read the outcome via
    * `ctx.instance.statuses.paidAdditionalCostThisTurn` inside `onPlay`. Same spirit as
    * `KeywordHandler.additionalPlayCostEnergy` but for cards without a dedicated keyword;
-   * summed with it in moves.ts/ui/autoPay.ts, not mutually exclusive. Simplification consistent
+   * summed with it in moves.ts/game/autoPay.ts, not mutually exclusive. Simplification consistent
    * with Accelerate: only the Energy component is charged, any Domain-Rune part of the printed
    * cost is not (see docs/data-sourcing.md).
    */

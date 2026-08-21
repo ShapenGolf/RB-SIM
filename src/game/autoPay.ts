@@ -1,9 +1,8 @@
 import type { Card } from "../cards/types";
-import type { RuneInstance } from "../game/state";
 import { KeywordEngine } from "../keywords/registry";
 import { SpecialCaseEngine } from "../cards/special-cases/registry";
 import { getCard } from "../cards/db";
-import type { CardInstance, GameState } from "../game/state";
+import type { CardInstance, GameState, RuneInstance } from "./state";
 
 export interface AutoPayResult {
   energyRuneIds: string[];

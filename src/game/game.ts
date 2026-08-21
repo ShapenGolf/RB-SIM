@@ -4,6 +4,7 @@ import { setupGame, type SetupOptions } from "./setup";
 import { getPendingSetupOptions } from "./pendingSetup";
 import { runTurnStart, markFirstTurnTaken } from "./turnFlow";
 import { playerView } from "./playerView";
+import { enumerateBotActionsOrFallback } from "../ai/enumerate";
 import {
   playCard,
   attackBattlefield,
@@ -39,6 +40,16 @@ export const RiftboundGame: Game<GameState, Record<string, never>, SetupOptions>
   setup: (_context, setupData) => setupGame(setupData ?? getPendingSetupOptions()),
 
   playerView,
+
+  // Bot-opponent integration (see ai/enumerate.ts, ai/boardgameBot.ts, ui/BotGame.tsx): boardgame.io
+  // invokes this against its OWN canonical, unredacted state (never a playerView-filtered per-client
+  // copy — see ai/boardgameBot.ts's file doc comment on why that distinction matters) whenever a
+  // `Local({ bots })` transport determines it's a bot player's turn or reactive window. `args` is
+  // wrapped in a 1-element array to match boardgame.io's own move-dispatch convention (a plain
+  // `client.moves.foo(x)` call wraps its single argument the same way — see createMoveDispatchers).
+  ai: {
+    enumerate: (G, ctx, playerID) => enumerateBotActionsOrFallback(G, ctx, playerID as PlayerId).map((a) => ({ move: a.move, args: [a.args] })),
+  },
 
   phases: {
     // Online-only in practice: each player submits their own locally-saved deck. A local

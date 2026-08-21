@@ -67,48 +67,47 @@ function simulate(G: GameState, playerID: PlayerId, action: BotAction): GameStat
   return clone;
 }
 
-function pickRandom<T>(items: T[]): T {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-interface ScoredAction {
-  action: BotAction;
+interface ScoredIndex {
+  index: number;
   score: number;
   next: GameState | null;
 }
 
 /**
- * Greedy same-turn search shared by Medium/Hard: scores every candidate action by simulating it
- * (see `simulate`), then — if `depth` > 0 — recurses `depth` plies deeper along the SAME turn for
- * only the `branchCap` most promising actions (bounding the search; recursing into every
- * candidate at every depth would blow up combinatorially). The recursion naturally stops the
- * instant control passes away from the bot (e.g. its own spell opened a reaction window for the
- * opponent) because ai/enumerate.ts's `isBotTurn` — checked before recursing — reads exactly the
- * G-level pending-window fields that change that. `endTurn` always scores as "the state as it
- * already is" (see SIMULATABLE_MOVES's doc comment), so "do nothing else this turn" competes
- * fairly against every other option instead of being auto-excluded.
+ * Greedy same-turn search shared by Medium/Hard: scores every one of `actions` (already enumerated
+ * by the caller — see `pickBotActionIndex`) by simulating it (see `simulate`), then — if `depth` >
+ * 0 — recurses `depth` plies deeper along the SAME turn for only the `branchCap` most promising
+ * actions (bounding the search; recursing into every candidate at every depth would blow up
+ * combinatorially). The recursion naturally stops the instant control passes away from the bot
+ * (e.g. its own spell opened a reaction window for the opponent) because ai/enumerate.ts's
+ * `isBotTurn` — checked before recursing — reads exactly the G-level pending-window fields that
+ * change that. `endTurn` always scores as "the state as it already is" (see SIMULATABLE_MOVES's
+ * doc comment), so "do nothing else this turn" competes fairly against every other option instead
+ * of being auto-excluded. Returns the INDEX into `actions` (not the action itself) so callers that
+ * enumerated their own action list — e.g. ai/boardgameBot.ts, matching boardgame.io's own
+ * already-wrapped candidates 1:1 — can pick from THEIR array without a fragile re-match.
  */
-function bestAction(G: GameState, ctx: Ctx, playerID: PlayerId, depth: number, branchCap = Infinity): ScoredAction | null {
-  const actions = enumerateBotActions(G, ctx, playerID);
+function bestIndex(G: GameState, ctx: Ctx, playerID: PlayerId, actions: BotAction[], depth: number, branchCap = Infinity): ScoredIndex | null {
   if (actions.length === 0) return null;
 
-  const scored: ScoredAction[] = [];
-  for (const action of actions) {
+  const scored: ScoredIndex[] = [];
+  actions.forEach((action, index) => {
     if (action.move === "endTurn") {
-      scored.push({ action, score: evaluate(G, playerID), next: null });
-      continue;
+      scored.push({ index, score: evaluate(G, playerID), next: null });
+      return;
     }
     const next = simulate(G, playerID, action);
-    if (!next) continue;
-    scored.push({ action, score: evaluate(next, playerID), next });
-  }
+    if (!next) return;
+    scored.push({ index, score: evaluate(next, playerID), next });
+  });
   if (scored.length === 0) return null;
 
   if (depth > 0) {
     scored.sort((a, b) => b.score - a.score);
     for (const entry of scored.slice(0, branchCap)) {
       if (!entry.next || !isBotTurn(entry.next, ctx, playerID)) continue;
-      const deeper = bestAction(entry.next, ctx, playerID, depth - 1, branchCap);
+      const nextActions = enumerateBotActions(entry.next, ctx, playerID);
+      const deeper = bestIndex(entry.next, ctx, playerID, nextActions, depth - 1, branchCap);
       if (deeper) entry.score = Math.max(entry.score, deeper.score);
     }
   }
@@ -118,29 +117,30 @@ function bestAction(G: GameState, ctx: Ctx, playerID: PlayerId, depth: number, b
   return best;
 }
 
-/** Easy: uniformly random legal-ish candidate — no scoring, no lookahead at all. */
-function chooseEasy(G: GameState, ctx: Ctx, playerID: PlayerId): BotAction | null {
-  const actions = enumerateBotActions(G, ctx, playerID);
-  return actions.length > 0 ? pickRandom(actions) : null;
-}
-
-/** Medium: greedy — the single action whose immediate resulting state scores highest, no lookahead beyond it. */
-function chooseMedium(G: GameState, ctx: Ctx, playerID: PlayerId): BotAction | null {
-  return bestAction(G, ctx, playerID, 0)?.action ?? null;
-}
-
-/** Hard: same greedy scoring, plus one more own-turn ply of lookahead for the 5 most promising immediate actions. */
-function chooseHard(G: GameState, ctx: Ctx, playerID: PlayerId): BotAction | null {
-  return bestAction(G, ctx, playerID, 1, 5)?.action ?? null;
+/**
+ * Picks the index of this tier's chosen action out of `actions` (a list the caller already
+ * enumerated for the CURRENT real GameState, at that same G/ctx/playerID) — or null when `actions`
+ * is empty. Split out from `chooseBotAction` so ai/boardgameBot.ts's boardgame.io `Bot` subclass
+ * can score against ITS OWN already-enumerated (and properly move-wrapped) candidate list instead
+ * of re-deriving a separate one that would need fragile re-matching afterward.
+ */
+export function pickBotActionIndex(tier: BotTier, G: GameState, ctx: Ctx, playerID: PlayerId, actions: BotAction[]): number | null {
+  if (actions.length === 0) return null;
+  if (tier === "easy") return Math.floor(Math.random() * actions.length);
+  const depth = tier === "medium" ? 0 : 1;
+  const branchCap = tier === "medium" ? Infinity : 5;
+  return bestIndex(G, ctx, playerID, actions, depth, branchCap)?.index ?? null;
 }
 
 /**
  * Picks this tier's next action for `playerID` given the CURRENT real GameState, or null when
- * there's genuinely nothing to do — the driver (ui/botDriver.ts) should only call this when
- * ai/enumerate.ts's `isBotTurn` says it's actually this bot's turn/window.
+ * there's genuinely nothing to do. Used directly by tests and by anything that doesn't need
+ * boardgame.io's own wrapped action shape — see ai/boardgameBot.ts for the version wired into the
+ * actual "vs Bot" UI, which needs the UNREDACTED G (see that file's doc comment on why a
+ * player-scoped, playerView-filtered G breaks this).
  */
 export function chooseBotAction(tier: BotTier, G: GameState, ctx: Ctx, playerID: PlayerId): BotAction | null {
-  if (tier === "easy") return chooseEasy(G, ctx, playerID);
-  if (tier === "medium") return chooseMedium(G, ctx, playerID);
-  return chooseHard(G, ctx, playerID);
+  const actions = enumerateBotActions(G, ctx, playerID);
+  const index = pickBotActionIndex(tier, G, ctx, playerID, actions);
+  return index === null ? null : actions[index];
 }

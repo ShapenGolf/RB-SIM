@@ -1,14 +1,18 @@
-import { useEffect } from "react";
-import { RiftboundClient } from "./client";
-import { startBotDriver } from "./botDriver";
+import { useMemo } from "react";
+import { Client } from "boardgame.io/react";
+import { Local } from "boardgame.io/multiplayer";
+import { RiftboundGame } from "../game/game";
+import { Board } from "./Board";
+import { createBotClass } from "../ai/boardgameBot";
 import type { BotTier } from "../ai/bots";
 import type { PlayerId } from "../game/state";
 
 /**
- * "vs Bot" match: renders a single RiftboundClient for the human's seat (see ui/client.ts) and,
- * for the bot's seat, a headless driver (ui/botDriver.ts) instead of a second rendered client —
- * the local-hotseat "two clients share one Local() master" pattern (ui/App.tsx's "game" screen),
- * just with one side driven by ai/bots.ts instead of a second human at the same screen.
+ * "vs Bot" match: a real boardgame.io `Local({ bots })` transport (see ai/boardgameBot.ts's file
+ * doc comment for why this — boardgame.io's native bot-integration point — replaces an earlier
+ * "second headless Client" approach that crashed on redacted opponent-hand data). Built fresh per
+ * match (not the shared ui/client.ts `RiftboundClient`, which has no `bots` option and stays the
+ * plain human-vs-human local-hotseat client) since `botPlayerId`/`tier` are per-match choices.
  */
 export function BotGame({
   matchId,
@@ -21,10 +25,16 @@ export function BotGame({
   botPlayerId: PlayerId;
   tier: BotTier;
 }) {
-  useEffect(() => {
-    const handle = startBotDriver(matchId, botPlayerId, tier);
-    return () => handle.stop();
-  }, [matchId, botPlayerId, tier]);
+  const GameClient = useMemo(
+    () =>
+      Client({
+        game: RiftboundGame,
+        board: Board,
+        multiplayer: Local({ bots: { [botPlayerId]: createBotClass(tier) } }),
+        debug: false,
+      }),
+    [botPlayerId, tier],
+  );
 
-  return <RiftboundClient playerID={humanPlayerId} matchID={matchId} />;
+  return <GameClient playerID={humanPlayerId} matchID={matchId} />;
 }

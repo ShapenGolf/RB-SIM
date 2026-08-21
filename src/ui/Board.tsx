@@ -3,7 +3,7 @@ import type { BoardProps } from "boardgame.io/react";
 import type { GameState, PlayerId, CardInstance } from "../game/state";
 import type { Card, Domain } from "../cards/types";
 import { getCard, getRuneCardForDomain } from "../cards/db";
-import { computeAutoPayment, computeRequiredCost } from "../ui/autoPay";
+import { computeAutoPayment, computeRequiredCost } from "../game/autoPay";
 import { KeywordEngine } from "../keywords/registry";
 import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget, firstChooseTargetSpec } from "../cards/templatedEffects";
 import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
