@@ -49,7 +49,7 @@ function rankForDamageAssignment(
  * order used when a side has no real choice to make (see hasRealDamageChoice below) — when they
  * do, the player's submitted order (validated by isValidDamageOrder) is used instead.
  */
-function orderForDamageAssignment(
+export function orderForDamageAssignment(
   game: GameState,
   getCard: (id: string) => Card,
   targets: string[],

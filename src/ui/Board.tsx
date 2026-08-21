@@ -9,32 +9,11 @@ import { templatedEffectNeedsPlayTarget, activatedAbilityNeedsTarget, firstChoos
 import { specialCaseNeedsPlayTarget, SpecialCaseEngine } from "../cards/special-cases/registry";
 import { eligibleAmbushBattlefields } from "../game/moves";
 import { candidatesForTarget } from "../game/templatedEffectEngine";
+import { previewInstance as blankInstance } from "../game/pseudoInstance";
 import { validateDeck } from "../cards/deckValidation";
 import { listSavedDecks } from "../decks/store";
 import { CardFace } from "./CardFace";
 import "./cards.css";
-
-function blankInstance(cardId: string, controller: PlayerId): CardInstance {
-  return {
-    instanceId: "preview",
-    cardId,
-    controller,
-    zone: "base",
-    battlefieldIndex: null,
-    damage: 0,
-    exhausted: false,
-    statuses: {},
-    xp: 0,
-    tempMightBonus: 0,
-    grantedThisTurn: [],
-    equipment: [],
-    attachedTo: null,
-    pendingSurviveCombatXP: 0,
-    damagePreventionPool: 0,
-    damageMultiplier: 1,
-    movesThisTurn: 0,
-  };
-}
 
 export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameState>) {
   const [mulliganSelected, setMulliganSelected] = useState<Set<number>>(new Set());

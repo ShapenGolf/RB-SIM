@@ -34,6 +34,34 @@ export function battlefieldPseudoInstance(
 }
 
 /**
+ * A throwaway CardInstance for a card that hasn't actually been created yet — a hand/champion-zone
+ * card the player (or bot) is only PREVIEWING (cost math, target eligibility) before committing to
+ * `playCard`. Shared by ui/Board.tsx (was a locally-defined `blankInstance`) and ai/enumerate.ts, so
+ * both compute cost/target candidates against the exact same shape.
+ */
+export function previewInstance(cardId: string, controller: PlayerId): CardInstance {
+  return {
+    instanceId: "preview",
+    cardId,
+    controller,
+    zone: "base",
+    battlefieldIndex: null,
+    damage: 0,
+    exhausted: false,
+    statuses: {},
+    xp: 0,
+    tempMightBonus: 0,
+    grantedThisTurn: [],
+    equipment: [],
+    attachedTo: null,
+    pendingSurviveCombatXP: 0,
+    damagePreventionPool: 0,
+    damageMultiplier: 1,
+    movesThisTurn: 0,
+  };
+}
+
+/**
  * A Legend has no Might/damage/combat participation and isn't stored in `game.instances` — this
  * fabricates a throwaway CardInstance so its ability (activatedAbilityCost/onActivate) and any
  * static-aura hooks can reuse the standard SpecialCaseContext shape. `exhausted` mirrors the
