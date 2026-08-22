@@ -1,7 +1,5 @@
 import type { GameState, PlayerId, RuneInstance } from "./state";
-
-/** Placeholder used in place of a real cardId in a redacted array — same length as the original, so `.length`-based UI (the ONLY thing ui/Board.tsx ever reads for an opponent's private zones — a count and a generic card-back) keeps working, but the actual identity is gone. */
-const REDACTED_CARD_ID = "hidden";
+import { REDACTED_CARD_ID } from "../cards/db";
 
 function redactCardIds(cardIds: string[]): string[] {
   return cardIds.map(() => REDACTED_CARD_ID);
@@ -32,6 +30,17 @@ function redactRuneOrder(runes: RuneInstance[]): RuneInstance[] {
  * Deliberately NOT redacted: `trash`/`banishment` (public zones — see ui/Board.tsx's opponent-trash
  * panel), `base`/battlefield unit `instances` (face-up, in play), `runePool` (face-up once
  * Channeled), `legend`/`championZone`/`chosenChampionId` (public per deck-building rules).
+ *
+ * This applies to `Local()` matches too, not just a real Socket.IO connection: every boardgame.io
+ * `Client` — including local hotseat's and a `Local({ bots })` match's human seat — applies moves
+ * OPTIMISTICALLY against its OWN local copy of G for instant UI feedback, and that local copy is
+ * built from exactly this filtered view. A move's own logic that legitimately inspects an
+ * opponent's private zone as part of ordinary rules bookkeeping (not a UI read) — e.g. moves.ts's
+ * hasReactionCardInHand, deciding whether an attack needs to pause for a reaction window — WILL
+ * see `REDACTED_CARD_ID` there during that optimistic pass; `cards/db.ts`'s `getCard` treats that
+ * id specially (a safe, keyword-less stand-in) instead of throwing, precisely so this doesn't
+ * crash the client mid-move. The AUTHORITATIVE execution (server/master-side, always against the
+ * true G) is unaffected either way.
  */
 export const playerView = ({ G, playerID }: { G: GameState; playerID?: string | null }): GameState => {
   const view: GameState = { ...G, players: { ...G.players } };

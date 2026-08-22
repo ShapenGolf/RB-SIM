@@ -120,7 +120,44 @@ export const cardDatabase: CardDatabase = Object.fromEntries(
   }),
 );
 
+/**
+ * Placeholder cardId game/playerView.ts substitutes for a card in a zone it redacts (an
+ * opponent's hand/mainDeck/runeDeck/hiddenZone/battlefieldPool) — see that file's doc comment. A
+ * boardgame.io client applies every move OPTIMISTICALLY against its own local copy of G for
+ * instant UI feedback, before the authoritative server/master response (built from the TRUE,
+ * unredacted G) reconciles it — and that local copy has the OPPONENT's private zones redacted the
+ * same way. Ordinary rules logic that legitimately reads an opponent's hand/deck for something
+ * other than its own identity (e.g. moves.ts's hasReactionCardInHand, deciding whether a Showdown
+ * needs to pause for a reaction window; special-cases/insightful-investigator.ts's "look at their
+ * hand, take a card") runs into this placeholder purely as a side effect of that optimistic
+ * client-side pass — not a real data bug — so `getCard` treats it specially instead of throwing.
+ */
+export const REDACTED_CARD_ID = "hidden";
+
+/**
+ * Safe stand-in for REDACTED_CARD_ID: no keywords, no type-specific behavior, so a check like
+ * `KeywordEngine.hasKeyword(getCard(id), "reaction")` on a redacted opponent-hand entry correctly
+ * comes back false during an optimistic client-side pass instead of crashing — the authoritative
+ * server-side execution (against the true G) still sees the REAL card and behaves correctly; the
+ * client just self-corrects once that response arrives, same as any other optimistic-update
+ * misprediction in this architecture.
+ */
+const REDACTED_CARD_STANDIN: Card = {
+  id: REDACTED_CARD_ID,
+  name: "(redacted)",
+  type: "spell",
+  setCode: "",
+  collectorNumber: 0,
+  domains: [],
+  energyCost: 0,
+  powerCost: [],
+  might: null,
+  text: "",
+  keywords: [],
+};
+
 export function getCard(cardId: string): Card {
+  if (cardId === REDACTED_CARD_ID) return REDACTED_CARD_STANDIN;
   const card = cardDatabase[cardId];
   if (!card) throw new Error(`Unknown card id: ${cardId}`);
   return card;
