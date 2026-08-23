@@ -45,7 +45,8 @@ body {
 
 .rb-app {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background: var(--bg-app);
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   color: var(--text-main);
@@ -54,6 +55,9 @@ body {
 .rb-panel {
   flex: 1;
   min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
   border-right: 1px solid #23262f;
 }
 .rb-panel:last-child {
@@ -98,8 +102,13 @@ body {
 }
 
 .rb-board {
-  padding: 12px 16px 20px;
-  min-height: 100%;
+  padding: 8px 12px 10px;
+  height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
 }
 
 .rb-topbar {
@@ -107,11 +116,11 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 10px;
   background: var(--bg-panel);
   border: 1px solid #23262f;
-  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 .rb-topbar h2 {
   margin: 0;
@@ -565,10 +574,102 @@ body {
   align-content: flex-start;
 }
 
+/* ---- Compact single-screen HUD (opponent strip / battlefields / own strip) ----
+   The whole match must fit one viewport without page scroll (see .rb-app/.rb-board/.rb-panel
+   above) — playtesters were missing reaction windows that scrolled out of view. Each side's strip
+   (opponent + own) is Runes on their own line, then a row of [Legend&Champion / Deck / Base /
+   Hidden / Trash, stacked in a narrow column] beside the Hand, which gets the remaining width.
+   Battlefields sit between the two strips and take whatever vertical space is left (flex: 1). */
+.rb-hud {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 4px;
+  /* A short viewport (see stress test at 768px) could otherwise let a strip's natural content
+     height overflow past its flex-item box and visually sit on top of the end-turn button below
+     it — clip it here instead; each strip gets its own internal scroll as the release valve
+     (see .rb-hud-side below) rather than the whole page or a sibling silently breaking. */
+  overflow: hidden;
+}
+/* Capped to at most 38% of .rb-hud's height each, so the two strips combined can never squeeze
+   Battlefields (the requested visual centerpiece) down to nothing — a strip whose own content
+   (many Runes, many Base units, a tall Hand) needs more than that scrolls internally instead. */
+.rb-hud-side {
+  flex-shrink: 0;
+  max-height: 38%;
+  overflow-y: auto;
+}
+.rb-hud-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  min-width: 0;
+}
+.rb-hud-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.rb-hud-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rb-hud-group .rb-section-label {
+  margin: 0;
+  min-width: 64px;
+  flex-shrink: 0;
+}
+.rb-hud-group .rb-row {
+  margin: 0;
+}
+.rb-hud-hand {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.rb-hud-hand .rb-section-label {
+  margin: 0;
+}
+/* A row that would otherwise wrap to multiple lines (many Base units, a big Hand) scrolls
+   horizontally in place instead — vertical space is what's scarce here, not horizontal. */
+.rb-hud-scroll-row {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding-bottom: 2px;
+}
+
+/* Scoped-down card footprint for the HUD strips and Battlefields only (DeckBuilder keeps the
+   normal "sm" size — see cards.css's top-of-file note on .rb-card-sm being shared). */
+.rb-hud .rb-card.rb-card-sm,
+.rb-battlefields .rb-card.rb-card-sm {
+  width: 58px;
+}
+.rb-hud .rb-rune-slot {
+  width: 82px;
+  height: 82px;
+}
+.rb-hud .rb-card-back {
+  width: 58px;
+}
+.rb-hud .rb-deck-pile {
+  margin-right: 8px;
+}
+
 .rb-battlefields {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  align-content: flex-start;
 }
 .rb-battlefield {
   flex: 1;
@@ -647,18 +748,37 @@ body {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 4px 2px 10px;
+  overflow-y: hidden;
+  padding: 4px 2px 6px;
   align-items: flex-start;
+  flex: 1;
+  min-height: 0;
 }
 
 .rb-callout {
   border-radius: 10px;
-  padding: 10px;
-  margin: 8px 0;
+  padding: 8px 10px;
+  margin: 0;
   background: var(--bg-panel-alt);
+  flex-shrink: 0;
 }
+/* A reaction/combat window (see ui/Board.tsx's pendingSpellReaction/pendingCombatReaction/
+   pendingDamageAssignment) needs to grab attention on its own — the no-scroll layout guarantees
+   it's always somewhere on screen, but playtesters still missed it among everything else visible
+   at once, so it also gets a brief attention-drawing pulse on the border/glow (not endless — a
+   few seconds is enough to catch the eye without being annoying while the player decides). */
 .rb-callout.warn {
   border: 1px solid #fbbf24;
+  animation: rb-callout-pulse 1.1s ease-in-out 4;
+}
+@keyframes rb-callout-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(251, 191, 36, 0);
+  }
 }
 .rb-callout.info {
   border: 1px solid #38bdf8;
@@ -765,11 +885,8 @@ body {
 
 /* ---- Face-to-face table layout ---- */
 
-.rb-opponent-zone {
+.rb-hud-side-opponent {
   opacity: 0.92;
-}
-.rb-opponent-zone .rb-section-label {
-  margin-top: 4px;
 }
 
 .rb-card-back {
@@ -792,24 +909,6 @@ body {
     6px 6px 0 2px #18181b,
     0 2px 6px rgba(0, 0, 0, 0.5);
   margin-right: 10px;
-}
-
-.rb-table-divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 10px 0;
-  color: var(--text-dim);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-.rb-table-divider::before,
-.rb-table-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #23262f;
 }
 
 /* ---- Page-level screens (Menu, Deckbuilder) — single-column, unlike the two-panel game view ---- */
