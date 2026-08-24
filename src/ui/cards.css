@@ -653,13 +653,46 @@ body {
   display: flex;
   gap: 4px;
 }
+/* Gold corner brackets + hairline border on a deep-navy fill, mimicking the physical playmat's
+   printed zone frames (see the reference photo) — 8 solid-color gradient slivers draw an "L"
+   mark in each corner since a plain border/border-radius reads as a generic card-UI box rather
+   than the mat's cut-corner frame style. */
 .rb-mat-zone {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  border: 1px solid #2f3542;
-  border-radius: 6px;
-  background: var(--bg-panel-alt);
+  border: 1px solid rgba(201, 185, 138, 0.3);
+  border-radius: 1px;
+  background-color: rgba(9, 14, 26, 0.6);
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(#c9b98a, #c9b98a),
+    linear-gradient(#c9b98a, #c9b98a),
+    linear-gradient(#c9b98a, #c9b98a),
+    linear-gradient(#c9b98a, #c9b98a),
+    linear-gradient(#c9b98a, #c9b98a),
+    linear-gradient(#c9b98a, #c9b98a),
+    linear-gradient(#c9b98a, #c9b98a),
+    linear-gradient(#c9b98a, #c9b98a);
+  background-size:
+    8px 1.5px,
+    1.5px 8px,
+    8px 1.5px,
+    1.5px 8px,
+    8px 1.5px,
+    1.5px 8px,
+    8px 1.5px,
+    1.5px 8px;
+  background-position:
+    top -1px left -1px,
+    top -1px left -1px,
+    top -1px right -1px,
+    top -1px right -1px,
+    bottom -1px left -1px,
+    bottom -1px left -1px,
+    bottom -1px right -1px,
+    bottom -1px right -1px;
   padding: 4px 6px 3px;
   min-width: 0;
 }
@@ -678,15 +711,19 @@ body {
 .rb-mat-zone-label {
   font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  color: #c9b98a;
   white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 5px;
+  border-top: 1px solid rgba(201, 185, 138, 0.3);
+  padding-top: 2px;
+  margin-top: 1px;
 }
 .rb-mat-zone-label .rb-count {
-  background: #1f2937;
+  background: rgba(201, 185, 138, 0.18);
+  color: #e8dcc0;
   border-radius: 999px;
   padding: 0 6px;
   font-size: 9px;
