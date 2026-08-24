@@ -16,12 +16,23 @@ import { CardFace } from "./CardFace";
 import "./cards.css";
 
 /**
- * Per-card transform for the "fanned hand" look (see hoveredHandIndex above and .rb-hand-strip
- * in cards.css) — cards rotate outward from a center card like a hand of playing cards, and the
+ * Per-card styles for the "fanned hand" look (see hoveredHandIndex above and .rb-hand-strip in
+ * cards.css) — cards rotate outward from a center card like a hand of playing cards, and the
  * hovered one straightens, lifts clear, and scales up while its neighbors slide out of its way
  * (falling off with distance) so the overlap that makes the fan compact doesn't also hide it.
+ *
+ * Split across two style objects because they must land on two DIFFERENT elements: `transform`
+ * has to go on .rb-card and .rb-card-footer specifically (CardFace's `cardStyle`), NOT on
+ * .rb-card-wrap itself (CardFace's `wrapperStyle`, here just overlap + stacking) — a transformed
+ * ancestor becomes the containing block for any position:fixed descendant, which would break the
+ * hover-zoom preview's portal-to-<body> docking (see CardFace.tsx) by re-anchoring it inside the
+ * tiny, overlapping-neighbor card box instead of the fixed viewport corner it's meant to dock in.
  */
-function handFanStyle(idx: number, total: number, hoveredIndex: number | null): React.CSSProperties {
+function handFanStyle(
+  idx: number,
+  total: number,
+  hoveredIndex: number | null,
+): { wrapperStyle: React.CSSProperties; cardStyle: React.CSSProperties } {
   const offset = idx - (total - 1) / 2;
   const isHovered = hoveredIndex === idx;
   const rotate = isHovered ? 0 : Math.max(-16, Math.min(16, offset * 5));
@@ -32,9 +43,13 @@ function handFanStyle(idx: number, total: number, hoveredIndex: number | null): 
     shiftX = Math.sign(distance) * Math.min(16, 26 / Math.abs(distance));
   }
   return {
-    marginLeft: idx === 0 ? 0 : -34,
-    transform: `translateX(${shiftX}px) translateY(${isHovered ? -22 : restY}px) rotate(${rotate}deg) scale(${isHovered ? 1.12 : 1})`,
-    zIndex: isHovered ? 200 : idx + 1,
+    wrapperStyle: {
+      marginLeft: idx === 0 ? 0 : -34,
+      zIndex: isHovered ? 200 : idx + 1,
+    },
+    cardStyle: {
+      transform: `translateX(${shiftX}px) translateY(${isHovered ? -22 : restY}px) rotate(${rotate}deg) scale(${isHovered ? 1.12 : 1})`,
+    },
   };
 }
 
@@ -1712,6 +1727,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const canAfford = computeAutoPayment(G, card, dummyInstance, player.runePool, false) !== null;
           const isChampion = card.type === "champion";
           const ambushBattlefields = eligibleAmbushBattlefields(G, card, dummyInstance);
+          const fan = handFanStyle(idx, player.hand.length, hoveredHandIndex);
           return (
             <CardFace
               key={idx}
@@ -1721,7 +1737,8 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               dragging={dragPayload?.type === "handCard" && dragPayload.handIndex === idx}
               onDragStart={canAct ? dragStart({ type: "handCard", handIndex: idx }) : undefined}
               onDragEnd={dragEnd}
-              wrapperStyle={handFanStyle(idx, player.hand.length, hoveredHandIndex)}
+              wrapperStyle={fan.wrapperStyle}
+              cardStyle={fan.cardStyle}
               onMouseEnter={() => setHoveredHandIndex(idx)}
               onMouseLeave={() => setHoveredHandIndex((current) => (current === idx ? null : current))}
               footer={

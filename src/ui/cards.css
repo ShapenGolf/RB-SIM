@@ -476,21 +476,23 @@ body {
 
 /* Hover-to-zoom preview: fixed in a corner (not centered) so it never covers the card's own
    add/remove controls or the rest of the grid underneath it — a dead-center overlay made it
-   impossible to click "+" on a card you were still hovering to read. Anchored bottom-right,
-   clear of the left-aligned deck-builder/board content. */
+   impossible to click "+" on a card you were still hovering to read. Anchored top-right (not
+   bottom — that's where the fanned Hand itself lives, see .rb-hand-strip, and a big preview
+   docked right on top of the very cards it's meant to help read defeats the point) and sized
+   down: a playtester found the original size covered most of the hand's neighboring cards, which
+   the Hand fan's own neighbor-push (see handFanStyle() in Board.tsx) is specifically there to
+   avoid. Visibility is plain React state (CardFace's `hovering`), not a CSS :hover rule — see the
+   comment on the portal in CardFace.tsx for why. */
 .rb-card-zoom {
-  display: none;
+  display: flex;
   position: fixed;
   right: 16px;
-  bottom: 16px;
+  top: 64px;
   z-index: 50;
   pointer-events: none;
 }
-.rb-card-wrap:hover .rb-card-zoom {
-  display: flex;
-}
 .rb-card-zoom-inner {
-  width: min(60vw, 420px);
+  width: min(30vw, 240px);
   aspect-ratio: 744 / 1039;
   border-radius: 16px;
   overflow: hidden;
@@ -866,8 +868,15 @@ body {
   flex: 1;
   min-height: 0;
 }
+/* The fan's rotate/lift/scale transform (see handFanStyle() in Board.tsx) lands on .rb-card and
+   .rb-card-footer specifically, NOT .rb-card-wrap — a transformed .rb-card-wrap would become the
+   containing block for the hover-zoom preview's position:fixed portal (see CardFace.tsx),
+   re-anchoring it inside the tiny overlapping card box instead of its fixed viewport corner. */
 .rb-hand-strip .rb-card-wrap {
   position: relative;
+}
+.rb-hand-strip .rb-card,
+.rb-hand-strip .rb-card-footer {
   transform-origin: bottom center;
   transition: transform 0.15s ease;
 }
