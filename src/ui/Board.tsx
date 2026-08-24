@@ -1067,85 +1067,102 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             count only). Mirrors "own side" below (see .rb-hud in cards.css) so the whole match
             fits one screen without scrolling. */}
         <div className="rb-hud-side rb-hud-side-opponent">
-          {/* Runes sit face-up in a player's own play area in the physical game — visible to both
-              sides, unlike the hand. */}
-          <div className="rb-section-label">
-            Gegner-Runen <span className="rb-count">{opponent.runePool.length}</span>
-          </div>
-          <div className="rb-rune-strip">
-            {opponent.runePool.map((r) => (
-              <div key={r.instanceId} className="rb-rune-slot" title={`${r.domain} Rune${r.exhausted ? " (exhausted)" : ""}`}>
-                <CardFace card={getRuneCardForDomain(r.domain)} size="sm" rotated={r.exhausted} />
-              </div>
-            ))}
-          </div>
-
           <div className="rb-hud-row">
-            <div className="rb-hud-col">
-              {/* Legend and Chosen Champion are public information (chosen at deck-build time, see
-                  docs/deck-building-rules.md) — shown face-up for both players, unlike the private hand. */}
-              <div className="rb-hud-group">
-                <div className="rb-section-label">Gegner-Legend &amp; Champ.</div>
-                <div className="rb-row">
-                  {opponent.legend && <CardFace card={getCard(opponent.legend.cardId)} size="sm" />}
-                  {opponent.championZone && <CardFace card={getCard(opponent.championZone)} size="sm" />}
-                </div>
-              </div>
-
-              {/* Main Deck sits face-down for both players — only its SIZE is public info, never its
-                  contents (see PlayerState.mainDeck). One card-back stands in for the whole pile. */}
-              <div className="rb-hud-group">
-                <div className="rb-section-label">
-                  Gegner-Deck <span className="rb-count">{opponent.mainDeck.length}</span>
-                </div>
-                <div className="rb-row">{opponent.mainDeck.length > 0 && <div className="rb-card-back rb-deck-pile" />}</div>
-              </div>
-
-              <div className="rb-hud-group">
-                <div className="rb-section-label">
-                  Gegner-Base <span className="rb-count">{opponent.base.length}</span>
-                </div>
-                <div className="rb-row rb-hud-scroll-row">
-                  {opponent.base.map((id) => (
-                    <CardFace
-                      key={id}
-                      card={getCard(G.instances[id].cardId)}
-                      instance={G.instances[id]}
-                      size="sm"
-                      equippedGear={getEquippedGear(G.instances[id])}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {opponent.hiddenZone.length > 0 && (
-                <div className="rb-hud-group">
-                  <div className="rb-section-label">
-                    Gegner-Verdeckt <span className="rb-count">{opponent.hiddenZone.length}</span>
-                  </div>
+            <div className="rb-mat">
+              <div className="rb-mat-wide">
+                <div className="rb-mat-zone rb-mat-zone-base">
                   <div className="rb-row rb-hud-scroll-row">
-                    {opponent.hiddenZone.map((_, i) => (
-                      <div key={i} className="rb-card-back" />
+                    {opponent.base.map((id) => (
+                      <CardFace
+                        key={id}
+                        card={getCard(G.instances[id].cardId)}
+                        instance={G.instances[id]}
+                        size="sm"
+                        equippedGear={getEquippedGear(G.instances[id])}
+                      />
                     ))}
                   </div>
+                  <div className="rb-mat-zone-label">
+                    Gegner-Base <span className="rb-count">{opponent.base.length}</span>
+                  </div>
                 </div>
-              )}
 
-              {opponent.trash.length > 0 && (
-                <div className="rb-hud-group">
-                  {/* Trash is public information (see docs/rules-reference.md) — shown face-up,
-                      unlike hand/Hidden. Newest-on-top so the most recently trashed card is easy
-                      to spot. */}
-                  <div className="rb-section-label">
-                    Gegner-Trash <span className="rb-count">{opponent.trash.length}</span>
+                <div className="rb-mat-row">
+                  {/* Main Deck sits face-down for both players — only its SIZE is public info, never
+                      its contents (see PlayerState.mainDeck). One card-back stands in for the pile. */}
+                  <div className="rb-mat-zone rb-mat-zone-runedeck">
+                    <div className="rb-row">{opponent.runeDeck.length > 0 && <div className="rb-card-back rb-deck-pile" />}</div>
+                    <div className="rb-mat-zone-label">
+                      Gegner-Runendeck <span className="rb-count">{opponent.runeDeck.length}</span>
+                    </div>
                   </div>
-                  <div className="rb-row rb-hud-scroll-row">
-                    {[...opponent.trash].reverse().map((cardId, i) => (
-                      <CardFace key={i} card={getCard(cardId)} size="sm" />
-                    ))}
+                  {/* Runes sit face-up in a player's own play area in the physical game — visible to
+                      both sides, unlike the hand. */}
+                  <div className="rb-mat-zone rb-mat-zone-runepool">
+                    <div className="rb-rune-strip">
+                      {opponent.runePool.map((r) => (
+                        <div key={r.instanceId} className="rb-rune-slot" title={`${r.domain} Rune${r.exhausted ? " (exhausted)" : ""}`}>
+                          <CardFace card={getRuneCardForDomain(r.domain)} size="sm" rotated={r.exhausted} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="rb-mat-zone-label">
+                      Gegner-Runen <span className="rb-count">{opponent.runePool.length}</span>
+                    </div>
                   </div>
                 </div>
-              )}
+              </div>
+
+              <div className="rb-mat-narrow">
+                {/* Legend and Chosen Champion are public information (chosen at deck-build time, see
+                    docs/deck-building-rules.md) — shown face-up for both players, unlike the private hand. */}
+                <div className="rb-mat-row">
+                  <div className="rb-mat-zone rb-mat-zone-legend">
+                    {opponent.legend && <CardFace card={getCard(opponent.legend.cardId)} size="sm" />}
+                    <div className="rb-mat-zone-label">Gegner-Legend</div>
+                  </div>
+                  <div className="rb-mat-zone rb-mat-zone-champion">
+                    {opponent.championZone && <CardFace card={getCard(opponent.championZone)} size="sm" />}
+                    <div className="rb-mat-zone-label">Gegner-Champion</div>
+                  </div>
+                </div>
+
+                <div className="rb-mat-zone rb-mat-zone-deck">
+                  <div className="rb-row">{opponent.mainDeck.length > 0 && <div className="rb-card-back rb-deck-pile" />}</div>
+                  <div className="rb-mat-zone-label">
+                    Gegner-Deck <span className="rb-count">{opponent.mainDeck.length}</span>
+                  </div>
+                </div>
+
+                {opponent.hiddenZone.length > 0 && (
+                  <div className="rb-mat-zone rb-mat-zone-hidden">
+                    <div className="rb-row rb-hud-scroll-row">
+                      {opponent.hiddenZone.map((_, i) => (
+                        <div key={i} className="rb-card-back" />
+                      ))}
+                    </div>
+                    <div className="rb-mat-zone-label">
+                      Gegner-Verdeckt <span className="rb-count">{opponent.hiddenZone.length}</span>
+                    </div>
+                  </div>
+                )}
+
+                {opponent.trash.length > 0 && (
+                  <div className="rb-mat-zone rb-mat-zone-trash">
+                    {/* Trash is public information (see docs/rules-reference.md) — shown face-up,
+                        unlike hand/Hidden. Newest-on-top so the most recently trashed card is easy
+                        to spot. */}
+                    <div className="rb-row rb-hud-scroll-row">
+                      {[...opponent.trash].reverse().map((cardId, i) => (
+                        <CardFace key={i} card={getCard(cardId)} size="sm" />
+                      ))}
+                    </div>
+                    <div className="rb-mat-zone-label">
+                      Gegner-Trash <span className="rb-count">{opponent.trash.length}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="rb-hud-hand">
@@ -1444,69 +1461,19 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           );
         })()}
 
-        {/* Own side — mirrors the opponent strip above: Runes on their own line, then
-            Legend&Champion / Deck / Base / Hidden / Trash stacked in a narrow column beside the
-            Hand, which gets the remaining width (see .rb-hud in cards.css). */}
+        {/* Own side — mirrors the opponent strip above: a boxed "mat" (Base / Rune Deck+Runes /
+            Legend+Champion / Deck / Hidden / Trash) beside the Hand, which gets the remaining
+            width (see .rb-hud and .rb-mat in cards.css). */}
         <div className="rb-hud-side">
-          <div className="rb-section-label">
-            Rune Pool <span className="rb-count">{player.runePool.length}</span>
-          </div>
-          <div className="rb-rune-strip">
-            {player.runePool.map((r) => (
-              <div key={r.instanceId} className="rb-rune-slot" title={`${r.domain} Rune${r.exhausted ? " (exhausted)" : ""}`}>
-                <CardFace card={getRuneCardForDomain(r.domain)} size="sm" rotated={r.exhausted} />
-              </div>
-            ))}
-          </div>
-
           <div className="rb-hud-row">
-            <div className="rb-hud-col">
-              <div className="rb-hud-group">
-                <div className="rb-section-label">Legend &amp; Champ.</div>
-                <div className="rb-row">
-                  {player.legend && <CardFace card={getCard(player.legend.cardId)} size="sm" />}
-                  {championCard && (
-                    <CardFace
-                      card={championCard}
-                      size="sm"
-                      frame={simpleMode ? (championCanAfford ? "ok" : "blocked") : undefined}
-                      footer={
-                        canAct ? (
-                          <>
-                            <button onClick={() => playChampionAuto(false)}>Spielen</button>
-                            {championAmbushBattlefields.map((index) => (
-                              <button key={index} onClick={() => playChampionAuto(false, index)}>
-                                Zu Battlefield {index + 1}
-                              </button>
-                            ))}
-                          </>
-                        ) : undefined
-                      }
-                    />
-                  )}
-                </div>
-              </div>
-
-              {/* Main Deck sits face-down — only its SIZE is public info (see PlayerState.mainDeck).
-                  One card-back stands in for the whole pile. */}
-              <div className="rb-hud-group">
-                <div className="rb-section-label">
-                  Deck <span className="rb-count">{player.mainDeck.length}</span>
-                </div>
-                <div className="rb-row">
-                  {player.mainDeck.length > 0 && <div className="rb-card-back rb-deck-pile" title={`${player.mainDeck.length} Karten`} />}
-                </div>
-              </div>
-
-              <div className="rb-hud-group">
-                <div className="rb-section-label">
-                  Base <span className="rb-count">{player.base.length}</span>
-                </div>
-                <div
-                  className={`rb-row rb-hud-scroll-row rb-drop-zone rb-base-drop-zone${dragPayload?.type === "handCard" && dropHoverId === "base" ? " rb-drop-active" : ""}`}
-                  {...dropZone("base", (p) => p.type === "handCard")}
-                >
-                  {player.base.map((id) => {
+            <div className="rb-mat">
+              <div className="rb-mat-wide">
+                <div className="rb-mat-zone rb-mat-zone-base">
+                  <div
+                    className={`rb-row rb-hud-scroll-row rb-drop-zone rb-base-drop-zone${dragPayload?.type === "handCard" && dropHoverId === "base" ? " rb-drop-active" : ""}`}
+                    {...dropZone("base", (p) => p.type === "handCard")}
+                  >
+                    {player.base.map((id) => {
           const instance = G.instances[id];
           const card = getCard(instance.cardId);
           const isUnit = card.type === "unit" || card.type === "champion";
@@ -1564,73 +1531,142 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
             />
           );
         })}
+                  </div>
+                  <div className="rb-mat-zone-label">
+                    Base <span className="rb-count">{player.base.length}</span>
+                  </div>
+                </div>
+
+                <div className="rb-mat-row">
+                  {/* Main Deck sits face-down — only its SIZE is public info (see
+                      PlayerState.mainDeck). One card-back stands in for the whole pile. */}
+                  <div className="rb-mat-zone rb-mat-zone-runedeck">
+                    <div className="rb-row">
+                      {player.runeDeck.length > 0 && <div className="rb-card-back rb-deck-pile" title={`${player.runeDeck.length} Runen`} />}
+                    </div>
+                    <div className="rb-mat-zone-label">
+                      Runendeck <span className="rb-count">{player.runeDeck.length}</span>
+                    </div>
+                  </div>
+                  <div className="rb-mat-zone rb-mat-zone-runepool">
+                    <div className="rb-rune-strip">
+                      {player.runePool.map((r) => (
+                        <div key={r.instanceId} className="rb-rune-slot" title={`${r.domain} Rune${r.exhausted ? " (exhausted)" : ""}`}>
+                          <CardFace card={getRuneCardForDomain(r.domain)} size="sm" rotated={r.exhausted} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="rb-mat-zone-label">
+                      Runen <span className="rb-count">{player.runePool.length}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {player.hiddenZone.length > 0 && (
-                <div className="rb-hud-group">
-                  <div className="rb-section-label">
-                    Verdeckt <span className="rb-count">{player.hiddenZone.length}</span>
+              <div className="rb-mat-narrow">
+                <div className="rb-mat-row">
+                  <div className="rb-mat-zone rb-mat-zone-legend">
+                    {player.legend && <CardFace card={getCard(player.legend.cardId)} size="sm" />}
+                    <div className="rb-mat-zone-label">Legend</div>
                   </div>
-                  <div className="rb-row rb-hud-scroll-row">
-                    {player.hiddenZone.map((hidden, idx) => {
-                      const card = getCard(hidden.cardId);
-                      // Rule 811.1.b: playable no earlier than the turn AFTER it was hidden.
-                      const eligible = ctx.turn > hidden.hiddenOnGameTurn;
-                      return (
-                        <CardFace
-                          key={idx}
-                          card={card}
-                          size="sm"
-                          footer={
-                            canAct ? (
-                              eligible ? (
-                                <button onClick={() => playFromHiddenAuto(idx)}>
-                                  Aufdecken (kostenlos) → Battlefield {hidden.battlefieldIndex + 1}
+                  <div className="rb-mat-zone rb-mat-zone-champion">
+                    {championCard && (
+                      <CardFace
+                        card={championCard}
+                        size="sm"
+                        frame={simpleMode ? (championCanAfford ? "ok" : "blocked") : undefined}
+                        footer={
+                          canAct ? (
+                            <>
+                              <button onClick={() => playChampionAuto(false)}>Spielen</button>
+                              {championAmbushBattlefields.map((index) => (
+                                <button key={index} onClick={() => playChampionAuto(false, index)}>
+                                  Zu Battlefield {index + 1}
                                 </button>
-                              ) : (
-                                <span>Ab nächstem Zug spielbar (Battlefield {hidden.battlefieldIndex + 1})</span>
-                              )
-                            ) : undefined
-                          }
-                        />
-                      );
-                    })}
+                              ))}
+                            </>
+                          ) : undefined
+                        }
+                      />
+                    )}
+                    <div className="rb-mat-zone-label">Champion</div>
                   </div>
                 </div>
-              )}
 
-              {player.trash.length > 0 && (
-                <div className="rb-hud-group">
-                  <div className="rb-section-label">
-                    Trash <span className="rb-count">{player.trash.length}</span>
+                <div className="rb-mat-zone rb-mat-zone-deck">
+                  <div className="rb-row">
+                    {player.mainDeck.length > 0 && <div className="rb-card-back rb-deck-pile" title={`${player.mainDeck.length} Karten`} />}
                   </div>
-                  <div className="rb-row rb-hud-scroll-row">
-                    {player.trash
-                      .map((cardId, trashIndex) => ({ cardId, trashIndex }))
-                      .reverse()
-                      .map(({ cardId, trashIndex }) => {
-                        const card = getCard(cardId);
+                  <div className="rb-mat-zone-label">
+                    Deck <span className="rb-count">{player.mainDeck.length}</span>
+                  </div>
+                </div>
+
+                {player.hiddenZone.length > 0 && (
+                  <div className="rb-mat-zone rb-mat-zone-hidden">
+                    <div className="rb-row rb-hud-scroll-row">
+                      {player.hiddenZone.map((hidden, idx) => {
+                        const card = getCard(hidden.cardId);
+                        // Rule 811.1.b: playable no earlier than the turn AFTER it was hidden.
+                        const eligible = ctx.turn > hidden.hiddenOnGameTurn;
                         return (
                           <CardFace
-                            key={trashIndex}
+                            key={idx}
                             card={card}
                             size="sm"
                             footer={
-                              canAct && card.flowCost ? (
-                                <button onClick={() => playFromTrashAuto(trashIndex)}>
-                                  +Flow ({Math.max(0, card.flowCost.energy - SpecialCaseEngine.flowEnergyReductionForController(G, getCard, me!, card.flowCost.energy))}E
-                                  {card.flowCost.runeDomain ? `+${card.flowCost.runeDomainCount > 1 ? card.flowCost.runeDomainCount : ""}${card.flowCost.runeDomain}` : ""}
-                                  {card.flowCost.anyDomainRuneCount > 0 ? `+${card.flowCost.anyDomainRuneCount}Rune` : ""})
-                                </button>
+                              canAct ? (
+                                eligible ? (
+                                  <button onClick={() => playFromHiddenAuto(idx)}>
+                                    Aufdecken (kostenlos) → Battlefield {hidden.battlefieldIndex + 1}
+                                  </button>
+                                ) : (
+                                  <span>Ab nächstem Zug spielbar (Battlefield {hidden.battlefieldIndex + 1})</span>
+                                )
                               ) : undefined
                             }
                           />
                         );
                       })}
+                    </div>
+                    <div className="rb-mat-zone-label">
+                      Verdeckt <span className="rb-count">{player.hiddenZone.length}</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+
+                {player.trash.length > 0 && (
+                  <div className="rb-mat-zone rb-mat-zone-trash">
+                    <div className="rb-row rb-hud-scroll-row">
+                      {player.trash
+                        .map((cardId, trashIndex) => ({ cardId, trashIndex }))
+                        .reverse()
+                        .map(({ cardId, trashIndex }) => {
+                          const card = getCard(cardId);
+                          return (
+                            <CardFace
+                              key={trashIndex}
+                              card={card}
+                              size="sm"
+                              footer={
+                                canAct && card.flowCost ? (
+                                  <button onClick={() => playFromTrashAuto(trashIndex)}>
+                                    +Flow ({Math.max(0, card.flowCost.energy - SpecialCaseEngine.flowEnergyReductionForController(G, getCard, me!, card.flowCost.energy))}E
+                                    {card.flowCost.runeDomain ? `+${card.flowCost.runeDomainCount > 1 ? card.flowCost.runeDomainCount : ""}${card.flowCost.runeDomain}` : ""}
+                                    {card.flowCost.anyDomainRuneCount > 0 ? `+${card.flowCost.anyDomainRuneCount}Rune` : ""})
+                                  </button>
+                                ) : undefined
+                              }
+                            />
+                          );
+                        })}
+                    </div>
+                    <div className="rb-mat-zone-label">
+                      Trash <span className="rb-count">{player.trash.length}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="rb-hud-hand">

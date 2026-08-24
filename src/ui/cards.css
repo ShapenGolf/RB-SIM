@@ -626,25 +626,70 @@ body {
   align-items: flex-start;
   min-width: 0;
 }
-.rb-hud-col {
+/* Mirrors the physical Riftbound playmat's bordered zone boxes: a wide column (Base, then
+   Rune Deck beside the channeled Rune Pool) next to a narrow column (Legend + Champion
+   side by side on top, then Deck, then Hidden/Trash stacked below) — see the reference
+   playmat image a playtester provided. Battlefield itself is shared table space, not
+   per-player, so it stays out of this per-side mat (see .rb-battlefields). */
+.rb-mat {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-  align-items: flex-start;
-  flex-shrink: 0;
+  gap: 6px;
+  min-width: 0;
 }
-.rb-hud-group {
+.rb-mat-wide {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
-.rb-hud-group .rb-section-label {
-  margin: 0;
+.rb-mat-narrow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
 }
-.rb-hud-group .rb-row {
-  margin: 0;
+.rb-mat-row {
+  display: flex;
+  gap: 4px;
+}
+.rb-mat-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid #2f3542;
+  border-radius: 6px;
+  background: var(--bg-panel-alt);
+  padding: 4px 6px 3px;
+  min-width: 0;
+}
+.rb-mat-zone-legend,
+.rb-mat-zone-champion {
+  flex: 1;
+  align-items: center;
+}
+.rb-mat-zone-runedeck {
+  flex: 0 0 auto;
+}
+.rb-mat-zone-runepool {
+  flex: 1;
+  min-width: 0;
+}
+.rb-mat-zone-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.rb-mat-zone-label .rb-count {
+  background: #1f2937;
+  border-radius: 999px;
+  padding: 0 6px;
+  font-size: 9px;
 }
 .rb-hud-hand {
   flex: 1;
