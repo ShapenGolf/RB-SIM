@@ -101,8 +101,28 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* boardgame.io's own Client() (react package) wraps the rendered board in an
+   undocumented `<div class="bgio-client">` between .rb-panel and .rb-board. It ships
+   with no sizing rules of its own, so as a plain block child of .rb-panel's row-flex
+   context it shrinks to its content's natural width — same failure mode as .rb-board
+   below, just one layer up — capping the whole board short of the panel's real width
+   (the "only uses the left half of the screen" regression). Must stretch explicitly. */
+.rb-panel > .bgio-client {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  display: flex;
+}
+
 .rb-board {
   padding: 8px 12px 10px;
+  /* .rb-panel is a row flex container (see above, for height:100% stretch) — without an explicit
+     `flex`, a plain block-ish child there sizes to its own content's natural width instead of
+     filling the panel, capping the whole board at a few hundred px regardless of window size
+     (a real regression a playtester hit: "only using the left half of the screen"). */
+  flex: 1;
+  width: 100%;
   height: 100%;
   min-width: 0;
   display: flex;
