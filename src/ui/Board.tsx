@@ -28,6 +28,17 @@ import "./cards.css";
  * hover-zoom preview's portal-to-<body> docking (see CardFace.tsx) by re-anchoring it inside the
  * tiny, overlapping-neighbor card box instead of the fixed viewport corner it's meant to dock in.
  */
+/**
+ * The fan's layout math (handFanStyle below) always spreads across at least this many slots,
+ * even when the hand holds fewer real cards — early turns otherwise had 3-4 cards fanned across
+ * a tiny arc pinned to the left edge of the Hand area (see the render below, which fills the
+ * remaining slots with faint placeholder outlines): cramped-looking, and every drawn card shifted
+ * the WHOLE existing fan's rotation/spacing since `total` grew with hand size. Slot index is
+ * simply hand order, so a placeholder always sits at the far end (highest slot), never between
+ * real cards — drawing one just fills the next placeholder in place instead of reflowing anything.
+ */
+const HAND_FAN_SLOTS = 8;
+
 function handFanStyle(
   idx: number,
   total: number,
@@ -1722,7 +1733,9 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                 Hand <span className="rb-count">{player.hand.length}</span>
               </div>
               <div className="rb-hand-strip">
-                {player.hand.map((cardId, idx) => {
+                {(() => {
+                  const fanSlots = Math.max(HAND_FAN_SLOTS, player.hand.length);
+                  return player.hand.map((cardId, idx) => {
           const card = getCard(cardId);
           const hasAccelerate = KeywordEngine.hasKeyword(card, "accelerate");
           const hasHidden = KeywordEngine.hasKeyword(card, "hidden");
@@ -1732,7 +1745,7 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
           const canAfford = computeAutoPayment(G, card, dummyInstance, player.runePool, false) !== null;
           const isChampion = card.type === "champion";
           const ambushBattlefields = eligibleAmbushBattlefields(G, card, dummyInstance);
-          const fan = handFanStyle(idx, player.hand.length, hoveredHandIndex);
+          const fan = handFanStyle(idx, fanSlots, hoveredHandIndex);
           return (
             <CardFace
               key={idx}
@@ -1784,7 +1797,18 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               }
             />
           );
-        })}
+                  });
+                })()}
+                {Array.from({ length: Math.max(HAND_FAN_SLOTS - player.hand.length, 0) }, (_, i) => {
+                  const idx = player.hand.length + i;
+                  const fanSlots = Math.max(HAND_FAN_SLOTS, player.hand.length);
+                  const fan = handFanStyle(idx, fanSlots, hoveredHandIndex);
+                  return (
+                    <div key={`hand-slot-${idx}`} className="rb-card-wrap rb-card-ghost" style={fan.wrapperStyle}>
+                      <div className="rb-card rb-card-placeholder" style={fan.cardStyle} />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

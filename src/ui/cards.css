@@ -888,6 +888,22 @@ body {
   transition: transform 0.15s ease;
 }
 
+/* Empty hand-fan slots (see HAND_FAN_SLOTS in Board.tsx) — faint dashed outlines standing in for
+   cards not drawn yet, so an early-game hand of 3-4 cards still fans out across the same width a
+   fuller hand would use instead of bunching in the corner, and so drawing a card visibly "fills a
+   slot" rather than reflowing the whole fan. Non-interactive: no hover-zoom, nothing to click. */
+.rb-card-ghost {
+  pointer-events: none;
+}
+.rb-card-placeholder {
+  width: 108px;
+  aspect-ratio: 744 / 1039;
+  border: 1.5px dashed rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: none;
+}
+
 .rb-callout {
   border-radius: 10px;
   padding: 8px 10px;
