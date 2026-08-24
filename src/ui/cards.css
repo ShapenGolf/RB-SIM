@@ -847,15 +847,29 @@ body {
   cursor: pointer;
 }
 
+/* Cards held "in hand": overlapping, fanned outward from a center card, anchored to the bottom
+   edge — see handFanStyle() in Board.tsx, which sets each card's rotation/overlap/z-index (and,
+   on hover, straightens + lifts + scales that one card while pushing its neighbors aside so the
+   overlap that makes the fan compact doesn't also hide it). gap:0 here because the overlap is
+   entirely marginLeft (per-card, needs to vary with hand size) — a nonzero gap would just add a
+   constant on top of that. padding-top makes room for the hover-lift so it doesn't clip against
+   this container's own box; overflow-y stays visible (not auto/hidden) so that lift is never cut
+   off — per spec that also flips overflow-x from auto to auto-but-cooperating, which is fine,
+   horizontal scrolling for an oversized hand still works exactly as before. */
 .rb-hand-strip {
   display: flex;
-  gap: 8px;
+  gap: 0;
   overflow-x: auto;
-  overflow-y: hidden;
-  padding: 4px 2px 6px;
-  align-items: flex-start;
+  overflow-y: visible;
+  padding: 26px 6px 6px;
+  align-items: flex-end;
   flex: 1;
   min-height: 0;
+}
+.rb-hand-strip .rb-card-wrap {
+  position: relative;
+  transform-origin: bottom center;
+  transition: transform 0.15s ease;
 }
 
 .rb-callout {

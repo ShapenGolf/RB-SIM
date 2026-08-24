@@ -38,6 +38,9 @@ export function CardFace({
   dropActive,
   dragging,
   equippedGear,
+  wrapperStyle,
+  onMouseEnter,
+  onMouseLeave,
 }: {
   card: Card;
   instance?: CardInstance;
@@ -67,6 +70,10 @@ export function CardFace({
   dragging?: boolean;
   /** Gear cards currently attached to this unit/champion (resolved from `instance.equipment`'s instanceIds by the caller, which has `getCard`/`G.instances` — see Board.tsx). Shown as small thumbnails next to the hover-zoom preview, in addition to the small 🗡N badge on the card face itself — the badge alone doesn't say WHICH gear. */
   equippedGear?: Card[];
+  /** Inline style for the outer .rb-card-wrap — used by the Hand fan (see Board.tsx) to position each card's rotation/lift/z-index without a bespoke wrapper per caller. */
+  wrapperStyle?: React.CSSProperties;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }) {
   const domainKey = DOMAIN_VAR[card.domains[0]] ?? "colorless";
   const rarityKey = card.rarity ? (RARITY_VAR[card.rarity] ?? "common") : "common";
@@ -96,7 +103,7 @@ export function CardFace({
   } as React.CSSProperties;
 
   return (
-    <div className="rb-card-wrap">
+    <div className="rb-card-wrap" style={wrapperStyle} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div
         className={classes}
         style={cssVars}

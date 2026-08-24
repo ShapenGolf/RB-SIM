@@ -15,6 +15,29 @@ import { listSavedDecks } from "../decks/store";
 import { CardFace } from "./CardFace";
 import "./cards.css";
 
+/**
+ * Per-card transform for the "fanned hand" look (see hoveredHandIndex above and .rb-hand-strip
+ * in cards.css) — cards rotate outward from a center card like a hand of playing cards, and the
+ * hovered one straightens, lifts clear, and scales up while its neighbors slide out of its way
+ * (falling off with distance) so the overlap that makes the fan compact doesn't also hide it.
+ */
+function handFanStyle(idx: number, total: number, hoveredIndex: number | null): React.CSSProperties {
+  const offset = idx - (total - 1) / 2;
+  const isHovered = hoveredIndex === idx;
+  const rotate = isHovered ? 0 : Math.max(-16, Math.min(16, offset * 5));
+  const restY = Math.min(Math.abs(offset) * 3, 14);
+  let shiftX = 0;
+  if (hoveredIndex !== null && !isHovered) {
+    const distance = idx - hoveredIndex;
+    shiftX = Math.sign(distance) * Math.min(16, 26 / Math.abs(distance));
+  }
+  return {
+    marginLeft: idx === 0 ? 0 : -34,
+    transform: `translateX(${shiftX}px) translateY(${isHovered ? -22 : restY}px) rotate(${rotate}deg) scale(${isHovered ? 1.12 : 1})`,
+    zIndex: isHovered ? 200 : idx + 1,
+  };
+}
+
 export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameState>) {
   const [mulliganSelected, setMulliganSelected] = useState<Set<number>>(new Set());
   const [attackMode, setAttackMode] = useState<{ selected: Set<string> } | null>(null);
@@ -65,6 +88,11 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
     { type: "gear"; gearInstanceId: string } | { type: "handCard"; handIndex: number } | { type: "unit"; instanceId: string } | null
   >(null);
   const [dropHoverId, setDropHoverId] = useState<string | null>(null);
+  // Which own-hand card index the pointer is currently over — drives the "fanned hand" look
+  // (see the Hand render below and .rb-hand-strip in cards.css): every card gets a slight
+  // rotation/overlap like cards held in a hand, and the hovered one straightens up, lifts clear,
+  // and pushes its neighbors aside so it's fully readable despite the overlap.
+  const [hoveredHandIndex, setHoveredHandIndex] = useState<number | null>(null);
   // Tracks which G.lastCombatResult.seq the player has already closed, so the post-combat
   // summary panel (see below, rendered near the topbar) reappears for every NEW Showdown but
   // stays dismissed for the one currently on screen — comparing seq (not identity) means it
@@ -1693,6 +1721,9 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               dragging={dragPayload?.type === "handCard" && dragPayload.handIndex === idx}
               onDragStart={canAct ? dragStart({ type: "handCard", handIndex: idx }) : undefined}
               onDragEnd={dragEnd}
+              wrapperStyle={handFanStyle(idx, player.hand.length, hoveredHandIndex)}
+              onMouseEnter={() => setHoveredHandIndex(idx)}
+              onMouseLeave={() => setHoveredHandIndex((current) => (current === idx ? null : current))}
               footer={
                 canAct ? (
                   <>
