@@ -854,16 +854,23 @@ body {
    on hover, straightens + lifts + scales that one card while pushing its neighbors aside so the
    overlap that makes the fan compact doesn't also hide it). gap:0 here because the overlap is
    entirely marginLeft (per-card, needs to vary with hand size) — a nonzero gap would just add a
-   constant on top of that. padding-top makes room for the hover-lift so it doesn't clip against
-   this container's own box; overflow-y stays visible (not auto/hidden) so that lift is never cut
-   off — per spec that also flips overflow-x from auto to auto-but-cooperating, which is fine,
-   horizontal scrolling for an oversized hand still works exactly as before. */
+   constant on top of that. padding reserves room for the rotated/lifted/scaled cards' actual
+   rendered bounding box, which extends past their unrotated layout slot on every side — without
+   it, the outer (most-rotated) cards' corners get clipped by this element's own overflow-x, and
+   the hovered card's lift+scale gets clipped by .rb-hud-side's overflow-y above (a playtester hit
+   both). Left/right padding can be generous — the fan's rotation is capped, and horizontal room
+   here doesn't compete with anything (.rb-hud-side's 38%-max-height cap is a VERTICAL budget only,
+   see below) — but padding-top has to stay as tight as handFanStyle()'s actual growth allows,
+   since every extra px there eats directly into that same tight vertical budget. overflow-y stays
+   visible (not auto/hidden) so the lift is never cut off there either; per spec that also flips
+   overflow-x from auto to auto-but-cooperating, which is fine — horizontal scrolling for an
+   oversized hand still works exactly as before. */
 .rb-hand-strip {
   display: flex;
   gap: 0;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 26px 6px 6px;
+  padding: 32px 36px 10px;
   align-items: flex-end;
   flex: 1;
   min-height: 0;

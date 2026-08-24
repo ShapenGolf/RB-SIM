@@ -35,8 +35,13 @@ function handFanStyle(
 ): { wrapperStyle: React.CSSProperties; cardStyle: React.CSSProperties } {
   const offset = idx - (total - 1) / 2;
   const isHovered = hoveredIndex === idx;
-  const rotate = isHovered ? 0 : Math.max(-16, Math.min(16, offset * 5));
-  const restY = Math.min(Math.abs(offset) * 3, 14);
+  // Kept modest (vs. an earlier, showier pass) so the rotated/lifted/scaled card's rendered
+  // bounding box stays inside the room .rb-hand-strip reserves for it (see its padding in
+  // cards.css) — the HUD's own no-scroll budget is tight (see .rb-hud-side's 38% cap), so a
+  // playtester's screenshot showed the fan's outer cards getting clipped by the strip's own
+  // overflow instead of extending the boundary further.
+  const rotate = isHovered ? 0 : Math.max(-12, Math.min(12, offset * 3.5));
+  const restY = Math.min(Math.abs(offset) * 2, 10);
   let shiftX = 0;
   if (hoveredIndex !== null && !isHovered) {
     const distance = idx - hoveredIndex;
@@ -48,7 +53,7 @@ function handFanStyle(
       zIndex: isHovered ? 200 : idx + 1,
     },
     cardStyle: {
-      transform: `translateX(${shiftX}px) translateY(${isHovered ? -22 : restY}px) rotate(${rotate}deg) scale(${isHovered ? 1.12 : 1})`,
+      transform: `translateX(${shiftX}px) translateY(${isHovered ? -16 : restY}px) rotate(${rotate}deg) scale(${isHovered ? 1.07 : 1})`,
     },
   };
 }
