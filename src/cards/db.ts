@@ -3,11 +3,24 @@ import type { ActivatedAbility, TemplatedEffect } from "./templatedEffects";
 import starterSetData from "./data/starter-set.json";
 import tokensData from "./data/tokens.json";
 import officialCatalogData from "./data/official-catalog.json";
+import homebrewSetData from "./data/homebrew-set.json";
 import templatedEffectsData from "./data/templated-effects.json";
 import activatedAbilitiesData from "./data/activated-abilities.json";
 import specialCaseAssignmentsData from "./data/special-case-assignments.json";
 
 const starterSet = starterSetData as Card[];
+/**
+ * Original, hand-authored cards for this simulator's own "Corvenna" class (Legend, 2 Champions,
+ * supporting Units/Spells/Gear) — NOT part of the official Riftbound catalog, and not meant to
+ * look like it: every entry carries a "Homebrew" sourceNote, uses the "hb-" id prefix and "HB"
+ * setCode (kept out of officialCardIds below, same as starterSet/tokens), and every mechanic used
+ * is an EXISTING keyword/templatedEffect/activatedAbility shape already supported by the engine —
+ * see src/keywords/handlers/ and cards/templatedEffects.ts — so no bespoke game-logic code was
+ * needed to make it playable. Exposed to the deck builder via listPlayableCards() below (unlike
+ * starterSet's synthetic fixtures, which stay hidden — this is real, complete, intentional content
+ * a player can actually build a legal deck around).
+ */
+const homebrewSet = homebrewSetData as Card[];
 // Synthetic unit tokens created directly by card effects (e.g. "play a 3 Might Sprite unit
 // token") — not part of the official card gallery, since tokens don't have real print IDs.
 // See src/cards/data/tokens.json and game/setup.ts createInstance.
@@ -96,7 +109,7 @@ function parseFlowCost(
 }
 
 export const cardDatabase: CardDatabase = Object.fromEntries(
-  [...officialCatalog, ...starterSet, ...tokens].map((card) => {
+  [...officialCatalog, ...starterSet, ...tokens, ...homebrewSet].map((card) => {
     const extras: Partial<Card> = {};
     if (templatedEffects[card.id]) extras.templatedEffect = templatedEffects[card.id];
     if (activatedAbilities[card.id]) extras.activatedAbility = activatedAbilities[card.id];
@@ -185,14 +198,25 @@ export function getRuneCardForDomain(domain: Domain): Card {
 }
 
 const officialCardIds = new Set(officialCatalog.map((c) => c.id));
+const homebrewCardIds = new Set(homebrewSet.map((c) => c.id));
 
 /**
  * Real, official Riftbound cards only — excludes src/cards/data/starter-set.json's synthetic
  * test fixtures (unverified placeholders built to exercise the keyword engine before the real
- * catalog existed, e.g. "(Test Fixture) Plain Footman") and tokens.json's play-generated unit
- * tokens. Use this (not `cardDatabase`) for any player-facing card listing, e.g. the deck
- * builder — a real player should never see fixture cards when building a deck.
+ * catalog existed, e.g. "(Test Fixture) Plain Footman"), tokens.json's play-generated unit
+ * tokens, and homebrewSet (see listPlayableCards below).
  */
 export function listOfficialCards(): Card[] {
   return Object.values(cardDatabase).filter((c) => officialCardIds.has(c.id));
+}
+
+/**
+ * Every card a player should be able to actually build a deck with: the official catalog plus
+ * this simulator's own homebrewSet — but still never starterSet's synthetic fixtures or tokens'
+ * play-generated tokens, same reasoning as listOfficialCards above (a real player should never
+ * see fixture cards when building a deck). Use this (not `cardDatabase` or `listOfficialCards`)
+ * for the deck builder's card pool.
+ */
+export function listPlayableCards(): Card[] {
+  return Object.values(cardDatabase).filter((c) => officialCardIds.has(c.id) || homebrewCardIds.has(c.id));
 }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { getCard, listOfficialCards } from "../cards/db";
+import { getCard, listPlayableCards } from "../cards/db";
 import type { Card, CardType } from "../cards/types";
 import { validateDeck, copyLimitFor, MAIN_DECK_MAX, type DeckList } from "../cards/deckValidation";
 import { deleteDeck, listSavedDecks, saveDeck, type SavedDeck } from "../decks/store";
@@ -20,7 +20,7 @@ function groupCounts(ids: string[]): Map<string, number> {
   return counts;
 }
 
-const ALL_CARDS = listOfficialCards();
+const ALL_CARDS = listPlayableCards();
 const ALL_LEGENDS = ALL_CARDS.filter((c) => c.type === "legend").sort((a, b) => a.name.localeCompare(b.name));
 const ALL_RUNES = ALL_CARDS.filter((c) => c.type === "rune");
 const ALL_BATTLEFIELDS = ALL_CARDS.filter((c) => c.type === "battlefield").sort((a, b) => a.name.localeCompare(b.name));
