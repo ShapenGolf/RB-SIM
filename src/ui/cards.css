@@ -637,6 +637,15 @@ body {
   display: flex;
   gap: 6px;
   min-width: 0;
+  /* Without an explicit flex-grow, this defaults to flex:0 1 auto — shrinking to whatever its
+     content settles for instead of claiming a fair share of .rb-hud-row's width, while
+     .rb-hud-hand's flex:1 greedily ate everything left over. Since the Rune Pool (see
+     .rb-mat-zone-runepool below) can flex-shrink its slots all the way down to a 26px floor,
+     "whatever it settles for" could be quite cramped — a playtester found their runes shrunk
+     down to barely-recognizable dots. Outweighing .rb-hud-hand's flex:1 here (Hand already reads
+     fine compact — its own fan+shrink system, see .rb-hand-strip, was built for exactly that)
+     gives the Rune Pool the room it actually needs before any of its own slots have to shrink. */
+  flex: 1.6;
 }
 .rb-mat-wide {
   display: flex;
