@@ -1007,12 +1007,16 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                       key={idx}
                       card={getCard(cardId)}
                       size="sm"
-                      footer={<button onClick={() => playCardAuto(idx, false)}>Reagieren</button>}
+                      footer={
+                        <button onClick={() => playCardAuto(idx, false)} title="Spielt diese [Reaction]-Karte jetzt, bevor der Gegner-Zauber/-Angriff sich auflöst.">
+                          Reagieren
+                        </button>
+                      }
                     />
                   ))}
                 </div>
               )}
-              <button className="cancel" onClick={() => moves.passReaction()}>
+              <button className="cancel" onClick={() => moves.passReaction()} title="Nichts spielen — der Gegner-Zauber löst sich normal auf.">
                 Passen
               </button>
             </>
@@ -1037,12 +1041,16 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                       key={idx}
                       card={getCard(cardId)}
                       size="sm"
-                      footer={<button onClick={() => playCardAuto(idx, false)}>Reagieren</button>}
+                      footer={
+                        <button onClick={() => playCardAuto(idx, false)} title="Spielt diese [Reaction]-Karte jetzt, bevor der Gegner-Zauber/-Angriff sich auflöst.">
+                          Reagieren
+                        </button>
+                      }
                     />
                   ))}
                 </div>
               )}
-              <button className="cancel" onClick={() => moves.passCombatReaction()}>
+              <button className="cancel" onClick={() => moves.passCombatReaction()} title="Nichts spielen — der Angriff löst sich normal auf.">
                 Passen
               </button>
             </>
@@ -1570,18 +1578,29 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                 canAct && (card.equipCost || canActivate || canEmpower) ? (
                   <>
                     {card.equipCost && (
-                      <button onClick={() => startEquip(id)}>
-                        Anlegen E{card.equipCost.energy}
-                        {card.equipCost.runeDomain ? `+${card.equipCost.runeDomain}` : ""}
+                      <button
+                        onClick={() => startEquip(id)}
+                        title={`Rüste diese Ausrüstungskarte an eine deiner Einheiten an — kostet ${card.equipCost.energy} Energy${card.equipCost.runeDomain ? ` + 1 ${card.equipCost.runeDomain}-Rune` : ""}.`}
+                      >
+                        Anlegen (E{card.equipCost.energy}
+                        {card.equipCost.runeDomain ? ` + ${card.equipCost.runeDomain}` : ""})
                       </button>
                     )}
                     {canActivate && (
-                      <button onClick={() => activateAbilityAuto(id)}>Aktivieren E{ability!.energy}</button>
+                      <button
+                        onClick={() => activateAbilityAuto(id)}
+                        title={`Löst die aufgedruckte Fähigkeit dieser Karte aus — kostet ${ability!.energy} Energy und erschöpft die Karte.`}
+                      >
+                        Aktivieren (E{ability!.energy})
+                      </button>
                     )}
                     {canEmpower && (
-                      <button onClick={() => empowerAuto(id)}>
-                        Empower E{empowerCost!.energy}
-                        {empowerCost!.runeDomain ? `+${empowerCost!.runeDomain}` : ""}
+                      <button
+                        onClick={() => empowerAuto(id)}
+                        title={`Macht diese Karte dauerhaft "Empowered" (schaltet ihren [Empowered]-Bonustext frei) — kostet ${empowerCost!.energy} Energy${empowerCost!.runeDomain ? ` + 1 ${empowerCost!.runeDomain}-Rune` : ""}, nur einmal pro Karte möglich.`}
+                      >
+                        Empower (E{empowerCost!.energy}
+                        {empowerCost!.runeDomain ? ` + ${empowerCost!.runeDomain}` : ""})
                       </button>
                     )}
                   </>
@@ -1637,9 +1656,15 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                         footer={
                           canAct ? (
                             <>
-                              <button onClick={() => playChampionAuto(false)}>Spielen</button>
+                              <button onClick={() => playChampionAuto(false)} title="Spielt deinen Champion in deine Base.">
+                                Spielen (→ Base)
+                              </button>
                               {championAmbushBattlefields.map((index) => (
-                                <button key={index} onClick={() => playChampionAuto(false, index)}>
+                                <button
+                                  key={index}
+                                  onClick={() => playChampionAuto(false, index)}
+                                  title={`[Ambush] Spielt deinen Champion direkt zu Battlefield ${index + 1} statt in deine Base.`}
+                                >
                                   Zu Battlefield {index + 1}
                                 </button>
                               ))}
@@ -1676,7 +1701,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                             footer={
                               canAct ? (
                                 eligible ? (
-                                  <button onClick={() => playFromHiddenAuto(idx)}>
+                                  <button
+                                    onClick={() => playFromHiddenAuto(idx)}
+                                    title={`Deckt diese verdeckt gespielte Karte kostenlos auf und spielt sie an Battlefield ${hidden.battlefieldIndex + 1} — dort, wo sie verdeckt liegt.`}
+                                  >
                                     Aufdecken (kostenlos) → Battlefield {hidden.battlefieldIndex + 1}
                                   </button>
                                 ) : (
@@ -1709,7 +1737,10 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
                               size="sm"
                               footer={
                                 canAct && card.flowCost ? (
-                                  <button onClick={() => playFromTrashAuto(trashIndex)}>
+                                  <button
+                                    onClick={() => playFromTrashAuto(trashIndex)}
+                                    title="[Flow] Spielt diese Karte direkt aus deinem Trash (statt aus der Hand) für den unten stehenden Sonderpreis — danach wird sie verbannt statt wieder in den Trash zu gehen."
+                                  >
                                     +Flow ({Math.max(0, card.flowCost.energy - SpecialCaseEngine.flowEnergyReductionForController(G, getCard, me!, card.flowCost.energy))}E
                                     {card.flowCost.runeDomain ? `+${card.flowCost.runeDomainCount > 1 ? card.flowCost.runeDomainCount : ""}${card.flowCost.runeDomain}` : ""}
                                     {card.flowCost.anyDomainRuneCount > 0 ? `+${card.flowCost.anyDomainRuneCount}Rune` : ""})
@@ -1762,33 +1793,79 @@ export function Board({ G, ctx, moves, playerID, isActive }: BoardProps<GameStat
               footer={
                 canAct ? (
                   <>
-                    <button onClick={() => playCardAuto(idx, false)}>Spielen</button>
-                    <button onClick={() => startManualPayment(idx, false)}>Manuell zahlen</button>
-                    {hasAccelerate && <button onClick={() => playCardAuto(idx, true)}>+Accelerate</button>}
+                    <button
+                      onClick={() => playCardAuto(idx, false)}
+                      title={
+                        card.type === "spell"
+                          ? "Wirkt den Zauber sofort (löst seinen Effekt aus, wandert danach in den Trash). Bezahlt automatisch mit deinen Runen."
+                          : card.type === "gear"
+                            ? "Spielt die Ausrüstung offen aus. Danach bei einer Einheit in deiner Base über deren 'Anlegen'-Knopf anlegen."
+                            : "Spielt die Karte in deine Base. Bezahlt automatisch mit deinen Runen."
+                      }
+                    >
+                      Spielen
+                    </button>
+                    <button
+                      onClick={() => startManualPayment(idx, false)}
+                      title="Wie 'Spielen', aber DU wählst selbst, welche Runen exhaustet (für Energy) oder recycelt (für Power) werden, statt dass es automatisch passiert."
+                    >
+                      Manuell zahlen
+                    </button>
+                    {hasAccelerate && (
+                      <button
+                        onClick={() => playCardAuto(idx, true)}
+                        title="[Accelerate] Zahlt einen Energy-Aufpreis, damit die Einheit sofort BEREIT (nicht erschöpft) ins Spiel kommt, statt wie normal erschöpft."
+                      >
+                        +Accelerate
+                      </button>
+                    )}
                     {discardCostConfig && (
-                      <button onClick={() => playCardAuto(idx, true)}>
+                      <button
+                        onClick={() => playCardAuto(idx, true)}
+                        title={`Wirf ${discardCostConfig.discardCount} weitere Handkarte(n) ab, um beim Spielen ${discardCostConfig.energyReduction} Energy zu sparen.`}
+                      >
                         Discard {discardCostConfig.discardCount} (-{discardCostConfig.energyReduction}E)
                       </button>
                     )}
                     {bonusEffectEnergy !== undefined && (
-                      <button onClick={() => playCardAuto(idx, true)}>+{bonusEffectEnergy}E Bonus</button>
+                      <button
+                        onClick={() => playCardAuto(idx, true)}
+                        title={`Zahlt ${bonusEffectEnergy} Energy zusätzlich für einen Bonuseffekt beim Spielen dieser Karte (siehe Kartentext).`}
+                      >
+                        +{bonusEffectEnergy}E Bonus
+                      </button>
                     )}
                     {card.type === "spell" && card.repeatCost && (
-                      <button onClick={() => playCardAutoWithRepeat(idx)}>
+                      <button
+                        onClick={() => playCardAutoWithRepeat(idx)}
+                        title="[Repeat] Zahlt einen Aufpreis, damit der Effekt dieses Zaubers ein zweites Mal ausgelöst wird."
+                      >
                         +Repeat (
                         {Math.max(0, card.repeatCost.energy - SpecialCaseEngine.repeatEnergyReductionFromControlledBattlefields(G, getCard, me!))}E
                         {card.repeatCost.runeDomain ? `+${card.repeatCost.runeDomain}` : ""})
                       </button>
                     )}
                     {ambushBattlefields.map((index) => (
-                      <button key={index} onClick={() => playCardAuto(idx, false, index)}>
+                      <button
+                        key={index}
+                        onClick={() => playCardAuto(idx, false, index)}
+                        title={
+                          isChampion
+                            ? `Spielt den Champion direkt zu Battlefield ${index + 1} statt in deine Base.`
+                            : `[Ambush] Spielt die Einheit direkt zu Battlefield ${index + 1} statt in deine Base.`
+                        }
+                      >
                         {isChampion ? "Zu" : "Ambush →"} Battlefield {index + 1}
                       </button>
                     ))}
                     {hasHidden &&
                       player.runePool.length > 0 &&
                       eligibleHideBattlefields().map((index) => (
-                        <button key={index} onClick={() => hideCardAuto(idx, index)}>
+                        <button
+                          key={index}
+                          onClick={() => hideCardAuto(idx, index)}
+                          title={`[Hidden] Spielt die Karte VERDECKT (dein Gegner sieht nur, dass dort etwas liegt) an Battlefield ${index + 1} — kostet 1 Rune, aufdeckbar ab deinem nächsten Zug.`}
+                        >
                           Verdeckt spielen (1 Rune) → Battlefield {index + 1}
                         </button>
                       ))}
