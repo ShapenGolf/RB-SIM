@@ -1129,6 +1129,100 @@ body {
   color: var(--text-main);
 }
 
+/* ---- Background picker (see ui/BackgroundPicker.tsx) ----
+   .rb-app/.rb-page normally paint a flat solid --bg-app so nothing needs to change when no
+   background is picked; once one is, this class (toggled on <html>) swaps that for a translucent
+   dark scrim instead of full transparency — the fixed art layer sits behind at z-index:0, so
+   .rb-app/.rb-page (painted on top of it in normal flow) tint EVERY pixel of the page uniformly,
+   not just the gaps between panels. That matters because plenty of real content (the Menu
+   screen's own heading/hint text, section labels) sits directly on .rb-page/.rb-app with no panel
+   background of its own — an earlier version left those transparent and put the darkening only
+   in the art layer's own gradient, which read fine over Board.tsx's boxed panels but left the
+   Menu's loose heading text washed out and barely legible over the art. A scrim on the container
+   itself darkens everything the same way regardless of what's rendered on top of it. */
+:root.rb-has-custom-bg .rb-app,
+:root.rb-has-custom-bg .rb-page {
+  background: rgba(8, 9, 13, 0.74);
+}
+.rb-bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center 22%;
+  pointer-events: none;
+}
+.rb-bg-tab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  background: #1f2229;
+  border: 1px solid #3f3f46;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  color: var(--text-main);
+  padding: 10px 8px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.rb-bg-tab:hover {
+  background: #262a33;
+}
+.rb-bg-panel {
+  position: fixed;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 59;
+  background: #14161c;
+  border: 1px solid #3f3f46;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.rb-bg-panel-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin: 0 0 8px;
+}
+.rb-bg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  width: 140px;
+}
+.rb-bg-swatch {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-size: cover;
+  background-position: center 20%;
+  background-color: #1f2229;
+  cursor: pointer;
+  padding: 0;
+}
+.rb-bg-swatch:hover {
+  border-color: #6b7280;
+}
+.rb-bg-swatch.active {
+  border-color: #fbbf24;
+}
+.rb-bg-swatch-none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 18px;
+}
+
 .rb-menu {
   max-width: 480px;
   margin: 0 auto;

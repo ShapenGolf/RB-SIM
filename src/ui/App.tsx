@@ -5,6 +5,7 @@ import { DeckBuilder } from "./DeckBuilder";
 import { Menu } from "./Menu";
 import { Lobby } from "./Lobby";
 import { OnlineGame } from "./OnlineGame";
+import { BackgroundPicker } from "./BackgroundPicker";
 import { setPendingSetupOptions } from "../game/pendingSetup";
 import type { SetupOptions } from "../game/setup";
 import type { BotTier } from "../ai/bots";
@@ -49,73 +50,91 @@ export function App() {
 
   if (view.screen === "deckbuilder") {
     return (
-      <div className="rb-page">
-        <DeckBuilder onExit={() => setView({ screen: "menu" })} />
-      </div>
+      <>
+        <BackgroundPicker />
+        <div className="rb-page">
+          <DeckBuilder onExit={() => setView({ screen: "menu" })} />
+        </div>
+      </>
     );
   }
 
   if (view.screen === "lobby") {
     return (
-      <div className="rb-page">
-        <Lobby onJoined={joinedOnline} onCancel={() => setView({ screen: "menu" })} />
-      </div>
+      <>
+        <BackgroundPicker />
+        <div className="rb-page">
+          <Lobby onJoined={joinedOnline} onCancel={() => setView({ screen: "menu" })} />
+        </div>
+      </>
     );
   }
 
   if (view.screen === "online") {
     return (
-      <div className="rb-app">
-        <button className="rb-exit-game" onClick={() => exitOnline(view.session)}>
-          ← Menü
-        </button>
-        <div className="rb-room-code">
-          Raum-Code: <strong>{view.session.matchID}</strong>
+      <>
+        <BackgroundPicker />
+        <div className="rb-app">
+          <button className="rb-exit-game" onClick={() => exitOnline(view.session)}>
+            ← Menü
+          </button>
+          <div className="rb-room-code">
+            Raum-Code: <strong>{view.session.matchID}</strong>
+          </div>
+          <div className="rb-panel">
+            <OnlineGame {...view.session} />
+          </div>
         </div>
-        <div className="rb-panel">
-          <OnlineGame {...view.session} />
-        </div>
-      </div>
+      </>
     );
   }
 
   if (view.screen === "game") {
     return (
-      <div className="rb-app">
-        <button className="rb-exit-game" onClick={() => setView({ screen: "menu" })}>
-          ← Menü
-        </button>
-        <div className="rb-panel">
-          <RiftboundClient playerID="0" matchID={view.matchId} />
+      <>
+        <BackgroundPicker />
+        <div className="rb-app">
+          <button className="rb-exit-game" onClick={() => setView({ screen: "menu" })}>
+            ← Menü
+          </button>
+          <div className="rb-panel">
+            <RiftboundClient playerID="0" matchID={view.matchId} />
+          </div>
+          <div className="rb-panel">
+            <RiftboundClient playerID="1" matchID={view.matchId} />
+          </div>
         </div>
-        <div className="rb-panel">
-          <RiftboundClient playerID="1" matchID={view.matchId} />
-        </div>
-      </div>
+      </>
     );
   }
 
   if (view.screen === "bot") {
     return (
-      <div className="rb-app">
-        <button className="rb-exit-game" onClick={() => setView({ screen: "menu" })}>
-          ← Menü
-        </button>
-        <div className="rb-panel">
-          <BotGame matchId={view.matchId} humanPlayerId={view.humanPlayerId} botPlayerId={view.botPlayerId} tier={view.tier} />
+      <>
+        <BackgroundPicker />
+        <div className="rb-app">
+          <button className="rb-exit-game" onClick={() => setView({ screen: "menu" })}>
+            ← Menü
+          </button>
+          <div className="rb-panel">
+            <BotGame matchId={view.matchId} humanPlayerId={view.humanPlayerId} botPlayerId={view.botPlayerId} tier={view.tier} />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="rb-page">
-      <Menu
-        onOpenDeckBuilder={() => setView({ screen: "deckbuilder" })}
-        onStartGame={startGame}
-        onStartBotGame={startBotGame}
-        onOpenLobby={() => setView({ screen: "lobby" })}
-      />
-    </div>
+    <>
+      <BackgroundPicker />
+      <div className="rb-page">
+        <Menu
+          onOpenDeckBuilder={() => setView({ screen: "deckbuilder" })}
+          onStartGame={startGame}
+          onStartBotGame={startBotGame}
+          onOpenLobby={() => setView({ screen: "lobby" })}
+        />
+      </div>
+    </>
   );
 }
