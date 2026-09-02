@@ -740,14 +740,35 @@ body {
 .rb-hud-hand .rb-section-label {
   margin: 0;
 }
-/* A row that would otherwise wrap to multiple lines (many Base units, a big Hand) scrolls
-   horizontally in place instead — vertical space is what's scarce here, not horizontal. */
+/* A row that would otherwise wrap to multiple lines or need a fixed footprint (many Base units,
+   a growing Trash pile) shrinks every card to fit the available width instead — see the
+   card-sizing overrides below — rather than needing its OWN internal scrollbar. Vertical space is
+   what's scarce here (see .rb-hud-side's 38% cap above), so a zone growing taller to fit its
+   content isn't an option; shrinking keeps everything visible on one line at whatever size fits.
+   overflow-x:auto stays on as a last-resort fallback for once cards have shrunk all the way down
+   to their floor (min-width below) and there's still genuinely not enough room. */
 .rb-hud-scroll-row {
   flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   max-width: 100%;
   padding-bottom: 2px;
+  gap: 3px;
+}
+/* The shrink target is the WRAP (the flex item .rb-hud-scroll-row actually lays out), not the
+   .rb-card inside it — .rb-card keeps a fixed width everywhere else (Battlefields, DeckBuilder),
+   so it can't be the thing that shrinks; instead the wrap's flex-basis/min/max-width controls the
+   slot size, and .rb-card fills whatever width that slot ends up at (rb-card-sm width:100% below).
+   .rb-card-back (Hidden/Trash-count/Deck placeholders, rendered without a .rb-card-wrap) gets the
+   same treatment directly since it has no such wrapper to target. */
+.rb-hud-scroll-row > .rb-card-wrap,
+.rb-hud-scroll-row > .rb-card-back {
+  flex: 1 1 58px;
+  min-width: 26px;
+  max-width: 58px;
+}
+.rb-hud-scroll-row > .rb-card-back {
+  width: auto;
 }
 
 /* Scoped-down card footprint for the HUD strips and Battlefields only (DeckBuilder keeps the
@@ -756,9 +777,48 @@ body {
 .rb-battlefields .rb-card.rb-card-sm {
   width: 58px;
 }
+/* Inside a shrinkable row, .rb-card fills its (possibly shrunk) wrap instead of forcing 58px —
+   must come after the rule above to win the tie in specificity (both are 3 classes deep). */
+.rb-hud-scroll-row .rb-card.rb-card-sm {
+  width: 100%;
+}
+/* Rune Pool gets the same shrink-to-fit treatment as .rb-hud-scroll-row above, for the same
+   reason (a long game channels a lot of Runes, and the pool must never need its own scroll or
+   grow tall enough to eat into the vertical budget). aspect-ratio replaces the fixed square
+   width+height so the slot shrinks uniformly on both axes together as flex-shrink kicks in — a
+   plain width shrink alone would leave the height fixed and stop being square. The card inside
+   stays at 70% of the slot's width (58/82, the original fixed-size ratio) rather than 100%: a
+   rune card is PORTRAIT (not square) like every other card, so matching the square slot's full
+   width would make the natural aspect-ratio height overflow the slot and get clipped. */
+.rb-hud .rb-rune-strip {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  gap: 3px;
+  /* Without this, the row's default align-items:stretch fights the slot's aspect-ratio for its
+     height (stretch wants to match the row's own cross-size, aspect-ratio wants width-derived) —
+     visually the slot collapsed to near-nothing but a stray absolutely-positioned dot. */
+  align-items: flex-start;
+}
 .rb-hud .rb-rune-slot {
-  width: 82px;
-  height: 82px;
+  aspect-ratio: 1 / 1;
+  flex: 1 1 82px;
+  min-width: 26px;
+  max-width: 82px;
+  width: auto;
+  height: auto;
+}
+/* 70% goes on .rb-card-wrap (a DIRECT flex item of .rb-rune-slot, which has a definite computed
+   width from its own flex-shrink/aspect-ratio above) rather than on .rb-card itself two levels
+   down: .rb-card-wrap has no width of its own otherwise (shrink-to-fit its content, i.e. depends
+   on .rb-card's width) — a percentage on .rb-card would be resolving against THAT indeterminate
+   width, a circular dependency browsers resolve by just collapsing it to ~0 instead of erroring
+   (verified: it measured 2px). .rb-card then simply fills its now-definite-width wrap. */
+.rb-hud .rb-rune-slot .rb-card-wrap {
+  width: 70%;
+}
+.rb-hud .rb-rune-slot .rb-card.rb-card-sm {
+  width: 100%;
 }
 .rb-hud .rb-card-back {
   width: 58px;
