@@ -3,6 +3,7 @@ import { getCard, listPlayableCards } from "../cards/db";
 import type { Card, CardType } from "../cards/types";
 import { validateDeck, copyLimitFor, MAIN_DECK_MAX, type DeckList } from "../cards/deckValidation";
 import { deleteDeck, listSavedDecks, saveDeck, type SavedDeck } from "../decks/store";
+import { isPresetDeck } from "../decks/presets";
 import { CardFace } from "./CardFace";
 
 function fitsDomainIdentity(card: Card, legendDomains: Card["domains"]): boolean {
@@ -205,17 +206,23 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
     setJustSavedName(name);
   }
   function handleLoad(saved: SavedDeck) {
+    // A preset (see decks/presets.ts) is read-only and always available — loading one for
+    // editing starts a fresh, separately-saved copy instead of overwriting the preset's id (that
+    // id isn't in the player's own storage at all, so a save under it would create a SECOND,
+    // effectively unreachable entry — getSavedDeck always resolves the id to the preset first).
+    const isPreset = isPresetDeck(saved.id);
     setLegendId(saved.deck.legendId || null);
     setMainDeck(saved.deck.mainDeck);
     setChosenChampionId(saved.deck.chosenChampionId || null);
     setRuneDeck(saved.deck.runeDeck);
     setBattlefields(saved.deck.battlefields);
-    setDeckName(saved.name);
-    setEditingDeckId(saved.id);
+    setDeckName(isPreset ? `${saved.name} (Kopie)` : saved.name);
+    setEditingDeckId(isPreset ? null : saved.id);
     setJustSavedName(null);
     setStep("legend");
   }
   function handleDelete(id: string) {
+    if (isPresetDeck(id)) return;
     deleteDeck(id);
     setSavedDecks(listSavedDecks());
     if (editingDeckId === id) {
@@ -306,8 +313,13 @@ export function DeckBuilder({ onExit }: { onExit: () => void }) {
                     <div key={d.id} className="rb-db-saved-row">
                       <span>{d.name}</span>
                       <div className="rb-toolbar">
-                        <button onClick={() => handleLoad(d)}>Laden</button>
-                        <button onClick={() => handleDelete(d.id)}>Löschen</button>
+                        <button
+                          onClick={() => handleLoad(d)}
+                          title={isPresetDeck(d.id) ? "Lädt dieses Deck als Kopie zum Anpassen — das Original bleibt unverändert erhalten." : undefined}
+                        >
+                          Laden
+                        </button>
+                        {!isPresetDeck(d.id) && <button onClick={() => handleDelete(d.id)}>Löschen</button>}
                       </div>
                     </div>
                   ))}

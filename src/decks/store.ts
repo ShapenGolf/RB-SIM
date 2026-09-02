@@ -1,4 +1,5 @@
 import type { DeckList } from "../cards/deckValidation";
+import { PRESET_DECKS } from "./presets";
 
 /** A deck the player has named and saved, so it can be picked again later without rebuilding it (see docs/deck-building-rules.md). */
 export interface SavedDeck {
@@ -22,12 +23,13 @@ function writeAll(decks: SavedDeck[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(decks));
 }
 
+/** The player's own saved decks PLUS the always-available preset decks (see decks/presets.ts) — every UI that lists decks to pick from should use this, not readAll() directly. */
 export function listSavedDecks(): SavedDeck[] {
-  return readAll();
+  return [...PRESET_DECKS, ...readAll()];
 }
 
 export function getSavedDeck(id: string): SavedDeck | undefined {
-  return readAll().find((d) => d.id === id);
+  return PRESET_DECKS.find((d) => d.id === id) ?? readAll().find((d) => d.id === id);
 }
 
 /** Inserts or overwrites (by id) a saved deck. */
