@@ -666,7 +666,11 @@ body {
   gap: 2px;
   border: 1px solid rgba(201, 185, 138, 0.3);
   border-radius: 1px;
-  background-color: rgba(9, 14, 26, 0.6);
+  /* Near-opaque, not the softer 0.6 this started at — with a background picker (see
+     ui/BackgroundPicker.tsx) now able to put a busy champion splash behind everything, a
+     translucent zone box let that art bleed straight through the game's own frames instead of
+     sitting behind them, exactly where legibility matters most. */
+  background-color: rgba(8, 12, 22, 0.95);
   background-repeat: no-repeat;
   background-image:
     linear-gradient(#c9b98a, #c9b98a),
@@ -730,12 +734,21 @@ body {
   padding: 0 6px;
   font-size: 9px;
 }
+/* Solid backing panel, same reasoning as .rb-mat-zone above — the Hand was fully transparent
+   (fine against the plain --bg-app it always sat on before), so with a picked background image
+   behind everything it read as cards floating loose over someone else's art with no frame of its
+   own. Individual .rb-card faces already have their own opaque background regardless, but the
+   padding/gaps around and behind the fan (see .rb-hand-strip) didn't. */
 .rb-hud-hand {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  background-color: rgba(8, 12, 22, 0.95);
+  border: 1px solid rgba(201, 185, 138, 0.3);
+  border-radius: 4px;
+  padding: 3px 4px;
 }
 .rb-hud-hand .rb-section-label {
   margin: 0;
@@ -1144,10 +1157,18 @@ body {
 :root.rb-has-custom-bg .rb-page {
   background: rgba(8, 9, 13, 0.74);
 }
+/* z-index: -1, not 0 — a REAL bug found via testing with an image that actually rendered (this
+   sandbox's own network block silently hid it before, since a failed image paints nothing
+   regardless of stacking order): per CSS's stacking rules, position:fixed + z-index:0 paints
+   ABOVE plain non-positioned ("static") content — .rb-app/.rb-page and most of their descendants
+   are static, so the art rendered on TOP of the entire Menu screen and the Battlefield boxes,
+   with only the handful of descendants that happen to be `position:relative` themselves (.rb-card,
+   .rb-mat-zone) surviving on top by accident. Negative z-index paints BEHIND all normal in-flow
+   content unconditionally, which is what "a background layer" actually means. */
 .rb-bg-layer {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   background-size: cover;
   background-position: center 22%;
   pointer-events: none;
